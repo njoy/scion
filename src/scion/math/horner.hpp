@@ -47,6 +47,34 @@ Y horner( Iter first, Iter last, const X& x ) noexcept {
   return y;
 }
 
+/** @brief Horner evaluation of a polynomial function for different x and y
+ *         types using a range
+ *
+ *  A polynomial is defined as a sequence of coefficients c_i so that the
+ *  polynomial of order n is given by:
+ *
+ *    y = c_n * x^n + c_(n - 1) * x^(n - 1) + c_(n - 2) * x^(n - 2) + ...
+ *
+ *  With the Horner scheme, a polynomial is evaluated as follows:
+ *
+ *    y = c_n * (x + c_(n-1) * (x + c_(n - 2) * (x + ...
+ *
+ *  The main reason for using the Horner scheme is computational efficiency.
+ *
+ *  Source: Numerical recipes - Third edition, p201-202
+ *
+ *  @param[in] coefficients   a range of coefficient values (lowest order should
+ *                            be given first)
+ *  @param[in] x              the value of X
+ *
+ *  @return The evaluated Y value
+ */
+template < typename X, typename Y = X, typename Range >
+Y horner( const Range& coefficients, const X& x ) noexcept {
+
+  return horner( std::rbegin( coefficients ), std::rend( coefficients ), x );
+}
+
 } // math namespace
 } // scion namespace
 } // njoy namespace
