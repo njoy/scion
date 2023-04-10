@@ -7,6 +7,9 @@
 // namespace aliases
 namespace python = pybind11;
 
+// declarations
+void wrapMathModule( python::module& );
+
 /**
  *  @brief scion python bindings
  *
@@ -15,4 +18,6 @@ namespace python = pybind11;
  */
 PYBIND11_MODULE( scion, module ) {
 
+  // wrap the math submodule
+  wrapMathModule( module );
 }

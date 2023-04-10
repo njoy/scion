@@ -63,8 +63,8 @@ Y horner( Iter first, Iter last, const X& x ) noexcept {
  *
  *  Source: Numerical recipes - Third edition, p201-202
  *
- *  @param[in] coefficients   a range of coefficient values (lowest order should
- *                            be given first)
+ *  @param[in] coefficients   a range of coefficient values (from lowest to
+ *                            highest order coefficient)
  *  @param[in] x              the value of X
  *
  *  @return The evaluated Y value
