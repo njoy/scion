@@ -19,7 +19,7 @@ void wrapMathModule( python::module& module ) {
   python::module submodule = module.def_submodule(
 
     "math",
-    "Common math components"
+    "Common math capabilities and components"
   );
 
   // wrap scion's math capabilities
