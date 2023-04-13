@@ -52,12 +52,12 @@ namespace math {
     }
 
     /**
-     *  @brief Check whether or not an X value is inside the domain (including
+     *  @brief Check whether or not a value is inside the domain (including
      *         boundaries)
      *
      *  @param x   the value to be tested
      */
-    bool isInside(const X& x) const noexcept {
+    bool isInside( const X& x ) const noexcept {
 
       if ( ( x < this->lowerLimit() ) || ( this->upperLimit() < x ) ) {
 
@@ -67,12 +67,12 @@ namespace math {
     }
 
     /**
-     *  @brief Check whether or not an X value is contained within the domain
+     *  @brief Check whether or not a value is contained within the domain
      *         (excluding boundaries)
      *
      *  @param x   the value to be tested
      */
-    bool isContained(const X& x) const noexcept {
+    bool isContained( const X& x ) const noexcept {
 
       if ( ( this->lowerLimit() < x ) && ( x < this->upperLimit() ) ) {
 
