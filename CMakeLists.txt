@@ -75,6 +75,7 @@ if( scion.python )
       python/src/math.python.cpp
       python/src/math/horner.python.cpp
       python/src/math/legendre.python.cpp
+      python/src/math/IntervalDomain.python.cpp
       )
 
   target_link_libraries( scion.python PRIVATE scion )

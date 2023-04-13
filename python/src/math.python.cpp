@@ -10,8 +10,14 @@ namespace python = pybind11;
 // declarations
 namespace math {
 
+  // evaluation schemes
   void wrapHorner( python::module& );
+
+  // special functions
   void wrapLegendre( python::module& );
+
+  // function interface
+  void wrapIntervalDomain( python::module& );
 }
 
 void wrapMathModule( python::module& module ) {
@@ -26,4 +32,5 @@ void wrapMathModule( python::module& module ) {
   // wrap scion's math capabilities
   math::wrapHorner( submodule );
   math::wrapLegendre( submodule );
+  math::wrapIntervalDomain( submodule );
 }
