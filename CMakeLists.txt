@@ -77,6 +77,7 @@ if( scion.python )
       python/src/math/legendre.python.cpp
       python/src/math/IntervalDomain.python.cpp
       python/src/math/OpenDomain.python.cpp
+      python/src/math/LegendreSeries.python.cpp
       )
 
   target_link_libraries( scion.python PRIVATE scion )
