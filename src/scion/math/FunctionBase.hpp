@@ -61,7 +61,7 @@ namespace math {
      */
     Y operator()( const X& x ) const {
 
-      return static_cast< const Derived* >( this )->evaluate();
+      return static_cast< const Derived* >( this )->evaluate( x );
     }
 
     /**
