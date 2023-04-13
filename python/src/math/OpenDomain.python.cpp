@@ -4,6 +4,7 @@
 
 // local includes
 #include "scion/math/OpenDomain.hpp"
+#include "definitions.hpp"
 
 // namespace aliases
 namespace python = pybind11;
@@ -32,27 +33,10 @@ void wrapOpenDomainFor( python::module& module, const std::string& name ) {
 
     python::init<>(),
     "Initialise the domain\n\n"
-  )
-  .def(
-
-    "is_inside",
-    &Component::isInside,
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the domain\n"
-    "    x      the value to be tested"
-  )
-  .def(
-
-    "is_contained",
-    &Component::isContained,
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the domain\n"
-    "    x      the value to be tested"
   );
+
+  // add standard domain definitions
+  addStandardDomainDefinitions< Component >( component );
 }
 
 void wrapOpenDomain( python::module& module ) {
