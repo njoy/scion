@@ -18,3 +18,5 @@ set_tests_properties( scion.python.math.legendre PROPERTIES ENVIRONMENT PYTHONPA
 
 add_test( NAME scion.python.math.IntervalDomain COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_IntervalDomain.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.IntervalDomain PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.OpenDomain COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_OpenDomain.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.OpenDomain PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})

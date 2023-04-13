@@ -1,5 +1,6 @@
 # standard imports
 import unittest
+import sys
 
 # third party imports
 
@@ -18,17 +19,24 @@ class Test_scion_math_IntervalDomain( unittest.TestCase ) :
             self.assertAlmostEqual(  1., chunk.upper_limit )
 
             # verify functions
+            max = sys.float_info.max
+            min = -max
+
+            self.assertEqual( False, chunk.is_inside( x = min ) );
             self.assertEqual( True, chunk.is_inside( x = -1.0 ) );
             self.assertEqual( True, chunk.is_inside( x = -0.5 ) );
             self.assertEqual( True, chunk.is_inside( x =  0.0 ) );
             self.assertEqual( True, chunk.is_inside( x =  0.5 ) );
             self.assertEqual( True, chunk.is_inside( x =  1.0 ) );
+            self.assertEqual( False, chunk.is_inside( x = max ) );
 
+            self.assertEqual( False, chunk.is_inside( x = min ) );
             self.assertEqual( False, chunk.is_contained( x = -1.0 ) );
             self.assertEqual( True, chunk.is_contained( x = -0.5 ) );
             self.assertEqual( True, chunk.is_contained( x =  0.0 ) );
             self.assertEqual( True, chunk.is_contained( x =  0.5 ) );
             self.assertEqual( False, chunk.is_contained( x =  1.0 ) );
+            self.assertEqual( False, chunk.is_inside( x = max ) );
 
         # the data is given explicitly
         chunk = IntervalDomain( lower = -1., upper = 1. )
