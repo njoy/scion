@@ -11,6 +11,7 @@ namespace python = pybind11;
 namespace math {
 
   void wrapHorner( python::module& );
+  void wrapLegendre( python::module& );
 }
 
 void wrapMathModule( python::module& module ) {
@@ -24,4 +25,5 @@ void wrapMathModule( python::module& module ) {
 
   // wrap scion's math capabilities
   math::wrapHorner( submodule );
+  math::wrapLegendre( submodule );
 }

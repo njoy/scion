@@ -74,6 +74,7 @@ if( scion.python )
       python/src/scion.python.cpp
       python/src/math.python.cpp
       python/src/math/horner.python.cpp
+      python/src/math/legendre.python.cpp
       )
 
   target_link_libraries( scion.python PRIVATE scion )
