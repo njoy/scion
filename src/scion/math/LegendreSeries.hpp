@@ -19,6 +19,8 @@ namespace math {
    *  This class represents a Legendre series function y -> f(x) =
    *  sum c_i P_i(x) defined over the domain [-1,1]. An exception is thrown
    *  for values outside of the domain.
+   *
+   *  The Clenshaw recursion scheme is used for the evaluation of the series.
    */
   template < typename X, typename Y = X >
   class LegendreSeries : public FunctionBase< LegendreSeries< X, Y >, X, Y > {
@@ -55,33 +57,7 @@ namespace math {
       return this->coefficients().size() - 1;
     }
 
-    /**
-     *  @brief Evaluate the function for a value of x
-     *
-     *  @param x   the value to be evaluated
-     */
-    Y evaluate( const X& x ) const {
-
-      if ( ! this->isInside( x ) ) {
-
-        Log::error( "Legendre polynomials are defined for x values in the [-1,1] interval" );
-        Log::info( "The value of x requested: {}", x );
-        throw std::exception();
-      }
-
-      auto a = [] ( unsigned int k, const X& x ) -> Y {
-
-        return static_cast< Y >( 2 * k + 1 ) / static_cast< Y >( k + 1 ) * x;
-      };
-      auto b = [] ( unsigned int k, const X& x ) -> Y {
-
-        return - static_cast< Y >( k ) / static_cast< Y >( k + 1 );
-      };
-
-      return math::clenshaw( this->coefficients().rbegin(),
-                             this->coefficients().rend(),
-                             a, b, 1., x, x );
-    }
+    #include "scion/math/LegendreSeries/src/evaluate.hpp"
 
     using Parent::domain;
     using Parent::operator();
