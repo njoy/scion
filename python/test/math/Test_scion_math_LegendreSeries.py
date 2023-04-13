@@ -48,6 +48,15 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
 
             chunk = LegendreSeries( coefficients = [] )
 
+        # the x values are outside the domain
+        max = sys.float_info.max
+        min = -max
+        chunk = LegendreSeries( coefficients = [ 1., 2., 3., 4. ] )
+        with self.assertRaises( Exception ) : result = chunk( min )
+        with self.assertRaises( Exception ) : result = chunk( -10. )
+        with self.assertRaises( Exception ) : result = chunk(  10. )
+        with self.assertRaises( Exception ) : result = chunk( max )
+
 if __name__ == '__main__' :
 
     unittest.main()

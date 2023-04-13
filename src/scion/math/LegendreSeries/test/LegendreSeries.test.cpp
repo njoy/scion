@@ -52,5 +52,21 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THROWS( LegendreSeries< double >( {} ) );
       } // THEN
     } // WHEN
+
+    WHEN( "the x values are outside the domain" ) {
+
+      double max = std::numeric_limits<double>::max();
+      double min = -max;
+
+      LegendreSeries< double > chunk( { 1., 2., 3., 4. } );
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( chunk( min ) );
+        CHECK_THROWS( chunk( -10. ) );
+        CHECK_THROWS( chunk(  10. ) );
+        CHECK_THROWS( chunk( max ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 } // SCENARIO
