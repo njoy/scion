@@ -7,3 +7,4 @@
 
 // function object interface
 #include "scion/math/IntervalDomain.hpp"
+#include "scion/math/OpenDomain.hpp"
