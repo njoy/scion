@@ -25,7 +25,6 @@ namespace math {
   template < typename X, typename Y = X >
   class LegendreSeries : public FunctionBase< LegendreSeries< X, Y >, X, Y > {
 
-    friend class FunctionBase< LegendreSeries< X, Y >, X, Y >;
     using Parent = FunctionBase< LegendreSeries< X, Y >, X, Y >;
 
     /* fields */
