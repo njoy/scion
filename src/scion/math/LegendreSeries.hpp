@@ -20,11 +20,15 @@ namespace math {
    *  sum c_i P_i(x) defined over the domain [-1,1]. An exception is thrown
    *  for values outside of the domain.
    *
-   *  The Clenshaw recursion scheme is used for the evaluation of the series.
+   *  The Clenshaw recursion scheme is used for the evaluation of the series
+   *  using the following recursion relation for Legendre polynomials:
+   *
+   *    P(n+2,x) = (2k+1)/(k+1) x P(n+1,x) - k/(k+1) P(n,x)
    */
   template < typename X, typename Y = X >
   class LegendreSeries : public FunctionBase< LegendreSeries< X, Y >, X, Y > {
 
+    /* type aliases */
     using Parent = FunctionBase< LegendreSeries< X, Y >, X, Y >;
 
     /* fields */

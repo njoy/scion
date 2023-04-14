@@ -27,6 +27,7 @@ namespace math {
   template < typename X, typename Y = X >
   class PolynomialSeries : public FunctionBase< PolynomialSeries< X, Y >, X, Y > {
 
+    /* type aliases */
     using Parent = FunctionBase< PolynomialSeries< X, Y >, X, Y >;
 
     /* fields */

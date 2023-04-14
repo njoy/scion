@@ -70,7 +70,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     python::arg( "x" ),
     "Evaluate the function for a value of x\n\n"
     "Arguments:\n"
-    "    self   the domain\n"
+    "    self   the function\n"
     "    x      the value to be evaluated"
   )
   .def(
@@ -81,7 +81,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     python::arg( "x" ),
     "Evaluate the function for a value of x\n\n"
     "Arguments:\n"
-    "    self   the domain\n"
+    "    self   the function\n"
     "    x      the value to be evaluated"
   )
   .def(
@@ -92,7 +92,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     python::arg( "x" ),
     "Check whether or not a value is inside the domain (including boundaries)\n\n"
     "Arguments:\n"
-    "    self   the domain\n"
+    "    self   the function\n"
     "    x      the value to be tested"
   )
   .def(
@@ -103,7 +103,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     python::arg( "x" ),
     "Check whether or not a value is inside the domain (including boundaries)\n\n"
     "Arguments:\n"
-    "    self   the domain\n"
+    "    self   the function\n"
     "    x      the value to be tested"
   );
 }
