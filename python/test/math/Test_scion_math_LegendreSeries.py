@@ -26,6 +26,7 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
 
             self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
 
+            # verify evaluation
             self.assertAlmostEqual( -0.5, chunk.evaluate( x =  0. ) )
             self.assertAlmostEqual( 10.0, chunk.evaluate( x =  1. ) )
             self.assertAlmostEqual( -2.0, chunk.evaluate( x = -1. ) )
@@ -33,6 +34,31 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -0.5, chunk( x =  0. ) )
             self.assertAlmostEqual( 10.0, chunk( x =  1. ) )
             self.assertAlmostEqual( -2.0, chunk( x = -1. ) )
+
+            # verify derivative
+            first = chunk.derivative
+            second = first.derivative
+            third = second.derivative
+            fourth = third.derivative
+
+            self.assertEqual( 2, first.order )
+            self.assertEqual( 3, len( first.coefficients ) )
+            self.assertAlmostEqual( 6., first.coefficients[0] )
+            self.assertAlmostEqual( 9., first.coefficients[1] )
+            self.assertAlmostEqual( 20., first.coefficients[2] )
+
+            self.assertEqual( 1, second.order )
+            self.assertEqual( 2, len( second.coefficients ) )
+            self.assertAlmostEqual( 9., second.coefficients[0] )
+            self.assertAlmostEqual( 60., second.coefficients[1] )
+
+            self.assertEqual( 0, third.order )
+            self.assertEqual( 1, len( third.coefficients ) )
+            self.assertAlmostEqual( 60., third.coefficients[0] )
+
+            self.assertEqual( 0, fourth.order )
+            self.assertEqual( 1, len( fourth.coefficients ) )
+            self.assertAlmostEqual( 0., fourth.coefficients[0] )
 
         # the data is given explicitly
         chunk = LegendreSeries( coefficients = [ 1., 2., 3., 4. ] )
