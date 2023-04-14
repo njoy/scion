@@ -1,7 +1,7 @@
 /**
  *  @brief Constructor
  *
- *  @param coefficients   the coefficients of the Legendre series function (from
+ *  @param coefficients   the coefficients of the Legendre series (from
  *                        lowest to highest order coefficient)
  */
 LegendreSeries( std::vector< Y > coefficients ) :

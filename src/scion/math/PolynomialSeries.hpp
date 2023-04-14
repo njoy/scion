@@ -17,9 +17,10 @@ namespace math {
    *  @brief A polynomial function y -> f(x) = sum c_i x^i of order n
    *
    *  This class represents a polynomial function y -> f(x) = sum c_i x^i of
-   *  order n (i between 0 and n) defined over a domain. Currently, the domain
-   *  can either be the open domain where every value of x is allowed or the
-   *  interval domain that restricts x to an interval [a,b].
+   *  order n defined over a domain. Currently, the domain can either be the
+   *  open domain where every value of x is allowed or the interval domain that
+   *  restricts x to an interval [a,b]. An exception is thrown for values
+   *  outside of the domain.
    *
    *  The horner scheme is used for the evaluation of the series.
    */
@@ -45,7 +46,7 @@ namespace math {
     /* methods */
 
     /**
-     *  @brief Return the Legendre coefficients
+     *  @brief Return the polynomial coefficients
      */
     const std::vector< Y >& coefficients() const noexcept {
 
@@ -53,7 +54,7 @@ namespace math {
     }
 
     /**
-     *  @brief Return the polynomial order
+     *  @brief Return the polynomial series order
      */
     unsigned int order() const noexcept {
 

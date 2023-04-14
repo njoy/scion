@@ -14,7 +14,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief A Legendre series function y -> f(x) = sum c_i P_i(x)
+   *  @brief A Legendre series function y -> f(x) = sum c_i P_i(x) of order n
    *
    *  This class represents a Legendre series function y -> f(x) =
    *  sum c_i P_i(x) defined over the domain [-1,1]. An exception is thrown

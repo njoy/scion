@@ -22,6 +22,7 @@ namespace math {
 
   // functions
   void wrapLegendreSeries( python::module& );
+  void wrapPolynomialSeries( python::module& );
 }
 
 void wrapMathModule( python::module& module ) {
@@ -39,4 +40,5 @@ void wrapMathModule( python::module& module ) {
   math::wrapIntervalDomain( submodule );
   math::wrapOpenDomain( submodule );
   math::wrapLegendreSeries( submodule );
+  math::wrapPolynomialSeries( submodule );
 }
