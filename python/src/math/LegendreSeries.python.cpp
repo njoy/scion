@@ -61,7 +61,7 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
 
     "derivative",
     &Component::derivative,
-    "The derivative of the Legendre series"
+    "Return the derivative of the Legendre series"
   );
 
   // add standard function definitions

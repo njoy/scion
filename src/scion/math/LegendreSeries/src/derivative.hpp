@@ -1,5 +1,5 @@
 /**
- *  @brief Get the derivative of the Legendre series
+ *  @brief Return the derivative of the Legendre series
  *
  *  The derivative function of a Legendre series function is another
  *  Legendre series function. The coefficients of the new Legendre series
@@ -24,18 +24,20 @@ LegendreSeries derivative() const {
 
     return LegendreSeries( { Y( 0. ) } );
   }
+  else {
 
-  std::vector< Y > derivative( order, Y( 0. ) );
-  for ( unsigned int i = 0; i < order; ++i ) {
+    std::vector< Y > derivative( order, Y( 0. ) );
+    for ( unsigned int i = 0; i < order; ++i ) {
 
-    const Y a = this->coefficients()[i + 1];
-    int j = static_cast< int >( i );
-    while ( 0 <= j ) {
+      const Y a = this->coefficients()[i + 1];
+      int j = static_cast< int >( i );
+      while ( 0 <= j ) {
 
-      derivative[j] += static_cast< Y >( 2 * j + 1 ) * a;
-      j -= 2;
+        derivative[j] += static_cast< Y >( 2 * j + 1 ) * a;
+        j -= 2;
+      }
     }
-  }
 
-  return LegendreSeries( std::move( derivative ) );
+    return LegendreSeries( std::move( derivative ) );
+  }
 }

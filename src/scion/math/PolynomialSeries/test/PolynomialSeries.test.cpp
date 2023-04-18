@@ -7,7 +7,7 @@
 
 // convenience typedefs
 using namespace njoy::scion;
-template < typename X, typename Y = X > using PolynomialSeries = math::PolynomialSeries< X >;
+template < typename X, typename Y = X > using PolynomialSeries = math::PolynomialSeries< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 
 SCENARIO( "PolynomialSeries" ) {

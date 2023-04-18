@@ -74,7 +74,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
 
     "derivative",
     &Component::derivative,
-    "The derivative of the polynomial series"
+    "Return the derivative of the polynomial series"
   )
   .def(
 

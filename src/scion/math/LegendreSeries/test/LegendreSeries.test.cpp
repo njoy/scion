@@ -7,7 +7,7 @@
 
 // convenience typedefs
 using namespace njoy::scion;
-template < typename X, typename Y = X > using LegendreSeries = math::LegendreSeries< X >;
+template < typename X, typename Y = X > using LegendreSeries = math::LegendreSeries< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 
 SCENARIO( "LegendreSeries" ) {
