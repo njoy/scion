@@ -76,7 +76,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
   .def(
 
     "__call__",
-    [] ( const Component& self, const X& x ) -> Y
+    [] ( const Component& self, const X& x ) -> decltype(auto)
        { return self( x ); },
     python::arg( "x" ),
     "Evaluate the function for a value of x\n\n"
@@ -87,7 +87,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
   .def(
 
     "is_inside",
-    [] ( const Component& self, const X& x ) -> bool
+    [] ( const Component& self, const X& x ) -> decltype(auto)
        { return self.isInside( x ); },
     python::arg( "x" ),
     "Check whether or not a value is inside the domain (including boundaries)\n\n"
@@ -98,7 +98,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
   .def(
 
     "is_contained",
-    [] ( const Component& self, const X& x ) -> bool
+    [] ( const Component& self, const X& x ) -> decltype(auto)
        { return self.isContained( x ); },
     python::arg( "x" ),
     "Check whether or not a value is inside the domain (including boundaries)\n\n"

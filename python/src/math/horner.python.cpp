@@ -17,7 +17,7 @@ void wrapHornerFor( python::module& module ) {
   module.def(
 
     "horner",
-    [] ( const Range& coefficients, const X& x ) -> Y
+    [] ( const Range& coefficients, const X& x ) -> decltype(auto)
        { return njoy::scion::math::horner< X, Y, Range >( coefficients, x ); },
     python::arg( "coefficients" ), python::arg( "x" ),
     "Horner evaluation of a polynomial function for different x and y types "
