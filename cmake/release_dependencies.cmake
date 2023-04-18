@@ -10,6 +10,12 @@ FetchContent_Declare( catch-adapter
     GIT_TAG         fb84b82ebf7a4789aa43cea560680cf745c6ee4f
     )
 
+FetchContent_Declare( eigen
+    GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
+    GIT_TAG         3147391d946bb4b6c68edd901f2add6ac1f31f8c # tag: 3.4.0
+    )
+set( BUILD_TESTING CACHE BOOL OFF )
+
 FetchContent_Declare( Log
     GIT_REPOSITORY  https://github.com/njoy/Log
     GIT_TAG         52962b7796afe37ef1d8f7edb4bf9ecb1b868d15
@@ -32,6 +38,7 @@ set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_MakeAvailable(
     catch-adapter
+    eigen
     Log
     pybind11
     spdlog

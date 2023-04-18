@@ -62,6 +62,7 @@ target_include_directories( scion INTERFACE src/ )
 target_link_libraries( scion
     INTERFACE Log
     INTERFACE catch-adapter
+    INTERFACE eigen
     )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
