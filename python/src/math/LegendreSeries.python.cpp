@@ -57,7 +57,7 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     &Component::order,
     "The Legendre order"
   )
-  .def_property_readonly(
+  .def(
 
     "derivative",
     &Component::derivative,

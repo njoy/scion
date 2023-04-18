@@ -70,7 +70,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     &Component::order,
     "The polynomial series order"
   )
-  .def_property_readonly(
+  .def(
 
     "derivative",
     &Component::derivative,
