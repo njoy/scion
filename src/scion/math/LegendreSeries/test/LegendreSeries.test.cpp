@@ -16,7 +16,11 @@ SCENARIO( "LegendreSeries" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      std::vector< double > coefficients = { 1., 2., 3., 4. };
+      // the 3rd order Legendre series was designed to have 3 real roots: 1, 2 and 4
+      // the 3rd order polynomial series equivalent to this is the same as the
+      // one in the PolynomialSeries example
+
+      std::vector< double > coefficients = { -31./3., 73./5., -14./3., 2./5. };
 
       LegendreSeries< double > chunk( std::move( coefficients ) );
 
@@ -25,23 +29,23 @@ SCENARIO( "LegendreSeries" ) {
         CHECK( 3 == chunk.order() );
 
         CHECK( 4 == chunk.coefficients().size() );
-        CHECK( 1. == Approx( chunk.coefficients()[0] ) );
-        CHECK( 2. == Approx( chunk.coefficients()[1] ) );
-        CHECK( 3. == Approx( chunk.coefficients()[2] ) );
-        CHECK( 4. == Approx( chunk.coefficients()[3] ) );
+        CHECK( -10.33333333 == Approx( chunk.coefficients()[0] ) );
+        CHECK(  14.6        == Approx( chunk.coefficients()[1] ) );
+        CHECK(  -4.66666667 == Approx( chunk.coefficients()[2] ) );
+        CHECK(   0.4        == Approx( chunk.coefficients()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
       THEN( "a LegendreSeries can be evaluated" ) {
 
-        CHECK( -0.5 == Approx( chunk.evaluate(  0. ) ) );
-        CHECK( 10.0 == Approx( chunk.evaluate(  1. ) ) );
-        CHECK( -2.0 == Approx( chunk.evaluate( -1. ) ) );
+        CHECK(  -8.0 == Approx( chunk.evaluate(  0. ) ) );
+        CHECK(   0.0 == Approx( chunk.evaluate(  1. ) ) );
+        CHECK( -30.0 == Approx( chunk.evaluate( -1. ) ) );
 
-        CHECK( -0.5 == Approx( chunk(  0. ) ) );
-        CHECK( 10.0 == Approx( chunk(  1. ) ) );
-        CHECK( -2.0 == Approx( chunk( -1. ) ) );
+        CHECK(  -8.0 == Approx( chunk(  0. ) ) );
+        CHECK(   0.0 == Approx( chunk(  1. ) ) );
+        CHECK( -30.0 == Approx( chunk( -1. ) ) );
       } // THEN
 
       THEN( "a LegendreSeries can be differentiated" ) {
@@ -53,22 +57,45 @@ SCENARIO( "LegendreSeries" ) {
 
         CHECK( 2 == first.order() );
         CHECK( 3 == first.coefficients().size() );
-        CHECK( 6. == Approx( first.coefficients()[0] ) );
-        CHECK( 9. == Approx( first.coefficients()[1] ) );
-        CHECK( 20. == Approx( first.coefficients()[2] ) );
+        CHECK(  15. == Approx( first.coefficients()[0] ) );
+        CHECK( -14. == Approx( first.coefficients()[1] ) );
+        CHECK(   2. == Approx( first.coefficients()[2] ) );
 
         CHECK( 1 == second.order() );
         CHECK( 2 == second.coefficients().size() );
-        CHECK( 9. == Approx( second.coefficients()[0] ) );
-        CHECK( 60. == Approx( second.coefficients()[1] ) );
+        CHECK( -14. == Approx( second.coefficients()[0] ) );
+        CHECK(   6. == Approx( second.coefficients()[1] ) );
 
         CHECK( 0 == third.order() );
         CHECK( 1 == third.coefficients().size() );
-        CHECK( 60. == Approx( third.coefficients()[0] ) );
+        CHECK( 6. == Approx( third.coefficients()[0] ) );
 
         CHECK( 0 == fourth.order() );
         CHECK( 1 == fourth.coefficients().size() );
         CHECK( 0. == Approx( fourth.coefficients()[0] ) );
+      } // THEN
+
+      THEN( "roots can be calculated" ) {
+
+        std::vector< std::complex< double > > roots = chunk.roots();
+
+        CHECK( 3 == roots.size() );
+        CHECK( 1.0 == Approx( roots[0].real() ) );
+        CHECK( 4.0 == Approx( roots[1].real() ) );
+        CHECK( 2.0 == Approx( roots[2].real() ) );
+        CHECK( 0.0 == Approx( roots[0].imag() ) );
+        CHECK( 0.0 == Approx( roots[1].imag() ) );
+        CHECK( 0.0 == Approx( roots[2].imag() ) );
+
+        roots = chunk.roots( -8. );
+
+        CHECK( 3 == roots.size() );
+        CHECK(  0.0 == Approx( roots[0].real() ) );
+        CHECK(  3.5 == Approx( roots[1].real() ) );
+        CHECK(  3.5 == Approx( roots[2].real() ) );
+        CHECK(  0.0 == Approx( roots[0].imag() ) );
+        CHECK(  1.322875656 == Approx( roots[1].imag() ) );
+        CHECK( -1.322875656 == Approx( roots[2].imag() ) );
       } // THEN
     } // WHEN
   } // GIVEN

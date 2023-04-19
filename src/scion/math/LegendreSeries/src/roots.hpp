@@ -2,7 +2,9 @@
  *  @brief Calculate the roots of the Legendre series so that f(x) = a
  *
  *  This function calculates all roots in the complex plane of the polynomial
- *  series.
+ *  series. The roots of the polynomial series are the eigenvalues of the
+ *  Frobenius companion matrix whose elements are trivial functions of the
+ *  coefficients of the polynomial series.
  *
  *  @param[in] a   the value of a (default is zero)
  */
