@@ -7,8 +7,8 @@ Y evaluate( const X& x ) const {
 
   if ( ! this->isInside( x ) ) {
 
-    Log::error( "Legendre polynomials are defined for x values in the [-1,1] interval" );
-    Log::info( "The value of x requested: {}", x );
+    Log::error( "The value of x requested (x={}) is outside of the domain of the "
+                "polynomial series", x );
     throw std::exception();
   }
 

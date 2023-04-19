@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_POLYNOMIALSERIES
 
 // system includes
+#include <complex>
 #include <vector>
 
 // other includes
