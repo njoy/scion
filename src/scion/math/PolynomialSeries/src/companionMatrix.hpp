@@ -3,9 +3,6 @@ Matrix< Y > companionMatrix( const Y& a ) const {
   // This does not check for order 0: this case is explicitly handled in the
   // roots( ... ) method.
 
-  // This calculates the transposed version of the companion matrix because
-  // of numerical stability in the eigenvalue solver.
-
   const unsigned int order = this->order();
   const Y scale = this->coefficients().back();
 

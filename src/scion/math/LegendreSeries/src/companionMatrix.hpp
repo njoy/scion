@@ -13,6 +13,9 @@ Matrix< Y > companionMatrix( const Y& a ) const {
   // diagonal matrix where the i-th element on the diagonal is equal to
   // sqrt( 2 * i + 1 )
 
+  // This does not check for order 0: this case is explicitly handled in the
+  // roots( ... ) method.
+
   const unsigned int order = this->order();
   const Y scale = this->coefficients().back() * Y( 2 * order - 1 ) / Y( order );
 
