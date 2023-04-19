@@ -14,7 +14,7 @@ std::vector< std::complex< X > > roots( const Y& a = Y( 0. ) ) const {
   }
   else if ( 1 < this->order() ) {
 
-    Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrix( a ) );
+    Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrix( a ), false );
 
     for ( const auto& value : solver.eigenvalues().reshaped() ) {
 
