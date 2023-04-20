@@ -4,7 +4,6 @@
 #include "scion/math/clenshaw.hpp"
 
 // other includes
-#include <cmath>
 
 // convenience typedefs
 using namespace njoy::scion;
