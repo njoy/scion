@@ -16,6 +16,7 @@ add_subdirectory( src/scion/math/compare/test )
 add_subdirectory( src/scion/math/clenshaw/test )
 add_subdirectory( src/scion/math/horner/test )
 add_subdirectory( src/scion/math/legendre/test )
+add_subdirectory( src/scion/math/newton/test )
 
 add_subdirectory( src/scion/math/IntervalDomain/test )
 add_subdirectory( src/scion/math/OpenDomain/test )
