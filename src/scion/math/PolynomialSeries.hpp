@@ -6,8 +6,10 @@
 #include <vector>
 
 // other includes
+#include "scion/math/compare.hpp"
 #include "scion/math/horner.hpp"
 #include "scion/math/matrix.hpp"
+#include "scion/math/newton.hpp"
 #include "scion/math/FunctionBase.hpp"
 
 namespace njoy {
