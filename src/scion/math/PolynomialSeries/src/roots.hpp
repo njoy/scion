@@ -1,5 +1,5 @@
 /**
- *  @brief Calculate the roots of the polynomial series so that f(x) = a
+ *  @brief Calculate the real roots of the polynomial series so that f(x) = a
  *
  *  This function calculates all roots on the real axis of the polynomial
  *  series.
