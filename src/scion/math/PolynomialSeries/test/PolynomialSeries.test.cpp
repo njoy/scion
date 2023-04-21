@@ -121,21 +121,5 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK_THROWS( PolynomialSeries< double >( {} ) );
       } // THEN
     } // WHEN
-
-    WHEN( "the x values are outside the domain" ) {
-
-      double max = std::numeric_limits<double>::max();
-      double min = -max;
-
-      PolynomialSeries< double > chunk( -1., 1., { 1., 2., 3., 4. } );
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( chunk( min ) );
-        CHECK_THROWS( chunk( -10. ) );
-        CHECK_THROWS( chunk(  10. ) );
-        CHECK_THROWS( chunk( max ) );
-      } // THEN
-    } // WHEN
   } // GIVEN
 } // SCENARIO

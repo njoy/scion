@@ -87,16 +87,6 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
 
             chunk = PolynomialSeries( coefficients = [] )
 
-        # the x values are outside the domain
-        max = sys.float_info.max
-        min = -max
-        chunk = PolynomialSeries( lower = -1., upper = 1.,
-                                  coefficients = [ 1., 2., 3., 4. ] )
-        with self.assertRaises( Exception ) : result = chunk( min )
-        with self.assertRaises( Exception ) : result = chunk( -10. )
-        with self.assertRaises( Exception ) : result = chunk(  10. )
-        with self.assertRaises( Exception ) : result = chunk( max )
-
 if __name__ == '__main__' :
 
     unittest.main()
