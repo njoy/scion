@@ -1,20 +1,20 @@
 #define CATCH_CONFIG_MAIN
 
 #include "catch.hpp"
-#include "scion/interpolation/LinearLinear.hpp"
+#include "scion/interpolation/LogarithmicLogarithmic.hpp"
 
 // other includes
 
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "LinearLinear" ) {
+SCENARIO( "LogarithmicLogarithmic" ) {
 
-  GIVEN( "LinearLinear interpolation object" ) {
+  GIVEN( "LogarithmicLogarithmic interpolation object" ) {
 
     WHEN( "interpolating an interval" ) {
 
-      interpolation::LinearLinear interpolator{};
+      interpolation::LogarithmicLogarithmic interpolator{};
 
       THEN( "the interpolation is performed correctly" ) {
 
@@ -24,13 +24,13 @@ SCENARIO( "LinearLinear" ) {
         double yRight = 4.0;
 
         CHECK( 1.0 == Approx( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 2.5 == Approx( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 2.25 == Approx( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
         CHECK( 4.0 == Approx( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
 
-  GIVEN( "linlin interpolation function" ) {
+  GIVEN( "loglog interpolation function" ) {
 
     WHEN( "interpolating an interval" ) {
 
@@ -41,9 +41,9 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolation::linlin( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 2.5 == Approx( interpolation::linlin( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 4.0 == Approx( interpolation::linlin( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolation::loglog( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 2.25 == Approx( interpolation::loglog( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 4.0 == Approx( interpolation::loglog( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

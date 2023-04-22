@@ -18,14 +18,14 @@ SCENARIO( "Histogram" ) {
 
       THEN( "the interpolation is performed correctly" ) {
 
-        double xLeft = 0.0;
-        double xRight = 1.0;
-        double yLeft = 0.0;
-        double yRight = 1.0;
+        double xLeft = 1.0;
+        double xRight = 2.0;
+        double yLeft = 1.0;
+        double yRight = 4.0;
 
-        CHECK( 0.0 == Approx( interpolator( 0.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 0.0 == Approx( interpolator( 0.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 0.0 == Approx( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -36,14 +36,14 @@ SCENARIO( "Histogram" ) {
 
       THEN( "the interpolation is performed correctly" ) {
 
-        double xLeft = 0.0;
-        double xRight = 1.0;
-        double yLeft = 0.0;
-        double yRight = 1.0;
+        double xLeft = 1.0;
+        double xRight = 2.0;
+        double yLeft = 1.0;
+        double yRight = 4.0;
 
-        CHECK( 0.0 == Approx( interpolation::histogram( 0.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 0.0 == Approx( interpolation::histogram( 0.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 0.0 == Approx( interpolation::histogram( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolation::histogram( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolation::histogram( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolation::histogram( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
