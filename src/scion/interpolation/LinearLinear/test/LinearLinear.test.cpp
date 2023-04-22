@@ -14,7 +14,7 @@ SCENARIO( "LinearLinear" ) {
 
     WHEN( "interpolating an interval" ) {
 
-      linearisation::LinearLinear interpolator{};
+      interpolation::LinearLinear interpolator{};
 
       THEN( "the interpolation is performed correctly" ) {
 
@@ -41,9 +41,9 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 0.0;
         double yRight = 1.0;
 
-        CHECK( 0.0 == Approx( linearisation::linlin( 0.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 0.5 == Approx( linearisation::linlin( 0.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 1.0 == Approx( linearisation::linlin( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 0.0 == Approx( interpolation::linlin( 0.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 0.5 == Approx( interpolation::linlin( 0.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK( 1.0 == Approx( interpolation::linlin( 1.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

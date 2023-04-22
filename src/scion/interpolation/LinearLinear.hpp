@@ -1,19 +1,20 @@
-#ifndef NJOY_SCION_LINEARISATION_LINEARLINEAR
-#define NJOY_SCION_LINEARISATION_LINEARLINEAR
+#ifndef NJOY_SCION_INTERPOLATION_LINEARLINEAR
+#define NJOY_SCION_INTERPOLATION_LINEARLINEAR
 
 // system includes
 
 // other includes
+#include "scion/interpolation/InterpolatorBase.hpp"
 
 namespace njoy {
 namespace scion {
-namespace linearisation {
+namespace interpolation {
 
   /**
    *  @class
    *  @brief Linear-linear interpolation
    */
-  class LinearLinear {
+  class LinearLinear : public InterpolatorBase< LinearLinear > {
 
   public:
 
@@ -21,27 +22,20 @@ namespace linearisation {
      *  @brief Perform linear-linear interpolation
      */
     template < typename X, typename Y >
-    Y interpolate( const X& x, const X& xLeft, const X& xRight,
-                   const Y& yRight, const Y& yLeft ) const noexcept {
+    Y interpolate( const X& x,
+                   const X& xLeft, const X& xRight,
+                   const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return yRight + ( yLeft - yRight ) / ( xLeft - xRight ) * ( x - xRight );
+      return yLeft + ( yRight - yLeft ) / ( xRight - xLeft ) * ( x - xLeft );
     }
 
-    /**
-     *  @brief Perform linear-linear interpolation
-     */
-    template < typename X, typename Y >
-    Y operator()( const X& x, const X& xLeft, const X& xRight,
-                  const Y& yRight, const Y& yLeft ) const noexcept {
-
-      return this->interpolate( x, xLeft, xRight, yLeft, yRight );
-    }
+    using InterpolatorBase::operator();
   };
 
   // interpolation function
   static constexpr LinearLinear linlin;
 
-} // math namespace
+} // interpolation namespace
 } // scion namespace
 } // njoy namespace
 
