@@ -23,7 +23,13 @@ namespace interpolation {
     /* methods */
 
     /**
-     *  @brief Perform linear-linear interpolation
+     *  @brief Perform interpolation
+     *
+     *  @param[in] x        the value of x
+     *  @param[in] xLeft    the left value on the x interval
+     *  @param[in] xRight   the right value on the x interval
+     *  @param[in] yLeft    the left value on the y interval
+     *  @param[in] yRight   the right value on the y interval
      */
     template < typename X, typename Y >
     Y operator()( const X& x,

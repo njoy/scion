@@ -20,6 +20,12 @@ namespace interpolation {
 
     /**
      *  @brief Perform histogram interpolation (y is constant in x)
+     *
+     *  @param[in] x        the value of x
+     *  @param[in] xLeft    the left value on the x interval
+     *  @param[in] xRight   the right value on the x interval
+     *  @param[in] yLeft    the left value on the y interval
+     *  @param[in] yRight   the right value on the y interval
      */
     template < typename X, typename Y >
     Y interpolate( const X& x,

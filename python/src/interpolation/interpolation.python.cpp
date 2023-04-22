@@ -24,7 +24,13 @@ void wrapInterpolationFunctionsFor( python::module& module ) {
        { return njoy::scion::interpolation::histogram( x, xLeft, xRight, yLeft, yRight ); },
     python::arg( "x" ), python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Perform histogram interpolation (y is constant in x)"
+    "Perform histogram interpolation (y is constant in x)\n\n"
+    "Arguments:\n"
+    "    x        the value of x\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   )
   .def(
 
@@ -33,7 +39,13 @@ void wrapInterpolationFunctionsFor( python::module& module ) {
        { return njoy::scion::interpolation::linlin( x, xLeft, xRight, yLeft, yRight ); },
     python::arg( "x" ), python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Perform linear-linear interpolation (y is linear in x)"
+    "Perform linear-linear interpolation (y is linear in x)\n\n"
+    "Arguments:\n"
+    "    x        the value of x\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   )
   .def(
 
@@ -42,7 +54,13 @@ void wrapInterpolationFunctionsFor( python::module& module ) {
        { return njoy::scion::interpolation::linlog( x, xLeft, xRight, yLeft, yRight ); },
     python::arg( "x" ), python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Perform linear-logarithmic interpolation (y is linear in ln(x))"
+    "Perform linear-logarithmic interpolation (y is linear in ln(x))\n\n"
+    "Arguments:\n"
+    "    x        the value of x\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   )
   .def(
 
@@ -51,7 +69,13 @@ void wrapInterpolationFunctionsFor( python::module& module ) {
        { return njoy::scion::interpolation::loglin( x, xLeft, xRight, yLeft, yRight ); },
     python::arg( "x" ), python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Perform logarithmic-linear interpolation (ln(y) is linear in x)"
+    "Perform logarithmic-linear interpolation (ln(y) is linear in x)\n\n"
+    "Arguments:\n"
+    "    x        the value of x\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   )
   .def(
 
@@ -60,7 +84,13 @@ void wrapInterpolationFunctionsFor( python::module& module ) {
        { return njoy::scion::interpolation::loglog( x, xLeft, xRight, yLeft, yRight ); },
     python::arg( "x" ), python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Perform logarithmic-logarithmic interpolation (ln(y) is linear in ln(x))"
+    "Perform logarithmic-logarithmic interpolation (ln(y) is linear in ln(x))\n\n"
+    "Arguments:\n"
+    "    x        the value of x\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   );
 }
 
