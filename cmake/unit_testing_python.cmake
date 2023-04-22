@@ -10,6 +10,17 @@ enable_testing()
 
 message( STATUS "Adding scion Python unit testing" )
 
+add_test( NAME scion.python.interpolation.histogram COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/interpolation/Test_scion_interpolation_histogram.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.interpolation.histogram PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.interpolation.linlin COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/interpolation/Test_scion_interpolation_linlin.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.interpolation.linlin PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.interpolation.linlog COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/interpolation/Test_scion_interpolation_linlog.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.interpolation.linlog PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.interpolation.loglin COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/interpolation/Test_scion_interpolation_loglin.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.interpolation.loglin PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.interpolation.loglog COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/interpolation/Test_scion_interpolation_loglog.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.interpolation.loglog PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+
 add_test( NAME scion.python.math.compare COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_compare.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.compare PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
