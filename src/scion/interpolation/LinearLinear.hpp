@@ -12,14 +12,14 @@ namespace interpolation {
 
   /**
    *  @class
-   *  @brief Linear-linear interpolation
+   *  @brief Linear-linear interpolation (y is linear in x)
    */
   class LinearLinear : public InterpolatorBase< LinearLinear > {
 
   public:
 
     /**
-     *  @brief Perform linear-linear interpolation
+     *  @brief Perform linear-linear interpolation (y is linear in x)
      */
     template < typename X, typename Y >
     Y interpolate( const X& x,

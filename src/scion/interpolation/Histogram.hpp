@@ -12,14 +12,14 @@ namespace interpolation {
 
   /**
    *  @class
-   *  @brief Histogram interpolation
+   *  @brief Histogram interpolation (y is constant in x)
    */
   class Histogram : public InterpolatorBase< Histogram > {
 
   public:
 
     /**
-     *  @brief Perform histogram interpolation
+     *  @brief Perform histogram interpolation (y is constant in x)
      */
     template < typename X, typename Y >
     Y interpolate( const X& x,
