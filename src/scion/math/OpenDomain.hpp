@@ -37,7 +37,7 @@ namespace math {
      *
      *  @param x   the value to be tested
      */
-    bool isInside( const X& x ) const noexcept {
+    bool isInside( const X& ) const noexcept {
 
       return true;
     }
@@ -48,7 +48,7 @@ namespace math {
      *
      *  @param x   the value to be tested
      */
-    bool isContained( const X& x ) const noexcept {
+    bool isContained( const X& ) const noexcept {
 
       return true;
     }
