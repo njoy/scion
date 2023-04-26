@@ -10,8 +10,9 @@ namespace python = pybind11;
 // declarations
 namespace linearisation {
 
-  // interpolation functions
+  // linearisation functors
   void wrapMidpointSplit( python::module& );
+  void wrapToleranceConvergence( python::module& );
 }
 
 void wrapLinearisationModule( python::module& module ) {
@@ -25,4 +26,5 @@ void wrapLinearisationModule( python::module& module ) {
 
   // wrap scion's linearisation capabilities
   linearisation::wrapMidpointSplit( submodule );
+  linearisation::wrapToleranceConvergence( submodule );
 }

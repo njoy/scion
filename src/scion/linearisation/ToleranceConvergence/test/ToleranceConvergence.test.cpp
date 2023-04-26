@@ -31,6 +31,7 @@ SCENARIO( "ToleranceConvergence" ) {
         CHECK( true == chunk( 2.001, 2., xLeft, xRight, yLeft, yRight ) );
         CHECK( false == chunk( 2.010, 2., xLeft, xRight, yLeft, yRight ) );
         CHECK( false == chunk( 2.100, 2., xLeft, xRight, yLeft, yRight ) );
+        CHECK( false == chunk( 3.000, 2., xLeft, xRight, yLeft, yRight ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -56,6 +57,7 @@ SCENARIO( "ToleranceConvergence" ) {
         CHECK( true == chunk( 2.001, 2., xLeft, xRight, yLeft, yRight ) );
         CHECK( true == chunk( 2.010, 2., xLeft, xRight, yLeft, yRight ) );
         CHECK( false == chunk( 2.100, 2., xLeft, xRight, yLeft, yRight ) );
+        CHECK( false == chunk( 3.000, 2., xLeft, xRight, yLeft, yRight ) );
       } // THEN
     } // WHEN
   } // GIVEN
