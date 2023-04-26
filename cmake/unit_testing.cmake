@@ -18,6 +18,7 @@ add_subdirectory( src/scion/interpolation/LogarithmicLogarithmic/test )
 add_subdirectory( src/scion/interpolation/Table/test )
 
 add_subdirectory( src/scion/linearisation/ToleranceConvergence/test )
+add_subdirectory( src/scion/linearisation/MidpointSplit/test )
 add_subdirectory( src/scion/linearisation/Lineariser/test )
 
 add_subdirectory( src/scion/math/compare/test )

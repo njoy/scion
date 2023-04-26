@@ -61,7 +61,7 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     "domain",
     [] ( const Component& self ) -> decltype(auto)
        { return self.domain(); },
-    "The Legendre coefficients"
+    "The domain"
   )
   .def(
 
@@ -105,6 +105,43 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     "Arguments:\n"
     "    self   the function\n"
     "    x      the value to be tested"
+  );
+}
+
+/**
+ *  @brief Add standard split functor definitions
+ *
+ *  This adds the following standard functions:
+ *    __call__, evaluate
+ *
+ *  @param[in] component   the split functor to which the definitions have to be added
+ */
+template < typename Component, typename X, typename PythonClass >
+void addStandardSplitDefinitions( PythonClass& component ) {
+
+  component
+  .def(
+
+    "evaluate",
+    &Component::evaluate,
+    python::arg( "xLeft" ), python::arg( "xRight" ),
+    "Split the panel\n\n"
+    "Arguments:\n"
+    "    self     the split functor\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval"
+  )
+  .def(
+
+    "__call__",
+    [] ( const Component& self, const X& xLeft, const X& xRight ) -> decltype(auto)
+       { return self( xLeft, xRight ); },
+    python::arg( "xLeft" ), python::arg( "xRight" ),
+    "Split the panel\n\n"
+    "Arguments:\n"
+    "    self     the split functor\n"
+    "    xLeft    the left value on the x interval\n"
+    "    xRight   the right value on the x interval"
   );
 }
 

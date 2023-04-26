@@ -9,6 +9,7 @@ namespace python = pybind11;
 
 // declarations
 void wrapInterpolationModule( python::module& );
+void wrapLinearisationModule( python::module& );
 void wrapMathModule( python::module& );
 
 /**
@@ -21,6 +22,9 @@ PYBIND11_MODULE( scion, module ) {
 
   // wrap the interpolation submodule
   wrapInterpolationModule( module );
+
+  // wrap the linearisation submodule
+  wrapLinearisationModule( module );
 
   // wrap the math submodule
   wrapMathModule( module );
