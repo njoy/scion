@@ -5,7 +5,6 @@
 #include <vector>
 
 // other includes
-#include "scion/linearisation/Lineariser.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
