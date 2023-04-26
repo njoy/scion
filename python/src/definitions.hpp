@@ -6,6 +6,7 @@
 #include <pybind11/stl.h>
 
 // other includes
+#include "scion/linearisation/ToleranceConvergence.hpp"
 
 // namespace aliases
 namespace python = pybind11;
@@ -55,6 +56,8 @@ void addStandardDomainDefinitions( PythonClass& component ) {
 template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardFunctionDefinitions( PythonClass& component ) {
 
+  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
+
   component
   .def_property_readonly(
 
@@ -62,6 +65,28 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     [] ( const Component& self ) -> decltype(auto)
        { return self.domain(); },
     "The domain"
+  )
+  .def(
+
+    "is_inside",
+    [] ( const Component& self, const X& x ) -> decltype(auto)
+       { return self.isInside( x ); },
+    python::arg( "x" ),
+    "Check whether or not a value is inside the domain (including boundaries)\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    x      the value to be tested"
+  )
+  .def(
+
+    "is_contained",
+    [] ( const Component& self, const X& x ) -> decltype(auto)
+       { return self.isContained( x ); },
+    python::arg( "x" ),
+    "Check whether or not a value is inside the domain (including boundaries)\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    x      the value to be tested"
   )
   .def(
 
@@ -86,25 +111,14 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
   )
   .def(
 
-    "is_inside",
-    [] ( const Component& self, const X& x ) -> decltype(auto)
-       { return self.isInside( x ); },
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
+    "linearise",
+    [] ( const Component& self, const ToleranceConvergence& convergence )
+       { return self.linearise( convergence ); },
+    python::arg( "convergence" ) = ToleranceConvergence(),
+    "Linearise the function and return a LinearLinearTable\n\n"
     "Arguments:\n"
-    "    self   the function\n"
-    "    x      the value to be tested"
-  )
-  .def(
-
-    "is_contained",
-    [] ( const Component& self, const X& x ) -> decltype(auto)
-       { return self.isContained( x ); },
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    x      the value to be tested"
+    "    self           the function\n"
+    "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
 }
 

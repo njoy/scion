@@ -4,6 +4,7 @@
 #include "scion/math/LinearLinearTable.hpp"
 
 // other includes
+#include "scion/linearisation/ToleranceConvergence.hpp"
 
 // convenience typedefs
 using namespace njoy::scion;
@@ -52,6 +53,13 @@ SCENARIO( "LinearLinearTable" ) {
         // values of x inside the x grid
         CHECK( 3.5 == Approx( chunk.evaluate( 1.5 ) ) );
         CHECK( 1.5 == Approx( chunk.evaluate( 3.5 ) ) );
+      } // THEN
+
+      THEN( "a LinearLinearTable can be linearised" ) {
+
+        LinearLinearTable< double > linear = chunk.linearise();
+        CHECK( linear.x() == chunk.x() );
+        CHECK( linear.y() == chunk.y() );
       } // THEN
     } // WHEN
   } // GIVEN

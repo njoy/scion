@@ -7,6 +7,7 @@
 // other includes
 #include "scion/interpolation/LinearLinear.hpp"
 #include "scion/interpolation/Table.hpp"
+#include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/FunctionBase.hpp"
 
 namespace njoy {
@@ -62,6 +63,19 @@ namespace math {
     Y evaluate( const X& x ) const {
 
       return this->table_.evaluate( x );
+    }
+
+    /**
+     *  @brief Linearise the table and return a LinearLinearTable
+     *
+     *  Note: this function returns a copy of the original table.
+     *
+     *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
+     */
+    template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
+    LinearLinearTable linearise( Convergence&& = Convergence() ) const {
+
+      return *this;
     }
 
     using Parent::domain;

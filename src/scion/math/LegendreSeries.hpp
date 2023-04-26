@@ -5,11 +5,16 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/Lineariser.hpp"
+#include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
+#include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/newton.hpp"
 #include "scion/math/FunctionBase.hpp"
+#include "scion/math/LinearLinearTable.hpp"
 
 namespace njoy {
 namespace scion {
@@ -20,8 +25,7 @@ namespace math {
    *  @brief A Legendre series function y -> f(x) = sum c_i P_i(x) of order n
    *
    *  This class represents a Legendre series function y -> f(x) =
-   *  sum c_i P_i(x) defined over the domain [-1,1]. An exception is thrown
-   *  for values outside of the domain.
+   *  sum c_i P_i(x) defined over the domain [-1,1].
    *
    *  The Clenshaw recursion scheme is used for the evaluation of the series
    *  using the following recursion relation for Legendre polynomials:
@@ -40,6 +44,7 @@ namespace math {
     /* auxiliary function */
     #include "scion/math/LegendreSeries/src/verifyCoefficients.hpp"
     #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
+    #include "scion/math/LegendreSeries/src/grid.hpp"
 
   public:
 
@@ -67,6 +72,7 @@ namespace math {
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
     #include "scion/math/LegendreSeries/src/derivative.hpp"
     #include "scion/math/LegendreSeries/src/roots.hpp"
+    #include "scion/math/LegendreSeries/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();
