@@ -22,11 +22,12 @@ namespace math {
 
     /* type aliases */
     using Parent = FunctionBase< LinearLinearTable< X, Y >, X, Y >;
+    using Table = interpolation::Table< interpolation::LinearLinear,
+                                        std::vector< X >,
+                                        std::vector< Y > >;
 
     /* fields */
-    interpolation::Table< interpolation::LinearLinear,
-                          std::vector< X >,
-                          std::vector< Y > > table_;
+    Table table_;
 
     /* auxiliary function */
 

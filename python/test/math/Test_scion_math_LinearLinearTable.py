@@ -16,16 +16,16 @@ class Test_scion_math_LinearLinearTable( unittest.TestCase ) :
         def verify_chunk( self, chunk ) :
 
             # verify content
-           self.assertEqual( 4, len( chunk.x ) )
-           self.assertEqual( 4, len( chunk.y ) )
-           self.assertAlmostEqual( 1., chunk.x[0] )
-           self.assertAlmostEqual( 2., chunk.x[1] )
-           self.assertAlmostEqual( 3., chunk.x[2] )
-           self.assertAlmostEqual( 4., chunk.x[3] )
-           self.assertAlmostEqual( 4., chunk.y[0] )
-           self.assertAlmostEqual( 3., chunk.y[1] )
-           self.assertAlmostEqual( 2., chunk.y[2] )
-           self.assertAlmostEqual( 1., chunk.y[3] )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 1., chunk.y[3] )
 
             # verify evaluation - values of x in the x grid
             self.assertAlmostEqual( 4., chunk.evaluate( x = 1. ) )
