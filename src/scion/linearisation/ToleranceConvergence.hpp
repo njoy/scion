@@ -63,7 +63,10 @@ namespace linearisation {
     /**
      *  @brief Verify convergence of the linearisation using a simple tolerance
      *
-     *  @param x   the value to be evaluated
+     *  @param[in] trial        the trial value to be tested
+     *  @param[in] reference    the reference value to be tested against
+     *
+     *  The last 4 arguments imposed by the ConvergenceBase class are not used.
      */
     bool evaluate( const Y& trial, const Y& reference,
                    const X&      , const X&          ,

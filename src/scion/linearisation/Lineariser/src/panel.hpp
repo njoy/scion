@@ -1,11 +1,11 @@
 
-template< typename Functor, typename Convergence, typename Midpoint >
+template< typename Functor, typename Convergence, typename Split >
 void panel( X xLeft, X xRight, Y yLeft, Y yRight,
-        	  Functor&& functor, Convergence&& criterion, Midpoint&& midpoint ) {
+        	  Functor&& functor, Convergence&& criterion, Split&& split ) {
 
   while ( true ) {
 
-    const X point = midpoint( xLeft, xRight );
+    const X point = split( xLeft, xRight );
     const Y trial = Y( 0.5 ) * ( yLeft + yRight );
     const Y reference = functor( point );
 

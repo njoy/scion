@@ -31,7 +31,12 @@ namespace linearisation {
     /**
      *  @brief Test convergence
      *
-     *  @param x   the value to be evaluated
+     *  @param[in] trial        the trial value to be tested
+     *  @param[in] reference    the reference value to be tested against
+     *  @param[in] xLeft        the left value on the x interval
+     *  @param[in] xRight       the right value on the x interval
+     *  @param[in] yLeft        the left value on the y interval
+     *  @param[in] yRight       the right value on the y interval
      */
     Y operator()( const Y& trial, const Y& reference,
                   const X& xLeft, const X& xRight,
