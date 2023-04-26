@@ -5,6 +5,7 @@
 
 // other includes
 #include <cmath>
+#include "scion/linearisation/ToleranceConvergence.hpp"
 
 // convenience typedefs
 using namespace njoy::scion;
@@ -25,14 +26,8 @@ SCENARIO( "Lineariser" ) {
       return 0.5 * ( x1 + x2 );
     };
 
-    // a relative difference < 25% or difference < 1e-10
-    auto convergence = [] ( double trial, double reference,
-                            double,       double,
-                            double,       double ) {
-
-      double difference = std::abs( trial - reference );
-      return ( difference < 1E-10 ) || ( ( difference / reference ) < 0.25 );
-    };
+    // convergence tolerance < 25%
+    linearisation::ToleranceConvergence< double > convergence( 0.25 );
 
     WHEN( "the minimal grid is used" ) {
 
