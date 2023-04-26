@@ -15,6 +15,10 @@ namespace linearisation {
   /**
    *  @class
    *  @brief A generic linearisation object
+   *
+   *  The Lineariser uses a generic convergence test function. The
+   *  ConvergenceBase class provides the interface to be implemented by a
+   *  convergence functor object to be compatible with the Lineariser.
    */
   template < typename XContainer, typename YContainer >
   class Lineariser {

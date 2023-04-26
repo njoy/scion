@@ -4,7 +4,7 @@
 // system includes
 
 // other includes
-#include "scion/math/compare.hpp"
+#include "scion/linearisation/ConvergenceBase.hpp"
 
 namespace njoy {
 namespace scion {
@@ -26,7 +26,10 @@ namespace linearisation {
    *    abs( trial - reference ) < threshold
    */
   template< typename X, typename Y = X >
-  class ToleranceConvergence {
+  class ToleranceConvergence : public ConvergenceBase< ToleranceConvergence< X, Y >, X, Y > {
+
+    /* type aliases */
+    using Parent = ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
 
     /* fields */
     Y tolerance_;
@@ -62,9 +65,9 @@ namespace linearisation {
      *
      *  @param x   the value to be evaluated
      */
-    bool operator()( const Y& trial, const Y& reference,
-                     const X&      , const X&          ,
-                     const Y&      , const Y&            ) const {
+    bool evaluate( const Y& trial, const Y& reference,
+                   const X&      , const X&          ,
+                   const Y&      , const Y&            ) const {
 
       if ( trial == reference ) {
 
@@ -75,6 +78,8 @@ namespace linearisation {
       const auto norm = std::abs( reference );
       return diff < std::max( this->tolerance() * norm, this->threshold() );
     }
+
+    using Parent::operator();
   };
 
 } // linearisation namespace
