@@ -68,7 +68,8 @@ namespace linearisation {
     const auto first = function.derivative();
     const auto second = first.derivative();
     return linearisation::grid( std::forward< Functor >( function ),
-                                first, second, lowerLimit, upperLimit );
+                                std::move( first ), std::move( second ),
+                                lowerLimit, upperLimit );
   }
 
 } // linearisation namespace
