@@ -13,8 +13,7 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
     throw std::exception();
   }
 
-  auto domain = std::get< IntervalDomain< X > >( this->domain() );
-  std::vector< X > grid = { domain.lowerLimit(), domain.upperLimit() };
+  const auto domain = std::get< IntervalDomain< X > >( this->domain() );
 
   if ( 0 == this->order() ) {
 
@@ -31,13 +30,15 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
   }
   else {
 
-    std::vector< X > grid = this->grid( domain.lowerLimit(), domain.upperLimit() );
+    std::vector< X > grid = linearisation::grid( *this,
+                                                 domain.lowerLimit(),
+                                                 domain.upperLimit() );
 
     std::vector< X > x;
     std::vector< Y > y;
     linearisation::Lineariser lineariser( x, y );
     lineariser( grid.begin(), grid.end(),
-                [this] ( const X& x ) { return this->evaluate( x ); },
+                *this,
                 std::forward< Convergence >( convergence ),
                 linearisation::MidpointSplit< X >() );
 

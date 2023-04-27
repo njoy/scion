@@ -5,6 +5,7 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/grid.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
@@ -43,7 +44,6 @@ namespace math {
     /* auxiliary function */
     #include "scion/math/LegendreSeries/src/verifyCoefficients.hpp"
     #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
-    #include "scion/math/LegendreSeries/src/grid.hpp"
 
   public:
 

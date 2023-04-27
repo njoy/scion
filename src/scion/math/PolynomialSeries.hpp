@@ -6,6 +6,7 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/grid.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
@@ -44,7 +45,6 @@ namespace math {
     /* auxiliary function */
     #include "scion/math/PolynomialSeries/src/verifyCoefficients.hpp"
     #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
-    #include "scion/math/PolynomialSeries/src/grid.hpp"
 
   public:
 

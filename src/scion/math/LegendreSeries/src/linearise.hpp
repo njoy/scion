@@ -20,13 +20,13 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
   }
   else {
 
-    std::vector< X > grid = this->grid();
+    std::vector< X > grid = linearisation::grid( *this, X( -1. ), X( +1. ) );
 
     std::vector< X > x;
     std::vector< Y > y;
     linearisation::Lineariser lineariser( x, y );
     lineariser( grid.begin(), grid.end(),
-                [this] ( const X& x ) { return this->evaluate( x ); },
+                *this,
                 std::forward< Convergence >( convergence ),
                 linearisation::MidpointSplit< X >() );
 
