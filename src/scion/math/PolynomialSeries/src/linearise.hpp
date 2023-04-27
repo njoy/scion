@@ -30,14 +30,10 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
   }
   else {
 
-    std::vector< X > grid = linearisation::grid( *this,
-                                                 domain.lowerLimit(),
-                                                 domain.upperLimit() );
-
     std::vector< X > x;
     std::vector< Y > y;
     linearisation::Lineariser lineariser( x, y );
-    lineariser( grid.begin(), grid.end(),
+    lineariser( linearisation::grid( *this, domain.lowerLimit(), domain.upperLimit() ),
                 *this,
                 std::forward< Convergence >( convergence ),
                 linearisation::MidpointSplit< X >() );
