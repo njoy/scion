@@ -16,7 +16,7 @@ namespace linearisation {
    *  For splitting the panel in the Lineariser, the following signature function
    *  is used:
    *
-   *    bool operator()( xLeft, xRight )
+   *    bool operator()( xLeft, xRight, yLeft, yRight )
    */
   template< typename Derived, typename X, typename Y = X >
   class SplitBase  {
@@ -33,10 +33,14 @@ namespace linearisation {
      *
      *  @param[in] xLeft        the left value on the x interval
      *  @param[in] xRight       the right value on the x interval
+     *  @param[in] yLeft        the left value on the y interval
+     *  @param[in] yRight       the right value on the y interval
      */
-    Y operator()( const X& xLeft, const X& xRight ) const {
+    Y operator()( const X& xLeft, const X& xRight,
+                  const Y& yLeft, const Y& yRight ) const {
 
-      return static_cast< const Derived* >( this )->evaluate( xLeft, xRight );
+      return static_cast< const Derived* >( this )->evaluate( xLeft, xRight,
+                                                              yLeft, yRight );
     }
   };
 

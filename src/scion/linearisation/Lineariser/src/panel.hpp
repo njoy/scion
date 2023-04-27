@@ -5,7 +5,7 @@ void panel( X xLeft, X xRight, Y yLeft, Y yRight,
 
   while ( true ) {
 
-    const X point = split( xLeft, xRight );
+    const X point = split( xLeft, xRight, yLeft, yRight );
     const Y trial = Y( 0.5 ) * ( yLeft + yRight );
     const Y reference = functor( point );
 

@@ -139,23 +139,31 @@ void addStandardSplitDefinitions( PythonClass& component ) {
     "evaluate",
     &Component::evaluate,
     python::arg( "xLeft" ), python::arg( "xRight" ),
+    python::arg( "yLeft" ), python::arg( "yRight" ),
     "Split the panel\n\n"
     "Arguments:\n"
     "    self     the split functor\n"
     "    xLeft    the left value on the x interval\n"
-    "    xRight   the right value on the x interval"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   )
   .def(
 
     "__call__",
-    [] ( const Component& self, const X& xLeft, const X& xRight ) -> decltype(auto)
-       { return self( xLeft, xRight ); },
-    python::arg( "xLeft" ), python::arg( "xRight" ),
+    [] ( const Component& self,
+         const X& xLeft, const X& xRight,
+         const X& yLeft, const X& yRight ) -> decltype(auto)
+       { return self( xLeft, xRight, yLeft, yRight ); },
+       python::arg( "xLeft" ), python::arg( "xRight" ),
+       python::arg( "yLeft" ), python::arg( "yRight" ),
     "Split the panel\n\n"
     "Arguments:\n"
     "    self     the split functor\n"
     "    xLeft    the left value on the x interval\n"
-    "    xRight   the right value on the x interval"
+    "    xRight   the right value on the x interval\n"
+    "    yLeft    the left value on the y interval\n"
+    "    yRight   the right value on the y interval"
   );
 }
 
