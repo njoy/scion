@@ -96,7 +96,7 @@ SCENARIO( "LogLogTable" ) {
         CHECK( 3.8125 == Approx( linear.x()[30] ) );
         CHECK( 3.875  == Approx( linear.x()[31] ) );
         CHECK( 3.9375 == Approx( linear.x()[32] ) );
-        CHECK( 4      == Approx( linear.x()[33] ) );
+        CHECK( 4.     == Approx( linear.x()[33] ) );
 
         CHECK( 4.          == Approx( linear.y()[0] ) );
         CHECK( 3.900609682 == Approx( linear.y()[1] ) );

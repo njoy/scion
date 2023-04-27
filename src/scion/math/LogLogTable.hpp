@@ -19,7 +19,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Tabulated data with log-log interpolation
+   *  @brief Tabulated data with log-log interpolation (ln(y) is linear in ln(x))
    */
   template < typename X, typename Y = X >
   class LogLogTable : public FunctionBase< LogLogTable< X, Y >, X, Y > {

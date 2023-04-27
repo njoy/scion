@@ -52,8 +52,8 @@ SCENARIO( "LogLinearTable" ) {
         CHECK( 0. == Approx( chunk.evaluate( 5. ) ) );
 
         // values of x inside the x grid
-//        CHECK( 3.380457775 == Approx( chunk.evaluate( 1.5 ) ) );
-//        CHECK( 1.379516838 == Approx( chunk.evaluate( 3.5 ) ) );
+        CHECK( 3.464101615 == Approx( chunk.evaluate( 1.5 ) ) );
+        CHECK( 1.414213562 == Approx( chunk.evaluate( 3.5 ) ) );
       } // THEN
 
       THEN( "a LogLinearTable can be linearised" ) {
