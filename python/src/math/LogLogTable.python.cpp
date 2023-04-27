@@ -24,7 +24,7 @@ void wrapLogLogTableFor( python::module& module, const std::string& name ) {
 
     module,
     name.c_str(),
-    "Tabulated data with log-log interpolation"
+    "Tabulated data with log-log interpolation (ln(y) is linear in ln(x))"
   );
 
   // wrap the component

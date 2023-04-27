@@ -113,7 +113,7 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( 1.34218355  == Approx( linear.y()[21] ) );
         CHECK( 1.224339739 == Approx( linear.y()[22] ) );
         CHECK( 1.110360364 == Approx( linear.y()[23] ) );
-        CHECK( 1.         == Approx( linear.y()[24] ) );
+        CHECK( 1.          == Approx( linear.y()[24] ) );
       } // THEN
     } // WHEN
   } // GIVEN
