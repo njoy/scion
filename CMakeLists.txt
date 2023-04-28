@@ -80,6 +80,7 @@ if( scion.python )
       python/src/linearisation/ToleranceConvergence.python.cpp
       python/src/linearisation/Lineariser.python.cpp
       python/src/math.python.cpp
+      python/src/math/clenshaw.python.cpp
       python/src/math/compare.python.cpp
       python/src/math/horner.python.cpp
       python/src/math/legendre.python.cpp

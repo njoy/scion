@@ -31,6 +31,8 @@ set_tests_properties( scion.python.linearisation.Lineariser PROPERTIES ENVIRONME
 add_test( NAME scion.python.math.compare COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_compare.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.compare PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
+add_test( NAME scion.python.math.clenshaw COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_clenshaw.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.clenshaw PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.horner COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_horner.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.horner PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
