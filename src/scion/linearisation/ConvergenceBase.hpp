@@ -42,9 +42,9 @@ namespace linearisation {
                   const X& xLeft, const X& xRight,
                   const Y& yLeft, const Y& yRight ) const {
 
-      return static_cast< const Derived* >( this )->evaluate( trial, reference,
-                                                              xLeft, xRight,
-                                                              yLeft, yRight );
+      return static_cast< const Derived* >( this )->hasConverged( trial, reference,
+                                                                  xLeft, xRight,
+                                                                  yLeft, yRight );
     }
   };
 

@@ -68,9 +68,9 @@ namespace linearisation {
      *
      *  The last 4 arguments imposed by the ConvergenceBase class are not used.
      */
-    bool evaluate( const Y& trial, const Y& reference,
-                   const X&      , const X&          ,
-                   const Y&      , const Y&            ) const {
+    bool hasConverged( const Y& trial, const Y& reference,
+                       const X&      , const X&          ,
+                       const Y&      , const Y&            ) const {
 
       if ( trial == reference ) {
 

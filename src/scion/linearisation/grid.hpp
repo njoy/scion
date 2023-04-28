@@ -19,13 +19,13 @@ namespace linearisation {
    *  The FirstDerivative and SecondDerivative objects must have a roots()
    *  method that returns the real roots of the function.
    *
-   *  @param coefficients   the coefficients of the Legendre series (from
-   *                        lowest to highest order coefficient)
+   *  @param first        the first derivative (must have a roots() function)
+   *  @param second       the second derivative (must have a roots() function)
+   *  @param lowerLimit   the lower limit of the function domain
+   *  @param upperLimit   the upper limit of the function domain
    */
-  template < typename X, typename Functor,
-             typename FirstDerivative, typename SecondDerivative >
-  std::vector< X > grid( Functor&& function,
-                         FirstDerivative&& first, SecondDerivative&& second,
+  template < typename X, typename FirstDerivative, typename SecondDerivative >
+  std::vector< X > grid( FirstDerivative&& first, SecondDerivative&& second,
                          const X& lowerLimit, const X& upperLimit ) {
 
     std::vector< X > grid = { lowerLimit, upperLimit };
@@ -46,7 +46,7 @@ namespace linearisation {
     grid.erase( std::lower_bound( grid.begin(), grid.end(), lowerLimit ), grid.begin() );
     grid.erase( std::next( std::lower_bound( grid.begin(), grid.end(), upperLimit ) ), grid.end() );
 
-    //! @todo remove points that are too close to one another
+    //! @todo remove points that are too close to one another?
 
     return grid;
   }
@@ -58,8 +58,9 @@ namespace linearisation {
    *  consists of the following unique set of values: boundaries of the domain,
    *  the real roots of the first and second derivative in the domain.
    *
-   *  @param coefficients   the coefficients of the Legendre series (from
-   *                        lowest to highest order coefficient)
+   *  @param function     the function
+   *  @param lowerLimit   the lower limit of the function domain
+   *  @param upperLimit   the upper limit of the function domain
    */
   template < typename X, typename Functor >
   std::vector< X > grid( Functor&& function,
@@ -67,8 +68,7 @@ namespace linearisation {
 
     const auto first = function.derivative();
     const auto second = first.derivative();
-    return linearisation::grid( std::forward< Functor >( function ),
-                                std::move( first ), std::move( second ),
+    return linearisation::grid( std::move( first ), std::move( second ),
                                 lowerLimit, upperLimit );
   }
 

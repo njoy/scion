@@ -39,8 +39,8 @@ namespace linearisation {
     Y operator()( const X& xLeft, const X& xRight,
                   const Y& yLeft, const Y& yRight ) const {
 
-      return static_cast< const Derived* >( this )->evaluate( xLeft, xRight,
-                                                              yLeft, yRight );
+      return static_cast< const Derived* >( this )->split( xLeft, xRight,
+                                                           yLeft, yRight );
     }
   };
 
