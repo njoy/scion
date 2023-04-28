@@ -78,6 +78,7 @@ if( scion.python )
       python/src/linearisation.python.cpp
       python/src/linearisation/MidpointSplit.python.cpp
       python/src/linearisation/ToleranceConvergence.python.cpp
+      python/src/linearisation/Lineariser.python.cpp
       python/src/math.python.cpp
       python/src/math/compare.python.cpp
       python/src/math/horner.python.cpp

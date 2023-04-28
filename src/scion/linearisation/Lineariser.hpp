@@ -37,7 +37,7 @@ namespace linearisation {
    *  ConvergenceBase and SplitBase classes respectively provide the interface
    *  to be implemented by functor objects to be compatible with the Lineariser.
    */
-  template < typename XContainer, typename YContainer >
+  template < typename XContainer, typename YContainer = XContainer >
   class Lineariser {
 
     /* type aliases */
