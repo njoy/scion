@@ -25,6 +25,8 @@ add_test( NAME scion.python.linearisation.MidpointSplit COMMAND ${PYTHON_EXECUTA
 set_tests_properties( scion.python.linearisation.MidpointSplit PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.linearisation.ToleranceConvergence COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/linearisation/Test_scion_linearisation_ToleranceConvergence.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.linearisation.ToleranceConvergence PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.linearisation.Lineariser COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/linearisation/Test_scion_linearisation_Lineariser.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.linearisation.Lineariser PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
 add_test( NAME scion.python.math.compare COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_compare.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.compare PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
