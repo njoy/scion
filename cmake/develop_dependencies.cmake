@@ -5,6 +5,12 @@ include( FetchContent )
 # Declare project dependencies
 #######################################################################
 
+FetchContent_Declare( ENDFtk
+    GIT_REPOSITORY  https://github.com/njoy/ENDFtk
+    GIT_TAG         feature/python-extension
+    GIT_SHALLOW     TRUE
+    )
+
 FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
     GIT_TAG         3.4.0
@@ -34,6 +40,7 @@ FetchContent_Declare( pybind11
 #######################################################################
 
 FetchContent_MakeAvailable(
+    ENDFtk
     eigen
     Log
     catch-adapter

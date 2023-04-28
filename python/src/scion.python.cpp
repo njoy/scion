@@ -11,6 +11,7 @@ namespace python = pybind11;
 void wrapInterpolationModule( python::module& );
 void wrapLinearisationModule( python::module& );
 void wrapMathModule( python::module& );
+void wrapEndfModule( python::module& );
 
 /**
  *  @brief scion python bindings
@@ -28,4 +29,7 @@ PYBIND11_MODULE( scion, module ) {
 
   // wrap the math submodule
   wrapMathModule( module );
+
+  // wrap the endf submodule
+  wrapEndfModule( module );
 }

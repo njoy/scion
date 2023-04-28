@@ -63,6 +63,7 @@ target_link_libraries( scion
     INTERFACE Log
     INTERFACE catch-adapter
     INTERFACE eigen
+    INTERFACE ENDFtk
     )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -90,9 +91,12 @@ if( scion.python )
       python/src/math/LinearLogTable.python.cpp
       python/src/math/LegendreSeries.python.cpp
       python/src/math/PolynomialSeries.python.cpp
+      python/src/endf.python.cpp
       )
 
   target_link_libraries( scion.python PRIVATE scion )
+  add_dependencies( scion.python
+      ENDFtk.python  )
   target_include_directories( scion.python PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/python/src )
   target_compile_options( scion.python PRIVATE "-fvisibility=hidden" )
   set_target_properties( scion.python PROPERTIES OUTPUT_NAME scion )
