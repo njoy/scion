@@ -32,8 +32,8 @@ namespace interpolation {
                    const X& xLeft, const X& xRight,
                    const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return yLeft * std::pow( yRight / yLeft,
-                               ( x - xLeft ) / ( xRight - xLeft ) );
+      return yLeft * std::exp( std::log( yRight / yLeft )
+                               * ( x - xLeft ) / ( xRight - xLeft ) );
     }
 
     using InterpolatorBase::operator();
