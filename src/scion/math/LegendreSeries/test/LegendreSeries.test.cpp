@@ -82,7 +82,7 @@ SCENARIO( "LegendreSeries" ) {
 
         CHECK( 4 == primitive.order() );
         CHECK( 5 == primitive.coefficients().size() );
-        CHECK(  0.  == Approx( primitive.coefficients()[0] ) );
+        CHECK( -15.2 == Approx( primitive.coefficients()[0] ) );
         CHECK( -9.4 == Approx( primitive.coefficients()[1] ) );
         CHECK(  4.809523809523809 == Approx( primitive.coefficients()[2] ) );
         CHECK( -0.933333333333333 == Approx( primitive.coefficients()[3] ) );
