@@ -74,6 +74,7 @@ namespace math {
 
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
     #include "scion/math/PolynomialSeries/src/derivative.hpp"
+    #include "scion/math/PolynomialSeries/src/primitive.hpp"
     #include "scion/math/PolynomialSeries/src/roots.hpp"
     #include "scion/math/PolynomialSeries/src/linearise.hpp"
 
