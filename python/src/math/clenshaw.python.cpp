@@ -49,6 +49,17 @@ void wrapClenshawFor( python::module& module ) {
     "    f0             the value of F_0(x)\n"
     "    f1             the value of F_1(x)\n"
     "    x              the value of X"
+  ).def(
+
+    "clenshaw_legendre",
+    [] ( Range coefficients, const X& x ) -> decltype(auto)
+       { return njoy::scion::math::clenshawLegendre< X, Y, Range >( coefficients, x ); },
+    python::arg( "coefficients" ), python::arg( "x" ),
+    "Clenshaw evaluation of a Legendre series using a range\n\n"
+    "Arguments:\n"
+    "    coefficients   a range of coefficient values (from lowest to\n"
+    "                   highest order coefficient)\n"
+    "    x              the value of X"
   );
 }
 

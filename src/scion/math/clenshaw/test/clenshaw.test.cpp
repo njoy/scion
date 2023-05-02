@@ -101,6 +101,21 @@ SCENARIO( "clenshaw" ) {
         CHECK( -1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
         CHECK(  2. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
         CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
+
+        CHECK(   1. == Approx( math::clenshawLegendre( order0.rbegin(), order0.rend(), 0. ) ) );
+        CHECK(   1. == Approx( math::clenshawLegendre( order1.rbegin(), order1.rend(), 0. ) ) );
+        CHECK( -0.5 == Approx( math::clenshawLegendre( order2.rbegin(), order2.rend(), 0. ) ) );
+        CHECK( -0.5 == Approx( math::clenshawLegendre( order3.rbegin(), order3.rend(), 0. ) ) );
+
+        CHECK(  1. == Approx( math::clenshawLegendre( order0.rbegin(), order0.rend(), 1. ) ) );
+        CHECK(  3. == Approx( math::clenshawLegendre( order1.rbegin(), order1.rend(), 1. ) ) );
+        CHECK(  6. == Approx( math::clenshawLegendre( order2.rbegin(), order2.rend(), 1. ) ) );
+        CHECK( 10. == Approx( math::clenshawLegendre( order3.rbegin(), order3.rend(), 1. ) ) );
+
+        CHECK(  1. == Approx( math::clenshawLegendre( order0.rbegin(), order0.rend(), -1. ) ) );
+        CHECK( -1. == Approx( math::clenshawLegendre( order1.rbegin(), order1.rend(), -1. ) ) );
+        CHECK(  2. == Approx( math::clenshawLegendre( order2.rbegin(), order2.rend(), -1. ) ) );
+        CHECK( -2. == Approx( math::clenshawLegendre( order3.rbegin(), order3.rend(), -1. ) ) );
       } // THEN
     } // WHEN
 
@@ -122,6 +137,21 @@ SCENARIO( "clenshaw" ) {
         CHECK( -1. == Approx( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
         CHECK(  2. == Approx( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
         CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
+
+        CHECK(   1. == Approx( math::clenshawLegendre( order0, 0. ) ) );
+        CHECK(   1. == Approx( math::clenshawLegendre( order1, 0. ) ) );
+        CHECK( -0.5 == Approx( math::clenshawLegendre( order2, 0. ) ) );
+        CHECK( -0.5 == Approx( math::clenshawLegendre( order3, 0. ) ) );
+
+        CHECK(  1. == Approx( math::clenshawLegendre( order0, 1. ) ) );
+        CHECK(  3. == Approx( math::clenshawLegendre( order1, 1. ) ) );
+        CHECK(  6. == Approx( math::clenshawLegendre( order2, 1. ) ) );
+        CHECK( 10. == Approx( math::clenshawLegendre( order3, 1. ) ) );
+
+        CHECK(  1. == Approx( math::clenshawLegendre( order0, -1. ) ) );
+        CHECK( -1. == Approx( math::clenshawLegendre( order1, -1. ) ) );
+        CHECK(  2. == Approx( math::clenshawLegendre( order2, -1. ) ) );
+        CHECK( -2. == Approx( math::clenshawLegendre( order3, -1. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
