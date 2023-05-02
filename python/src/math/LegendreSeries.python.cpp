@@ -65,6 +65,12 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
   )
   .def(
 
+    "primitive",
+    &Component::primitive,
+    "Return the primitive or antiderivative of the Legendre series"
+  )
+  .def(
+
     "roots",
     &Component::roots,
     python::arg( "a" ) = X( 0. ),
