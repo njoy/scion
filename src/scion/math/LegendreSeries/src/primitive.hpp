@@ -17,14 +17,14 @@ LegendreSeries primitive() const {
 
   unsigned int order = this->order();
   std::vector< Y > primitive( order + 2, Y( 0. ) );
-  primitive[1] += this->coefficients()[0];
+  primitive[1] = this->coefficients()[0];
   for ( unsigned int i = 1; i < order + 1; ++i ) {
 
     auto c =  this->coefficients()[i] / Y( 2 * i + 1 );
     primitive[i + 1] += c;
     primitive[i - 1] -= c;
   }
-  primitive[0] = Y( 0. );
+  primitive[0] -= clenshawLegendre( primitive, X( -1. ) );
 
   return LegendreSeries( std::move( primitive ) );
 }
