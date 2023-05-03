@@ -6,6 +6,7 @@
 #include <pybind11/stl.h>
 
 // other includes
+#include "scion/linearisation/ToleranceConvergence.hpp"
 
 // namespace aliases
 namespace python = pybind11;
@@ -54,6 +55,8 @@ void addStandardDomainDefinitions( PythonClass& component ) {
  */
 template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardFunctionDefinitions( PythonClass& component ) {
+
+  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
 
   component
   .def_property_readonly(
@@ -105,6 +108,17 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     "Arguments:\n"
     "    self   the function\n"
     "    x      the value to be evaluated"
+  )
+  .def(
+
+    "linearise",
+    [] ( const Component& self, const ToleranceConvergence& convergence )
+       { return self.linearise( convergence ); },
+    python::arg( "convergence" ) = ToleranceConvergence(),
+    "Linearise the function and return a LinearLinearTable\n\n"
+    "Arguments:\n"
+    "    self           the function\n"
+    "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
 }
 

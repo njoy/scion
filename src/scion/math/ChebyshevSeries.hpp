@@ -5,10 +5,12 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/FunctionBase.hpp"
+#include "scion/math/LinearLinearTable.hpp"
 
 namespace njoy {
 namespace scion {
@@ -24,7 +26,7 @@ namespace math {
    *  The Clenshaw recursion scheme is used for the evaluation of the series
    *  using the following recursion relation for Chebyshev polynomials:
    *
-   *    T(n+1,x) = 2 x T(n,x) - T(n-1,x)
+   *    T_(n+1) = 2 x T_n - T_(n-1)
    */
   template < typename X, typename Y = X >
   class ChebyshevSeries : public FunctionBase< ChebyshevSeries< X, Y >, X, Y > {
@@ -63,8 +65,10 @@ namespace math {
     }
 
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
-    #include "scion/math/ChebyshevSeries/src/roots.hpp"
+    #include "scion/math/ChebyshevSeries/src/derivative.hpp"
     #include "scion/math/ChebyshevSeries/src/primitive.hpp"
+    #include "scion/math/ChebyshevSeries/src/roots.hpp"
+    #include "scion/math/ChebyshevSeries/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();

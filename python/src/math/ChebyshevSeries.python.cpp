@@ -29,7 +29,7 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
     "sum c_i T_i(x) defined over the domain [-1,1].\n\n"
     "The Clenshaw recursion scheme is used for the evaluation of the series\n"
     "using the following recursion relation for Chebyshev polynomials:\n"
-    "  T(n+2,x) = 2 x T(n+1,x) - T(n,x)"
+    "  T_(n+1) = 2 x T_n - T_(n-1)"
   );
 
   // wrap the component

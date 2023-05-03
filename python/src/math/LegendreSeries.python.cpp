@@ -16,7 +16,6 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
 
   // type aliases
   using Component = njoy::scion::math::LegendreSeries< X, Y >;
-  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
 
   // wrap views created by this component
 
@@ -30,7 +29,7 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "defined over the domain [-1,1].\n\n"
     "The Clenshaw recursion scheme is used for the evaluation of the series\n"
     "using the following recursion relation for Legendre polynomials:\n"
-    "  P(n+2,x) = (2k+1)/(k+1) x P(n+1,x) - k/(k+1) P(n,x)"
+    "  P_(n+2) = (2k+1)/(k+1) x P_(n+1) - k/(k+1) P_n"
   );
 
   // wrap the component
@@ -89,17 +88,6 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "Arguments:\n"
     "    self   the function\n"
     "    a      the value of a (default is zero)"
-  )
-  .def(
-
-    "linearise",
-    [] ( const Component& self, const ToleranceConvergence& convergence )
-       { return self.linearise( convergence ); },
-    python::arg( "convergence" ) = ToleranceConvergence(),
-    "Linearise the function and return a LinearLinearTable\n\n"
-    "Arguments:\n"
-    "    self           the function\n"
-    "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
 
   // add standard function definitions

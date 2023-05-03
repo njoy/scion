@@ -16,7 +16,6 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
 
   // type aliases
   using Component = njoy::scion::math::LinearLinearTable< X, Y >;
-  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
 
   // wrap views created by this component
 
@@ -51,17 +50,6 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
     "y",
     &Component::y,
     "The y values of the table"
-  )
-  .def(
-
-    "linearise",
-    [] ( const Component& self, const ToleranceConvergence& convergence )
-       { return self.linearise( convergence ); },
-    python::arg( "convergence" ) = ToleranceConvergence(),
-    "Linearise the function and return a LinearLinearTable\n\n"
-    "Arguments:\n"
-    "    self           the function\n"
-    "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
 
   // add standard function definitions

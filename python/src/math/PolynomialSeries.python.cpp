@@ -16,7 +16,6 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
 
   // type aliases
   using Component = njoy::scion::math::PolynomialSeries< X, Y >;
-  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
 
   // wrap views created by this component
 
@@ -101,17 +100,6 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "Arguments:\n"
     "    self   the function\n"
     "    a      the value of a (default is zero)"
-  )
-  .def(
-
-    "linearise",
-    [] ( const Component& self, const ToleranceConvergence& convergence )
-       { return self.linearise( convergence ); },
-    python::arg( "convergence" ) = ToleranceConvergence(),
-    "Linearise the function and return a LinearLinearTable\n\n"
-    "Arguments:\n"
-    "    self           the function\n"
-    "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
 
   // add standard function definitions
