@@ -16,6 +16,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
 
   // type aliases
   using Component = njoy::scion::math::PolynomialSeries< X, Y >;
+  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
 
   // wrap views created by this component
 
@@ -28,8 +29,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "This class represents a polynomial function y -> f(x) = sum c_i x^i of\n"
     "order n defined over a domain. Currently, the domain can either be the\n"
     "open domain where every value of x is allowed or the interval domain that\n"
-    "restricts x to an interval [a,b]. An exception is thrown for values\n"
-    "outside of the domain."
+    "restricts x to an interval [a,b]."
   );
 
   // wrap the component
@@ -97,6 +97,17 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "Arguments:\n"
     "    self   the function\n"
     "    a      the value of a (default is zero)"
+  )
+  .def(
+
+    "linearise",
+    [] ( const Component& self, const ToleranceConvergence& convergence )
+       { return self.linearise( convergence ); },
+    python::arg( "convergence" ) = ToleranceConvergence(),
+    "Linearise the function and return a LinearLinearTable\n\n"
+    "Arguments:\n"
+    "    self           the function\n"
+    "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
 
   // add standard function definitions
