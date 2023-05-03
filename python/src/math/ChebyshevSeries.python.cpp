@@ -55,6 +55,23 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
     "order",
     &Component::order,
     "The Chebyshev order"
+  )
+  .def(
+
+    "roots",
+    &Component::roots,
+    python::arg( "a" ) = X( 0. ),
+    "Calculate the real roots of the Legendre series so that f(x) = a\n\n"
+    "This function calculates all roots on the real axis of the Legendre series.\n\n"
+    "The roots of the Legendre series are the eigenvalues of the Frobenius\n"
+    "companion matrix whose elements are trivial functions of the coefficients of\n"
+    "the Legendre series. The resulting roots are in the complex plane so the\n"
+    "roots that are not on the real axis are filtered out. The roots on the real\n"
+    "axis are then improved upon using a few iterations of the Newton-Rhapson\n"
+    "method.\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions

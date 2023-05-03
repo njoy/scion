@@ -6,6 +6,8 @@
 
 // other includes
 #include "scion/math/clenshaw.hpp"
+#include "scion/math/compare.hpp"
+#include "scion/math/matrix.hpp"
 #include "scion/math/FunctionBase.hpp"
 
 namespace njoy {
@@ -35,6 +37,7 @@ namespace math {
 
     /* auxiliary function */
     #include "scion/math/ChebyshevSeries/src/verifyCoefficients.hpp"
+    #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:
 
@@ -60,6 +63,7 @@ namespace math {
     }
 
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
+    #include "scion/math/ChebyshevSeries/src/roots.hpp"
 
     using Parent::domain;
     using Parent::operator();

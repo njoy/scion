@@ -35,6 +35,17 @@ class Test_scion_math_ChebyshevSeries( unittest.TestCase ) :
             self.assertAlmostEqual(   0.0, chunk( x =  1. ) )
             self.assertAlmostEqual( -30.0, chunk( x = -1. ) )
 
+            # verify roots
+            roots = chunk.roots()
+            self.assertEqual( 3, len( roots ) )
+            self.assertAlmostEqual( 1.0, roots[0] )
+            self.assertAlmostEqual( 2.0, roots[1] )
+            self.assertAlmostEqual( 4.0, roots[2] )
+
+            roots = chunk.roots( -8. )
+            self.assertEqual( 1, len( roots ) )
+            self.assertAlmostEqual( 0.0, roots[0] )
+
         # the data is given explicitly
         chunk = ChebyshevSeries( coefficients = [ -23./2., 59./4., -7./2., 1./4. ] )
 

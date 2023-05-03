@@ -47,6 +47,21 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK(   0.0 == Approx( chunk(  1. ) ) );
         CHECK( -30.0 == Approx( chunk( -1. ) ) );
       } // THEN
+      
+      THEN( "roots can be calculated" ) {
+
+        std::vector< double > roots = chunk.roots();
+
+        CHECK( 3 == roots.size() );
+        CHECK( 1.0 == Approx( roots[0] ) );
+        CHECK( 2.0 == Approx( roots[1] ) );
+        CHECK( 4.0 == Approx( roots[2] ) );
+
+        roots = chunk.roots( -8. );
+
+        CHECK( 1 == roots.size() );
+        CHECK(  0.0 == Approx( roots[0] ) );
+      } // THEN
     } // WHEN
   } // GIVEN
 
