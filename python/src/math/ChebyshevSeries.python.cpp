@@ -58,6 +58,16 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
   )
   .def(
 
+    "primitive",
+    &Component::primitive,
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the polynomial series\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
+  )
+  .def(
+
     "roots",
     &Component::roots,
     python::arg( "a" ) = X( 0. ),
