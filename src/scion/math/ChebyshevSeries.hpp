@@ -24,7 +24,7 @@ namespace math {
    *  The Clenshaw recursion scheme is used for the evaluation of the series
    *  using the following recursion relation for Chebyshev polynomials:
    *
-   *    T(n+2,x) = 2 x T(n+1,x) - T(n,x)
+   *    T(n+1,x) = 2 x T(n,x) - T(n-1,x)
    */
   template < typename X, typename Y = X >
   class ChebyshevSeries : public FunctionBase< ChebyshevSeries< X, Y >, X, Y > {
@@ -64,6 +64,7 @@ namespace math {
 
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
     #include "scion/math/ChebyshevSeries/src/roots.hpp"
+    #include "scion/math/ChebyshevSeries/src/primitive.hpp"
 
     using Parent::domain;
     using Parent::operator();

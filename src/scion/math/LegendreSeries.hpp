@@ -30,7 +30,7 @@ namespace math {
    *  The Clenshaw recursion scheme is used for the evaluation of the series
    *  using the following recursion relation for Legendre polynomials:
    *
-   *    P(n+2,x) = (2k+1)/(k+1) x P(n+1,x) - k/(k+1) P(n,x)
+   *    P_(n+1) = (2n+1)/(n+1) x P_n - n/(n+1) P_(n-1)
    */
   template < typename X, typename Y = X >
   class LegendreSeries : public FunctionBase< LegendreSeries< X, Y >, X, Y > {

@@ -12,11 +12,11 @@ template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 
 SCENARIO( "ChebyshevSeries" ) {
 
-  GIVEN( "Legendre coefficients for an expansion" ) {
+  GIVEN( "Chebyshev coefficients for an expansion" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      // the 3rd order Legendre series was designed to have 3 real roots: 1, 2 and 4
+      // the 3rd order Chebyshev series was designed to have 3 real roots: 1, 2 and 4
       // the 3rd order polynomial series equivalent to this is the same as the
       // one in the PolynomialSeries example
 
@@ -47,7 +47,7 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK(   0.0 == Approx( chunk(  1. ) ) );
         CHECK( -30.0 == Approx( chunk( -1. ) ) );
       } // THEN
-      
+
       THEN( "roots can be calculated" ) {
 
         std::vector< double > roots = chunk.roots();
@@ -61,6 +61,19 @@ SCENARIO( "ChebyshevSeries" ) {
 
         CHECK( 1 == roots.size() );
         CHECK(  0.0 == Approx( roots[0] ) );
+      } // THEN
+
+      THEN( "a ChebyshevSeries can be integrated" ) {
+
+        ChebyshevSeries< double > primitive = chunk.primitive();
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK(  3.59375 == Approx( primitive.coefficients()[0] ) );
+        CHECK( -9.75 == Approx( primitive.coefficients()[1] ) );
+        CHECK(  3.625 == Approx( primitive.coefficients()[2] ) );
+        CHECK( -0.5833333333333334 == Approx( primitive.coefficients()[3] ) );
+        CHECK(  0.03125 == Approx( primitive.coefficients()[4] ) );
       } // THEN
     } // WHEN
   } // GIVEN

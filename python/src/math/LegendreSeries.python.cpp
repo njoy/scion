@@ -67,7 +67,11 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
 
     "primitive",
     &Component::primitive,
-    "Return the primitive or antiderivative of the Legendre series"
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the Legendre series\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
   )
   .def(
 
