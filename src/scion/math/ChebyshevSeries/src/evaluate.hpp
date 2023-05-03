@@ -4,7 +4,7 @@
  *  The Clenshaw recursion scheme is used for the evaluation of the series
  *  using the following recursion relation for Chebyshev polynomials:
  *
- *    P(n+2,x) = 2 x P(n+1,x) - P(n,x)
+ *    T_(n+2) = 2 x T_(n+1) - T_n
  *
  *  @param x   the value to be evaluated
  */
