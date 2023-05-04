@@ -76,6 +76,7 @@ namespace math {
     }
 
     #include "scion/math/ChebyshevApproximation/src/evaluate.hpp"
+    #include "scion/math/ChebyshevApproximation/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();

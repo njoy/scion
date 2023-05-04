@@ -1,8 +1,9 @@
 /**
  *  @brief Constructor
  *
- *  @param coefficients   the coefficients of the Chebyshev series (from
- *                        lowest to highest order coefficient)
+ *  @param lower       the lower limit of the domain
+ *  @param upper       the upper limit of the domain
+ *  @param series      the Chebyshev series that approximates the function
  */
 ChebyshevApproximation( X lower, X upper, ChebyshevSeries< X, Y > series ) :
   Parent( IntervalDomain( lower, upper ) ),
@@ -12,8 +13,10 @@ ChebyshevApproximation( X lower, X upper, ChebyshevSeries< X, Y > series ) :
 /**
  *  @brief Constructor
  *
- *  @param coefficients   the coefficients of the Chebyshev series (from
- *                        lowest to highest order coefficient)
+ *  @param lower       the lower limit of the domain
+ *  @param upper       the upper limit of the domain
+ *  @param function    the function to be approximated
+ *  @param order       the order of the approximation
  */
 template < typename Functor >
 ChebyshevApproximation( X lower, X upper, Functor&& function, unsigned int order ) :
