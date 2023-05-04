@@ -63,6 +63,33 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK(  0.0 == Approx( roots[0] ) );
       } // THEN
 
+      THEN( "a ChebyshevSeries can be differentiated" ) {
+
+        ChebyshevSeries< double > first = chunk.derivative();
+        ChebyshevSeries< double > second = first.derivative();
+        ChebyshevSeries< double > third = second.derivative();
+        ChebyshevSeries< double > fourth = third.derivative();
+
+        CHECK( 2 == first.order() );
+        CHECK( 3 == first.coefficients().size() );
+        CHECK(  15.5 == Approx( first.coefficients()[0] ) );
+        CHECK( -14.0 == Approx( first.coefficients()[1] ) );
+        CHECK(   1.5 == Approx( first.coefficients()[2] ) );
+
+        CHECK( 1 == second.order() );
+        CHECK( 2 == second.coefficients().size() );
+        CHECK( -14. == Approx( second.coefficients()[0] ) );
+        CHECK(   6. == Approx( second.coefficients()[1] ) );
+
+        CHECK( 0 == third.order() );
+        CHECK( 1 == third.coefficients().size() );
+        CHECK( 6. == Approx( third.coefficients()[0] ) );
+
+        CHECK( 0 == fourth.order() );
+        CHECK( 1 == fourth.coefficients().size() );
+        CHECK( 0. == Approx( fourth.coefficients()[0] ) );
+      } // THEN
+
       THEN( "a ChebyshevSeries can be integrated" ) {
 
         ChebyshevSeries< double > primitive = chunk.primitive();
