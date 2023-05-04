@@ -24,15 +24,14 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
   else if ( 1 < this->order() ) {
 
     Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrix( a ), false );
-//    ChebyshevSeries derivative = this->derivative();
-//    auto functor = [&a, this] ( const X& x ) { return this->evaluate( x ) - a; };
+    ChebyshevSeries derivative = this->derivative();
+    auto functor = [&a, this] ( const X& x ) { return this->evaluate( x ) - a; };
 
     for ( const auto& value : solver.eigenvalues().reshaped() ) {
 
       if ( isCloseToZero( value.imag() ) ) {
 
-//        roots.emplace_back( newton( value.real(), functor, derivative ) );
-        roots.emplace_back( value.real() );
+        roots.emplace_back( newton( value.real(), functor, derivative ) );
       }
     }
 
