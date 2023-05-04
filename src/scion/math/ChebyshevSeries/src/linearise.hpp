@@ -20,7 +20,14 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
   }
   else {
 
-    //! @todo implement ths
-    throw std::exception();
+    std::vector< X > x;
+    std::vector< Y > y;
+    linearisation::Lineariser lineariser( x, y );
+    lineariser( linearisation::grid( *this, X( -1. ), X( +1. ) ),
+                *this,
+                std::forward< Convergence >( convergence ),
+                linearisation::MidpointSplit< X >() );
+
+    return LinearLinearTable< X, Y >( std::move( x ), std::move( y ) );
   }
 }

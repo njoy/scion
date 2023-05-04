@@ -5,7 +5,10 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/grid.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
+#include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
