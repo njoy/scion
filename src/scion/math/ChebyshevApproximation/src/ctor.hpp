@@ -1,13 +1,13 @@
 /**
  *  @brief Constructor
  *
- *  @param lower       the lower limit of the domain
- *  @param upper       the upper limit of the domain
+ *  @param domain      the domain of the approximated function
  *  @param series      the Chebyshev series that approximates the function
  */
-ChebyshevApproximation( X lower, X upper, ChebyshevSeries< X, Y > series ) :
-  Parent( IntervalDomain( lower, upper ) ),
-  lower_( lower ), upper_( upper ),
+ChebyshevApproximation( IntervalDomain< X > domain,
+                        ChebyshevSeries< X, Y > series ) :
+  Parent( std::move( domain ) ),
+  lower_( domain.lowerLimit() ), upper_( domain.upperLimit() ),
   series_( std::move( series ) ) {}
 
 /**
@@ -21,7 +21,7 @@ ChebyshevApproximation( X lower, X upper, ChebyshevSeries< X, Y > series ) :
 template < typename Functor >
 ChebyshevApproximation( X lower, X upper, Functor&& function, unsigned int order ) :
   ChebyshevApproximation(
-      lower, upper,
+      IntervalDomain( lower, upper ),
       ChebyshevSeries< X, Y >(
           calculateCoefficients( lower, upper,
                                  std::forward< Functor >( function ),

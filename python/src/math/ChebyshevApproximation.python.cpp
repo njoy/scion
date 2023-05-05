@@ -57,6 +57,42 @@ void wrapChebyshevApproximationFor( python::module& module, const std::string& n
     "order",
     &Component::order,
     "The Chebyshev order"
+  )
+  .def(
+
+    "derivative",
+    &Component::derivative,
+    "Return the derivative of the approximated function\n\n"
+    "The derivative is equal to the derivative of the underlying Chebyshev series\n"
+    "and is defined over the same domain as the original approximated function."
+
+  )
+  .def(
+
+    "primitive",
+    &Component::primitive,
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the approximated function\n\n"
+    "The primitive is equal to the primitive of the underlying Chebyshev\n"
+    "series and is defined over the same domain as the original approximated\n"
+    "function.\n\n"
+    "The integral function is defined so that the integral function for x = left\n"
+    "equals 0.\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
+  )
+  .def(
+
+    "roots",
+    &Component::roots,
+    python::arg( "a" ) = X( 0. ),
+    "Calculate the real roots of the approximated function so that f(x) = a\n\n"
+    "This function calculates all roots on the real axis of the approximated\n"
+    "function as the roots of the underlying Chebyshev series.\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions

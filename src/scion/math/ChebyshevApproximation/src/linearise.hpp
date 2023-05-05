@@ -1,5 +1,5 @@
 /**
- *  @brief Linearise the Chebyshev approximation and return a LinearLinearTable
+ *  @brief Linearise the approximated function and return a LinearLinearTable
  *
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */

@@ -16,6 +16,10 @@ namespace math {
    *  @class
    *  @brief Approximation of a function f(x) in the [a,b] domain using a
    *         Chebyshev series
+   *
+   *  Users should note that the underlying Chebyshev series is ALWAYS defined in
+   *  [-1, 1] and that the approximated function is defined on [a,b] and that
+   *  a domain transformation is required to go from one to the other.
    */
   template < typename X, typename Y = X >
   class ChebyshevApproximation : public FunctionBase< ChebyshevApproximation< X, Y >, X, Y > {
@@ -30,27 +34,7 @@ namespace math {
 
     /* auxiliary function */
     #include "scion/math/ChebyshevApproximation/src/calculateCoefficients.hpp"
-
-    /**
-     *  @brief Transform x in [a, b] to xprime in [-1, 1]
-     *
-     *  @param[in] x    the value of x to transform into xprime
-     */
-    X transform( const X& x ) const {
-
-      return ( 2. * x - ( this->upper_ + this->lower_ ) )
-             / ( this->upper_ - this->lower_ );
-    }
-
-    /**
-     *  @brief Transform xprime in [-1, 1] to x in [a, b]
-     *
-     *  @param[in] xprime    the value of xprime to transform into x
-     */
-    X invert( const X& xprime ) const {
-
-      return ( xprime + X( 1 ) ) * ( this->upper_ - this->lower_ ) / X( 2 ) + this->lower_;
-    }
+    #include "scion/math/ChebyshevApproximation/src/transform.hpp"
 
   public:
 
@@ -76,6 +60,9 @@ namespace math {
     }
 
     #include "scion/math/ChebyshevApproximation/src/evaluate.hpp"
+    #include "scion/math/ChebyshevApproximation/src/derivative.hpp"
+    #include "scion/math/ChebyshevApproximation/src/primitive.hpp"
+    #include "scion/math/ChebyshevApproximation/src/roots.hpp"
     #include "scion/math/ChebyshevApproximation/src/linearise.hpp"
 
     using Parent::domain;
