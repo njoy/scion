@@ -43,7 +43,7 @@ namespace linearisation {
     grid.erase( std::unique( grid.begin(), grid.end() ), grid.end() );
 
     // remove everything outside of the domain
-    grid.erase( std::lower_bound( grid.begin(), grid.end(), lowerLimit ), grid.begin() );
+    grid.erase( grid.begin(), std::lower_bound( grid.begin(), grid.end(), lowerLimit ) );
     grid.erase( std::next( std::lower_bound( grid.begin(), grid.end(), upperLimit ) ), grid.end() );
 
     //! @todo remove points that are too close to one another?
