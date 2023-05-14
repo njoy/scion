@@ -5,10 +5,12 @@
 
 // other includes
 #include "utility/overload.hpp"
+#include "scion/math/LegendreSeries.hpp"
 #include "scion/math/PolynomialSeries.hpp"
 #include "scion/math/LinearLinearTable.hpp"
 #include "ENDFtk/section.hpp"
 #include "ENDFtk/section/1/452.hpp"
+#include "ENDFtk/section/6.hpp"
 
 namespace njoy {
 namespace scion {
@@ -37,6 +39,17 @@ fromENDF( const njoy::ENDFtk::section::Type< 1, 452 >& section ) {
         }
       },
       section.nubar() );
+}
+
+std::vector< math::LegendreSeries< double > >
+fromENDF( const njoy::ENDFtk::section::Type< 6 >::ContinuumEnergyAngle::LegendreCoefficients& section ) {
+
+  std::vector< math::LegendreSeries< double > > distributions;
+  for ( const auto& coefficients : section.coefficients() ) {
+
+    distributions.emplace_back( std::vector< double >{ coefficients.begin(), coefficients.end() } );
+  }
+  return distributions;
 }
 
 } // scion namespace
