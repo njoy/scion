@@ -10,16 +10,5 @@
  */
 Y evaluate( const X& x ) const {
 
-  auto a = [] ( unsigned int k, const X& x ) -> Y {
-
-    return static_cast< Y >( 2 * k + 1 ) / static_cast< Y >( k + 1 ) * x;
-  };
-  auto b = [] ( unsigned int k, const X& x ) -> Y {
-
-    return - static_cast< Y >( k ) / static_cast< Y >( k + 1 );
-  };
-
-  return math::clenshaw( this->coefficients().rbegin(),
-                         this->coefficients().rend(),
-                         a, b, 1., x, x );
+  return math::clenshawLegendre( this->coefficients(), x );
 }

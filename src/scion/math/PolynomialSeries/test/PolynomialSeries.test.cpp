@@ -87,6 +87,22 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK(  1. == Approx( domain.upperLimit() ) );
       } // THEN
 
+      THEN( "a PolynomialSeries can be integrated" ) {
+
+        PolynomialSeries< double > primitive = chunk.primitive();
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK(   0. == Approx( primitive.coefficients()[0] ) );
+        CHECK(  -8. == Approx( primitive.coefficients()[1] ) );
+        CHECK(   7. == Approx( primitive.coefficients()[2] ) );
+        CHECK(  -7. / 3. == Approx( primitive.coefficients()[3] ) );
+        CHECK(   1. / 4. == Approx( primitive.coefficients()[4] ) );
+        IntervalDomain< double > domain = std::get< IntervalDomain< double > >( primitive.domain() );
+        CHECK( -1. == Approx( domain.lowerLimit() ) );
+        CHECK(  1. == Approx( domain.upperLimit() ) );
+      } // THEN
+
       THEN( "roots can be calculated" ) {
 
         std::vector< double > roots = chunk.roots();

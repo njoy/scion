@@ -12,11 +12,14 @@ namespace math {
 
   // utility functions
   void wrapComparisonFunctions( python::module& );
+  void wrapNewton( python::module& );
 
   // evaluation schemes
+  void wrapClenshaw( python::module& );
   void wrapHorner( python::module& );
 
   // special functions
+  void wrapChebyshev( python::module& );
   void wrapLegendre( python::module& );
 
   // function interface
@@ -28,6 +31,8 @@ namespace math {
   void wrapLogLinearTable( python::module& );
   void wrapLinearLogTable( python::module& );
   void wrapLogLogTable( python::module& );
+  void wrapChebyshevSeries( python::module& );
+  void wrapChebyshevApproximation( python::module& );
   void wrapLegendreSeries( python::module& );
   void wrapPolynomialSeries( python::module& );
 }
@@ -43,7 +48,10 @@ void wrapMathModule( python::module& module ) {
 
   // wrap scion's math capabilities
   math::wrapComparisonFunctions( submodule );
+  math::wrapNewton( submodule );
+  math::wrapClenshaw( submodule );
   math::wrapHorner( submodule );
+  math::wrapChebyshev( submodule );
   math::wrapLegendre( submodule );
   math::wrapIntervalDomain( submodule );
   math::wrapOpenDomain( submodule );
@@ -51,6 +59,8 @@ void wrapMathModule( python::module& module ) {
   math::wrapLogLinearTable( submodule );
   math::wrapLinearLogTable( submodule );
   math::wrapLogLogTable( submodule );
+  math::wrapChebyshevSeries( submodule );
+  math::wrapChebyshevApproximation( submodule );
   math::wrapLegendreSeries( submodule );
   math::wrapPolynomialSeries( submodule );
 }

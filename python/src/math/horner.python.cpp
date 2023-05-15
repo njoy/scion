@@ -21,7 +21,7 @@ void wrapHornerFor( python::module& module ) {
        { return njoy::scion::math::horner< X, Y, Range >( coefficients, x ); },
     python::arg( "coefficients" ), python::arg( "x" ),
     "Horner evaluation of a polynomial function for different x and y types "
-    "using a list or range\n\n"
+    "using a range\n\n"
     "A polynomial is defined as a sequence of coefficients c_i so that the\n"
     "polynomial of order n is given by:\n\n"
     "  y = c_n * x^n + c_(n - 1) * x^(n - 1) + c_(n - 2) * x^(n - 2) + ...\n\n"

@@ -25,13 +25,21 @@ add_test( NAME scion.python.linearisation.MidpointSplit COMMAND ${PYTHON_EXECUTA
 set_tests_properties( scion.python.linearisation.MidpointSplit PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.linearisation.ToleranceConvergence COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/linearisation/Test_scion_linearisation_ToleranceConvergence.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.linearisation.ToleranceConvergence PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.linearisation.Lineariser COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/linearisation/Test_scion_linearisation_Lineariser.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.linearisation.Lineariser PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
 add_test( NAME scion.python.math.compare COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_compare.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.compare PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.newton COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_newton.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.newton PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
+add_test( NAME scion.python.math.clenshaw COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_clenshaw.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.clenshaw PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.horner COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_horner.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.horner PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
+add_test( NAME scion.python.math.chebyshev COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_chebyshev.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.chebyshev PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.legendre COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_legendre.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.legendre PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 
@@ -48,6 +56,10 @@ add_test( NAME scion.python.math.LogLinearTable COMMAND ${PYTHON_EXECUTABLE} -m 
 set_tests_properties( scion.python.math.LogLinearTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.LogLogTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LogLogTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LogLogTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.ChebyshevSeries COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_ChebyshevSeries.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.ChebyshevSeries PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.ChebyshevApproximation COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_ChebyshevApproximation.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.ChebyshevApproximation PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.LegendreSeries COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LegendreSeries.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LegendreSeries PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.PolynomialSeries COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_PolynomialSeries.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )

@@ -79,9 +79,13 @@ if( scion.python )
       python/src/linearisation.python.cpp
       python/src/linearisation/MidpointSplit.python.cpp
       python/src/linearisation/ToleranceConvergence.python.cpp
+      python/src/linearisation/Lineariser.python.cpp
       python/src/math.python.cpp
+      python/src/math/clenshaw.python.cpp
       python/src/math/compare.python.cpp
       python/src/math/horner.python.cpp
+      python/src/math/newton.python.cpp
+      python/src/math/chebyshev.python.cpp
       python/src/math/legendre.python.cpp
       python/src/math/IntervalDomain.python.cpp
       python/src/math/OpenDomain.python.cpp
@@ -89,6 +93,8 @@ if( scion.python )
       python/src/math/LogLogTable.python.cpp
       python/src/math/LogLinearTable.python.cpp
       python/src/math/LinearLogTable.python.cpp
+      python/src/math/ChebyshevSeries.python.cpp
+      python/src/math/ChebyshevApproximation.python.cpp
       python/src/math/LegendreSeries.python.cpp
       python/src/math/PolynomialSeries.python.cpp
       python/src/endf.python.cpp

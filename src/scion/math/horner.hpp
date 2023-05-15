@@ -9,8 +9,7 @@ namespace njoy {
 namespace scion {
 namespace math {
 
-/** @brief Horner evaluation of a polynomial function for different x and y
- *         types using iterators
+/** @brief Horner evaluation of a polynomial series using iterators
  *
  *  A polynomial is defined as a sequence of coefficients c_i so that the
  *  polynomial of order n is given by:
@@ -45,8 +44,7 @@ Y horner( Iter first, Iter last, const X& x ) noexcept {
   return y;
 }
 
-/** @brief Horner evaluation of a polynomial function for different x and y
- *         types using a range
+/** @brief Horner evaluation of a polynomial series using a range
  *
  *  A polynomial is defined as a sequence of coefficients c_i so that the
  *  polynomial of order n is given by:
@@ -64,8 +62,6 @@ Y horner( Iter first, Iter last, const X& x ) noexcept {
  *  @param[in] coefficients   a range of coefficient values (from lowest to
  *                            highest order coefficient)
  *  @param[in] x              the value of X
- *
- *  @return The evaluated Y value
  */
 template < typename X, typename Y = X, typename Range >
 Y horner( const Range& coefficients, const X& x ) noexcept {

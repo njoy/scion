@@ -136,8 +136,8 @@ void addStandardSplitDefinitions( PythonClass& component ) {
   component
   .def(
 
-    "evaluate",
-    &Component::evaluate,
+    "split",
+    &Component::split,
     python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),
     "Split the panel\n\n"
@@ -181,8 +181,8 @@ void addStandardConvergenceDefinitions( PythonClass& component ) {
   component
   .def(
 
-    "evaluate",
-    &Component::evaluate,
+    "has_converged",
+    &Component::hasConverged,
     python::arg( "trial" ), python::arg( "reference" ),
     python::arg( "xLeft" ), python::arg( "xRight" ),
     python::arg( "yLeft" ), python::arg( "yRight" ),

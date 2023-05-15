@@ -26,7 +26,8 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
     const auto a = this->coefficients().back();
     const auto b = this->coefficients().front();
     return LinearLinearTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
-                                      { b - a, b + a } );
+                                      { a * domain.lowerLimit() + b,
+                                        a * domain.upperLimit() + b } );
   }
   else {
 

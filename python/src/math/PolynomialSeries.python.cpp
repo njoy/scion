@@ -28,8 +28,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "This class represents a polynomial function y -> f(x) = sum c_i x^i of\n"
     "order n defined over a domain. Currently, the domain can either be the\n"
     "open domain where every value of x is allowed or the interval domain that\n"
-    "restricts x to an interval [a,b]. An exception is thrown for values\n"
-    "outside of the domain."
+    "restricts x to an interval [a,b]."
   );
 
   // wrap the component
@@ -74,6 +73,16 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "derivative",
     &Component::derivative,
     "Return the derivative of the polynomial series"
+  )
+  .def(
+
+    "primitive",
+    &Component::primitive,
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the polynomial series\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
   )
   .def(
 

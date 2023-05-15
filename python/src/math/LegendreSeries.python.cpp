@@ -26,11 +26,10 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     name.c_str(),
     "A Legendre series function y -> f(x) = sum c_i P_i(x) of order n\n\n"
     "This class represents a Legendre series function y -> f(x) = sum c_i P_i(x)\n"
-    "defined over the domain [-1,1]. An exception is thrown for values outside\n"
-    "of the domain.\n\n"
+    "defined over the domain [-1,1].\n\n"
     "The Clenshaw recursion scheme is used for the evaluation of the series\n"
     "using the following recursion relation for Legendre polynomials:\n"
-    "  P(n+2,x) = (2k+1)/(k+1) x P(n+1,x) - k/(k+1) P(n,x)"
+    "  P_(n+2) = (2k+1)/(k+1) x P_(n+1) - k/(k+1) P_n"
   );
 
   // wrap the component
@@ -62,6 +61,16 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "derivative",
     &Component::derivative,
     "Return the derivative of the Legendre series"
+  )
+  .def(
+
+    "primitive",
+    &Component::primitive,
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the Legendre series\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
   )
   .def(
 

@@ -14,7 +14,7 @@ class Test_scion_linearisation_MidpointSplit( unittest.TestCase ) :
         yLeft = 1.
         yRight = 2.
 
-        chunk = MidpointSplit();
+        chunk = MidpointSplit()
 
         self.assertAlmostEqual(  1., chunk( 0., 2., yLeft, yRight ) )
 
