@@ -1,4 +1,4 @@
-Matrix< Y > companionMatrixBoyd( const Y& a ) const {
+Matrix< Y > companionMatrix( const Y& a ) const {
 
   // Reference:
   // John P. Boyd
@@ -34,7 +34,7 @@ Matrix< Y > companionMatrixBoyd( const Y& a ) const {
   return matrix;
 }
 
-Matrix< Y > companionMatrix( const Y& a ) const {
+Matrix< Y > companionMatrixNumpy( const Y& a ) const {
 
   // Reference: numpy
 

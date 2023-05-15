@@ -23,7 +23,7 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
   }
   else if ( 1 < this->order() ) {
 
-    Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrix( a ), false );
+    Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrixNumpy( a ), false );
 
     LegendreSeries derivative = this->derivative();
     auto functor = [&a, this] ( const X& x ) { return this->evaluate( x ) - a; };
