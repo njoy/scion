@@ -1,6 +1,6 @@
 Matrix< Y > companionMatrix( const Y& a ) const {
 
-  // This does not check for order 0: this case is explicitly handled in the
+  // This does not check for order 0 or 1: this case is explicitly handled in the
   // roots( ... ) method.
 
   const unsigned int order = this->order();
