@@ -7,6 +7,8 @@
 // namespace aliases
 namespace python = pybind11;
 
+namespace interpolation {
+
 void wrapInterpolationType( python::module& module ) {
 
   // type aliases
@@ -31,3 +33,5 @@ void wrapInterpolationType( python::module& module ) {
   .value( "LogLinear", Component::LogLinear )
   .value( "LogLog", Component::LogLog );
 }
+
+} // namespace interpolation

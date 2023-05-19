@@ -41,6 +41,12 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
   )
   .def_property_readonly(
 
+    "interpolation",
+    [] (const Component& self) { return self.interpolation(); },
+    "The interpolation type"
+  )
+  .def_property_readonly(
+
     "x",
     &Component::x,
     "The x values of the table"

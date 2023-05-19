@@ -7,6 +7,7 @@ import sys
 # local imports
 from scion.math import LogLogTable
 from scion.math import IntervalDomain
+from scion.interpolation import InterpolationType
 
 class Test_scion_math_LogLogTable( unittest.TestCase ) :
     """Unit test for the LogLogTable class."""
@@ -16,6 +17,7 @@ class Test_scion_math_LogLogTable( unittest.TestCase ) :
         def verify_chunk( self, chunk ) :
 
             # verify content
+            self.assertEqual( InterpolationType.LogLog, chunk.interpolation )
             self.assertEqual( 4, len( chunk.x ) )
             self.assertEqual( 4, len( chunk.y ) )
             self.assertAlmostEqual( 1., chunk.x[0] )
