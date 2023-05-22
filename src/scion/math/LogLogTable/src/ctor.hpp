@@ -16,5 +16,5 @@ public:
  *  @param x   the x values of the tabulated data
  *  @param y   the y values of the tabulated data
  */
-LogLogTable( std::vector< X > x, std::vector< Y > y ) :
+LogLogTable( XContainer x, YContainer y ) :
   LogLogTable( Table( std::move( x ), std::move( y ) ) ) {}

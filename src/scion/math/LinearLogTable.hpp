@@ -5,6 +5,7 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLogarithmic.hpp"
 #include "scion/interpolation/Table.hpp"
@@ -22,14 +23,16 @@ namespace math {
    *  @class
    *  @brief Tabulated data with linear-log interpolation (y is linear in ln(x))
    */
-  template < typename X, typename Y = X >
-  class LinearLogTable : public FunctionBase< LinearLogTable< X, Y >, X, Y > {
+  template < typename X, typename Y = X,
+             typename XContainer = std::vector< X >,
+             typename YContainer = std::vector< Y > >
+  class LinearLogTable :
+    public FunctionBase< LinearLogTable< X, Y, XContainer, YContainer >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LinearLogTable< X, Y >, X, Y >;
+    using Parent = FunctionBase< LinearLogTable< X, Y, XContainer, YContainer >, X, Y >;
     using Table = interpolation::Table< interpolation::LinearLogarithmic,
-                                        std::vector< X >,
-                                        std::vector< Y > >;
+                                        XContainer, YContainer >;
 
     /* fields */
     Table table_;
@@ -54,7 +57,7 @@ namespace math {
     /**
      *  @brief Return the x values of the table
      */
-    const std::vector< X >& x() const noexcept {
+    const XContainer& x() const noexcept {
 
       return this->table_.x();
     }
@@ -62,7 +65,7 @@ namespace math {
     /**
      *  @brief Return the y values of the table
      */
-    const std::vector< Y >& y() const noexcept {
+    const YContainer& y() const noexcept {
 
       return this->table_.y();
     }
