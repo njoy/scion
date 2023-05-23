@@ -5,7 +5,6 @@
 #include <vector>
 
 // other includes
-#include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLogarithmic.hpp"
 #include "scion/interpolation/Table.hpp"
