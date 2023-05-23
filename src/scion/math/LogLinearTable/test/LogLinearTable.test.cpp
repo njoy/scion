@@ -249,5 +249,16 @@ SCENARIO( "LogLinearTable" ) {
         CHECK_THROWS( LogLinearTable< double >( std::move( x ), std::move( y ) ) );
       } // THEN
     } // WHEN
+
+    WHEN( "the x grid has a duplicate point" ) {
+
+      std::vector< double > x = { 1., 2., 2., 4. };
+      std::vector< double > y = { 4., 3., 2., 1. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( LogLinearTable< double >( std::move( x ), std::move( y ) ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 } // SCENARIO

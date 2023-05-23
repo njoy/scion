@@ -41,6 +41,7 @@ namespace math {
     Table table_;
 
     /* auxiliary function */
+    #include "scion/math/LinearLogTable/src/verifyTable.hpp"
 
   public:
 

@@ -53,7 +53,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
-      THEN( "a LinearLinearTable can be evaluated" ) {
+      THEN( "a InterpolationTable can be evaluated" ) {
 
         // values of x in the x grid
         CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
@@ -73,7 +73,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 1.464163065 == Approx( chunk.evaluate( 3.5 ) ) );
       } // THEN
 
-      THEN( "a LinearLinearTable can be linearised" ) {
+      THEN( "a InterpolationTable can be linearised" ) {
 
         LinearLinearTable< double > linear = chunk.linearise();
 
@@ -162,7 +162,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
-      THEN( "a LinearLinearTable can be evaluated" ) {
+      THEN( "a InterpolationTable can be evaluated" ) {
 
         // values of x in the x grid
         CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
@@ -182,7 +182,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 2.464163065 == Approx( chunk.evaluate( 3.5 ) ) );
       } // THEN
 
-      THEN( "a LinearLinearTable can be linearised" ) {
+      THEN( "a InterpolationTable can be linearised" ) {
 
         LinearLinearTable< double > linear = chunk.linearise();
 

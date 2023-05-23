@@ -5,7 +5,10 @@ private:
  */
 LogLinearTable( Table&& table ) :
   Parent( IntervalDomain( table.x().front(), table.x().back() ) ),
-  table_( std::move( table ) ) {}
+  table_( std::move( table ) ) {
+
+  verifyTable( this->table_.x(), this->table_.y() );    
+}
 
 
 public:
