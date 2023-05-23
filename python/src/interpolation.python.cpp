@@ -12,6 +12,9 @@ namespace interpolation {
 
   // interpolation functions
   void wrapInterpolationFunctions( python::module& );
+
+  // interpolation types
+  void wrapInterpolationType( python::module& );
 }
 
 void wrapInterpolationModule( python::module& module ) {
@@ -23,6 +26,7 @@ void wrapInterpolationModule( python::module& module ) {
     "Common interpolation capabilities and components"
   );
 
-  // wrap scion's math capabilities
+  // wrap scion's interpolation capabilities
   interpolation::wrapInterpolationFunctions( submodule );
+  interpolation::wrapInterpolationType( submodule );
 }

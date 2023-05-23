@@ -5,7 +5,10 @@ private:
  */
 LogLogTable( Table&& table ) :
   Parent( IntervalDomain( table.x().front(), table.x().back() ) ),
-  table_( std::move( table ) ) {}
+  table_( std::move( table ) ) {
+
+  verifyTable( this->table_.x(), this->table_.y() );    
+}
 
 
 public:
@@ -16,5 +19,5 @@ public:
  *  @param x   the x values of the tabulated data
  *  @param y   the y values of the tabulated data
  */
-LogLogTable( std::vector< X > x, std::vector< Y > y ) :
+LogLogTable( XContainer x, YContainer y ) :
   LogLogTable( Table( std::move( x ), std::move( y ) ) ) {}

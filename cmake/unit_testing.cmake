@@ -10,6 +10,8 @@ enable_testing()
 # Unit testing directories
 #######################################################################
 
+add_subdirectory( src/utility/IteratorView/test )
+
 add_subdirectory( src/scion/interpolation/Histogram/test )
 add_subdirectory( src/scion/interpolation/LinearLinear/test )
 add_subdirectory( src/scion/interpolation/LinearLogarithmic/test )
@@ -34,6 +36,7 @@ add_subdirectory( src/scion/math/LinearLinearTable/test )
 add_subdirectory( src/scion/math/LogLinearTable/test )
 add_subdirectory( src/scion/math/LinearLogTable/test )
 add_subdirectory( src/scion/math/LogLogTable/test )
+add_subdirectory( src/scion/math/InterpolationTable/test )
 add_subdirectory( src/scion/math/ChebyshevSeries/test )
 add_subdirectory( src/scion/math/ChebyshevApproximation/test )
 add_subdirectory( src/scion/math/LegendreSeries/test )

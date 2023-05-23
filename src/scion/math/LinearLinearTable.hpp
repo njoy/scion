@@ -5,6 +5,7 @@
 #include <vector>
 
 // other includes
+#include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
 #include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
@@ -17,15 +18,21 @@ namespace math {
   /**
    *  @class
    *  @brief Tabulated data with linear-linear interpolation (y is linear in x)
+   *
+   *  The LinearLinearTable is templatised on the container type used for the
+   *  x and y values in addition to the actual x and y types. This allows us to
+   *  use something like utility::IteratorView instead of std::vector.
    */
-  template < typename X, typename Y = X >
-  class LinearLinearTable : public FunctionBase< LinearLinearTable< X, Y >, X, Y > {
+  template < typename X, typename Y = X,
+             typename XContainer = std::vector< X >,
+             typename YContainer = std::vector< Y > >
+  class LinearLinearTable :
+    public FunctionBase< LinearLinearTable< X, Y, XContainer, YContainer >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LinearLinearTable< X, Y >, X, Y >;
+    using Parent = FunctionBase< LinearLinearTable< X, Y, XContainer, YContainer >, X, Y >;
     using Table = interpolation::Table< interpolation::LinearLinear,
-                                        std::vector< X >,
-                                        std::vector< Y > >;
+                                        XContainer, YContainer >;
 
     /* fields */
     Table table_;
@@ -40,9 +47,17 @@ namespace math {
     /* methods */
 
     /**
+     *  @brief Return the interpolation type
+     */
+    static constexpr interpolation::InterpolationType interpolation() noexcept {
+
+      return interpolation::InterpolationType::LinearLinear;
+    }
+
+    /**
      *  @brief Return the x values of the table
      */
-    const std::vector< X >& x() const noexcept {
+    const XContainer& x() const noexcept {
 
       return this->table_.x();
     }
@@ -50,7 +65,7 @@ namespace math {
     /**
      *  @brief Return the y values of the table
      */
-    const std::vector< Y >& y() const noexcept {
+    const YContainer& y() const noexcept {
 
       return this->table_.y();
     }
@@ -73,9 +88,10 @@ namespace math {
      *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
      */
     template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-    LinearLinearTable linearise( Convergence&& = Convergence() ) const {
+    LinearLinearTable< X, Y > linearise( Convergence&& = Convergence() ) const {
 
-      return *this;
+      return { std::vector< X >{ this->x().begin(), this->x().end() },
+               std::vector< Y >{ this->y().begin(), this->y().end() } };
     }
 
     using Parent::domain;

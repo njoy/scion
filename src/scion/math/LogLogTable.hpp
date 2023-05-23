@@ -5,6 +5,7 @@
 #include <vector>
 
 // other includes
+#include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LogarithmicLogarithmic.hpp"
 #include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
@@ -20,20 +21,27 @@ namespace math {
   /**
    *  @class
    *  @brief Tabulated data with log-log interpolation (ln(y) is linear in ln(x))
+   *
+   *  The LogLogTable is templatised on the container type used for the
+   *  x and y values in addition to the actual x and y types. This allows us to
+   *  use something like utility::IteratorView instead of std::vector.
    */
-  template < typename X, typename Y = X >
-  class LogLogTable : public FunctionBase< LogLogTable< X, Y >, X, Y > {
+  template < typename X, typename Y = X,
+             typename XContainer = std::vector< X >,
+             typename YContainer = std::vector< Y > >
+  class LogLogTable :
+    public FunctionBase< LogLogTable< X, Y, XContainer, YContainer >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LogLogTable< X, Y >, X, Y >;
+    using Parent = FunctionBase< LogLogTable< X, Y, XContainer, YContainer >, X, Y >;
     using Table = interpolation::Table< interpolation::LogarithmicLogarithmic,
-                                        std::vector< X >,
-                                        std::vector< Y > >;
+                                        XContainer, YContainer >;
 
     /* fields */
     Table table_;
 
-    /* auxiliary function */
+    /* auxiliary function explicitly taken from LinearLogTable */
+    #include "scion/math/LinearLogTable/src/verifyTable.hpp"
 
   public:
 
@@ -43,9 +51,17 @@ namespace math {
     /* methods */
 
     /**
+     *  @brief Return the interpolation type
+     */
+    static constexpr interpolation::InterpolationType interpolation() noexcept {
+
+      return interpolation::InterpolationType::LogLog;
+    }
+
+    /**
      *  @brief Return the x values of the table
      */
-    const std::vector< X >& x() const noexcept {
+    const YContainer& x() const noexcept {
 
       return this->table_.x();
     }
@@ -53,7 +69,7 @@ namespace math {
     /**
      *  @brief Return the y values of the table
      */
-    const std::vector< Y >& y() const noexcept {
+    const YContainer& y() const noexcept {
 
       return this->table_.y();
     }

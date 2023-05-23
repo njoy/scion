@@ -75,6 +75,7 @@ if( scion.python )
       python/src/scion.python.cpp
       python/src/interpolation.python.cpp
       python/src/interpolation/interpolation.python.cpp
+      python/src/interpolation/InterpolationType.python.cpp
       python/src/linearisation.python.cpp
       python/src/linearisation/MidpointSplit.python.cpp
       python/src/linearisation/ToleranceConvergence.python.cpp
@@ -92,6 +93,7 @@ if( scion.python )
       python/src/math/LogLogTable.python.cpp
       python/src/math/LogLinearTable.python.cpp
       python/src/math/LinearLogTable.python.cpp
+      python/src/math/InterpolationTable.python.cpp
       python/src/math/ChebyshevSeries.python.cpp
       python/src/math/ChebyshevApproximation.python.cpp
       python/src/math/LegendreSeries.python.cpp
