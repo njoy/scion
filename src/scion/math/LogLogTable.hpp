@@ -21,6 +21,10 @@ namespace math {
   /**
    *  @class
    *  @brief Tabulated data with log-log interpolation (ln(y) is linear in ln(x))
+   *
+   *  The LogLogTable is templatised on the container type used for the
+   *  x and y values in addition to the actual x and y types. This allows us to
+   *  use something like utility::IteratorView instead of std::vector.
    */
   template < typename X, typename Y = X,
              typename XContainer = std::vector< X >,
