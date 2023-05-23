@@ -56,6 +56,8 @@ add_test( NAME scion.python.math.LogLinearTable COMMAND ${PYTHON_EXECUTABLE} -m 
 set_tests_properties( scion.python.math.LogLinearTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.LogLogTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LogLogTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LogLogTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.InterpolationTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_InterpolationTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.InterpolationTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.ChebyshevSeries COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_ChebyshevSeries.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.ChebyshevSeries PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.ChebyshevApproximation COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_ChebyshevApproximation.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
