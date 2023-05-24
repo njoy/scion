@@ -28,7 +28,7 @@ bool isSameSize( const LeftRange left, const RightRange& right ) {
 template < typename Range >
 bool isAtLeastOfSize( const Range& range, std::size_t size ) {
 
-  return size > std::size( range );
+  return size <= std::size( range );
 }
 
 /** @brief Verify if a range is empty

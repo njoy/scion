@@ -1,8 +1,8 @@
 static void verifyTable( const XContainer& x,
                          const YContainer& y ) {
 
-  if ( verification::isAtLeastOfSize( x, 2 ) ||
-       verification::isAtLeastOfSize( y, 2 ) ) {
+  if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
+       ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
 
     Log::error( "Insufficient x or y values defined for tabulated data "
                 "(at least 2 points are required)" );
