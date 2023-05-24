@@ -2,11 +2,19 @@ void generateTables() {
 
   std::vector< TableVariant > tables;
 
-  if ( this->x().size() != this->y().size() ) {
+  if ( ! verification::isSameSize( this->x(), this->y() ) ) {
 
     Log::error( "Inconsistent number of x and y values for tabulated data" );
     Log::info( "x.size(): {}", this->x().size() );
     Log::info( "y.size(): {}", this->y().size() );
+    throw std::exception();
+  }
+
+  if ( ! verification::isSameSize( this->boundaries(), this->interpolants() ) ) {
+
+    Log::error( "Inconsistent number of boundaries and interpolants for tabulated data" );
+    Log::info( "boundaries.size(): {}", this->boundaries().size() );
+    Log::info( "interpolants.size(): {}", this->interpolants().size() );
     throw std::exception();
   }
 

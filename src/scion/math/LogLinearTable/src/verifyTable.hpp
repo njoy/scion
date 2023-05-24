@@ -4,7 +4,7 @@ static void verifyTable( const XContainer& x,
   if ( ! verification::isUnique( x ) ) {
 
     Log::error( "The x values do not appear to be unique for tabulated values "
-                "with lin-log interpolation" );
+                "with log-lin interpolation" );
 
     auto iter = std::adjacent_find( x.begin(), x.end() );
     while ( iter != x.end() ) {
