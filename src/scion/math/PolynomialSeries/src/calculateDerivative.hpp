@@ -7,21 +7,14 @@
  *  The derivative function is defined over the same domain as the
  *  original function.
  */
-PolynomialSeries derivative() const {
+PolynomialSeries calculateDerivative() const {
 
-  if ( 0 == this->order() ) {
+  std::vector< Y > derivative = this->coefficients();
+  for ( unsigned int i = 1; i < derivative.size(); ++i ) {
 
-    return PolynomialSeries( this->domain(), { Y( 0. ) } );
+    derivative[i] *= i;
   }
-  else {
+  derivative.erase( derivative.begin() );
 
-    std::vector< Y > derivative = this->coefficients();
-    for ( unsigned int i = 1; i < derivative.size(); ++i ) {
-
-      derivative[i] *= i;
-    }
-    derivative.erase( derivative.begin() );
-
-    return PolynomialSeries( this->domain(), std::move( derivative ) );
-  }
+  return PolynomialSeries( this->domain(), std::move( derivative ) );
 }

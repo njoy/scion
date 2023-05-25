@@ -4,6 +4,11 @@
 // system includes
 
 // other includes
+#include "scion/linearisation/grid.hpp"
+#include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
+#include "scion/linearisation/Lineariser.hpp"
+#include "scion/math/LinearLinearTable.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/verification/ranges.hpp"
 
@@ -61,6 +66,9 @@ namespace math {
 
       return this->coefficients().size() - 1;
     }
+
+    #include "scion/math/SeriesBase/src/derivative.hpp"
+    #include "scion/math/SeriesBase/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();

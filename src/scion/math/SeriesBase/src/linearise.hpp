@@ -1,5 +1,5 @@
 /**
- *  @brief Linearise the polynomial series and return a LinearLinearTable
+ *  @brief Linearise the series and return a LinearLinearTable
  *
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */
@@ -8,8 +8,8 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
 
   if ( ! std::holds_alternative< IntervalDomain< X > >( this->domain() ) ) {
 
-    Log::error( "Cannot linearise the polynomial function because it does not "
-                "have an interval domain" );
+    Log::error( "Cannot linearise the series because it does not have an "
+                "interval domain" );
     throw std::exception();
   }
 

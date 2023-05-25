@@ -5,15 +5,10 @@
 #include <vector>
 
 // other includes
-#include "scion/linearisation/grid.hpp"
-#include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/linearisation/MidpointSplit.hpp"
-#include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/horner.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/SeriesBase.hpp"
-#include "scion/math/LinearLinearTable.hpp"
 
 namespace njoy {
 namespace scion {
@@ -30,6 +25,12 @@ namespace math {
    *  outside of the domain.
    *
    *  The horner scheme is used for the evaluation of the series.
+   *
+   *  The first order derivative of a polynomial series is another polynomial
+   *  series: y -> d/dx f(x) = sum i c_i x^(i-1) for i = 1 to n
+   *
+   *  The derivative function is defined over the same domain as the
+   *  original function.
    */
   template < typename X, typename Y = X >
   class PolynomialSeries : public SeriesBase< PolynomialSeries< X, Y >, X, Y > {
@@ -52,14 +53,17 @@ namespace math {
 
     /* interface implementation function */
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
+    #include "scion/math/PolynomialSeries/src/calculateDerivative.hpp"
 
     /* methods */
 
-    #include "scion/math/PolynomialSeries/src/derivative.hpp"
     #include "scion/math/PolynomialSeries/src/primitive.hpp"
     #include "scion/math/PolynomialSeries/src/roots.hpp"
-    #include "scion/math/PolynomialSeries/src/linearise.hpp"
 
+    using Parent::coefficients;
+    using Parent::order;
+    using Parent::derivative;
+    using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

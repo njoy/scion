@@ -5,15 +5,10 @@
 #include <vector>
 
 // other includes
-#include "scion/linearisation/grid.hpp"
-#include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/linearisation/MidpointSplit.hpp"
-#include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/SeriesBase.hpp"
-#include "scion/math/LinearLinearTable.hpp"
 
 namespace njoy {
 namespace scion {
@@ -50,16 +45,17 @@ namespace math {
     /* interface implementation function */
 
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
+    #include "scion/math/LegendreSeries/src/calculateDerivative.hpp"
 
     /* methods */
 
-    #include "scion/math/LegendreSeries/src/derivative.hpp"
     #include "scion/math/LegendreSeries/src/primitive.hpp"
     #include "scion/math/LegendreSeries/src/roots.hpp"
-    #include "scion/math/LegendreSeries/src/linearise.hpp"
 
     using Parent::coefficients;
     using Parent::order;
+    using Parent::derivative;
+    using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
