@@ -5,7 +5,6 @@
 #include <vector>
 
 // other includes
-#include "scion/math/compare.hpp"
 #include "scion/math/horner.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/SeriesBase.hpp"
@@ -41,7 +40,6 @@ namespace math {
     /* fields */
 
     /* auxiliary function */
-    #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
   public:
 
@@ -52,16 +50,18 @@ namespace math {
     #include "scion/math/PolynomialSeries/src/ctor.hpp"
 
     /* interface implementation function */
+
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
     #include "scion/math/PolynomialSeries/src/calculateDerivative.hpp"
+    #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
     /* methods */
 
     #include "scion/math/PolynomialSeries/src/primitive.hpp"
-    #include "scion/math/PolynomialSeries/src/roots.hpp"
 
     using Parent::coefficients;
     using Parent::order;
+    using Parent::roots;
     using Parent::derivative;
     using Parent::linearise;
     using Parent::domain;

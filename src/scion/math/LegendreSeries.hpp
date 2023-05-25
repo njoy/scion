@@ -6,7 +6,6 @@
 
 // other includes
 #include "scion/math/clenshaw.hpp"
-#include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/SeriesBase.hpp"
 
@@ -51,7 +50,6 @@ namespace math {
     /* fields */
 
     /* auxiliary function */
-    #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
   public:
 
@@ -62,14 +60,15 @@ namespace math {
 
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
     #include "scion/math/LegendreSeries/src/calculateDerivative.hpp"
+    #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
     /* methods */
 
     #include "scion/math/LegendreSeries/src/primitive.hpp"
-    #include "scion/math/LegendreSeries/src/roots.hpp"
 
     using Parent::coefficients;
     using Parent::order;
+    using Parent::roots;
     using Parent::derivative;
     using Parent::linearise;
     using Parent::domain;

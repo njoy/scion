@@ -10,6 +10,7 @@
 #include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/LinearLinearTable.hpp"
 #include "scion/math/FunctionBase.hpp"
+#include "scion/math/compare.hpp"
 #include "scion/verification/ranges.hpp"
 
 namespace njoy {
@@ -67,6 +68,7 @@ namespace math {
       return this->coefficients().size() - 1;
     }
 
+    #include "scion/math/SeriesBase/src/roots.hpp"
     #include "scion/math/SeriesBase/src/derivative.hpp"
     #include "scion/math/SeriesBase/src/linearise.hpp"
 

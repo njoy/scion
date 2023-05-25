@@ -2,11 +2,9 @@
 #define NJOY_SCION_MATH_CHEBYSHEVSERIES
 
 // system includes
-#include <vector>
 
 // other includes
 #include "scion/math/clenshaw.hpp"
-#include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/SeriesBase.hpp"
 
@@ -47,7 +45,6 @@ namespace math {
     /* fields */
 
     /* auxiliary function */
-    #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:
 
@@ -58,14 +55,15 @@ namespace math {
 
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
     #include "scion/math/ChebyshevSeries/src/calculateDerivative.hpp"
+    #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
     /* methods */
 
     #include "scion/math/ChebyshevSeries/src/primitive.hpp"
-    #include "scion/math/ChebyshevSeries/src/roots.hpp"
 
     using Parent::coefficients;
     using Parent::order;
+    using Parent::roots;
     using Parent::derivative;
     using Parent::linearise;
     using Parent::domain;
