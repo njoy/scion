@@ -12,9 +12,8 @@
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/SeriesBase.hpp"
 #include "scion/math/LinearLinearTable.hpp"
-#include "scion/verification/ranges.hpp"
 
 namespace njoy {
 namespace scion {
@@ -33,16 +32,14 @@ namespace math {
    *    T_(n+1) = 2 x T_n - T_(n-1)
    */
   template < typename X, typename Y = X >
-  class ChebyshevSeries : public FunctionBase< ChebyshevSeries< X, Y >, X, Y > {
+  class ChebyshevSeries : public SeriesBase< ChebyshevSeries< X, Y >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< ChebyshevSeries< X, Y >, X, Y >;
+    using Parent = SeriesBase< ChebyshevSeries< X, Y >, X, Y >;
 
     /* fields */
-    std::vector< Y > coefficients_;
 
     /* auxiliary function */
-    #include "scion/math/ChebyshevSeries/src/verifyCoefficients.hpp"
     #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:
@@ -50,25 +47,12 @@ namespace math {
     /* constructor */
     #include "scion/math/ChebyshevSeries/src/ctor.hpp"
 
-    /* methods */
-
-    /**
-     *  @brief Return the Chebyshev coefficients
-     */
-    const std::vector< Y >& coefficients() const noexcept {
-
-      return this->coefficients_;
-    }
-
-    /**
-     *  @brief Return the Chebyshev order
-     */
-    unsigned int order() const noexcept {
-
-      return this->coefficients().size() - 1;
-    }
+    /* interface implementation function */
 
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
+
+    /* methods */
+
     #include "scion/math/ChebyshevSeries/src/derivative.hpp"
     #include "scion/math/ChebyshevSeries/src/primitive.hpp"
     #include "scion/math/ChebyshevSeries/src/roots.hpp"

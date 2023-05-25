@@ -41,6 +41,10 @@ namespace math {
     /* constructor */
     #include "scion/math/ChebyshevApproximation/src/ctor.hpp"
 
+    /* interface implementation function */
+
+    #include "scion/math/ChebyshevApproximation/src/evaluate.hpp"
+
     /* methods */
 
     /**
@@ -59,7 +63,6 @@ namespace math {
       return this->series_.order();
     }
 
-    #include "scion/math/ChebyshevApproximation/src/evaluate.hpp"
     #include "scion/math/ChebyshevApproximation/src/derivative.hpp"
     #include "scion/math/ChebyshevApproximation/src/primitive.hpp"
     #include "scion/math/ChebyshevApproximation/src/roots.hpp"

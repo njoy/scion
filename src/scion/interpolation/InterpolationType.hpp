@@ -11,7 +11,7 @@ namespace interpolation {
 
   enum class InterpolationType : short {
 
-    Histogram,       // constant or histogram interpolation
+    Histogram = 1,   // constant or histogram interpolation
     LinearLinear,    // y is linear in x
     LinearLog,       // y is linear in ln(x)
     LogLinear,       // ln(y) is linear in x

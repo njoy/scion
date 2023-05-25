@@ -5,8 +5,4 @@
  *                        lowest to highest order coefficient)
  */
 ChebyshevSeries( std::vector< Y > coefficients ) :
-  Parent( IntervalDomain( -1., 1. ) ),
-  coefficients_( std::move( coefficients ) ) {
-
-  verifyCoefficients( this->coefficients() );
-}
+  Parent( IntervalDomain( -1., 1. ), std::move( coefficients ) ) {}

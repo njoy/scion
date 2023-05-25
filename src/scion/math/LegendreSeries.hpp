@@ -12,9 +12,8 @@
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/SeriesBase.hpp"
 #include "scion/math/LinearLinearTable.hpp"
-#include "scion/verification/ranges.hpp"
 
 namespace njoy {
 namespace scion {
@@ -33,16 +32,14 @@ namespace math {
    *    P_(n+1) = (2n+1)/(n+1) x P_n - n/(n+1) P_(n-1)
    */
   template < typename X, typename Y = X >
-  class LegendreSeries : public FunctionBase< LegendreSeries< X, Y >, X, Y > {
+  class LegendreSeries : public SeriesBase< LegendreSeries< X, Y >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LegendreSeries< X, Y >, X, Y >;
+    using Parent = SeriesBase< LegendreSeries< X, Y >, X, Y >;
 
     /* fields */
-    std::vector< Y > coefficients_;
 
     /* auxiliary function */
-    #include "scion/math/LegendreSeries/src/verifyCoefficients.hpp"
     #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
   public:
@@ -50,30 +47,19 @@ namespace math {
     /* constructor */
     #include "scion/math/LegendreSeries/src/ctor.hpp"
 
-    /* methods */
-
-    /**
-     *  @brief Return the Legendre coefficients
-     */
-    const std::vector< Y >& coefficients() const noexcept {
-
-      return this->coefficients_;
-    }
-
-    /**
-     *  @brief Return the Legendre order
-     */
-    unsigned int order() const noexcept {
-
-      return this->coefficients().size() - 1;
-    }
+    /* interface implementation function */
 
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
+
+    /* methods */
+
     #include "scion/math/LegendreSeries/src/derivative.hpp"
     #include "scion/math/LegendreSeries/src/primitive.hpp"
     #include "scion/math/LegendreSeries/src/roots.hpp"
     #include "scion/math/LegendreSeries/src/linearise.hpp"
 
+    using Parent::coefficients;
+    using Parent::order;
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
