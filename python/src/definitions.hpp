@@ -49,7 +49,7 @@ void addStandardDomainDefinitions( PythonClass& component ) {
  *  @brief Add standard function definitions
  *
  *  This adds the following standard functions:
- *    in_inside, is_contained, __call__, evaluate, domain
+ *    is_inside, is_contained, __call__, evaluate, domain
  *
  *  @param[in] component   the domain to which the definitions have to be added
  */
@@ -90,16 +90,6 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
   )
   .def(
 
-    "evaluate",
-    &Component::evaluate,
-    python::arg( "x" ),
-    "Evaluate the function for a value of x\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    x      the value to be evaluated"
-  )
-  .def(
-
     "__call__",
     [] ( const Component& self, const X& x ) -> decltype(auto)
        { return self( x ); },
@@ -120,6 +110,37 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     "    self           the function\n"
     "    convergence    the linearisation convergence criterion (default 0.1 %)"
   );
+}
+
+/**
+ *  @brief Add standard series expansion definitions
+ *
+ *  This adds the following standard functions:
+ *    coefficients, order
+ *
+ *  @param[in] component   the domain to which the definitions have to be added
+ */
+template < typename Component, typename X, typename Y, typename PythonClass >
+void addStandardSeriesDefinitions( PythonClass& component ) {
+
+  component
+  .def_property_readonly(
+
+    "coefficients",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.coefficients(); },
+    "The Legendre coefficients"
+  )
+  .def_property_readonly(
+
+    "order",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.order(); },
+    "The Legendre order"
+  );
+
+  // add standard function definitions
+  addStandardFunctionDefinitions< Component, X, Y >( component );
 }
 
 /**

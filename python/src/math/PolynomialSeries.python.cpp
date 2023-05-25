@@ -56,18 +56,6 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "    coefficients   the coefficients of the polynomial series (from\n"
     "                   lowest to highest order coefficient)"
   )
-  .def_property_readonly(
-
-    "coefficients",
-    &Component::coefficients,
-    "The polynomial coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    &Component::order,
-    "The polynomial series order"
-  )
   .def(
 
     "derivative",
@@ -103,7 +91,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSeriesDefinitions< Component, X, Y >( component );
 }
 
 void wrapPolynomialSeries( python::module& module ) {

@@ -44,18 +44,6 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "    coefficients   the coefficients of the Legendre series (from\n"
     "                   lowest to highest order coefficient)"
   )
-  .def_property_readonly(
-
-    "coefficients",
-    &Component::coefficients,
-    "The Legendre coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    &Component::order,
-    "The Legendre order"
-  )
   .def(
 
     "derivative",
@@ -91,7 +79,7 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSeriesDefinitions< Component, X, Y >( component );
 }
 
 void wrapLegendreSeries( python::module& module ) {

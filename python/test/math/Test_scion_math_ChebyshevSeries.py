@@ -27,10 +27,6 @@ class Test_scion_math_ChebyshevSeries( unittest.TestCase ) :
             self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
 
             # verify evaluation
-            self.assertAlmostEqual(  -8.0, chunk.evaluate( x =  0. ) )
-            self.assertAlmostEqual(   0.0, chunk.evaluate( x =  1. ) )
-            self.assertAlmostEqual( -30.0, chunk.evaluate( x = -1. ) )
-
             self.assertAlmostEqual(  -8.0, chunk( x =  0. ) )
             self.assertAlmostEqual(   0.0, chunk( x =  1. ) )
             self.assertAlmostEqual( -30.0, chunk( x = -1. ) )

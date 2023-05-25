@@ -46,18 +46,6 @@ void wrapChebyshevApproximationFor( python::module& module, const std::string& n
     "    function    the function to be approximated\n"
     "    order       the order of the approximation"
   )
-  .def_property_readonly(
-
-    "coefficients",
-    &Component::coefficients,
-    "The Chebyshev coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    &Component::order,
-    "The Chebyshev order"
-  )
   .def(
 
     "derivative",
@@ -96,7 +84,7 @@ void wrapChebyshevApproximationFor( python::module& module, const std::string& n
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSeriesDefinitions< Component, X, Y >( component );
 }
 
 void wrapChebyshevApproximation( python::module& module ) {

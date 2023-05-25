@@ -44,18 +44,6 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
     "    coefficients   the coefficients of the Chebyshev series (from\n"
     "                   lowest to highest order coefficient)"
   )
-  .def_property_readonly(
-
-    "coefficients",
-    &Component::coefficients,
-    "The Chebyshev coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    &Component::order,
-    "The Chebyshev order"
-  )
   .def(
 
     "derivative",
@@ -91,7 +79,7 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSeriesDefinitions< Component, X, Y >( component );
 }
 
 void wrapChebyshevSeries( python::module& module ) {
