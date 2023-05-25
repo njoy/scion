@@ -132,6 +132,12 @@ class Test_scion_math_LinearLogTable( unittest.TestCase ) :
             chunk = LinearLogTable( x = [ 1., 3., 2., 4. ],
                                     y = [ 4., 3., 2., 1. ] )
 
+        # the x grid has a duplicate point
+        with self.assertRaises( Exception ) :
+
+            chunk = LinearLogTable( x = [ 1., 2., 2., 4. ],
+                                    y = [ 4., 3., 2., 1. ] )
+
 if __name__ == '__main__' :
 
     unittest.main()

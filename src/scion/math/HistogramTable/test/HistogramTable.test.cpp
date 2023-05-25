@@ -69,12 +69,12 @@ SCENARIO( "HistogramTable" ) {
         CHECK( 6 == linear.x().size() );
         CHECK( 6 == linear.y().size() );
 
-        CHECK( 1.    == Approx( linear.x()[0] ) );
-        CHECK( 2.    == Approx( linear.x()[1] ) );
-        CHECK( 2.    == Approx( linear.x()[2] ) );
-        CHECK( 3.    == Approx( linear.x()[3] ) );
-        CHECK( 3.    == Approx( linear.x()[4] ) );
-        CHECK( 4.    == Approx( linear.x()[5] ) );
+        CHECK( 1. == Approx( linear.x()[0] ) );
+        CHECK( 2. == Approx( linear.x()[1] ) );
+        CHECK( 2. == Approx( linear.x()[2] ) );
+        CHECK( 3. == Approx( linear.x()[3] ) );
+        CHECK( 3. == Approx( linear.x()[4] ) );
+        CHECK( 4. == Approx( linear.x()[5] ) );
 
         CHECK( 4. == Approx( linear.y()[0] ) );
         CHECK( 4. == Approx( linear.y()[1] ) );

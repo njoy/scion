@@ -28,6 +28,7 @@ namespace math {
 
   // functions
   void wrapLinearLinearTable( python::module& );
+  void wrapHistogramTable( python::module& );
   void wrapLogLinearTable( python::module& );
   void wrapLinearLogTable( python::module& );
   void wrapLogLogTable( python::module& );
@@ -57,6 +58,7 @@ void wrapMathModule( python::module& module ) {
   math::wrapIntervalDomain( submodule );
   math::wrapOpenDomain( submodule );
   math::wrapLinearLinearTable( submodule );
+  math::wrapHistogramTable( submodule );
   math::wrapLogLinearTable( submodule );
   math::wrapLinearLogTable( submodule );
   math::wrapLogLogTable( submodule );
