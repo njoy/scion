@@ -48,19 +48,19 @@ SCENARIO( "HistogramTable" ) {
       THEN( "a HistogramTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
-        CHECK( 4. == Approx( chunk.evaluate( 2. ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 3. ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 4. ) ) );
+        CHECK( 4. == Approx( chunk( 1. ) ) );
+        CHECK( 4. == Approx( chunk( 2. ) ) );
+        CHECK( 3. == Approx( chunk( 3. ) ) );
+        CHECK( 2. == Approx( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk.evaluate( 0. ) ) );
-        CHECK( 0. == Approx( chunk.evaluate( 5. ) ) );
+        CHECK( 0. == Approx( chunk( 0. ) ) );
+        CHECK( 0. == Approx( chunk( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1.5 ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 2.5 ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 3.5 ) ) );
+        CHECK( 4. == Approx( chunk( 1.5 ) ) );
+        CHECK( 3. == Approx( chunk( 2.5 ) ) );
+        CHECK( 2. == Approx( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a HistogramTable can be linearised" ) {
@@ -118,19 +118,19 @@ SCENARIO( "HistogramTable" ) {
       THEN( "a HistogramTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
-        CHECK( 4. == Approx( chunk.evaluate( 2. ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 3. ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 4. ) ) );
+        CHECK( 4. == Approx( chunk( 1. ) ) );
+        CHECK( 4. == Approx( chunk( 2. ) ) );
+        CHECK( 3. == Approx( chunk( 3. ) ) );
+        CHECK( 2. == Approx( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk.evaluate( 0. ) ) );
-        CHECK( 0. == Approx( chunk.evaluate( 5. ) ) );
+        CHECK( 0. == Approx( chunk( 0. ) ) );
+        CHECK( 0. == Approx( chunk( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1.5 ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 2.5 ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 3.5 ) ) );
+        CHECK( 4. == Approx( chunk( 1.5 ) ) );
+        CHECK( 3. == Approx( chunk( 2.5 ) ) );
+        CHECK( 2. == Approx( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a HistogramTable can be linearised" ) {
