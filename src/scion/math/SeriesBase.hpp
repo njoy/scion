@@ -70,6 +70,7 @@ namespace math {
 
     #include "scion/math/SeriesBase/src/roots.hpp"
     #include "scion/math/SeriesBase/src/derivative.hpp"
+    #include "scion/math/SeriesBase/src/primitive.hpp"
     #include "scion/math/SeriesBase/src/linearise.hpp"
 
     using Parent::domain;

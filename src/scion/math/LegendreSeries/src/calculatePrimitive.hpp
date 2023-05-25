@@ -12,7 +12,7 @@
  *
  *  @param[in] left    the left bound of the integral (default = 0)
  */
-LegendreSeries primitive( const X& left = X( 0. ) ) const {
+LegendreSeries calculatePrimitive( const X& left = X( 0. ) ) const {
 
   unsigned int order = this->order();
   std::vector< Y > primitive( order + 2, Y( 0. ) );

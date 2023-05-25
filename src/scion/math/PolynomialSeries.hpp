@@ -30,6 +30,15 @@ namespace math {
    *
    *  The derivative function is defined over the same domain as the
    *  original function.
+   *
+   *  The primitive or antiderivative of a polynomial series is another polynomial
+   *  series: y -> int[left,x] f(x) dx = c_0 + sum c_i/(i+1) x^(i+1)
+   *
+   *  The integrated series is defined so that the integral function for x = left
+   *  equals 0.
+   *
+   *  The primitive function is defined over the same domain as the original
+   *  series.
    */
   template < typename X, typename Y = X >
   class PolynomialSeries : public SeriesBase< PolynomialSeries< X, Y >, X, Y > {
@@ -53,16 +62,16 @@ namespace math {
 
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
     #include "scion/math/PolynomialSeries/src/calculateDerivative.hpp"
+    #include "scion/math/PolynomialSeries/src/calculatePrimitive.hpp"
     #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
     /* methods */
-
-    #include "scion/math/PolynomialSeries/src/primitive.hpp"
 
     using Parent::coefficients;
     using Parent::order;
     using Parent::roots;
     using Parent::derivative;
+    using Parent::primitive;
     using Parent::linearise;
     using Parent::domain;
     using Parent::operator();

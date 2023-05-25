@@ -35,6 +35,15 @@ namespace math {
    *
    *  The derivative function is defined over the same domain as the
    *  original function.
+   *
+   *  The primitive or antiderivative of a Chebyshev series function is another
+   *  Chebyshev series function. The coefficients of the new Chebyshev series
+   *  are calculated using the integral of a Chebyshev polynomial as a
+   *  function of other Chebyshev polynomials:
+   *    2 int T_n = T_(n + 1)/(n + 1) - T_(n - 1)/(n - 1)
+   *
+   *  The integrated series is defined so that the integral function for x = left
+   *  equals 0.
    */
   template < typename X, typename Y = X >
   class ChebyshevSeries : public SeriesBase< ChebyshevSeries< X, Y >, X, Y > {
@@ -55,16 +64,16 @@ namespace math {
 
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
     #include "scion/math/ChebyshevSeries/src/calculateDerivative.hpp"
+    #include "scion/math/ChebyshevSeries/src/calculatePrimitive.hpp"
     #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
     /* methods */
-
-    #include "scion/math/ChebyshevSeries/src/primitive.hpp"
 
     using Parent::coefficients;
     using Parent::order;
     using Parent::roots;
     using Parent::derivative;
+    using Parent::primitive;
     using Parent::linearise;
     using Parent::domain;
     using Parent::operator();

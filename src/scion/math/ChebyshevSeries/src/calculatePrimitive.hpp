@@ -12,7 +12,7 @@
  *
  *  @param[in] left    the left bound of the integral (default = 0)
  */
-ChebyshevSeries primitive( const X& left = X( 0. ) ) const {
+ChebyshevSeries calculatePrimitive( const X& left = X( 0. ) ) const {
 
   unsigned int order = this->order();
   std::vector< Y > primitive( order + 2, Y( 0. ) );

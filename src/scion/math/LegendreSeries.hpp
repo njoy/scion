@@ -40,6 +40,15 @@ namespace math {
    *
    *  The derivative function is defined over the same domain as the
    *  original function.
+   *
+   *  The primitive or antiderivative of a Legendre series function is another
+   *  Legendre series function. The coefficients of the new Legendre series
+   *  are calculated using the integral of a Legendre polynomial as a
+   *  function of other Legendre polynomials:
+   *    int P_n = (P_(n + 1) - P_(n - 1))/(2 * n + 1)
+   *
+   *  The integrated series is defined so that the integral function for x = left
+   *  equals 0.
    */
   template < typename X, typename Y = X >
   class LegendreSeries : public SeriesBase< LegendreSeries< X, Y >, X, Y > {
@@ -60,16 +69,16 @@ namespace math {
 
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
     #include "scion/math/LegendreSeries/src/calculateDerivative.hpp"
+    #include "scion/math/LegendreSeries/src/calculatePrimitive.hpp"
     #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
     /* methods */
-
-    #include "scion/math/LegendreSeries/src/primitive.hpp"
 
     using Parent::coefficients;
     using Parent::order;
     using Parent::roots;
     using Parent::derivative;
+    using Parent::primitive;
     using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
