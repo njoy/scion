@@ -27,7 +27,7 @@ void wrapInterpolationType( python::module& module ) {
 
   // wrap the component
   component
-  .value( "Constant", Component::Constant )
+  .value( "Histogram", Component::Histogram )
   .value( "LinearLinear", Component::LinearLinear )
   .value( "LinearLog", Component::LinearLog )
   .value( "LogLinear", Component::LogLinear )
