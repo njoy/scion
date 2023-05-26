@@ -5,5 +5,5 @@
  */
 Derived primitive( const X& left = X( 0. ) ) const {
 
-  return static_cast< const Derived* >( this )->calculatePrimitive();
+  return static_cast< const Derived* >( this )->calculatePrimitive( left );
 }
