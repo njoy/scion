@@ -167,6 +167,30 @@ namespace math {
       return *static_cast< Derived* >( this );
     }
 
+    /**
+     *  @brief Scalar addition
+     *
+     *  @param[in] left     the series
+     *  @param[in] right    the scalar
+     */
+    Derived operator+( const Y& right ) const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar subtraction
+     *
+     *  @param[in] left     the series
+     *  @param[in] right    the scalar
+     */
+    Derived operator-( const Y& right ) const {
+
+      return this->operator+( -right );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

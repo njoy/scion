@@ -104,6 +104,7 @@ SCENARIO( "LegendreSeries" ) {
         LegendreSeries< double > small( { 3., 0., 1. } );
         LegendreSeries< double > equal( { 3., 0., 0., 1. } );
         LegendreSeries< double > larger( { 3., 0., 0., 0., 1. } );
+        LegendreSeries< double > result( { 0. } );
 
         chunk += 2.;
 
@@ -205,6 +206,26 @@ SCENARIO( "LegendreSeries" ) {
         CHECK(  -4.66666667 == Approx( chunk.coefficients()[2] ) );
         CHECK(   0.4        == Approx( chunk.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        result = chunk + 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK(  4 == result.coefficients().size() );
+        CHECK( -8.33333333 == Approx( result.coefficients()[0] ) );
+        CHECK( 14.6        == Approx( result.coefficients()[1] ) );
+        CHECK( -4.66666667 == Approx( result.coefficients()[2] ) );
+        CHECK(  0.4        == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK(  4 == result.coefficients().size() );
+        CHECK( -12.33333333 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.6        == Approx( result.coefficients()[1] ) );
+        CHECK(  -4.66666667 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.4        == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
     } // WHEN
   } // GIVEN

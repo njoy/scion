@@ -160,6 +160,28 @@ namespace math {
       return this->operator*=( Y( 1. ) / right );
     }
 
+    /**
+     *  @brief Scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation operator+( const Y& right ) const {
+
+      ChebyshevApproximation result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation operator-( const Y& right ) const {
+
+      return this->operator+( -right );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
