@@ -87,9 +87,9 @@ namespace math {
     #include "scion/math/ChebyshevApproximation/src/linearise.hpp"
 
     /**
-     *  @brief Addition of a scalar
+     *  @brief Inplace scalar addition
      *
-     *  @param[in] right    the scalar to be added
+     *  @param[in] right    the scalar
      */
     ChebyshevApproximation& operator+=( const Y& right ) {
 
@@ -98,13 +98,34 @@ namespace math {
     }
 
     /**
-     *  @brief Subtraction of a scalar
+     *  @brief Inplace scalar subtraction
      *
-     *  @param[in] right    the scalar to be subtracted
+     *  @param[in] right    the scalar
      */
     ChebyshevApproximation& operator-=( const Y& right ) {
 
       return this->operator+=( -right );
+    }
+
+    /**
+     *  @brief Inplace scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation& operator*=( const Y& right ) {
+
+      this->series_ *= right;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation& operator/=( const Y& right ) {
+
+      return this->operator*=( Y( 1. ) / right );
     }
 
     using Parent::domain;

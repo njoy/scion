@@ -74,9 +74,9 @@ namespace math {
     #include "scion/math/SeriesBase/src/linearise.hpp"
 
     /**
-     *  @brief Addition of a scalar
+     *  @brief Inplace scalar addition
      *
-     *  @param[in] right    the scalar to be added
+     *  @param[in] right    the scalar
      */
     Derived& operator+=( const Y& right ) {
 
@@ -85,13 +85,37 @@ namespace math {
     }
 
     /**
-     *  @brief Subtraction of a scalar
+     *  @brief Inplace scalar subtraction
      *
-     *  @param[in] right    the scalar to be subtracted
+     *  @param[in] right    the scalar
      */
     Derived& operator-=( const Y& right ) {
 
       return this->operator+=( -right );
+    }
+
+    /**
+     *  @brief Inplace scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator*=( const Y& right ) {
+
+      for ( auto& value : this->coefficients_ ) {
+
+        value *= right;
+      }
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Inplace scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator/=( const Y& right ) {
+
+      return this->operator*=( Y( 1. ) / right );
     }
 
     using Parent::domain;
