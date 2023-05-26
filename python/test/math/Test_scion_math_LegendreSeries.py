@@ -131,6 +131,23 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -4.66666667, chunk.coefficients[2] )
             self.assertAlmostEqual(   0.4       , chunk.coefficients[3] )
 
+            chunk += large
+            self.assertEqual( 4, chunk.order )
+            self.assertEqual( 5, len( chunk.coefficients ) )
+            self.assertAlmostEqual( -7.33333333, chunk.coefficients[0] )
+            self.assertAlmostEqual( 14.6       , chunk.coefficients[1] )
+            self.assertAlmostEqual( -4.66666667, chunk.coefficients[2] )
+            self.assertAlmostEqual(  0.4       , chunk.coefficients[3] )
+            self.assertAlmostEqual(  1.        , chunk.coefficients[4] )
+
+            chunk -= large
+            self.assertEqual( 3, chunk.order )
+            self.assertEqual( 4, len( chunk.coefficients ) )
+            self.assertAlmostEqual( -10.33333333, chunk.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , chunk.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, chunk.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , chunk.coefficients[3] )
+
             chunk *= 2.
             self.assertEqual( 3, chunk.order )
             self.assertEqual( 4, len( chunk.coefficients ) )

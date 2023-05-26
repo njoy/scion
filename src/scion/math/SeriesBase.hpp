@@ -42,6 +42,7 @@ namespace math {
 
     /* auxiliary function */
     #include "scion/math/SeriesBase/src/verifyCoefficients.hpp"
+    #include "scion/math/SeriesBase/src/trimCoefficients.hpp"
 
   protected:
 
@@ -138,6 +139,7 @@ namespace math {
 
         this->coefficients_[i] += right.coefficients()[i];
       }
+      this->trimCoefficients();
       return *static_cast< Derived* >( this );
     }
 
@@ -161,6 +163,7 @@ namespace math {
 
         this->coefficients_[i] -= right.coefficients()[i];
       }
+      this->trimCoefficients();
       return *static_cast< Derived* >( this );
     }
 
