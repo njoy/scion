@@ -101,6 +101,10 @@ SCENARIO( "ChebyshevSeries" ) {
 
       THEN( "arithmetic operations can be performed" ) {
 
+        ChebyshevSeries< double > small( { 3., 0., 1. } );
+        ChebyshevSeries< double > equal( { 3., 0., 0., 1. } );
+        ChebyshevSeries< double > larger( { 3., 0., 0., 0., 1. } );
+
         chunk += 2.;
 
         CHECK( 3 == chunk.order() );
@@ -112,6 +116,46 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk -= 2.;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk += small;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -8.50 == Approx( chunk.coefficients()[0] ) );
+        CHECK( 14.75 == Approx( chunk.coefficients()[1] ) );
+        CHECK( -2.50 == Approx( chunk.coefficients()[2] ) );
+        CHECK(  0.25 == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= small;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk += equal;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -8.50 == Approx( chunk.coefficients()[0] ) );
+        CHECK( 14.75 == Approx( chunk.coefficients()[1] ) );
+        CHECK( -3.50 == Approx( chunk.coefficients()[2] ) );
+        CHECK(  1.25 == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= equal;
 
         CHECK( 3 == chunk.order() );
         CHECK(  4 == chunk.coefficients().size() );

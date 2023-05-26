@@ -108,6 +108,28 @@ namespace math {
     }
 
     /**
+     *  @brief Inplace series addition
+     *
+     *  @param[in] right    the series
+     */
+    ChebyshevApproximation& operator+=( const ChebyshevApproximation& right ) {
+
+      this->series_ += right.series_;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace series subtraction
+     *
+     *  @param[in] right    the series
+     */
+    ChebyshevApproximation& operator-=( const ChebyshevApproximation& right ) {
+
+      this->series_ -= right.series_;
+      return *this;
+    }
+
+    /**
      *  @brief Inplace scalar multiplication
      *
      *  @param[in] right    the scalar

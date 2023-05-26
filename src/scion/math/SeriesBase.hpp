@@ -118,6 +118,42 @@ namespace math {
       return this->operator*=( Y( 1. ) / right );
     }
 
+    /**
+     *  @brief Inplace series addition
+     *
+     *  @param[in] right    the series
+     */
+    Derived& operator+=( const Derived& right ) {
+
+      if ( this->coefficients().size() < right.coefficients().size() ) {
+
+        this->coefficients_.resize( right.coefficients().size(), Y( 0. ) );
+      }
+      for ( unsigned int i = 0; i < right.coefficients().size(); ++i ) {
+
+        this->coefficients_[i] += right.coefficients()[i];
+      }
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Inplace scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator-=( const Derived& right ) {
+
+      if ( this->coefficients().size() < right.coefficients().size() ) {
+
+        this->coefficients_.resize( right.coefficients().size(), Y( 0. ) );
+      }
+      for ( unsigned int i = 0; i < right.coefficients().size(); ++i ) {
+
+        this->coefficients_[i] -= right.coefficients()[i];
+      }
+      return *static_cast< Derived* >( this );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
