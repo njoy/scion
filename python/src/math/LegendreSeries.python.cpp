@@ -29,7 +29,27 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "defined over the domain [-1,1].\n\n"
     "The Clenshaw recursion scheme is used for the evaluation of the series\n"
     "using the following recursion relation for Legendre polynomials:\n"
-    "  P_(n+2) = (2k+1)/(k+1) x P_(n+1) - k/(k+1) P_n"
+    "  P_(n+1) = (2n+1)/(n+1) x P_n - n/(n+1) P_(n-1)\n\n"
+    "The derivative function of a Legendre series function is another\n"
+    "Legendre series function. The coefficients of the new Legendre series\n"
+    "are calculated using the derivative of a Legendre polynomial as a\n"
+    "function of other Legendre polynomials:\n"
+    "  d/dx P_(n + 1) = (2 * n + 1) * P_n + (2 * (n - 2) + 1) * P_(n - 2) + ...\n"
+    "knowing that:\n"
+    "  d/dx P_0 = 0.0\n"
+    "  d/dx P_1 = P_0\n\n"
+    "This formula can be derived using the following property of Legendre\n"
+    "polynomials:\n"
+    "  ( 2 * n + 1 ) * P_n = d/dx P_(n + 1) - d/dx P_(n - 1)\n\n"
+    "The primitive or antiderivative of a Legendre series function is another\n"
+    "Legendre series function. The coefficients of the new Legendre series\n"
+    "are calculated using the integral of a Legendre polynomial as a\n"
+    "function of other Legendre polynomials:\n"
+    "  int P_n = (P_(n + 1) - P_(n - 1))/(2 * n + 1)\n\n"
+    "The integrated series is defined so that the integral function for x = left\n"
+    "equals 0.\n\n"
+    "The derivative and primitive function is defined over the same domain as\n"
+    "the original function."
   );
 
   // wrap the component
@@ -43,39 +63,6 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "    self           the function\n"
     "    coefficients   the coefficients of the Legendre series (from\n"
     "                   lowest to highest order coefficient)"
-  )
-  .def(
-
-    "derivative",
-    &Component::derivative,
-    "Return the derivative of the Legendre series"
-  )
-  .def(
-
-    "primitive",
-    &Component::primitive,
-    python::arg( "left" ) = X( 0. ),
-    "Return the primitive or antiderivative of the Legendre series\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    left   the left bound of the integral (default = 0)"
-  )
-  .def(
-
-    "roots",
-    &Component::roots,
-    python::arg( "a" ) = X( 0. ),
-    "Calculate the real roots of the Legendre series so that f(x) = a\n\n"
-    "This function calculates all roots on the real axis of the Legendre series.\n\n"
-    "The roots of the Legendre series are the eigenvalues of the Frobenius\n"
-    "companion matrix whose elements are trivial functions of the coefficients of\n"
-    "the Legendre series. The resulting roots are in the complex plane so the\n"
-    "roots that are not on the real axis are filtered out. The roots on the real\n"
-    "axis are then improved upon using a few iterations of the Newton-Rhapson\n"
-    "method.\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions

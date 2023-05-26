@@ -21,7 +21,6 @@ namespace math {
    *
    *  The Clenshaw recursion scheme is used for the evaluation of the series
    *  using the following recursion relation for Chebyshev polynomials:
-   *
    *    T_(n+1) = 2 x T_n - T_(n-1)
    *
    *  The derivative function of a Chebyshev series function is another
@@ -30,11 +29,7 @@ namespace math {
    *  function of other Chebyshev polynomials:
    *    d/dx T_n = 2 n ( T_(n-1) + T_(n-3) + ... + T_1 ) if n is even
    *    d/dx T_n = 2 n ( T_(n-1) + T_(n-3) + ... + T_2 ) + n T_0 if n is odd
-   *
    *  This relation can be proven by mathematical induction.
-   *
-   *  The derivative function is defined over the same domain as the
-   *  original function.
    *
    *  The primitive or antiderivative of a Chebyshev series function is another
    *  Chebyshev series function. The coefficients of the new Chebyshev series
@@ -44,6 +39,9 @@ namespace math {
    *
    *  The integrated series is defined so that the integral function for x = left
    *  equals 0.
+   *
+   *  The derivative  and primitive function is defined over the same domain as
+   *  the original function.
    */
   template < typename X, typename Y = X >
   class ChebyshevSeries : public SeriesBase< ChebyshevSeries< X, Y >, X, Y > {

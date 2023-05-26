@@ -137,6 +137,40 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
     [] ( const Component& self ) -> decltype(auto)
        { return self.order(); },
     "The Legendre order"
+  )
+  .def(
+
+    "derivative",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.derivative(); },
+    "Return the derivative of the series"
+  )
+  .def(
+
+    "primitive",
+    [] ( const Component& self, const X& left ) -> decltype(auto)
+       { return self.primitive( left ); },
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the series\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
+  )
+  .def(
+
+    "roots",
+    [] ( const Component& self, const X& a ) -> decltype(auto)
+       { return self.roots( a ); },
+    python::arg( "a" ) = X( 0. ),
+    "Calculate the real roots of the series so that f(x) = a\n\n"
+    "This function calculates all roots on the real axis of the series.\n\n"
+    "The roots of the series are the eigenvalues of the companion matrix whose\n"
+    "elements are trivial functions of the coefficients of the series. The\n"
+    "resulting roots are in the complex plane so the roots that are not on the\n"
+    "real axis are filtered out.\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions

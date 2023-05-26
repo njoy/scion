@@ -22,7 +22,6 @@ namespace math {
    *
    *  The Clenshaw recursion scheme is used for the evaluation of the series
    *  using the following recursion relation for Legendre polynomials:
-   *
    *    P_(n+1) = (2n+1)/(n+1) x P_n - n/(n+1) P_(n-1)
    *
    *  The derivative function of a Legendre series function is another
@@ -38,9 +37,6 @@ namespace math {
    *  polynomials:
    *    ( 2 * n + 1 ) * P_n = d/dx P_(n + 1) - d/dx P_(n - 1)
    *
-   *  The derivative function is defined over the same domain as the
-   *  original function.
-   *
    *  The primitive or antiderivative of a Legendre series function is another
    *  Legendre series function. The coefficients of the new Legendre series
    *  are calculated using the integral of a Legendre polynomial as a
@@ -49,6 +45,9 @@ namespace math {
    *
    *  The integrated series is defined so that the integral function for x = left
    *  equals 0.
+   *
+   *  The derivative and primitive function is defined over the same domain as
+   *  the original function.
    */
   template < typename X, typename Y = X >
   class LegendreSeries : public SeriesBase< LegendreSeries< X, Y >, X, Y > {

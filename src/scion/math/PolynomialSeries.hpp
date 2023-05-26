@@ -20,25 +20,20 @@ namespace math {
    *  This class represents a polynomial function y -> f(x) = sum c_i x^i of
    *  order n defined over a domain. Currently, the domain can either be the
    *  open domain where every value of x is allowed or the interval domain that
-   *  restricts x to an interval [a,b]. An exception is thrown for values
-   *  outside of the domain.
+   *  restricts x to an interval [a,b].
    *
    *  The horner scheme is used for the evaluation of the series.
    *
    *  The first order derivative of a polynomial series is another polynomial
    *  series: y -> d/dx f(x) = sum i c_i x^(i-1) for i = 1 to n
    *
-   *  The derivative function is defined over the same domain as the
-   *  original function.
-   *
    *  The primitive or antiderivative of a polynomial series is another polynomial
    *  series: y -> int[left,x] f(x) dx = c_0 + sum c_i/(i+1) x^(i+1)
-   *
    *  The integrated series is defined so that the integral function for x = left
    *  equals 0.
    *
-   *  The primitive function is defined over the same domain as the original
-   *  series.
+   *  The derivative and primitive function is defined over the same domain as
+   *  the original series.
    */
   template < typename X, typename Y = X >
   class PolynomialSeries : public SeriesBase< PolynomialSeries< X, Y >, X, Y > {
