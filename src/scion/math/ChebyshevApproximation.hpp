@@ -86,6 +86,27 @@ namespace math {
     #include "scion/math/ChebyshevApproximation/src/roots.hpp"
     #include "scion/math/ChebyshevApproximation/src/linearise.hpp"
 
+    /**
+     *  @brief Addition of a scalar
+     *
+     *  @param[in] right    the scalar to be added
+     */
+    ChebyshevApproximation& operator+=( const Y& right ) {
+
+      this->series_ += right;
+      return *this;
+    }
+
+    /**
+     *  @brief Subtraction of a scalar
+     *
+     *  @param[in] right    the scalar to be subtracted
+     */
+    ChebyshevApproximation& operator-=( const Y& right ) {
+
+      return this->operator+=( -right );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
