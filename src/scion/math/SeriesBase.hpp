@@ -73,6 +73,27 @@ namespace math {
     #include "scion/math/SeriesBase/src/primitive.hpp"
     #include "scion/math/SeriesBase/src/linearise.hpp"
 
+    /**
+     *  @brief Addition of a scalar
+     *
+     *  @param[in] right    the scalar to be added
+     */
+    Derived& operator+=( const Y& right ) {
+
+      this->coefficients_[0] += right;
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Subtraction of a scalar
+     *
+     *  @param[in] right    the scalar to be subtracted
+     */
+    Derived& operator-=( const Y& right ) {
+
+      return this->operator+=( -right );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

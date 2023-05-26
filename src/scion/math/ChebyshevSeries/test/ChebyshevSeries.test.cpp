@@ -98,6 +98,29 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK( -0.5833333333333334 == Approx( primitive.coefficients()[3] ) );
         CHECK(  0.03125 == Approx( primitive.coefficients()[4] ) );
       } // THEN
+
+      THEN( "arithmetic operations can be performed" ) {
+
+        chunk += 2.;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK(  -9.50 == Approx( chunk.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= 2.;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
     } // WHEN
   } // GIVEN
 

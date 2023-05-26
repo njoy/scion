@@ -113,6 +113,29 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK( 1 == roots.size() );
         CHECK(  0.0 == Approx( roots[0] ) );
       } // THEN
+
+      THEN( "arithmetic operations can be performed" ) {
+
+        chunk += 2.;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -6. == Approx( chunk.coefficients()[0] ) );
+        CHECK( 14. == Approx( chunk.coefficients()[1] ) );
+        CHECK( -7. == Approx( chunk.coefficients()[2] ) );
+        CHECK(  1. == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= 2.;
+
+        CHECK( 3 == chunk.order() );
+        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( -8. == Approx( chunk.coefficients()[0] ) );
+        CHECK( 14. == Approx( chunk.coefficients()[1] ) );
+        CHECK( -7. == Approx( chunk.coefficients()[2] ) );
+        CHECK(  1. == Approx( chunk.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
     } // WHEN
   } // GIVEN
 
