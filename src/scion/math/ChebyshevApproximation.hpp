@@ -110,6 +110,11 @@ namespace math {
     /**
      *  @brief Inplace series addition
      *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
      *  @param[in] right    the series
      */
     ChebyshevApproximation& operator+=( const ChebyshevApproximation& right ) {
@@ -120,6 +125,11 @@ namespace math {
 
     /**
      *  @brief Inplace series subtraction
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
      *
      *  @param[in] right    the series
      */

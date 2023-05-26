@@ -121,6 +121,11 @@ namespace math {
     /**
      *  @brief Inplace series addition
      *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
      *  @param[in] right    the series
      */
     Derived& operator+=( const Derived& right ) {
@@ -137,9 +142,14 @@ namespace math {
     }
 
     /**
-     *  @brief Inplace scalar subtraction
+     *  @brief Inplace series subtraction
      *
-     *  @param[in] right    the scalar
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
      */
     Derived& operator-=( const Derived& right ) {
 
