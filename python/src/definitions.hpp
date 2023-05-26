@@ -186,6 +186,20 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
     [] ( Component& self, const X& right ) -> decltype(auto)
        { return self -= right; },
     python::is_operator()
+  )
+  .def(
+
+    "__imul__",
+    [] ( Component& self, const X& right ) -> decltype(auto)
+       { return self *= right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__itruediv__",
+    [] ( Component& self, const X& right ) -> decltype(auto)
+       { return self /= right; },
+    python::is_operator()
   );
 
   // add standard function definitions
