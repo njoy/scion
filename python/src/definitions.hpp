@@ -175,6 +175,20 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
   )
   .def(
 
+    "__add__",
+    [] ( const Component& self, const X& right ) -> decltype(auto)
+       { return self + right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__sub__",
+    [] ( const Component& self, const X& right ) -> decltype(auto)
+       { return self - right; },
+    python::is_operator()
+  )
+  .def(
+
     "__iadd__",
     [] ( Component& self, const X& right ) -> decltype(auto)
        { return self += right; },

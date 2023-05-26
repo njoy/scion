@@ -97,6 +97,7 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             small = PolynomialSeries( [ 3., 0., 1. ] )
             equal = PolynomialSeries( [ 3., 0., 0., 1. ] )
             large = PolynomialSeries( [ 3., 0., 0., 0., 1. ] )
+            result = PolynomialSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )
@@ -178,6 +179,22 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( 14., chunk.coefficients[1] )
             self.assertAlmostEqual( -7., chunk.coefficients[2] )
             self.assertAlmostEqual(  1., chunk.coefficients[3] )
+
+            result = chunk + 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -6., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -7., result.coefficients[2] )
+            self.assertAlmostEqual(  1., result.coefficients[3] )
+
+            result = chunk - 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -10., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -7., result.coefficients[2] )
+            self.assertAlmostEqual(   1., result.coefficients[3] )
 
         # the data is given explicitly
         chunk = PolynomialSeries( lower = -1., upper = 1.,

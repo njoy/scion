@@ -82,6 +82,7 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             small = LegendreSeries( [ 3., 0., 1. ] )
             equal = LegendreSeries( [ 3., 0., 0., 1. ] )
             large = LegendreSeries( [ 3., 0., 0., 0., 1. ] )
+            result = LegendreSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )
@@ -163,6 +164,22 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  14.6       , chunk.coefficients[1] )
             self.assertAlmostEqual(  -4.66666667, chunk.coefficients[2] )
             self.assertAlmostEqual(   0.4       , chunk.coefficients[3] )
+
+            result = chunk + 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -8.33333333, result.coefficients[0] )
+            self.assertAlmostEqual( 14.6       , result.coefficients[1] )
+            self.assertAlmostEqual( -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(  0.4       , result.coefficients[3] )
+
+            result = chunk - 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -12.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , result.coefficients[3] )
 
         # the data is given explicitly
         chunk = LegendreSeries( coefficients = [ -31./3., 73./5., -14./3., 2./5. ] )
