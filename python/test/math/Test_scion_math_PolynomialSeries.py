@@ -93,6 +93,23 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertEqual( 1, len( roots ) )
             self.assertAlmostEqual( 0.0, roots[0] )
 
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 3, chunk.order )
+            self.assertEqual( 4, len( chunk.coefficients ) )
+            self.assertAlmostEqual( -6., chunk.coefficients[0] )
+            self.assertAlmostEqual( 14., chunk.coefficients[1] )
+            self.assertAlmostEqual( -7., chunk.coefficients[2] )
+            self.assertAlmostEqual(  1., chunk.coefficients[3] )
+
+            chunk -= 2.
+            self.assertEqual( 3, chunk.order )
+            self.assertEqual( 4, len( chunk.coefficients ) )
+            self.assertAlmostEqual( -8., chunk.coefficients[0] )
+            self.assertAlmostEqual( 14., chunk.coefficients[1] )
+            self.assertAlmostEqual( -7., chunk.coefficients[2] )
+            self.assertAlmostEqual(  1., chunk.coefficients[3] )
+
         # the data is given explicitly
         chunk = PolynomialSeries( lower = -1., upper = 1.,
                                   coefficients = [ -8., 14., -7., 1. ] )

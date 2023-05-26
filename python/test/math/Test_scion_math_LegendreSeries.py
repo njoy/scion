@@ -78,6 +78,23 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertEqual( 1, len( roots ) )
             self.assertAlmostEqual( 0.0, roots[0] )
 
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 3, chunk.order )
+            self.assertEqual( 4, len( chunk.coefficients ) )
+            self.assertAlmostEqual( -8.33333333, chunk.coefficients[0] )
+            self.assertAlmostEqual( 14.6       , chunk.coefficients[1] )
+            self.assertAlmostEqual( -4.66666667, chunk.coefficients[2] )
+            self.assertAlmostEqual(  0.4       , chunk.coefficients[3] )
+
+            chunk -= 2.
+            self.assertEqual( 3, chunk.order )
+            self.assertEqual( 4, len( chunk.coefficients ) )
+            self.assertAlmostEqual( -10.33333333, chunk.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , chunk.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, chunk.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , chunk.coefficients[3] )
+
         # the data is given explicitly
         chunk = LegendreSeries( coefficients = [ -31./3., 73./5., -14./3., 2./5. ] )
 

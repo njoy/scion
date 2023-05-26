@@ -67,6 +67,41 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( +0.9999999, chunk(  0.9999999 ) )
             self.assertAlmostEqual( +1.0      , chunk(  1. ) )
 
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 10, chunk.order )
+            self.assertEqual( 11, len( chunk.coefficients ) )
+            self.assertAlmostEqual( 2., chunk.coefficients[0] )
+            self.assertAlmostEqual( 1., chunk.coefficients[1] )
+            self.assertAlmostEqual( 0., chunk.coefficients[2] )
+            self.assertAlmostEqual( 0., chunk.coefficients[3] )
+            self.assertAlmostEqual( 0., chunk.coefficients[4] )
+            self.assertAlmostEqual( 0., chunk.coefficients[5] )
+            self.assertAlmostEqual( 0., chunk.coefficients[6] )
+            self.assertAlmostEqual( 0., chunk.coefficients[7] )
+            self.assertAlmostEqual( 0., chunk.coefficients[8] )
+            self.assertAlmostEqual( 0., chunk.coefficients[9] )
+            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
+            self.assertEqual( -1., chunk.domain.lower_limit )
+            self.assertEqual(  1., chunk.domain.upper_limit )
+
+            chunk -= 2.
+            self.assertEqual( 10, chunk.order )
+            self.assertEqual( 11, len( chunk.coefficients ) )
+            self.assertAlmostEqual( 0., chunk.coefficients[0] )
+            self.assertAlmostEqual( 1., chunk.coefficients[1] )
+            self.assertAlmostEqual( 0., chunk.coefficients[2] )
+            self.assertAlmostEqual( 0., chunk.coefficients[3] )
+            self.assertAlmostEqual( 0., chunk.coefficients[4] )
+            self.assertAlmostEqual( 0., chunk.coefficients[5] )
+            self.assertAlmostEqual( 0., chunk.coefficients[6] )
+            self.assertAlmostEqual( 0., chunk.coefficients[7] )
+            self.assertAlmostEqual( 0., chunk.coefficients[8] )
+            self.assertAlmostEqual( 0., chunk.coefficients[9] )
+            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
+            self.assertEqual( -1., chunk.domain.lower_limit )
+            self.assertEqual(  1., chunk.domain.upper_limit )
+
         def verify_chunk_domain2( self, chunk ) :
 
             # verify content
@@ -120,6 +155,41 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( +0.999999 , chunk(  0.999999 ) )
             self.assertAlmostEqual( +0.9999999, chunk(  0.9999999 ) )
             self.assertAlmostEqual( +1.0      , chunk(  1. ) )
+
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 10, chunk.order )
+            self.assertEqual( 11, len( chunk.coefficients ) )
+            self.assertAlmostEqual( 3., chunk.coefficients[0] )
+            self.assertAlmostEqual( 3., chunk.coefficients[1] )
+            self.assertAlmostEqual( 0., chunk.coefficients[2] )
+            self.assertAlmostEqual( 0., chunk.coefficients[3] )
+            self.assertAlmostEqual( 0., chunk.coefficients[4] )
+            self.assertAlmostEqual( 0., chunk.coefficients[5] )
+            self.assertAlmostEqual( 0., chunk.coefficients[6] )
+            self.assertAlmostEqual( 0., chunk.coefficients[7] )
+            self.assertAlmostEqual( 0., chunk.coefficients[8] )
+            self.assertAlmostEqual( 0., chunk.coefficients[9] )
+            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
+            self.assertEqual( -2., chunk.domain.lower_limit )
+            self.assertEqual(  4., chunk.domain.upper_limit )
+
+            chunk -= 2.
+            self.assertEqual( 10, chunk.order )
+            self.assertEqual( 11, len( chunk.coefficients ) )
+            self.assertAlmostEqual( 1., chunk.coefficients[0] )
+            self.assertAlmostEqual( 3., chunk.coefficients[1] )
+            self.assertAlmostEqual( 0., chunk.coefficients[2] )
+            self.assertAlmostEqual( 0., chunk.coefficients[3] )
+            self.assertAlmostEqual( 0., chunk.coefficients[4] )
+            self.assertAlmostEqual( 0., chunk.coefficients[5] )
+            self.assertAlmostEqual( 0., chunk.coefficients[6] )
+            self.assertAlmostEqual( 0., chunk.coefficients[7] )
+            self.assertAlmostEqual( 0., chunk.coefficients[8] )
+            self.assertAlmostEqual( 0., chunk.coefficients[9] )
+            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
+            self.assertEqual( -2., chunk.domain.lower_limit )
+            self.assertEqual(  4., chunk.domain.upper_limit )
 
         # test function : f(x) = x
         def function( x ) : return x
