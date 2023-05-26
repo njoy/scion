@@ -170,7 +170,6 @@ namespace math {
     /**
      *  @brief Scalar addition
      *
-     *  @param[in] left     the series
      *  @param[in] right    the scalar
      */
     Derived operator+( const Y& right ) const {
@@ -183,12 +182,35 @@ namespace math {
     /**
      *  @brief Scalar subtraction
      *
-     *  @param[in] left     the series
      *  @param[in] right    the scalar
      */
     Derived operator-( const Y& right ) const {
 
       return this->operator+( -right );
+    }
+
+    /**
+     *  @brief Series addition
+     *
+     *  @param[in] right    the series
+     */
+    Derived operator+( const Derived& right ) const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief Series subtraction
+     *
+     *  @param[in] right    the series
+     */
+    Derived operator-( const Derived& right ) const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result -= right;
+      return result;
     }
 
     using Parent::domain;
