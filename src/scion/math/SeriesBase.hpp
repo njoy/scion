@@ -186,7 +186,9 @@ namespace math {
      */
     Derived operator-( const Y& right ) const {
 
-      return this->operator+( -right );
+      Derived result = *static_cast< const Derived* >( this );
+      result -= right;
+      return result;
     }
 
     /**

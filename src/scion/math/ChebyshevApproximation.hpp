@@ -179,7 +179,33 @@ namespace math {
      */
     ChebyshevApproximation operator-( const Y& right ) const {
 
-      return this->operator+( -right );
+      ChebyshevApproximation result = *this;
+      result -= right;
+      return result;
+    }
+
+    /**
+     *  @brief Series addition
+     *
+     *  @param[in] right    the Series
+     */
+    ChebyshevApproximation operator+( const ChebyshevApproximation& right ) const {
+
+      ChebyshevApproximation result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief Series subtraction
+     *
+     *  @param[in] right    the Series
+     */
+    ChebyshevApproximation operator-( const ChebyshevApproximation& right ) const {
+
+      ChebyshevApproximation result = *this;
+      result -= right;
+      return result;
     }
 
     using Parent::domain;
