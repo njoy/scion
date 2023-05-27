@@ -113,13 +113,13 @@ SCENARIO( "ChebyshevSeries" ) {
 
         ChebyshevSeries< double > small( { 3., 0., 1. } );
         ChebyshevSeries< double > equal( { 3., 0., 0., 1. } );
-        ChebyshevSeries< double > larger( { 3., 0., 0., 0., 1. } );
+        ChebyshevSeries< double > large( { 3., 0., 0., 0., 1. } );
         ChebyshevSeries< double > result( { 0. } );
 
         chunk += 2.;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK(  -9.50 == Approx( chunk.coefficients()[0] ) );
         CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
@@ -129,7 +129,7 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk -= 2.;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
         CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
@@ -139,7 +139,7 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk += small;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -8.50 == Approx( chunk.coefficients()[0] ) );
         CHECK( 14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK( -2.50 == Approx( chunk.coefficients()[2] ) );
@@ -149,7 +149,7 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk -= small;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
         CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
@@ -159,7 +159,7 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk += equal;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -8.50 == Approx( chunk.coefficients()[0] ) );
         CHECK( 14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK( -3.50 == Approx( chunk.coefficients()[2] ) );
@@ -169,14 +169,14 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk -= equal;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
         CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
         CHECK(   0.25 == Approx( chunk.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
-        chunk += larger;
+        chunk += large;
 
         CHECK( 4 == chunk.order() );
         CHECK(  5 == chunk.coefficients().size() );
@@ -187,10 +187,10 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK(  1.   == Approx( chunk.coefficients()[4] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
-        chunk -= larger;
+        chunk -= large;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
         CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
@@ -200,7 +200,7 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk *= 2.;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -23.0 == Approx( chunk.coefficients()[0] ) );
         CHECK(  29.5 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -7.0 == Approx( chunk.coefficients()[2] ) );
@@ -210,7 +210,7 @@ SCENARIO( "ChebyshevSeries" ) {
         chunk /= 2.;
 
         CHECK( 3 == chunk.order() );
-        CHECK(  4 == chunk.coefficients().size() );
+        CHECK( 4 == chunk.coefficients().size() );
         CHECK( -11.50 == Approx( chunk.coefficients()[0] ) );
         CHECK(  14.75 == Approx( chunk.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( chunk.coefficients()[2] ) );
@@ -220,7 +220,7 @@ SCENARIO( "ChebyshevSeries" ) {
         result = chunk + 2.;
 
         CHECK( 3 == result.order() );
-        CHECK(  4 == result.coefficients().size() );
+        CHECK( 4 == result.coefficients().size() );
         CHECK( -9.50 == Approx( result.coefficients()[0] ) );
         CHECK( 14.75 == Approx( result.coefficients()[1] ) );
         CHECK( -3.50 == Approx( result.coefficients()[2] ) );
@@ -230,11 +230,73 @@ SCENARIO( "ChebyshevSeries" ) {
         result = chunk - 2.;
 
         CHECK( 3 == result.order() );
-        CHECK(  4 == result.coefficients().size() );
+        CHECK( 4 == result.coefficients().size() );
         CHECK( -13.50 == Approx( result.coefficients()[0] ) );
         CHECK(  14.75 == Approx( result.coefficients()[1] ) );
         CHECK(  -3.50 == Approx( result.coefficients()[2] ) );
         CHECK(   0.25 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk + small;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK(  -8.50 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( result.coefficients()[1] ) );
+        CHECK(  -2.50 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - small;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -14.50 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( result.coefficients()[1] ) );
+        CHECK(  -4.50 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk + equal;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK(  -8.50 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( result.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( result.coefficients()[2] ) );
+        CHECK(   1.25 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - equal;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -14.50 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( result.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( result.coefficients()[2] ) );
+        CHECK(  -0.75 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk + large;
+
+        CHECK( 4 == result.order() );
+        CHECK( 5 == result.coefficients().size() );
+        CHECK(  -8.50 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( result.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( result.coefficients()[3] ) );
+        CHECK(   1.00 == Approx( result.coefficients()[4] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - large;
+
+        CHECK( 4 == result.order() );
+        CHECK( 5 == result.coefficients().size() );
+        CHECK( -14.50 == Approx( result.coefficients()[0] ) );
+        CHECK(  14.75 == Approx( result.coefficients()[1] ) );
+        CHECK(  -3.50 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.25 == Approx( result.coefficients()[3] ) );
+        CHECK(  -1.00 == Approx( result.coefficients()[4] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
     } // WHEN

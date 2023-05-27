@@ -191,6 +191,56 @@ class Test_scion_math_ChebyshevSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -3.50, result.coefficients[2] )
             self.assertAlmostEqual(   0.25, result.coefficients[3] )
 
+            result = chunk + small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual(  -8.50, result.coefficients[0] )
+            self.assertAlmostEqual(  14.75, result.coefficients[1] )
+            self.assertAlmostEqual(  -2.50, result.coefficients[2] )
+            self.assertAlmostEqual(   0.25, result.coefficients[3] )
+
+            result = chunk - small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -14.50, result.coefficients[0] )
+            self.assertAlmostEqual(  14.75, result.coefficients[1] )
+            self.assertAlmostEqual(  -4.50, result.coefficients[2] )
+            self.assertAlmostEqual(   0.25, result.coefficients[3] )
+
+            result = chunk + equal
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual(  -8.50, result.coefficients[0] )
+            self.assertAlmostEqual(  14.75, result.coefficients[1] )
+            self.assertAlmostEqual(  -3.50, result.coefficients[2] )
+            self.assertAlmostEqual(   1.25, result.coefficients[3] )
+
+            result = chunk - equal
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -14.50, result.coefficients[0] )
+            self.assertAlmostEqual(  14.75, result.coefficients[1] )
+            self.assertAlmostEqual(  -3.50, result.coefficients[2] )
+            self.assertAlmostEqual(  -0.75, result.coefficients[3] )
+
+            result = chunk + large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual(  -8.50, result.coefficients[0] )
+            self.assertAlmostEqual(  14.75, result.coefficients[1] )
+            self.assertAlmostEqual(  -3.50, result.coefficients[2] )
+            self.assertAlmostEqual(   0.25, result.coefficients[3] )
+            self.assertAlmostEqual(   1.00, result.coefficients[4] )
+
+            result = chunk - large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual( -14.50, result.coefficients[0] )
+            self.assertAlmostEqual(  14.75, result.coefficients[1] )
+            self.assertAlmostEqual(  -3.50, result.coefficients[2] )
+            self.assertAlmostEqual(   0.25, result.coefficients[3] )
+            self.assertAlmostEqual(  -1.00, result.coefficients[4] )
+
         # the data is given explicitly
         chunk = ChebyshevSeries( coefficients = [ -23./2., 59./4., -7./2., 1./4. ] )
 

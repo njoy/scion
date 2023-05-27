@@ -209,6 +209,55 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -7., result.coefficients[2] )
             self.assertAlmostEqual(   1., result.coefficients[3] )
 
+            result = chunk + small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -6., result.coefficients[2] )
+            self.assertAlmostEqual(  1., result.coefficients[3] )
+
+            result = chunk - small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -11., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -8., result.coefficients[2] )
+            self.assertAlmostEqual(   1., result.coefficients[3] )
+
+            result = chunk + equal
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -7., result.coefficients[2] )
+            self.assertAlmostEqual(  2., result.coefficients[3] )
+
+            result = chunk - equal
+            self.assertEqual( 2, result.order )
+            self.assertEqual( 3, len( result.coefficients ) )
+            self.assertAlmostEqual( -11., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -7., result.coefficients[2] )
+
+            result = chunk + large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual( -5., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -7., result.coefficients[2] )
+            self.assertAlmostEqual(  1., result.coefficients[3] )
+            self.assertAlmostEqual(  1., result.coefficients[4] )
+
+            result = chunk - large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual( -11., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -7., result.coefficients[2] )
+            self.assertAlmostEqual(   1., result.coefficients[3] )
+            self.assertAlmostEqual(  -1., result.coefficients[4] )
+
         # the data is given explicitly
         chunk = PolynomialSeries( lower = -1., upper = 1.,
                                   coefficients = [ -8., 14., -7., 1. ] )
