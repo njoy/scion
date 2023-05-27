@@ -209,6 +209,22 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -7., result.coefficients[2] )
             self.assertAlmostEqual(   1., result.coefficients[3] )
 
+            result = chunk * 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -16., result.coefficients[0] )
+            self.assertAlmostEqual(  28., result.coefficients[1] )
+            self.assertAlmostEqual( -14., result.coefficients[2] )
+            self.assertAlmostEqual(   2., result.coefficients[3] )
+
+            result = chunk / 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -4.0, result.coefficients[0] )
+            self.assertAlmostEqual(  7.0, result.coefficients[1] )
+            self.assertAlmostEqual( -3.5, result.coefficients[2] )
+            self.assertAlmostEqual(  0.5, result.coefficients[3] )
+
             result = chunk + small
             self.assertEqual( 3, result.order )
             self.assertEqual( 4, len( result.coefficients ) )

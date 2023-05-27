@@ -237,6 +237,26 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK(   0.25 == Approx( result.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = chunk * 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -23.0 == Approx( result.coefficients()[0] ) );
+        CHECK(  29.5 == Approx( result.coefficients()[1] ) );
+        CHECK(  -7.0 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.5 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk / 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK(  -5.750 == Approx( result.coefficients()[0] ) );
+        CHECK(   7.375 == Approx( result.coefficients()[1] ) );
+        CHECK(  -1.750 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.125 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         result = chunk + small;
 
         CHECK( 3 == result.order() );

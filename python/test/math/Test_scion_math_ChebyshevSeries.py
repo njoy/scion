@@ -191,6 +191,22 @@ class Test_scion_math_ChebyshevSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -3.50, result.coefficients[2] )
             self.assertAlmostEqual(   0.25, result.coefficients[3] )
 
+            result = chunk * 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -23.0, result.coefficients[0] )
+            self.assertAlmostEqual(  29.5, result.coefficients[1] )
+            self.assertAlmostEqual(  -7.0, result.coefficients[2] )
+            self.assertAlmostEqual(   0.5, result.coefficients[3] )
+
+            result = chunk / 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5.750, result.coefficients[0] )
+            self.assertAlmostEqual(  7.375, result.coefficients[1] )
+            self.assertAlmostEqual( -1.750, result.coefficients[2] )
+            self.assertAlmostEqual(  0.125, result.coefficients[3] )
+
             result = chunk + small
             self.assertEqual( 3, result.order )
             self.assertEqual( 4, len( result.coefficients ) )

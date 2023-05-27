@@ -237,6 +237,26 @@ SCENARIO( "LegendreSeries" ) {
         CHECK(   0.4        == Approx( result.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = chunk * 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -20.66666666 == Approx( result.coefficients()[0] ) );
+        CHECK(  29.2        == Approx( result.coefficients()[1] ) );
+        CHECK(  -9.33333333 == Approx( result.coefficients()[2] ) );
+        CHECK(   0.8        == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk / 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -5.16666666 == Approx( result.coefficients()[0] ) );
+        CHECK(  7.3        == Approx( result.coefficients()[1] ) );
+        CHECK( -2.33333334 == Approx( result.coefficients()[2] ) );
+        CHECK(  0.2        == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         result = chunk + small;
 
         CHECK( 3 == result.order() );

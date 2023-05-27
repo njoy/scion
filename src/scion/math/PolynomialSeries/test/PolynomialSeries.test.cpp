@@ -255,6 +255,26 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK(   1. == Approx( result.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = chunk * 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -16. == Approx( result.coefficients()[0] ) );
+        CHECK(  28. == Approx( result.coefficients()[1] ) );
+        CHECK( -14. == Approx( result.coefficients()[2] ) );
+        CHECK(   2. == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk / 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK( -4.  == Approx( result.coefficients()[0] ) );
+        CHECK(  7.  == Approx( result.coefficients()[1] ) );
+        CHECK( -3.5 == Approx( result.coefficients()[2] ) );
+        CHECK(  0.5 == Approx( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         result = chunk + small;
 
         CHECK( 3 == result.order() );

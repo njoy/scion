@@ -175,6 +175,22 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -4.66666667, chunk.coefficients[2] )
             self.assertAlmostEqual(   0.4       , chunk.coefficients[3] )
 
+            result = chunk * 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -20.66666666, result.coefficients[0] )
+            self.assertAlmostEqual(  29.2       , result.coefficients[1] )
+            self.assertAlmostEqual(  -9.33333333, result.coefficients[2] )
+            self.assertAlmostEqual(   0.8       , result.coefficients[3] )
+
+            result = chunk / 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5.16666666, result.coefficients[0] )
+            self.assertAlmostEqual(  7.3       , result.coefficients[1] )
+            self.assertAlmostEqual( -2.33333334, result.coefficients[2] )
+            self.assertAlmostEqual(  0.2       , result.coefficients[3] )
+
             result = chunk + 2.
             self.assertEqual( 3, result.order )
             self.assertEqual( 4, len( result.coefficients ) )
