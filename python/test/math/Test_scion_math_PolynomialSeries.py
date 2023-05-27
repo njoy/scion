@@ -82,6 +82,19 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -1., primitive.domain.lower_limit )
             self.assertAlmostEqual(  1., primitive.domain.upper_limit )
 
+            primitive = chunk.primitive( left = -1. )
+
+            self.assertEqual( 4, primitive.order )
+            self.assertEqual( 5, len( primitive.coefficients ) )
+            self.assertAlmostEqual( -211. / 12., primitive.coefficients[0] )
+            self.assertAlmostEqual(  -8., primitive.coefficients[1] )
+            self.assertAlmostEqual(   7., primitive.coefficients[2] )
+            self.assertAlmostEqual(  -7. / 3., primitive.coefficients[3] )
+            self.assertAlmostEqual(   1. / 4., primitive.coefficients[4] )
+            self.assertEqual( True, isinstance( primitive.domain, IntervalDomain ) )
+            self.assertAlmostEqual( -1., primitive.domain.lower_limit )
+            self.assertAlmostEqual(  1., primitive.domain.upper_limit )
+
             # verify roots
             roots = chunk.roots()
             self.assertEqual( 3, len( roots ) )

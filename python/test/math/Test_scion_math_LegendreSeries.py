@@ -67,6 +67,16 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -0.933333333333333, primitive.coefficients[3] )
             self.assertAlmostEqual(  0.057142857142857, primitive.coefficients[4] )
 
+            primitive = chunk.primitive( left = -1. )
+
+            self.assertEqual( 4, primitive.order )
+            self.assertEqual( 5, len( primitive.coefficients ) )
+            self.assertAlmostEqual( -15.2, primitive.coefficients[0] )
+            self.assertAlmostEqual( -9.4, primitive.coefficients[1] )
+            self.assertAlmostEqual(  4.809523809523809, primitive.coefficients[2] )
+            self.assertAlmostEqual( -0.933333333333333, primitive.coefficients[3] )
+            self.assertAlmostEqual(  0.057142857142857, primitive.coefficients[4] )
+
             # verify roots
             roots = chunk.roots()
             self.assertEqual( 3, len( roots ) )

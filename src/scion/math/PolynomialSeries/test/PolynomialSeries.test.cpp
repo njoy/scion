@@ -97,6 +97,19 @@ SCENARIO( "PolynomialSeries" ) {
         IntervalDomain< double > domain = std::get< IntervalDomain< double > >( primitive.domain() );
         CHECK( -1. == Approx( domain.lowerLimit() ) );
         CHECK(  1. == Approx( domain.upperLimit() ) );
+
+        primitive = chunk.primitive( -1. );
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK( -211. / 12. == Approx( primitive.coefficients()[0] ) );
+        CHECK(  -8. == Approx( primitive.coefficients()[1] ) );
+        CHECK(   7. == Approx( primitive.coefficients()[2] ) );
+        CHECK(  -7. / 3. == Approx( primitive.coefficients()[3] ) );
+        CHECK(   1. / 4. == Approx( primitive.coefficients()[4] ) );
+        domain = std::get< IntervalDomain< double > >( primitive.domain() );
+        CHECK( -1. == Approx( domain.lowerLimit() ) );
+        CHECK(  1. == Approx( domain.upperLimit() ) );
       } // THEN
 
       THEN( "roots can be calculated" ) {

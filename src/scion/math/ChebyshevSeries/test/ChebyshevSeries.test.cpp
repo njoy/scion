@@ -97,6 +97,16 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK(  3.625 == Approx( primitive.coefficients()[2] ) );
         CHECK( -0.5833333333333334 == Approx( primitive.coefficients()[3] ) );
         CHECK(  0.03125 == Approx( primitive.coefficients()[4] ) );
+
+        primitive = chunk.primitive( -1. );
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK( -13.989583333333332 == Approx( primitive.coefficients()[0] ) );
+        CHECK( -9.75 == Approx( primitive.coefficients()[1] ) );
+        CHECK(  3.625 == Approx( primitive.coefficients()[2] ) );
+        CHECK( -0.5833333333333334 == Approx( primitive.coefficients()[3] ) );
+        CHECK(  0.03125 == Approx( primitive.coefficients()[4] ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
