@@ -81,6 +81,8 @@ namespace math {
     using Parent::linearise;
     using Parent::operator+;
     using Parent::operator-;
+    using Parent::operator*;
+    using Parent::operator/;
     using Parent::operator+=;
     using Parent::operator-=;
     using Parent::operator*=;

@@ -176,14 +176,14 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
   .def(
 
     "__add__",
-    [] ( const Component& self, const X& right ) -> decltype(auto)
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
        { return self + right; },
     python::is_operator()
   )
   .def(
 
     "__sub__",
-    [] ( const Component& self, const X& right ) -> decltype(auto)
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
        { return self - right; },
     python::is_operator()
   )
@@ -203,15 +203,29 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
   )
   .def(
 
+    "__mul__",
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
+       { return self * right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__truediv__",
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
+       { return self / right; },
+    python::is_operator()
+  )
+  .def(
+
     "__iadd__",
-    [] ( Component& self, const X& right ) -> decltype(auto)
+    [] ( Component& self, const Y& right ) -> decltype(auto)
        { return self += right; },
     python::is_operator()
   )
   .def(
 
     "__isub__",
-    [] ( Component& self, const X& right ) -> decltype(auto)
+    [] ( Component& self, const Y& right ) -> decltype(auto)
        { return self -= right; },
     python::is_operator()
   )
@@ -232,14 +246,14 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
   .def(
 
     "__imul__",
-    [] ( Component& self, const X& right ) -> decltype(auto)
+    [] ( Component& self, const Y& right ) -> decltype(auto)
        { return self *= right; },
     python::is_operator()
   )
   .def(
 
     "__itruediv__",
-    [] ( Component& self, const X& right ) -> decltype(auto)
+    [] ( Component& self, const Y& right ) -> decltype(auto)
        { return self /= right; },
     python::is_operator()
   );

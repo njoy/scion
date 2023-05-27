@@ -192,6 +192,30 @@ namespace math {
     }
 
     /**
+     *  @brief Scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived operator*( const Y& right ) const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result *= right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived operator/( const Y& right ) const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result /= right;
+      return result;
+    }
+
+    /**
      *  @brief Series addition
      *
      *  @param[in] right    the series

@@ -185,6 +185,30 @@ namespace math {
     }
 
     /**
+     *  @brief Scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation operator*( const Y& right ) const {
+
+      ChebyshevApproximation result = *this;
+      result *= right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation operator/( const Y& right ) const {
+
+      ChebyshevApproximation result = *this;
+      result /= right;
+      return result;
+    }
+
+    /**
      *  @brief Series addition
      *
      *  @param[in] right    the Series
