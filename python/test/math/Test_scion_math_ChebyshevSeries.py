@@ -154,7 +154,6 @@ class Test_scion_math_ChebyshevSeries( unittest.TestCase ) :
             small = ChebyshevSeries( [ 3., 0., 1. ] )
             equal = ChebyshevSeries( [ 3., 0., 0., 1. ] )
             large = ChebyshevSeries( [ 3., 0., 0., 0., 1. ] )
-            result = ChebyshevSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )
