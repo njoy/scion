@@ -4,7 +4,7 @@
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */
 template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() ) const {
+InterpolationTable< X, Y > linearise( Convergence&& convergence = Convergence() ) const {
 
   if ( ! std::holds_alternative< IntervalDomain< X > >( this->domain() ) ) {
 
@@ -17,17 +17,17 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
 
   if ( 0 == this->order() ) {
 
-    return LinearLinearTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
-                                      { this->coefficients().front(),
-                                        this->coefficients().front() } );
+    return InterpolationTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
+                                       { this->coefficients().front(),
+                                         this->coefficients().front() } );
   }
   else if ( 1 == this->order() ) {
 
     const auto a = this->coefficients().back();
     const auto b = this->coefficients().front();
-    return LinearLinearTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
-                                      { a * domain.lowerLimit() + b,
-                                        a * domain.upperLimit() + b } );
+    return InterpolationTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
+                                       { a * domain.lowerLimit() + b,
+                                         a * domain.upperLimit() + b } );
   }
   else {
 
@@ -39,6 +39,6 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
                 std::forward< Convergence >( convergence ),
                 linearisation::MidpointSplit< X >() );
 
-    return LinearLinearTable< X, Y >( std::move( x ), std::move( y ) );
+    return InterpolationTable< X, Y >( std::move( x ), std::move( y ) );
   }
 }
