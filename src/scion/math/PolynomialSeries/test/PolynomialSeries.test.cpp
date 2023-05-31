@@ -135,8 +135,8 @@ SCENARIO( "PolynomialSeries" ) {
 
       THEN( "a PolynomialSeries can be linearised" ) {
 
-        ToleranceConvergence< double > tolerance( 0.01 );
-        InterpolationTable< double > linear = chunk.linearise( tolerance );
+        ToleranceConvergence< double > convergence( 0.01 );
+        InterpolationTable< double > linear = chunk.linearise( convergence );
 
         CHECK( 21 == linear.numberPoints() );
         CHECK( 1 == linear.numberRegions() );
