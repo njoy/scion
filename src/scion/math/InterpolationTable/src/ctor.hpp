@@ -65,7 +65,8 @@ InterpolationTable& operator=( InterpolationTable&& base ) {
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     std::vector< std::size_t > boundaries,
                     std::vector< interpolation::InterpolationType > interpolants ) :
-  Parent( IntervalDomain( x.front(), x.back() ) ),
+  Parent( IntervalDomain( x.size() > 0 ? x.front() : -1.,
+                          x.size() > 0 ? x.back() : +1. ) ),
   x_( std::move( x ) ), y_( std::move( y ) ),
   boundaries_( std::move( boundaries ) ),
   interpolants_( std::move( interpolants ) ) {
