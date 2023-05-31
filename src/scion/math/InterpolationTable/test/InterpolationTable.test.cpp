@@ -43,7 +43,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 1. == Approx( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
@@ -63,6 +62,171 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
         CHECK( 2.5 == Approx( chunk( 2.5 ) ) );
         CHECK( 1.5 == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "arithmetic operations can be performed" ) {
+
+        InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
+
+        chunk += 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 6. == Approx( chunk.y()[0] ) );
+        CHECK( 5. == Approx( chunk.y()[1] ) );
+        CHECK( 4. == Approx( chunk.y()[2] ) );
+        CHECK( 3. == Approx( chunk.y()[3] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 2. == Approx( chunk.y()[2] ) );
+        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk *= 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 8. == Approx( chunk.y()[0] ) );
+        CHECK( 6. == Approx( chunk.y()[1] ) );
+        CHECK( 4. == Approx( chunk.y()[2] ) );
+        CHECK( 2. == Approx( chunk.y()[3] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk /= 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 2. == Approx( chunk.y()[2] ) );
+        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        result = chunk + 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 1 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 1 == result.boundaries().size() );
+        CHECK( 1 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 3. == Approx( result.x()[2] ) );
+        CHECK( 4. == Approx( result.x()[3] ) );
+        CHECK( 6. == Approx( result.y()[0] ) );
+        CHECK( 5. == Approx( result.y()[1] ) );
+        CHECK( 4. == Approx( result.y()[2] ) );
+        CHECK( 3. == Approx( result.y()[3] ) );
+        CHECK( 3 == result.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 1 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 1 == result.boundaries().size() );
+        CHECK( 1 == result.interpolants().size() );
+        CHECK(  1. == Approx( result.x()[0] ) );
+        CHECK(  2. == Approx( result.x()[1] ) );
+        CHECK(  3. == Approx( result.x()[2] ) );
+        CHECK(  4. == Approx( result.x()[3] ) );
+        CHECK(  2. == Approx( result.y()[0] ) );
+        CHECK(  1. == Approx( result.y()[1] ) );
+        CHECK(  0. == Approx( result.y()[2] ) );
+        CHECK( -1. == Approx( result.y()[3] ) );
+        CHECK( 3 == result.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk * 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 1 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 1 == result.boundaries().size() );
+        CHECK( 1 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 3. == Approx( result.x()[2] ) );
+        CHECK( 4. == Approx( result.x()[3] ) );
+        CHECK( 8. == Approx( result.y()[0] ) );
+        CHECK( 6. == Approx( result.y()[1] ) );
+        CHECK( 4. == Approx( result.y()[2] ) );
+        CHECK( 2. == Approx( result.y()[3] ) );
+        CHECK( 3 == result.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk / 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 1 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 1 == result.boundaries().size() );
+        CHECK( 1 == result.interpolants().size() );
+        CHECK( 1.  == Approx( result.x()[0] ) );
+        CHECK( 2.  == Approx( result.x()[1] ) );
+        CHECK( 3.  == Approx( result.x()[2] ) );
+        CHECK( 4.  == Approx( result.x()[3] ) );
+        CHECK( 2.0 == Approx( result.y()[0] ) );
+        CHECK( 1.5 == Approx( result.y()[1] ) );
+        CHECK( 1.0 == Approx( result.y()[2] ) );
+        CHECK( 0.5 == Approx( result.y()[3] ) );
+        CHECK( 3 == result.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -209,6 +373,187 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 1.110360364 == Approx( linear.y()[16] ) );
         CHECK( 1.          == Approx( linear.y()[17] ) );
       } // THEN
+
+      THEN( "arithmetic operations can be performed" ) {
+
+        InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
+
+        chunk += 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 6. == Approx( chunk.y()[0] ) );
+        CHECK( 5. == Approx( chunk.y()[1] ) );
+        CHECK( 4. == Approx( chunk.y()[2] ) );
+        CHECK( 3. == Approx( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 2. == Approx( chunk.y()[2] ) );
+        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk *= 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 8. == Approx( chunk.y()[0] ) );
+        CHECK( 6. == Approx( chunk.y()[1] ) );
+        CHECK( 4. == Approx( chunk.y()[2] ) );
+        CHECK( 2. == Approx( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk /= 2.;
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 2. == Approx( chunk.y()[2] ) );
+        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        result = chunk + 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 2 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 3. == Approx( result.x()[2] ) );
+        CHECK( 4. == Approx( result.x()[3] ) );
+        CHECK( 6. == Approx( result.y()[0] ) );
+        CHECK( 5. == Approx( result.y()[1] ) );
+        CHECK( 4. == Approx( result.y()[2] ) );
+        CHECK( 3. == Approx( result.y()[3] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 3 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 2 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK(  1. == Approx( result.x()[0] ) );
+        CHECK(  2. == Approx( result.x()[1] ) );
+        CHECK(  3. == Approx( result.x()[2] ) );
+        CHECK(  4. == Approx( result.x()[3] ) );
+        CHECK(  2. == Approx( result.y()[0] ) );
+        CHECK(  1. == Approx( result.y()[1] ) );
+        CHECK(  0. == Approx( result.y()[2] ) );
+        CHECK( -1. == Approx( result.y()[3] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 3 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk * 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 2 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 3. == Approx( result.x()[2] ) );
+        CHECK( 4. == Approx( result.x()[3] ) );
+        CHECK( 8. == Approx( result.y()[0] ) );
+        CHECK( 6. == Approx( result.y()[1] ) );
+        CHECK( 4. == Approx( result.y()[2] ) );
+        CHECK( 2. == Approx( result.y()[3] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 3 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk / 2.;
+
+        CHECK( 4 == result.numberPoints() );
+        CHECK( 2 == result.numberRegions() );
+        CHECK( 4 == result.x().size() );
+        CHECK( 4 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1.  == Approx( result.x()[0] ) );
+        CHECK( 2.  == Approx( result.x()[1] ) );
+        CHECK( 3.  == Approx( result.x()[2] ) );
+        CHECK( 4.  == Approx( result.x()[3] ) );
+        CHECK( 2.0 == Approx( result.y()[0] ) );
+        CHECK( 1.5 == Approx( result.y()[1] ) );
+        CHECK( 1.0 == Approx( result.y()[2] ) );
+        CHECK( 0.5 == Approx( result.y()[3] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 3 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+      } // THEN
     } // WHEN
   } // GIVEN
 
@@ -316,6 +661,187 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 2.464163065 == Approx( linear.y()[9] ) );
         CHECK( 2.224339739 == Approx( linear.y()[10] ) );
         CHECK( 2.          == Approx( linear.y()[11] ) );
+      } // THEN
+
+      THEN( "arithmetic operations can be performed" ) {
+
+        InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
+
+        chunk += 2.;
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 2. == Approx( chunk.x()[2] ) );
+        CHECK( 3. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.x()[4] ) );
+        CHECK( 6. == Approx( chunk.y()[0] ) );
+        CHECK( 5. == Approx( chunk.y()[1] ) );
+        CHECK( 6. == Approx( chunk.y()[2] ) );
+        CHECK( 5. == Approx( chunk.y()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk -= 2.;
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 2. == Approx( chunk.x()[2] ) );
+        CHECK( 3. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.x()[4] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 4. == Approx( chunk.y()[2] ) );
+        CHECK( 3. == Approx( chunk.y()[3] ) );
+        CHECK( 2. == Approx( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk *= 2.;
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 2. == Approx( chunk.x()[2] ) );
+        CHECK( 3. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.x()[4] ) );
+        CHECK( 8. == Approx( chunk.y()[0] ) );
+        CHECK( 6. == Approx( chunk.y()[1] ) );
+        CHECK( 8. == Approx( chunk.y()[2] ) );
+        CHECK( 6. == Approx( chunk.y()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        chunk /= 2.;
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 2. == Approx( chunk.x()[2] ) );
+        CHECK( 3. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.x()[4] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 4. == Approx( chunk.y()[2] ) );
+        CHECK( 3. == Approx( chunk.y()[3] ) );
+        CHECK( 2. == Approx( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+
+        result = chunk + 2.;
+
+        CHECK( 5 == result.x().size() );
+        CHECK( 5 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 2. == Approx( result.x()[2] ) );
+        CHECK( 3. == Approx( result.x()[3] ) );
+        CHECK( 4. == Approx( result.x()[4] ) );
+        CHECK( 6. == Approx( result.y()[0] ) );
+        CHECK( 5. == Approx( result.y()[1] ) );
+        CHECK( 6. == Approx( result.y()[2] ) );
+        CHECK( 5. == Approx( result.y()[3] ) );
+        CHECK( 4. == Approx( result.y()[4] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 4 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - 2.;
+
+        CHECK( 5 == result.x().size() );
+        CHECK( 5 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 2. == Approx( result.x()[2] ) );
+        CHECK( 3. == Approx( result.x()[3] ) );
+        CHECK( 4. == Approx( result.x()[4] ) );
+        CHECK( 2. == Approx( result.y()[0] ) );
+        CHECK( 1. == Approx( result.y()[1] ) );
+        CHECK( 2. == Approx( result.y()[2] ) );
+        CHECK( 1. == Approx( result.y()[3] ) );
+        CHECK( 0. == Approx( result.y()[4] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 4 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk * 2.;
+
+        CHECK( 5 == result.x().size() );
+        CHECK( 5 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1. == Approx( result.x()[0] ) );
+        CHECK( 2. == Approx( result.x()[1] ) );
+        CHECK( 2. == Approx( result.x()[2] ) );
+        CHECK( 3. == Approx( result.x()[3] ) );
+        CHECK( 4. == Approx( result.x()[4] ) );
+        CHECK( 8. == Approx( result.y()[0] ) );
+        CHECK( 6. == Approx( result.y()[1] ) );
+        CHECK( 8. == Approx( result.y()[2] ) );
+        CHECK( 6. == Approx( result.y()[3] ) );
+        CHECK( 4. == Approx( result.y()[4] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 4 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk / 2.;
+
+        CHECK( 5 == result.x().size() );
+        CHECK( 5 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK( 1.  == Approx( result.x()[0] ) );
+        CHECK( 2.  == Approx( result.x()[1] ) );
+        CHECK( 2.  == Approx( result.x()[2] ) );
+        CHECK( 3.  == Approx( result.x()[3] ) );
+        CHECK( 4.  == Approx( result.x()[4] ) );
+        CHECK( 2.  == Approx( result.y()[0] ) );
+        CHECK( 1.5 == Approx( result.y()[1] ) );
+        CHECK( 2.  == Approx( result.y()[2] ) );
+        CHECK( 1.5 == Approx( result.y()[3] ) );
+        CHECK( 1.  == Approx( result.y()[4] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 4 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
     } // WHEN
   } // GIVEN
