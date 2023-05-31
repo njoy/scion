@@ -31,7 +31,10 @@ InterpolationTable( InterpolationTable&& table ) :
  */
 InterpolationTable& operator=( const InterpolationTable& base ) {
 
-  new (this) InterpolationTable( base );
+  if ( this != &base ) {
+
+    new (this) InterpolationTable( base );
+  }
   return *this;
 }
 
@@ -42,7 +45,10 @@ InterpolationTable& operator=( const InterpolationTable& base ) {
  */
 InterpolationTable& operator=( InterpolationTable&& base ) {
 
-  new (this) InterpolationTable( std::move( base ) );
+  if ( this != &base ) {
+
+    new (this) InterpolationTable( std::move( base ) );
+  }
   return *this;
 }
 
