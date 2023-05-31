@@ -96,7 +96,8 @@ namespace math {
      *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
      */
     template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-    LinearLinearTable< X, Y > linearise( Convergence&& = Convergence() ) const {
+    std::pair< std::vector< X >, std::vector< X > >
+    linearise( Convergence&& = Convergence() ) const {
 
       return { std::vector< X >{ this->x().begin(), this->x().end() },
                std::vector< Y >{ this->y().begin(), this->y().end() } };
