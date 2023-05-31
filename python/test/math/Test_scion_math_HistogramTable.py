@@ -48,22 +48,22 @@ class Test_scion_math_HistogramTable( unittest.TestCase ) :
             # verify linearisation
             linear = chunk.linearise()
 
-            self.assertEqual( 6, len( linear.x ) )
-            self.assertEqual( 6, len( linear.y ) )
+            self.assertEqual( 6, len( linear[0] ) )
+            self.assertEqual( 6, len( linear[1] ) )
 
-            self.assertAlmostEqual( 1., linear.x[0] )
-            self.assertAlmostEqual( 2., linear.x[1] )
-            self.assertAlmostEqual( 2., linear.x[2] )
-            self.assertAlmostEqual( 3., linear.x[3] )
-            self.assertAlmostEqual( 3., linear.x[4] )
-            self.assertAlmostEqual( 4., linear.x[5] )
+            self.assertAlmostEqual( 1., linear[0][0] )
+            self.assertAlmostEqual( 2., linear[0][1] )
+            self.assertAlmostEqual( 2., linear[0][2] )
+            self.assertAlmostEqual( 3., linear[0][3] )
+            self.assertAlmostEqual( 3., linear[0][4] )
+            self.assertAlmostEqual( 4., linear[0][5] )
 
-            self.assertAlmostEqual( 4., linear.y[0] )
-            self.assertAlmostEqual( 4., linear.y[1] )
-            self.assertAlmostEqual( 3., linear.y[2] )
-            self.assertAlmostEqual( 3., linear.y[3] )
-            self.assertAlmostEqual( 2., linear.y[4] )
-            self.assertAlmostEqual( 2., linear.y[5] )
+            self.assertAlmostEqual( 4., linear[1][0] )
+            self.assertAlmostEqual( 4., linear[1][1] )
+            self.assertAlmostEqual( 3., linear[1][2] )
+            self.assertAlmostEqual( 3., linear[1][3] )
+            self.assertAlmostEqual( 2., linear[1][4] )
+            self.assertAlmostEqual( 2., linear[1][5] )
 
         # the data is given explicitly
         chunk = HistogramTable( x = [ 1., 2., 3., 4. ],

@@ -8,7 +8,6 @@
 
 // convenience typedefs
 using namespace njoy::scion;
-template < typename X, typename Y = X > using LinearLinearTable = math::LinearLinearTable< X, Y >;
 template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
            typename YContainer = std::vector< Y > >
@@ -65,24 +64,24 @@ SCENARIO( "HistogramTable" ) {
 
       THEN( "a HistogramTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
+        auto linear = chunk.linearise();
 
-        CHECK( 6 == linear.x().size() );
-        CHECK( 6 == linear.y().size() );
+        CHECK( 6 == linear.first.size() );
+        CHECK( 6 == linear.second.size() );
 
-        CHECK( 1. == Approx( linear.x()[0] ) );
-        CHECK( 2. == Approx( linear.x()[1] ) );
-        CHECK( 2. == Approx( linear.x()[2] ) );
-        CHECK( 3. == Approx( linear.x()[3] ) );
-        CHECK( 3. == Approx( linear.x()[4] ) );
-        CHECK( 4. == Approx( linear.x()[5] ) );
+        CHECK( 1. == Approx( linear.first[0] ) );
+        CHECK( 2. == Approx( linear.first[1] ) );
+        CHECK( 2. == Approx( linear.first[2] ) );
+        CHECK( 3. == Approx( linear.first[3] ) );
+        CHECK( 3. == Approx( linear.first[4] ) );
+        CHECK( 4. == Approx( linear.first[5] ) );
 
-        CHECK( 4. == Approx( linear.y()[0] ) );
-        CHECK( 4. == Approx( linear.y()[1] ) );
-        CHECK( 3. == Approx( linear.y()[2] ) );
-        CHECK( 3. == Approx( linear.y()[3] ) );
-        CHECK( 2. == Approx( linear.y()[4] ) );
-        CHECK( 2. == Approx( linear.y()[5] ) );
+        CHECK( 4. == Approx( linear.second[0] ) );
+        CHECK( 4. == Approx( linear.second[1] ) );
+        CHECK( 3. == Approx( linear.second[2] ) );
+        CHECK( 3. == Approx( linear.second[3] ) );
+        CHECK( 2. == Approx( linear.second[4] ) );
+        CHECK( 2. == Approx( linear.second[5] ) );
       } // THEN
     } // WHEN
 
@@ -135,24 +134,24 @@ SCENARIO( "HistogramTable" ) {
 
       THEN( "a HistogramTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
+        auto linear = chunk.linearise();
 
-        CHECK( 6 == linear.x().size() );
-        CHECK( 6 == linear.y().size() );
+        CHECK( 6 == linear.first.size() );
+        CHECK( 6 == linear.second.size() );
 
-        CHECK( 1.    == Approx( linear.x()[0] ) );
-        CHECK( 2.    == Approx( linear.x()[1] ) );
-        CHECK( 2.    == Approx( linear.x()[2] ) );
-        CHECK( 3.    == Approx( linear.x()[3] ) );
-        CHECK( 3.    == Approx( linear.x()[4] ) );
-        CHECK( 4.    == Approx( linear.x()[5] ) );
+        CHECK( 1.    == Approx( linear.first[0] ) );
+        CHECK( 2.    == Approx( linear.first[1] ) );
+        CHECK( 2.    == Approx( linear.first[2] ) );
+        CHECK( 3.    == Approx( linear.first[3] ) );
+        CHECK( 3.    == Approx( linear.first[4] ) );
+        CHECK( 4.    == Approx( linear.first[5] ) );
 
-        CHECK( 4. == Approx( linear.y()[0] ) );
-        CHECK( 4. == Approx( linear.y()[1] ) );
-        CHECK( 3. == Approx( linear.y()[2] ) );
-        CHECK( 3. == Approx( linear.y()[3] ) );
-        CHECK( 2. == Approx( linear.y()[4] ) );
-        CHECK( 2. == Approx( linear.y()[5] ) );
+        CHECK( 4. == Approx( linear.second[0] ) );
+        CHECK( 4. == Approx( linear.second[1] ) );
+        CHECK( 3. == Approx( linear.second[2] ) );
+        CHECK( 3. == Approx( linear.second[3] ) );
+        CHECK( 2. == Approx( linear.second[4] ) );
+        CHECK( 2. == Approx( linear.second[5] ) );
       } // THEN
     } // WHEN
   } // GIVEN
