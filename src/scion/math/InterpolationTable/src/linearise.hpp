@@ -4,8 +4,7 @@
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */
 template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-InterpolationTable< X, Y > 
-linearise( Convergence&& convergence = Convergence() ) const {
+InterpolationTable linearise( Convergence&& convergence = Convergence() ) const {
 
   std::vector< X > x;
   std::vector< Y > y;
@@ -50,7 +49,6 @@ linearise( Convergence&& convergence = Convergence() ) const {
     }
   }
 
-  return InterpolationTable< X, Y >( std::move( x ), std::move( y ),
-                                     std::move( boundaries ),
-                                     std::move( interpolants ) );
+  return InterpolationTable( std::move( x ), std::move( y ),
+                             std::move( boundaries ), std::move( interpolants ) );
 }
