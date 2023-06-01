@@ -845,4 +845,41 @@ SCENARIO( "InterpolationTable" ) {
       } // THEN
     } // WHEN
   } // GIVEN
+
+  GIVEN( "invalid data for an InterpolationTable object" ) {
+
+    WHEN( "there are not enough values in the x or y grid" ) {
+
+      std::vector< double > empty = {};
+      std::vector< double > one = { 1. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( empty, empty ) );
+        CHECK_THROWS( InterpolationTable< double >( one, one ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the x and y grid do not have the same number of points" ) {
+
+      std::vector< double > x = { 1., 2., 3., 4. };
+      std::vector< double > y = { 4., 3., 2. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the x grid is not sorted" ) {
+
+      std::vector< double > x = { 1., 3., 2., 4. };
+      std::vector< double > y = { 4., 3., 2., 1. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
 } // SCENARIO
