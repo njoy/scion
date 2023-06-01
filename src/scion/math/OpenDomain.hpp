@@ -52,6 +52,26 @@ namespace math {
 
       return true;
     }
+
+    /**
+     *  @brief Comparison operator: equal
+     *
+     *  @param[in] right   the domain on the right hand side
+     */
+    bool operator==( const OpenDomain& right ) const noexcept {
+
+      return true;
+    }
+
+    /**
+     *  @brief Comparison operator: not equal
+     *
+     *  @param[in] right   the domain on the right hand side
+     */
+    bool operator!=( const OpenDomain& right ) const noexcept {
+
+      return false;
+    }
   };
 
 } // math namespace
