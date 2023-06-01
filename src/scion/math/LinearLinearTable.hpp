@@ -7,9 +7,8 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
-#include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/SingleTableBase.hpp"
 
 namespace njoy {
 namespace scion {
@@ -27,15 +26,16 @@ namespace math {
              typename XContainer = std::vector< X >,
              typename YContainer = std::vector< Y > >
   class LinearLinearTable :
-    public FunctionBase< LinearLinearTable< X, Y, XContainer, YContainer >, X, Y > {
+    public SingleTableBase< LinearLinearTable< X, Y, XContainer, YContainer >,
+                            interpolation::LinearLinear, X, Y,
+                            XContainer, YContainer > {
 
     /* type aliases */
-    using Parent = FunctionBase< LinearLinearTable< X, Y, XContainer, YContainer >, X, Y >;
-    using Table = interpolation::Table< interpolation::LinearLinear,
-                                        XContainer, YContainer >;
+    using Parent = SingleTableBase< LinearLinearTable< X, Y, XContainer, YContainer >,
+                                    interpolation::LinearLinear, X, Y,
+                                    XContainer, YContainer >;
 
     /* fields */
-    Table table_;
 
     /* auxiliary function */
 
@@ -49,44 +49,14 @@ namespace math {
     /**
      *  @brief Return the interpolation type
      */
-    static constexpr interpolation::InterpolationType interpolation() noexcept {
+    static constexpr interpolation::InterpolationType type() noexcept {
 
       return interpolation::InterpolationType::LinearLinear;
     }
 
-    /**
-     *  @brief Return the x values of the table
-     */
-    const XContainer& x() const noexcept {
-
-      return this->table_.x();
-    }
-
-    /**
-     *  @brief Return the y values of the table
-     */
-    const YContainer& y() const noexcept {
-
-      return this->table_.y();
-    }
-
-    /**
-     *  @brief Return the number of points in the table
-     */
-    std::size_t numberPoints() const noexcept {
-
-      return this->x().size();
-    }
-
-    /**
-     *  @brief Evaluate the function for a value of x
-     *
-     *  @param x   the value to be evaluated
-     */
-    Y evaluate( const X& x ) const {
-
-      return this->table_.evaluate( x );
-    }
+    using Parent::x;
+    using Parent::y;
+    using Parent::numberPoints;
 
     /**
      *  @brief Linearise the table and return a LinearLinearTable

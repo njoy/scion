@@ -1,15 +1,3 @@
-private:
-
-/**
- *  @brief Private intermediate constructor
- */
-LinearLinearTable( Table&& table ) :
-  Parent( IntervalDomain( table.x().front(), table.x().back() ) ),
-  table_( std::move( table ) ) {}
-
-
-public:
-
 /**
  *  @brief Constructor
  *
@@ -17,4 +5,4 @@ public:
  *  @param y   the y values of the tabulated data
  */
 LinearLinearTable( XContainer x, YContainer y ) :
-  LinearLinearTable( Table( std::move( x ), std::move( y ) ) ) {}
+  Parent( std::move( x ), std::move( y ) ) {}
