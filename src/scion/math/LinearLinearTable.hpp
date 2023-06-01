@@ -54,6 +54,7 @@ namespace math {
       return interpolation::InterpolationType::LinearLinear;
     }
 
+    using Parent::interpolation;
     using Parent::x;
     using Parent::y;
     using Parent::numberPoints;

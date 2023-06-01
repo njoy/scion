@@ -53,6 +53,7 @@ namespace math {
       return interpolation::InterpolationType::LogLog;
     }
 
+    using Parent::interpolation;
     using Parent::x;
     using Parent::y;
     using Parent::numberPoints;
