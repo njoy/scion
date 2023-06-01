@@ -38,34 +38,10 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
     "    self   the function\n"
     "    x      the x values of the tabulated data\n"
     "    y      the y values of the tabulated data"
-  )
-  .def_property_readonly(
-
-    "interpolation",
-    [] (const Component& self) { return self.interpolation(); },
-    "The interpolation type"
-  )
-  .def_property_readonly(
-
-    "x",
-    &Component::x,
-    "The x values of the table"
-  )
-  .def_property_readonly(
-
-    "y",
-    &Component::y,
-    "The y values of the table"
-  )
-  .def_property_readonly(
-
-    "number_points",
-    &Component::numberPoints,
-    "The number of points in the table"
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSingleInterpolationTableDefinitions< Component, X, Y >( component );
 }
 
 void wrapLinearLinearTable( python::module& module ) {

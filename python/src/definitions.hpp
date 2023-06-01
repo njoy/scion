@@ -293,6 +293,51 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
 }
 
 /**
+ *  @brief Add standard single interpolation zone table definitions
+ *
+ *  This adds the following standard functions:
+ *    number_points, interpolation, x, y
+ *
+ *  @param[in] component   the domain to which the definitions have to be added
+ */
+template < typename Component, typename X, typename Y, typename PythonClass >
+void addStandardSingleInterpolationTableDefinitions( PythonClass& component ) {
+
+  component
+  .def_property_readonly(
+
+    "interpolation",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.interpolation(); },
+    "The interpolation type"
+  )
+  .def_property_readonly(
+
+    "x",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.x(); },
+    "The x values of the table"
+  )
+  .def_property_readonly(
+
+    "y",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.y(); },
+    "The y values of the table"
+  )
+  .def_property_readonly(
+
+    "number_points",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.numberPoints(); },
+    "The y values of the table"
+  );
+
+  // add standard function definitions
+  addStandardFunctionDefinitions< Component, X, Y >( component );
+}
+
+/**
  *  @brief Add standard split functor definitions
  *
  *  This adds the following standard functions:
