@@ -1,5 +1,5 @@
 /**
- *  @brief Linearise the table and return a LinearLinearTable
+ *  @brief Linearise the table and return the linearised x and y data
  *
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */

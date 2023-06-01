@@ -8,7 +8,7 @@ static void verifyTable( const XContainer& x, const YContainer& y ) {
     auto iter = std::adjacent_find( x.begin(), x.end() );
     while ( iter != x.end() ) {
 
-      Log::info( "Duplicate x value found: ", *iter );
+      Log::info( "Duplicate x value found: {}", *iter );
       iter = std::adjacent_find( ++iter, x.end() );
     }
     throw std::exception();
