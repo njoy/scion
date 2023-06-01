@@ -22,21 +22,29 @@ class Test_scion_math_IntervalDomain( unittest.TestCase ) :
             max = sys.float_info.max
             min = -max
 
-            self.assertEqual( False, chunk.is_inside( x = min ) );
-            self.assertEqual( True, chunk.is_inside( x = -1.0 ) );
-            self.assertEqual( True, chunk.is_inside( x = -0.5 ) );
-            self.assertEqual( True, chunk.is_inside( x =  0.0 ) );
-            self.assertEqual( True, chunk.is_inside( x =  0.5 ) );
-            self.assertEqual( True, chunk.is_inside( x =  1.0 ) );
-            self.assertEqual( False, chunk.is_inside( x = max ) );
+            self.assertEqual( False, chunk.is_inside( x = min ) )
+            self.assertEqual( True, chunk.is_inside( x = -1.0 ) )
+            self.assertEqual( True, chunk.is_inside( x = -0.5 ) )
+            self.assertEqual( True, chunk.is_inside( x =  0.0 ) )
+            self.assertEqual( True, chunk.is_inside( x =  0.5 ) )
+            self.assertEqual( True, chunk.is_inside( x =  1.0 ) )
+            self.assertEqual( False, chunk.is_inside( x = max ) )
 
-            self.assertEqual( False, chunk.is_inside( x = min ) );
-            self.assertEqual( False, chunk.is_contained( x = -1.0 ) );
-            self.assertEqual( True, chunk.is_contained( x = -0.5 ) );
-            self.assertEqual( True, chunk.is_contained( x =  0.0 ) );
-            self.assertEqual( True, chunk.is_contained( x =  0.5 ) );
-            self.assertEqual( False, chunk.is_contained( x =  1.0 ) );
-            self.assertEqual( False, chunk.is_inside( x = max ) );
+            self.assertEqual( False, chunk.is_contained( x = min ) )
+            self.assertEqual( False, chunk.is_contained( x = -1.0 ) )
+            self.assertEqual( True, chunk.is_contained( x = -0.5 ) )
+            self.assertEqual( True, chunk.is_contained( x =  0.0 ) )
+            self.assertEqual( True, chunk.is_contained( x =  0.5 ) )
+            self.assertEqual( False, chunk.is_contained( x =  1.0 ) )
+            self.assertEqual( False, chunk.is_contained( x = max ) )
+
+            same = IntervalDomain( -1., 1. )
+            different = IntervalDomain( 0., 1. )
+
+            self.assertEqual( True, chunk == same )
+            self.assertEqual( False, chunk == different )
+            self.assertEqual( False, chunk != same )
+            self.assertEqual( True, chunk != different )
 
         # the data is given explicitly
         chunk = IntervalDomain( lower = -1., upper = 1. )

@@ -43,6 +43,20 @@ void addStandardDomainDefinitions( PythonClass& component ) {
     "Arguments:\n"
     "    self   the domain\n"
     "    x      the value to be tested"
+  )
+  .def(
+
+    "__eq__",
+    [] ( const Component& self, const Component& right )
+       { return self == right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__ne__",
+    [] ( const Component& self, const Component& right )
+       { return self != right; },
+    python::is_operator()
   );
 }
 
