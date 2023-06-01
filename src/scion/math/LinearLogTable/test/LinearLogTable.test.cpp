@@ -13,6 +13,7 @@ template < typename X, typename Y = X,
            typename YContainer = std::vector< Y > >
 using LinearLogTable = math::LinearLogTable< X, Y, XContainer, YContainer >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "LinearLogTable" ) {
@@ -120,6 +121,21 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( 1.110360364 == Approx( linear.second[23] ) );
         CHECK( 1.          == Approx( linear.second[24] ) );
       } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
+      } // THEN
     } // WHEN
 
     WHEN( "the data is given explicitly using iterator views" ) {
@@ -226,6 +242,21 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( 1.224339739 == Approx( linear.second[22] ) );
         CHECK( 1.110360364 == Approx( linear.second[23] ) );
         CHECK( 1.          == Approx( linear.second[24] ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
     } // WHEN
   } // GIVEN

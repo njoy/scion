@@ -10,6 +10,7 @@ using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "InterpolationTable" ) {
@@ -62,6 +63,21 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
         CHECK( 2.5 == Approx( chunk( 2.5 ) ) );
         CHECK( 1.5 == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -317,6 +333,21 @@ SCENARIO( "InterpolationTable" ) {
         // values of x inside the x grid (lin-log piece)
         CHECK( 2.449660287 == Approx( chunk( 2.5 ) ) );
         CHECK( 1.464163065 == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -616,6 +647,21 @@ SCENARIO( "InterpolationTable" ) {
         // values of x inside the x grid (lin-log piece)
         CHECK( 3.449660287 == Approx( chunk( 2.5 ) ) );
         CHECK( 2.464163065 == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
