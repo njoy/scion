@@ -7,6 +7,7 @@ import sys
 # local imports
 from scion.math import LinearLogTable
 from scion.math import IntervalDomain
+from scion.math import OpenDomain
 from scion.interpolation import InterpolationType
 
 class Test_scion_math_LinearLogTable( unittest.TestCase ) :
@@ -43,6 +44,19 @@ class Test_scion_math_LinearLogTable( unittest.TestCase ) :
             # verify evaluation - values of x inside the x grid
             self.assertAlmostEqual( 3.415037499, chunk( x = 1.5 ) )
             self.assertAlmostEqual( 1.464163065, chunk( x = 3.5 ) )
+
+            # verify domain comparison
+            self.assertEqual( True, chunk.is_inside( 1. ) )
+            self.assertEqual( True, chunk.is_inside( 2.5 ) )
+            self.assertEqual( True, chunk.is_inside( 4. ) )
+
+            self.assertEqual( False, chunk.is_contained( 1. ) )
+            self.assertEqual( True, chunk.is_contained( 2.5 ) )
+            self.assertEqual( False, chunk.is_contained( 4. ) )
+
+            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( 1., 4. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
 
             # verify linearisation
             linear = chunk.linearise()
