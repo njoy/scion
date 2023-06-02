@@ -60,6 +60,11 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
     ++xIter;
     if ( std::next( xIter ) == x.end() ) {
 
+      Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
+      throw std::exception();
+    }
+    if ( *std::next( xIter ) == *xIter ) {
+
       Log::error( "An x value can only be repeated a maximum of two times" );
       Log::info( "x = {} is present at least three times", *xIter );
       throw std::exception();
