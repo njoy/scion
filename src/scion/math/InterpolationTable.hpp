@@ -50,6 +50,7 @@ namespace math {
 
     /* auxiliary function */
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
+    #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
 
     /**
      *  @brief Return the interpolation tables
