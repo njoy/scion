@@ -1069,8 +1069,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
         # the x grid has a jump at the end
         with self.assertRaises( Exception ) :
 
-            chunk = InterpolationTable( x = [ 1., 2., 2., 4., 4. ],
-                                        y = [ 4., 3., 3., 1., 4. ] )
+            chunk = InterpolationTable( x = [ 1., 2., 4., 4. ],
+                                        y = [ 4., 3., 1., 4. ] )
 
 if __name__ == '__main__' :
 
