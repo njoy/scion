@@ -31,8 +31,6 @@ namespace math {
  *                     (must be the highest order coefficient)
  *  @param[in] last    an input iterator to the final position in a sequence
  *  @param[in] x       the value of X
- *
- *  @return The evaluated Y value
  */
 template < typename X, typename Y = X, typename Iter >
 Y horner( Iter first, Iter last, const X& x ) noexcept {
