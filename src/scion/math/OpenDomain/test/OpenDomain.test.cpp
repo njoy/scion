@@ -30,13 +30,13 @@ SCENARIO( "OpenDomain" ) {
         CHECK( true == chunk.isInside(  1.0 ) );
         CHECK( true == chunk.isInside( max ) );
 
-        CHECK( true == chunk.isInside( min ) );
+        CHECK( true == chunk.isContained( min ) );
         CHECK( true == chunk.isContained( -1.0 ) );
         CHECK( true == chunk.isContained( -0.5 ) );
         CHECK( true == chunk.isContained(  0.0 ) );
         CHECK( true == chunk.isContained(  0.5 ) );
         CHECK( true == chunk.isContained(  1.0 ) );
-        CHECK( true == chunk.isInside( max ) );
+        CHECK( true == chunk.isContained( max ) );
       } // THEN
 
 
