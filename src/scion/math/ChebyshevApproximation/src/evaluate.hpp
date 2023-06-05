@@ -9,5 +9,5 @@
  */
 Y evaluate( const X& x ) const {
 
-  return this->series_.evaluate( this->transform( x ) );
+  return this->series_( this->transform( x ) );
 }
