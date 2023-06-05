@@ -16,7 +16,10 @@ namespace interpolation {
    */
   class LinearLinear : public InterpolatorBase< LinearLinear > {
 
-  public:
+    /* friend declarations */
+    friend class InterpolatorBase< LinearLinear >;
+
+    /* interface implementation functions */
 
     /**
      *  @brief Perform linear-linear interpolation (y is linear in x)
@@ -34,6 +37,8 @@ namespace interpolation {
 
       return yLeft + ( yRight - yLeft ) / ( xRight - xLeft ) * ( x - xLeft );
     }
+
+  public:
 
     using InterpolatorBase::operator();
   };
