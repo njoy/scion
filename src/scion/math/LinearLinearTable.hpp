@@ -30,6 +30,11 @@ namespace math {
                             interpolation::LinearLinear, X, Y,
                             XContainer, YContainer > {
 
+    /* friend declarations */
+    friend class SingleTableBase< LinearLinearTable< X, Y, XContainer, YContainer >,
+                                  interpolation::LinearLinear, X, Y,
+                                  XContainer, YContainer >;
+
     /* type aliases */
     using Parent = SingleTableBase< LinearLinearTable< X, Y, XContainer, YContainer >,
                                     interpolation::LinearLinear, X, Y,
@@ -39,12 +44,7 @@ namespace math {
 
     /* auxiliary function */
 
-  public:
-
-    /* constructor */
-    #include "scion/math/LinearLinearTable/src/ctor.hpp"
-
-    /* methods */
+    /* interface implementation functions */
 
     /**
      *  @brief Return the interpolation type
@@ -53,6 +53,13 @@ namespace math {
 
       return interpolation::InterpolationType::LinearLinear;
     }
+
+  public:
+
+    /* constructor */
+    #include "scion/math/LinearLinearTable/src/ctor.hpp"
+
+    /* methods */
 
     using Parent::interpolation;
     using Parent::x;

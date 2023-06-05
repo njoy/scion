@@ -29,6 +29,11 @@ namespace math {
                             interpolation::LogarithmicLogarithmic, X, Y,
                             XContainer, YContainer > {
 
+    /* friend declarations */
+    friend class SingleTableBase< LogLogTable< X, Y, XContainer, YContainer >,
+                                  interpolation::LogarithmicLogarithmic, X, Y,
+                                  XContainer, YContainer >;
+
     /* type aliases */
     using Parent = SingleTableBase< LogLogTable< X, Y, XContainer, YContainer >,
                                     interpolation::LogarithmicLogarithmic, X, Y,
@@ -36,14 +41,9 @@ namespace math {
 
     /* fields */
 
-    /* auxiliary function */
+    /* auxiliary functions */
 
-  public:
-
-    /* constructor */
-    #include "scion/math/LogLogTable/src/ctor.hpp"
-
-    /* methods */
+    /* interface implementation functions */
 
     /**
      *  @brief Return the interpolation type
@@ -52,6 +52,13 @@ namespace math {
 
       return interpolation::InterpolationType::LogLog;
     }
+
+  public:
+
+    /* constructor */
+    #include "scion/math/LogLogTable/src/ctor.hpp"
+
+    /* methods */
 
     using Parent::interpolation;
     using Parent::x;
