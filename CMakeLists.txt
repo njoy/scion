@@ -72,25 +72,27 @@ if( scion.python )
 
   pybind11_add_module( scion.python
       python/src/scion.python.cpp
+      python/src/math.python.cpp
+      python/src/math/horner.python.cpp
       )
 
   target_link_libraries( scion.python PRIVATE scion )
-  target_include_directories( scion.python PRIVATE python/src )
+  target_include_directories( scion.python PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/python/src )
   target_compile_options( scion.python PRIVATE "-fvisibility=hidden" )
   set_target_properties( scion.python PROPERTIES OUTPUT_NAME scion )
   set_target_properties( scion.python PROPERTIES COMPILE_DEFINITIONS "PYBIND11" )
   set_target_properties( scion.python PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
+  message( STATUS "Building scion's python API" )
+
+  list( APPEND SCION_PYTHONPATH ${CMAKE_CURRENT_BINARY_DIR} )
+
+  include( cmake/unit_testing_python.cmake )
+
 endif()
 
-#######################################################################
-# Top-level Only
-#######################################################################
-
 if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
-
-    if( scion.tests )
-        include( cmake/unit_testing.cmake )
-    endif()
-
+  if( scion.tests )
+    include( cmake/unit_testing.cmake )
+  endif()
 endif()

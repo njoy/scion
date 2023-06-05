@@ -10,4 +10,4 @@ enable_testing()
 # Unit testing directories
 #######################################################################
 
-# add_subdirectory( src/codex/xxx/test )
+add_subdirectory( src/scion/math/horner/test )
