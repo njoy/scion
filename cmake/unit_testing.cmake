@@ -12,3 +12,4 @@ enable_testing()
 
 add_subdirectory( src/scion/math/clenshaw/test )
 add_subdirectory( src/scion/math/horner/test )
+add_subdirectory( src/scion/math/legendre/test )

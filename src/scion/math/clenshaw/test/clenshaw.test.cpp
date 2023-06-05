@@ -53,10 +53,14 @@ SCENARIO( "clenshaw" ) {
     std::vector< double > order2 = { 1., 2., 3. };
     std::vector< double > order3 = { 1., 2., 3., 4. };
 
-    auto a = [] ( unsigned int k, double x ) -> double
-                { return ( 2. * static_cast< double >( k ) + 1. ) * x / ( static_cast< double >( k ) + 1. ); };
-    auto b = [] ( unsigned int k, double x ) -> double
-                { return - static_cast< double >( k ) / ( static_cast< double >( k ) + 1. ); };
+    auto a = [] ( unsigned int k, double x ) -> double {
+
+      return static_cast< double >( 2 * k + 1 ) / static_cast< double >( k + 1 ) * x;
+    };
+    auto b = [] ( unsigned int k, double x ) -> double {
+
+      return - static_cast< double >( k ) / static_cast< double >( k + 1 );
+    };
 
     WHEN( "the iterators are used" ) {
 
