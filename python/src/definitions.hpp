@@ -351,20 +351,6 @@ void addStandardSplitDefinitions( PythonClass& component ) {
   component
   .def(
 
-    "split",
-    &Component::split,
-    python::arg( "xLeft" ), python::arg( "xRight" ),
-    python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Split the panel\n\n"
-    "Arguments:\n"
-    "    self     the split functor\n"
-    "    xLeft    the left value on the x interval\n"
-    "    xRight   the right value on the x interval\n"
-    "    yLeft    the left value on the y interval\n"
-    "    yRight   the right value on the y interval"
-  )
-  .def(
-
     "__call__",
     [] ( const Component& self,
          const X& xLeft, const X& xRight,
@@ -394,23 +380,6 @@ template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardConvergenceDefinitions( PythonClass& component ) {
 
   component
-  .def(
-
-    "has_converged",
-    &Component::hasConverged,
-    python::arg( "trial" ), python::arg( "reference" ),
-    python::arg( "xLeft" ), python::arg( "xRight" ),
-    python::arg( "yLeft" ), python::arg( "yRight" ),
-    "Test the convergence of the linearisation\n\n"
-    "Arguments:\n"
-    "    self         the convergence functor\n"
-    "    trial        the trial value to be tested\n"
-    "    reference    the reference value to be tested against\n"
-    "    xLeft        the left value on the x interval\n"
-    "    xRight       the right value on the x interval\n"
-    "    yLeft        the left value on the y interval\n"
-    "    yRight       the right value on the y interval"
-  )
   .def(
 
     "__call__",
