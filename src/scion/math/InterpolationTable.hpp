@@ -28,6 +28,9 @@ namespace math {
   template < typename X, typename Y = X >
   class InterpolationTable : public FunctionBase< InterpolationTable< X, Y >, X, Y > {
 
+    /* friend declarations */
+    friend class FunctionBase< InterpolationTable< X, Y >, X, Y >;
+
     /* type aliases */
     using Parent = FunctionBase< InterpolationTable< X, Y >, X, Y >;
     using XIterator = typename std::vector< X >::const_iterator;
@@ -59,6 +62,9 @@ namespace math {
 
       return this->tables_;
     }
+
+    /* interface implementation functions */
+    #include "scion/math/InterpolationTable/src/evaluate.hpp"
 
   public:
 
@@ -115,7 +121,6 @@ namespace math {
       return this->boundaries().size();
     }
 
-    #include "scion/math/InterpolationTable/src/evaluate.hpp"
     #include "scion/math/InterpolationTable/src/linearise.hpp"
 
     /**
