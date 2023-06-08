@@ -50,6 +50,7 @@ namespace math {
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
     std::vector< TableVariant > tables_;
+    bool linearised_;
 
     /* auxiliary function */
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
@@ -119,6 +120,14 @@ namespace math {
     std::size_t numberRegions() const noexcept {
 
       return this->boundaries().size();
+    }
+
+    /**
+     *  @brief Return whether or not the data is linearised
+     */
+    bool isLinearised() const noexcept {
+
+      return this->linearised_;
     }
 
     #include "scion/math/InterpolationTable/src/linearise.hpp"
