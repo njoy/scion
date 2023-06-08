@@ -41,8 +41,8 @@ namespace linearisation {
   class Lineariser {
 
     /* type aliases */
-    using X = typename XContainer::value_type;
-    using Y = typename XContainer::value_type;
+    using X = typename std::decay< typename XContainer::value_type >::type;
+    using Y = typename std::decay< typename YContainer::value_type >::type;
 
     /* fields */
     std::reference_wrapper< XContainer > x_;

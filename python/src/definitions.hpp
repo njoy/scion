@@ -67,7 +67,7 @@ void addStandardDomainDefinitions( PythonClass& component ) {
  *  This adds the following standard functions:
  *    is_inside, is_contained, __call__, evaluate, domain
  *
- *  @param[in] component   the domain to which the definitions have to be added
+ *  @param[in] component   the function to which the definitions have to be added
  */
 template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardFunctionDefinitions( PythonClass& component ) {
@@ -147,62 +147,17 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
  *  @brief Add standard series expansion definitions
  *
  *  This adds the following standard functions:
- *    coefficients, order
+ *    +=, -= for scalars and Component
+ *    +, - for scalars and Component
+ *    *=, /= for scalars
+ *    *, / for scalars
  *
- *  @param[in] component   the domain to which the definitions have to be added
+ *  @param[in] component   the function to which the definitions have to be added
  */
 template < typename Component, typename X, typename Y, typename PythonClass >
-void addStandardSeriesDefinitions( PythonClass& component ) {
+void addStandardOperatorDefinitions( PythonClass& component ) {
 
   component
-  .def_property_readonly(
-
-    "coefficients",
-    [] ( const Component& self ) -> decltype(auto)
-       { return self.coefficients(); },
-    "The Legendre coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    [] ( const Component& self ) -> decltype(auto)
-       { return self.order(); },
-    "The Legendre order"
-  )
-  .def(
-
-    "derivative",
-    [] ( const Component& self ) -> decltype(auto)
-       { return self.derivative(); },
-    "Return the derivative of the series"
-  )
-  .def(
-
-    "primitive",
-    [] ( const Component& self, const X& left ) -> decltype(auto)
-       { return self.primitive( left ); },
-    python::arg( "left" ) = X( 0. ),
-    "Return the primitive or antiderivative of the series\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    left   the left bound of the integral (default = 0)"
-  )
-  .def(
-
-    "roots",
-    [] ( const Component& self, const X& a ) -> decltype(auto)
-       { return self.roots( a ); },
-    python::arg( "a" ) = X( 0. ),
-    "Calculate the real roots of the series so that f(x) = a\n\n"
-    "This function calculates all roots on the real axis of the series.\n\n"
-    "The roots of the series are the eigenvalues of the companion matrix whose\n"
-    "elements are trivial functions of the coefficients of the series. The\n"
-    "resulting roots are in the complex plane so the roots that are not on the\n"
-    "real axis are filtered out.\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    a      the value of a (default is zero)"
-  )
   .def(
 
     "__add__",
@@ -287,9 +242,73 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
        { return self /= right; },
     python::is_operator()
   );
+}
 
-  // add standard function definitions
+/**
+ *  @brief Add standard series expansion definitions
+ *
+ *  This adds the following standard functions:
+ *    coefficients, order, derivative, primitive, roots
+ *    standard operators
+ *
+ *  @param[in] component   the series to which the definitions have to be added
+ */
+template < typename Component, typename X, typename Y, typename PythonClass >
+void addStandardSeriesDefinitions( PythonClass& component ) {
+
+  component
+  .def_property_readonly(
+
+    "coefficients",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.coefficients(); },
+    "The Legendre coefficients"
+  )
+  .def_property_readonly(
+
+    "order",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.order(); },
+    "The Legendre order"
+  )
+  .def(
+
+    "derivative",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.derivative(); },
+    "Return the derivative of the series"
+  )
+  .def(
+
+    "primitive",
+    [] ( const Component& self, const X& left ) -> decltype(auto)
+       { return self.primitive( left ); },
+    python::arg( "left" ) = X( 0. ),
+    "Return the primitive or antiderivative of the series\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    left   the left bound of the integral (default = 0)"
+  )
+  .def(
+
+    "roots",
+    [] ( const Component& self, const X& a ) -> decltype(auto)
+       { return self.roots( a ); },
+    python::arg( "a" ) = X( 0. ),
+    "Calculate the real roots of the series so that f(x) = a\n\n"
+    "This function calculates all roots on the real axis of the series.\n\n"
+    "The roots of the series are the eigenvalues of the companion matrix whose\n"
+    "elements are trivial functions of the coefficients of the series. The\n"
+    "resulting roots are in the complex plane so the roots that are not on the\n"
+    "real axis are filtered out.\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    a      the value of a (default is zero)"
+  );
+
+  // add standard function and operator definitions
   addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardOperatorDefinitions< Component, X, Y >( component );
 }
 
 /**

@@ -143,6 +143,7 @@ namespace math {
                       [&right] ( auto&& y ) { return y + right; } );
       return *this;
     }
+
     /**
      *  @brief Inplace scalar subtraction
      *
@@ -220,6 +221,33 @@ namespace math {
 
       InterpolationTable result = *this;
       result /= right;
+      return result;
+    }
+
+    #include "scion/math/InterpolationTable/src/operator+=.hpp"
+    #include "scion/math/InterpolationTable/src/operator-=.hpp"
+
+    /**
+     *  @brief InterpolationTable addition
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable operator+( const InterpolationTable& right ) const /* noexcept */ {
+
+      InterpolationTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief InterpolationTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable operator-( const InterpolationTable& right ) const /* noexcept */ {
+
+      InterpolationTable result = *this;
+      result -= right;
       return result;
     }
 
