@@ -191,6 +191,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK( -0.04785538 == Approx( linear.y()[18] ) );
         CHECK( -0.02368212 == Approx( linear.y()[19] ) );
         CHECK(  0.0        == Approx( linear.y()[20] ) );
+
+        CHECK( true == linear.isLinearised() );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
