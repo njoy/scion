@@ -164,6 +164,8 @@ class Test_scion_math_ChebyshevSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -0.02368212, linear.y[19] )
             self.assertAlmostEqual(  0.0       , linear.y[20] )
 
+            self.assertEqual( True, linear.is_linearised )
+
             # verify arithmetic operators
             small = ChebyshevSeries( [ 3., 0., 1. ] )
             equal = ChebyshevSeries( [ 3., 0., 0., 1. ] )

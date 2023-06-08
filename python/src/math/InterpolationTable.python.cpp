@@ -93,6 +93,12 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     &Component::numberRegions,
     "The number of interpolation regions in the table"
   )
+  .def_property_readonly(
+
+    "is_linearised",
+    &Component::isLinearised,
+    "Flag indicating whether or not the data is linearised"
+  )
   .def(
 
     "__add__",

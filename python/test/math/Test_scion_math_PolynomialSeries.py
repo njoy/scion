@@ -182,6 +182,8 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -0.02368212, linear.y[19] )
             self.assertAlmostEqual(  0.0       , linear.y[20] )
 
+            self.assertEqual( True, linear.is_linearised )
+
             # verify arithmetic operators
             small = PolynomialSeries( [ 3., 0., 1. ] )
             equal = PolynomialSeries( [ 3., 0., 0., 1. ] )
