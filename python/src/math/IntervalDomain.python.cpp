@@ -4,6 +4,7 @@
 
 // local includes
 #include "scion/math/IntervalDomain.hpp"
+#include "definitions.hpp"
 
 // namespace aliases
 namespace python = pybind11;
@@ -49,33 +50,15 @@ void wrapIntervalDomainFor( python::module& module, const std::string& name ) {
     "upper_limit",
     &Component::upperLimit,
     "The upper limit of the domain"
-  )
-  .def(
-
-    "is_inside",
-    &Component::isInside,
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the domain\n"
-    "    x      the value to be tested"
-  )
-  .def(
-
-    "is_contained",
-    &Component::isContained,
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the domain\n"
-    "    x      the value to be tested"
   );
+
+  // add standard domain definitions
+  addStandardDomainDefinitions< Component >( component );
 }
 
 void wrapIntervalDomain( python::module& module ) {
 
   wrapIntervalDomainFor< double >( module, "IntervalDomain" );
 }
-
 
 } // namespace math

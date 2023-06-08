@@ -16,3 +16,4 @@ add_subdirectory( src/scion/math/legendre/test )
 
 add_subdirectory( src/scion/math/IntervalDomain/test )
 add_subdirectory( src/scion/math/OpenDomain/test )
+add_subdirectory( src/scion/math/LegendreSeries/test )

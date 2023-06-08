@@ -19,6 +19,9 @@ namespace math {
   // function interface
   void wrapIntervalDomain( python::module& );
   void wrapOpenDomain( python::module& );
+
+  // functions
+  void wrapLegendreSeries( python::module& );
 }
 
 void wrapMathModule( python::module& module ) {
@@ -35,4 +38,5 @@ void wrapMathModule( python::module& module ) {
   math::wrapLegendre( submodule );
   math::wrapIntervalDomain( submodule );
   math::wrapOpenDomain( submodule );
+  math::wrapLegendreSeries( submodule );
 }
