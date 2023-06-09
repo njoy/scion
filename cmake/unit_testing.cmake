@@ -12,6 +12,8 @@ enable_testing()
 
 add_subdirectory( src/utility/IteratorView/test )
 
+add_subdirectory( src/scion/verification/ranges/test )
+
 add_subdirectory( src/scion/unionisation/unionise/test )
 
 add_subdirectory( src/scion/interpolation/Histogram/test )
