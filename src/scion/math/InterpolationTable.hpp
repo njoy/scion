@@ -3,7 +3,7 @@
 
 // system includes
 #include <vector>
-#include <iostream>
+
 // other includes
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
