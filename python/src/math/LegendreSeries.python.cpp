@@ -24,10 +24,13 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
 
     module,
     name.c_str(),
-    "A Legendre series function y -> f(x) = sum c_i P_i(x)\n\n"
+    "A Legendre series function y -> f(x) = sum c_i P_i(x) of order n\n\n"
     "This class represents a Legendre series function y -> f(x) = sum c_i P_i(x)\n"
     "defined over the domain [-1,1]. An exception is thrown for values outside\n"
-    "of the domain."
+    "of the domain.\n\n"
+    "The Clenshaw recursion scheme is used for the evaluation of the series\n"
+    "using the following recursion relation for Legendre polynomials:\n"
+    "  P(n+2,x) = (2k+1)/(k+1) x P(n+1,x) - k/(k+1) P(n,x)"
   );
 
   // wrap the component
@@ -39,7 +42,7 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "Initialise the function\n\n"
     "Arguments:\n"
     "    self           the function\n"
-    "    coefficients   the coefficients of the Legendre series function (from\n"
+    "    coefficients   the coefficients of the Legendre series (from\n"
     "                   lowest to highest order coefficient)"
   )
   .def_property_readonly(
