@@ -2,10 +2,12 @@
 #define NJOY_SCION_MATH_POLYNOMIALSERIES
 
 // system includes
+#include <complex>
 #include <vector>
 
 // other includes
 #include "scion/math/horner.hpp"
+#include "scion/math/matrix.hpp"
 #include "scion/math/FunctionBase.hpp"
 
 namespace njoy {
@@ -35,6 +37,7 @@ namespace math {
 
     /* auxiliary function */
     #include "scion/math/PolynomialSeries/src/verifyCoefficients.hpp"
+    #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
   public:
 
@@ -64,6 +67,7 @@ namespace math {
 
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
     #include "scion/math/PolynomialSeries/src/derivative.hpp"
+    #include "scion/math/PolynomialSeries/src/roots.hpp"
 
     using Parent::domain;
     using Parent::operator();

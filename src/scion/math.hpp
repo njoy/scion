@@ -1,3 +1,6 @@
+// matrix functions
+#include "scion/math/matrix.hpp"
+
 // evaluation schemes
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/horner.hpp"

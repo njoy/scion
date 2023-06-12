@@ -16,13 +16,13 @@ void wrapLegendreFor( python::module& module ) {
   module.def(
 
     "legendre",
-    [] ( unsigned int n, const X& x ) -> Y
+    [] ( unsigned int n, const X& x ) -> decltype(auto)
        { return njoy::scion::math::legendre( n, x ); },
     python::arg( "order" ), python::arg( "x" ),
     "Evaluate a Legendre polynomial of order n\n\n"
-    " Arguments:\n"
-    "     order    the degree of the Legendre polynomial\n"
-    "     x        the value at which the polynomial must be evaluated"
+    "Arguments:\n"
+    "    order    the degree of the Legendre polynomial\n"
+    "    x        the value at which the polynomial must be evaluated"
   );
 }
 

@@ -1,6 +1,7 @@
 // system includes
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/complex.h>
 
 // local includes
 #include "scion/math/PolynomialSeries.hpp"
@@ -69,11 +70,21 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     &Component::order,
     "The polynomial series order"
   )
-  .def_property_readonly(
+  .def(
 
     "derivative",
     &Component::derivative,
-    "The derivative of the polynomial series"
+    "Return the derivative of the polynomial series"
+  )
+  .def(
+
+    "roots",
+    &Component::roots,
+    python::arg( "a" ) = X( 0. ),
+    "Calculate the roots of the polynomial series so that f(x) = a\n\n"
+    "Arguments:\n"
+    "    self   the function\n"
+    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions

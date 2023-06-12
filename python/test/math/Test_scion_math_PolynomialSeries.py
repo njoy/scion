@@ -36,10 +36,10 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -2.0, chunk( x = -1. ) )
 
             # verify derivative
-            first = chunk.derivative
-            second = first.derivative
-            third = second.derivative
-            fourth = third.derivative
+            first = chunk.derivative()
+            second = first.derivative()
+            third = second.derivative()
+            fourth = third.derivative()
 
             self.assertEqual( 2, first.order )
             self.assertEqual( 3, len( first.coefficients ) )
