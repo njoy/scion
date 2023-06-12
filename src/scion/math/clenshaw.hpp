@@ -46,12 +46,10 @@ namespace math {
  *  @param[in] x       the value of X
  */
 template < typename X, typename Y = X, typename Iter,
-           typename Callable1 = std::function< Y ( unsigned int, const X& ) >,
-           typename Callable2 = std::function< Y ( unsigned int, const X& ) > >
-Y clenshaw( Iter first, Iter last,
-            const Callable1& a, const Callable2& b,
-            const Y& f0, const Y& f1,
-            const X& x ) noexcept {
+           typename FunctorA = std::function< Y ( unsigned int, X&& ) >,
+           typename FunctorB = std::function< Y ( unsigned int, X&& ) > >
+Y clenshaw( Iter first, Iter last, FunctorA&& a, FunctorB&& b,
+            const Y& f0, const Y& f1, const X& x ) noexcept {
 
   unsigned int n = std::distance(first, last) - 1;
   if (0 != n) {
