@@ -77,7 +77,7 @@ SCENARIO( "unionisation of two grids" ) {
         CHECK( 3. == Approx( grid[4] ) );
         CHECK( 4. == Approx( grid[5] ) );
 
-        // different grids with a few common points and jumps in the both and
+        // different grids with a few common points and jumps in both and
         // some jumps are the same
         grid = unionisation::unionise( grid4, grid5 );
 
