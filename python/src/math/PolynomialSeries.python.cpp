@@ -68,6 +68,12 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "order",
     &Component::order,
     "The polynomial series order"
+  )
+  .def_property_readonly(
+
+    "derivative",
+    &Component::derivative,
+    "The derivative of the polynomial series"
   );
 
   // add standard function definitions

@@ -63,6 +63,7 @@ namespace math {
     }
 
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
+    #include "scion/math/PolynomialSeries/src/derivative.hpp"
 
     using Parent::domain;
     using Parent::operator();

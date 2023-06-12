@@ -61,6 +61,7 @@ namespace math {
     }
 
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
+    #include "scion/math/LegendreSeries/src/derivative.hpp"
 
     using Parent::domain;
     using Parent::operator();
