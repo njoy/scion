@@ -3,11 +3,12 @@
 
 // system includes
 #include <vector>
-
+#include <iostream>
 // other includes
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/unionisation/unionise.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
@@ -53,6 +54,8 @@ namespace math {
     bool linearised_;
 
     /* auxiliary function */
+    #include "scion/math/InterpolationTable/src/evaluateOnGrid.hpp"
+    #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
     #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
 
@@ -224,15 +227,32 @@ namespace math {
       return result;
     }
 
-    #include "scion/math/InterpolationTable/src/operator+=.hpp"
-    #include "scion/math/InterpolationTable/src/operator-=.hpp"
+    /**
+     *  @brief Inplace InterpolationTable addition
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable& operator+=( const InterpolationTable& right ) {
+
+      return this->operation( right, std::plus< Y >() );
+    }
+
+    /**
+     *  @brief Inplace InterpolationTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable& operator-=( const InterpolationTable& right ) {
+
+      return this->operation( right, std::minus< Y >() );
+    }
 
     /**
      *  @brief InterpolationTable addition
      *
      *  @param[in] right    the table
      */
-    InterpolationTable operator+( const InterpolationTable& right ) const /* noexcept */ {
+    InterpolationTable operator+( const InterpolationTable& right ) const {
 
       InterpolationTable result = *this;
       result += right;
@@ -244,7 +264,7 @@ namespace math {
      *
      *  @param[in] right    the table
      */
-    InterpolationTable operator-( const InterpolationTable& right ) const /* noexcept */ {
+    InterpolationTable operator-( const InterpolationTable& right ) const {
 
       InterpolationTable result = *this;
       result -= right;

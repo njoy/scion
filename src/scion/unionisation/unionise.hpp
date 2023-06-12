@@ -14,8 +14,6 @@ namespace unionisation {
    *
    *  Guess what: the STL library provides exactly what we need :-)
    *
-   *  Caveat: duplicate values in both grids can only appear twice.
-   *
    *  @param first        the first grid (assumed to be sorted)
    *  @param second       the second grid (assumed to be sorted)
    */
