@@ -6,6 +6,7 @@
 // other includes
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 namespace njoy {
 namespace utility {
@@ -38,6 +39,24 @@ public:
 
   Log( const Log& ) = delete;
   void operator=( const Log& ) = delete;
+
+  /**
+   *  @brief Direct the logger output to the given file
+   */
+  static void add_sink( const std::string& filename ) {
+
+    auto sink_ptr = std::make_shared< spdlog::sinks::basic_file_sink_st >( filename );
+    sink_ptr->set_pattern( "[%^%l%$] %v" );
+    logger()->sinks().push_back( sink_ptr );
+  }
+
+  /**
+   *  @brief Flush the logger
+   */
+  static void flush() {
+
+    logger()->flush();
+  }
 
   /**
    *  @brief Print a message at the info level
