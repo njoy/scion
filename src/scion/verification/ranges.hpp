@@ -2,6 +2,7 @@
 #define NJOY_SCION_VERIFICATION_RANGES
 
 // system includes
+#include <algorithm>
 
 // other includes
 
