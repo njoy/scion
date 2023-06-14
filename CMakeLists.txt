@@ -62,7 +62,7 @@ target_include_directories( scion INTERFACE src/ )
 target_link_libraries( scion
     INTERFACE catch-adapter
     INTERFACE eigen
-    INTERFACE spdlog::spdlog_header_only
+    INTERFACE spdlog::spdlog
     )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

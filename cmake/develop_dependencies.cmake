@@ -17,6 +17,7 @@ FetchContent_Declare( spdlog
     GIT_TAG         v1.11.0
     GIT_SHALLOW     TRUE
     )
+set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
 
 FetchContent_Declare( catch-adapter
     GIT_REPOSITORY  https://github.com/njoy/catch-adapter
