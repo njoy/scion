@@ -1,11 +1,12 @@
-#define CATCH_CONFIG_MAIN
+#include <catch2/catch_test_macros.hpp>
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/math/compare.hpp"
 
 // other includes
 
 // convenience typedefs
+using namespace Catch;
 using namespace njoy::scion;
 
 SCENARIO( "compare" ) {

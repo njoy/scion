@@ -1,6 +1,7 @@
-#define CATCH_CONFIG_MAIN
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/catch_approx.hpp>
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/linearisation/Lineariser.hpp"
 
 // other includes
@@ -9,6 +10,7 @@
 #include "scion/linearisation/MidpointSplit.hpp"
 
 // convenience typedefs
+using namespace Catch;
 using namespace njoy::scion;
 
 SCENARIO( "Lineariser" ) {

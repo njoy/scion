@@ -1,5 +1,7 @@
 
 add_executable( scion.math.compare.test compare.test.cpp )
+target_link_libraries( scion.math.compare.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.math.compare.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

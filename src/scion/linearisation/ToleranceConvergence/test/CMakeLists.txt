@@ -1,5 +1,7 @@
 
 add_executable( scion.linearisation.ToleranceConvergence.test ToleranceConvergence.test.cpp )
+target_link_libraries( scion.linearisation.ToleranceConvergence.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.linearisation.ToleranceConvergence.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

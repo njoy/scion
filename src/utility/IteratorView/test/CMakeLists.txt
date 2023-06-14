@@ -1,5 +1,7 @@
 
 add_executable( utility.IteratorView.test IteratorView.test.cpp )
+target_link_libraries(utility.IteratorView.test PRIVATE Catch2::Catch2WithMain)
+
 target_compile_options( utility.IteratorView.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

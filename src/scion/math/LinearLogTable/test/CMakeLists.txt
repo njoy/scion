@@ -1,5 +1,7 @@
 
 add_executable( scion.math.LinearLogTable.test LinearLogTable.test.cpp )
+target_link_libraries( scion.math.LinearLogTable.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.math.LinearLogTable.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

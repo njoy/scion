@@ -1,5 +1,7 @@
 
 add_executable( scion.math.LinearLinearTable.test LinearLinearTable.test.cpp )
+target_link_libraries( scion.math.LinearLinearTable.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.math.LinearLinearTable.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

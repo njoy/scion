@@ -1,6 +1,6 @@
-#define CATCH_CONFIG_MAIN
+#include <catch2/catch_test_macros.hpp>
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/math/newton.hpp"
 
 // other includes

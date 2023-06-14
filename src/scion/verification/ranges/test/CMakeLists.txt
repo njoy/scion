@@ -1,5 +1,7 @@
 
 add_executable( scion.verification.ranges.test ranges.test.cpp )
+target_link_libraries( scion.verification.ranges.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.verification.ranges.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

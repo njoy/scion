@@ -1,5 +1,7 @@
 
 add_executable( scion.math.InterpolationTable.test InterpolationTable.test.cpp )
+target_link_libraries( scion.math.InterpolationTable.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.math.InterpolationTable.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}

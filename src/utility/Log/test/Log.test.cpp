@@ -1,9 +1,11 @@
-#define CATCH_CONFIG_MAIN
+#include <catch2/catch_test_macros.hpp>
 
-#include "catch.hpp"
+// what we are testing
 #include "utility/Log.hpp"
 
 // other includes
+#include <fstream>
+#include <sstream>
 #include <filesystem>
 
 // convenience typedefs

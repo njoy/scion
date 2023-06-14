@@ -1,5 +1,7 @@
 
 add_executable( scion.math.horner.test horner.test.cpp )
+target_link_libraries( scion.math.horner.test PRIVATE Catch2::Catch2WithMain )
+
 target_compile_options( scion.math.horner.test PRIVATE ${${PREFIX}_common_flags}
 $<$<BOOL:${strict}>:${${PREFIX}_strict_flags}>$<$<CONFIG:DEBUG>:
 ${${PREFIX}_DEBUG_flags}
