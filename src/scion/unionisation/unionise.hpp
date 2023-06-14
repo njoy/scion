@@ -2,6 +2,7 @@
 #define NJOY_SCION_UNIONISATION_UNION
 
 // system includes
+#include <algorithm>
 
 // other includes
 
