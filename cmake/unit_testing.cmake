@@ -5,6 +5,15 @@
 message( STATUS "Adding codex unit testing" )
 enable_testing()
 
+function( add_cpp_test name source )
+
+  set( test_name "scion.${name}.test" )
+  add_executable( ${test_name} ${source} )
+  add_test( NAME ${test_name} COMMAND ${test_name} )
+  target_link_libraries( ${test_name} PRIVATE scion )
+  target_link_libraries( ${test_name} PRIVATE Catch2::Catch2WithMain )
+
+endfunction()
 
 #######################################################################
 # Unit testing directories
