@@ -1,5 +1,8 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
+using Catch::Matchers::WithinAbs;
 
 // what we are testing
 #include "scion/math/ChebyshevApproximation.hpp"
@@ -7,7 +10,6 @@
 // other includes
 
 // convenience typedefs
-using namespace Catch;
 using namespace njoy::scion;
 template < typename X, typename Y = X > using ChebyshevApproximation = math::ChebyshevApproximation< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
@@ -28,55 +30,55 @@ SCENARIO( "ChebyshevApproximation" ) {
 
         CHECK( 11 == chunk.coefficients().size() );
 
-//        CHECK( 0.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
 
         IntervalDomain< double > domain = std::get< IntervalDomain< double > >( chunk.domain() );
-        CHECK( -1. == Approx( domain.lowerLimit() ) );
-        CHECK(  1. == Approx( domain.upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( domain.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( domain.upperLimit() ) );
       } // THEN
 
       THEN( "a ChebyshevApproximation can be evaluated" ) {
 
-        CHECK( -1.0       == Approx( chunk( -1. ) ) );
-        CHECK( -0.9999999 == Approx( chunk( -0.9999999 ) ) );
-        CHECK( -0.999999  == Approx( chunk( -0.999999 ) ) );
-        CHECK( -0.99999   == Approx( chunk( -0.99999 ) ) );
-        CHECK( -0.9999    == Approx( chunk( -0.9999 ) ) );
-        CHECK( -0.999     == Approx( chunk( -0.999 ) ) );
-        CHECK( -0.99      == Approx( chunk( -0.99 ) ) );
-        CHECK( -0.9       == Approx( chunk( -0.9 ) ) );
-        CHECK( -0.5       == Approx( chunk( -0.5 ) ) );
-        CHECK( -0.05      == Approx( chunk( -0.05 ) ) );
-        CHECK( -0.005     == Approx( chunk( -0.005 ) ) );
-        CHECK( -0.0005    == Approx( chunk( -0.0005 ) ) );
-        CHECK( -0.00005   == Approx( chunk( -0.00005 ) ) );
-        CHECK( -0.000005  == Approx( chunk( -0.000005 ) ) );
-        CHECK( -0.0000005 == Approx( chunk( -0.0000005 ) ) );
-//        CHECK(  0.0       == Approx( chunk(  0. ) ) );
-        CHECK( +0.0000005 == Approx( chunk(  0.0000005 ) ) );
-        CHECK( +0.000005  == Approx( chunk(  0.000005 ) ) );
-        CHECK( +0.00005   == Approx( chunk(  0.00005 ) ) );
-        CHECK( +0.0005    == Approx( chunk(  0.0005 ) ) );
-        CHECK( +0.005     == Approx( chunk(  0.005 ) ) );
-        CHECK( +0.05      == Approx( chunk(  0.05 ) ) );
-        CHECK( +0.5       == Approx( chunk(  0.5 ) ) );
-        CHECK( +0.9       == Approx( chunk(  0.9 ) ) );
-        CHECK( +0.99      == Approx( chunk(  0.99 ) ) );
-        CHECK( +0.999     == Approx( chunk(  0.999 ) ) );
-        CHECK( +0.9999    == Approx( chunk(  0.9999 ) ) );
-        CHECK( +0.99999   == Approx( chunk(  0.99999 ) ) );
-        CHECK( +0.999999  == Approx( chunk(  0.999999 ) ) );
-        CHECK( +0.9999999 == Approx( chunk(  0.9999999 ) ) );
-        CHECK( +1.0       == Approx( chunk(  1. ) ) );
+        CHECK_THAT( -1.0      , WithinRel( chunk( -1. ) ) );
+        CHECK_THAT( -0.9999999, WithinRel( chunk( -0.9999999 ) ) );
+        CHECK_THAT( -0.999999 , WithinRel( chunk( -0.999999 ) ) );
+        CHECK_THAT( -0.99999  , WithinRel( chunk( -0.99999 ) ) );
+        CHECK_THAT( -0.9999   , WithinRel( chunk( -0.9999 ) ) );
+        CHECK_THAT( -0.999    , WithinRel( chunk( -0.999 ) ) );
+        CHECK_THAT( -0.99     , WithinRel( chunk( -0.99 ) ) );
+        CHECK_THAT( -0.9      , WithinRel( chunk( -0.9 ) ) );
+        CHECK_THAT( -0.5      , WithinRel( chunk( -0.5 ) ) );
+        CHECK_THAT( -0.05     , WithinRel( chunk( -0.05 ) ) );
+        CHECK_THAT( -0.005    , WithinRel( chunk( -0.005 ), 1e-12 ) );
+        CHECK_THAT( -0.0005   , WithinRel( chunk( -0.0005 ), 1e-11 ) );
+        CHECK_THAT( -0.00005  , WithinRel( chunk( -0.00005 ), 1e-10 ) );
+        CHECK_THAT( -0.000005 , WithinRel( chunk( -0.000005 ), 1e-9 ) );
+        CHECK_THAT( -0.0000005, WithinRel( chunk( -0.0000005 ), 1e-8 ) );
+        CHECK_THAT(  0.0      , WithinAbs( chunk(  0. ), 1e-12 ) );
+        CHECK_THAT( +0.0000005, WithinRel( chunk(  0.0000005 ), 1e-8 ) );
+        CHECK_THAT( +0.000005 , WithinRel( chunk(  0.000005 ), 1e-9 ) );
+        CHECK_THAT( +0.00005  , WithinRel( chunk(  0.00005 ), 1e-10 ) );
+        CHECK_THAT( +0.0005   , WithinRel( chunk(  0.0005 ), 1e-11 ) );
+        CHECK_THAT( +0.005    , WithinRel( chunk(  0.005 ), 1e-12 ) );
+        CHECK_THAT( +0.05     , WithinRel( chunk(  0.05 ) ) );
+        CHECK_THAT( +0.5      , WithinRel( chunk(  0.5 ) ) );
+        CHECK_THAT( +0.9      , WithinRel( chunk(  0.9 ) ) );
+        CHECK_THAT( +0.99     , WithinRel( chunk(  0.99 ) ) );
+        CHECK_THAT( +0.999    , WithinRel( chunk(  0.999 ) ) );
+        CHECK_THAT( +0.9999   , WithinRel( chunk(  0.9999 ) ) );
+        CHECK_THAT( +0.99999  , WithinRel( chunk(  0.99999 ) ) );
+        CHECK_THAT( +0.999999 , WithinRel( chunk(  0.999999 ) ) );
+        CHECK_THAT( +0.9999999, WithinRel( chunk(  0.9999999 ) ) );
+        CHECK_THAT( +1.0      , WithinRel( chunk(  1. ) ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -104,192 +106,192 @@ SCENARIO( "ChebyshevApproximation" ) {
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-        CHECK( 2.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 2., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk -= 2.;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk += small;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-        CHECK( 3.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[1] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 3., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[2] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk -= small;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk *= 2.;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 2.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 2., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk /= 2.;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         result = chunk + 2.;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
-        CHECK( 2.0 == Approx( result.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( result.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[9] ) );
+        CHECK_THAT( 2., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( 1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk - 2.;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
-        CHECK( -2.0 == Approx( result.coefficients()[0] ) );
-        CHECK(  1.0 == Approx( result.coefficients()[1] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[2] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[3] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[4] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[5] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[6] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[7] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[8] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[9] ) );
+        CHECK_THAT( -2., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT(  1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk + small;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
-        CHECK( 3.0 == Approx( result.coefficients()[0] ) );
-        CHECK( 1.0 == Approx( result.coefficients()[1] ) );
-        CHECK( 1.0 == Approx( result.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[9] ) );
+        CHECK_THAT( 3., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( 1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk - small;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
-        CHECK( -3.0 == Approx( result.coefficients()[0] ) );
-        CHECK(  1.0 == Approx( result.coefficients()[1] ) );
-        CHECK( -1.0 == Approx( result.coefficients()[2] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[3] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[4] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[5] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[6] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[7] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[8] ) );
-//        CHECK(  0.0 == Approx( result.coefficients()[9] ) );
+        CHECK_THAT( -3., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT(  1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( -1., WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk * 2.;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
-//        CHECK( 0.0 == Approx( result.coefficients()[0] ) );
-        CHECK( 2.0 == Approx( result.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[9] ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 2., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk / 2.;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
-//        CHECK( 0.0 == Approx( result.coefficients()[0] ) );
-        CHECK( 0.5 == Approx( result.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( result.coefficients()[9] ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 0.5, WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0.0, WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
     } // WHEN
@@ -305,55 +307,55 @@ SCENARIO( "ChebyshevApproximation" ) {
 
         CHECK( 11 == chunk.coefficients().size() );
 
-        CHECK( 1.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 3.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
 
         IntervalDomain< double > domain = std::get< IntervalDomain< double > >( chunk.domain() );
-        CHECK( -2. == Approx( domain.lowerLimit() ) );
-        CHECK(  4. == Approx( domain.upperLimit() ) );
+        CHECK_THAT( -2., WithinRel( domain.lowerLimit() ) );
+        CHECK_THAT(  4., WithinRel( domain.upperLimit() ) );
       } // THEN
 
       THEN( "a ChebyshevApproximation can be evaluated" ) {
 
-        CHECK( -1.0       == Approx( chunk( -1. ) ) );
-        CHECK( -0.9999999 == Approx( chunk( -0.9999999 ) ) );
-        CHECK( -0.999999  == Approx( chunk( -0.999999 ) ) );
-        CHECK( -0.99999   == Approx( chunk( -0.99999 ) ) );
-        CHECK( -0.9999    == Approx( chunk( -0.9999 ) ) );
-        CHECK( -0.999     == Approx( chunk( -0.999 ) ) );
-        CHECK( -0.99      == Approx( chunk( -0.99 ) ) );
-        CHECK( -0.9       == Approx( chunk( -0.9 ) ) );
-        CHECK( -0.5       == Approx( chunk( -0.5 ) ) );
-        CHECK( -0.05      == Approx( chunk( -0.05 ) ) );
-        CHECK( -0.005     == Approx( chunk( -0.005 ) ) );
-        CHECK( -0.0005    == Approx( chunk( -0.0005 ) ) );
-        CHECK( -0.00005   == Approx( chunk( -0.00005 ) ) );
-        CHECK( -0.000005  == Approx( chunk( -0.000005 ) ) );
-        CHECK( -0.0000005 == Approx( chunk( -0.0000005 ) ) );
-//        CHECK(  0.0       == Approx( chunk(  0. ) ) );
-        CHECK( +0.0000005 == Approx( chunk(  0.0000005 ) ) );
-        CHECK( +0.000005  == Approx( chunk(  0.000005 ) ) );
-        CHECK( +0.00005   == Approx( chunk(  0.00005 ) ) );
-        CHECK( +0.0005    == Approx( chunk(  0.0005 ) ) );
-        CHECK( +0.005     == Approx( chunk(  0.005 ) ) );
-        CHECK( +0.05      == Approx( chunk(  0.05 ) ) );
-        CHECK( +0.5       == Approx( chunk(  0.5 ) ) );
-        CHECK( +0.9       == Approx( chunk(  0.9 ) ) );
-        CHECK( +0.99      == Approx( chunk(  0.99 ) ) );
-        CHECK( +0.999     == Approx( chunk(  0.999 ) ) );
-        CHECK( +0.9999    == Approx( chunk(  0.9999 ) ) );
-        CHECK( +0.99999   == Approx( chunk(  0.99999 ) ) );
-        CHECK( +0.999999  == Approx( chunk(  0.999999 ) ) );
-        CHECK( +0.9999999 == Approx( chunk(  0.9999999 ) ) );
-        CHECK( +1.0       == Approx( chunk(  1. ) ) );
+        CHECK_THAT( -1.0      , WithinRel( chunk( -1. ) ) );
+        CHECK_THAT( -0.9999999, WithinRel( chunk( -0.9999999 ) ) );
+        CHECK_THAT( -0.999999 , WithinRel( chunk( -0.999999 ) ) );
+        CHECK_THAT( -0.99999  , WithinRel( chunk( -0.99999 ) ) );
+        CHECK_THAT( -0.9999   , WithinRel( chunk( -0.9999 ) ) );
+        CHECK_THAT( -0.999    , WithinRel( chunk( -0.999 ) ) );
+        CHECK_THAT( -0.99     , WithinRel( chunk( -0.99 ) ) );
+        CHECK_THAT( -0.9      , WithinRel( chunk( -0.9 ) ) );
+        CHECK_THAT( -0.5      , WithinRel( chunk( -0.5 ) ) );
+        CHECK_THAT( -0.05     , WithinRel( chunk( -0.05 ), 1e-12 ) );
+        CHECK_THAT( -0.005    , WithinRel( chunk( -0.005 ), 1e-12 ) );
+        CHECK_THAT( -0.0005   , WithinRel( chunk( -0.0005 ), 1e-11 ) );
+        CHECK_THAT( -0.00005  , WithinRel( chunk( -0.00005 ), 1e-10 ) );
+        CHECK_THAT( -0.000005 , WithinRel( chunk( -0.000005 ), 1e-9 ) );
+        CHECK_THAT( -0.0000005, WithinRel( chunk( -0.0000005 ), 1e-8 ) );
+        CHECK_THAT(  0.0      , WithinAbs( chunk(  0. ), 1e-12 ) );
+        CHECK_THAT( +0.0000005, WithinRel( chunk(  0.0000005 ), 1e-8 ) );
+        CHECK_THAT( +0.000005 , WithinRel( chunk(  0.000005 ), 1e-9 ) );
+        CHECK_THAT( +0.00005  , WithinRel( chunk(  0.00005 ), 1e-10 ) );
+        CHECK_THAT( +0.0005   , WithinRel( chunk(  0.0005 ), 1e-11 ) );
+        CHECK_THAT( +0.005    , WithinRel( chunk(  0.005 ), 1e-12 ) );
+        CHECK_THAT( +0.05     , WithinRel( chunk(  0.05 ), 1e-12 ) );
+        CHECK_THAT( +0.5      , WithinRel( chunk(  0.5 ) ) );
+        CHECK_THAT( +0.9      , WithinRel( chunk(  0.9 ) ) );
+        CHECK_THAT( +0.99     , WithinRel( chunk(  0.99 ) ) );
+        CHECK_THAT( +0.999    , WithinRel( chunk(  0.999 ) ) );
+        CHECK_THAT( +0.9999   , WithinRel( chunk(  0.9999 ) ) );
+        CHECK_THAT( +0.99999  , WithinRel( chunk(  0.99999 ) ) );
+        CHECK_THAT( +0.999999 , WithinRel( chunk(  0.999999 ) ) );
+        CHECK_THAT( +0.9999999, WithinRel( chunk(  0.9999999 ) ) );
+        CHECK_THAT( +1.0      , WithinRel( chunk(  1. ) ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -377,64 +379,64 @@ SCENARIO( "ChebyshevApproximation" ) {
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-        CHECK( 3.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 3.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 3., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk -= 2.;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-        CHECK( 1.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 3.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk *= 2.;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-        CHECK( 2.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 6.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 2., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 6., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk /= 2.;
 
         CHECK( 10 == chunk.order() );
         CHECK( 11 == chunk.coefficients().size() );
-        CHECK( 1.0 == Approx( chunk.coefficients()[0] ) );
-        CHECK( 3.0 == Approx( chunk.coefficients()[1] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[2] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[3] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[4] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[5] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[6] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[7] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[8] ) );
-//        CHECK( 0.0 == Approx( chunk.coefficients()[9] ) );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
     } // WHEN

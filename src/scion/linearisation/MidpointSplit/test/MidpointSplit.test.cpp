@@ -1,5 +1,7 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
 // what we are testing
 #include "scion/linearisation/MidpointSplit.hpp"
@@ -23,7 +25,7 @@ SCENARIO( "MidpointSplit" ) {
 
       THEN( "the correct value is returned" ) {
 
-        CHECK( 1. == Approx( chunk( 0., 2., yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( chunk( 0., 2., yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

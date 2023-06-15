@@ -1,5 +1,7 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
 // what we are testing
 #include "scion/math/legendre.hpp"
@@ -7,7 +9,6 @@
 // other includes
 
 // convenience typedefs
-using namespace Catch;
 using namespace njoy::scion;
 
 SCENARIO( "legendre" ) {
@@ -20,29 +21,29 @@ SCENARIO( "legendre" ) {
 
       THEN( "the Legendre polynomial can be evaluated" ) {
 
-        CHECK(  1.0    == Approx( math::legendre( 0, -1.0 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 0, -0.5 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 0,  0.0 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 0,  0.5 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 0,  1.0 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 0, -1.0 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 0, -0.5 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 0,  0.0 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 0,  0.5 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 0,  1.0 ) ) );
 
-        CHECK( -1.0    == Approx( math::legendre( 1, -1.0 ) ) );
-        CHECK( -0.5    == Approx( math::legendre( 1, -0.5 ) ) );
-        CHECK(  0.0    == Approx( math::legendre( 1,  0.0 ) ) );
-        CHECK(  0.5    == Approx( math::legendre( 1,  0.5 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 1,  1.0 ) ) );
+        CHECK_THAT( -1.0   , WithinRel( math::legendre( 1, -1.0 ) ) );
+        CHECK_THAT( -0.5   , WithinRel( math::legendre( 1, -0.5 ) ) );
+        CHECK_THAT(  0.0   , WithinRel( math::legendre( 1,  0.0 ) ) );
+        CHECK_THAT(  0.5   , WithinRel( math::legendre( 1,  0.5 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 1,  1.0 ) ) );
 
-        CHECK(  1.0    == Approx( math::legendre( 2, -1.0 ) ) );
-        CHECK( -0.125  == Approx( math::legendre( 2, -0.5 ) ) );
-        CHECK( -0.5    == Approx( math::legendre( 2,  0.0 ) ) );
-        CHECK( -0.125  == Approx( math::legendre( 2,  0.5 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 2,  1.0 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 2, -1.0 ) ) );
+        CHECK_THAT( -0.125 , WithinRel( math::legendre( 2, -0.5 ) ) );
+        CHECK_THAT( -0.5   , WithinRel( math::legendre( 2,  0.0 ) ) );
+        CHECK_THAT( -0.125 , WithinRel( math::legendre( 2,  0.5 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 2,  1.0 ) ) );
 
-        CHECK( -1.0    == Approx( math::legendre( 3, -1.0 ) ) );
-        CHECK(  0.4375 == Approx( math::legendre( 3, -0.5 ) ) );
-        CHECK(  0.0    == Approx( math::legendre( 3,  0.0 ) ) );
-        CHECK( -0.4375 == Approx( math::legendre( 3,  0.5 ) ) );
-        CHECK(  1.0    == Approx( math::legendre( 3,  1.0 ) ) );
+        CHECK_THAT( -1.0   , WithinRel( math::legendre( 3, -1.0 ) ) );
+        CHECK_THAT(  0.4375, WithinRel( math::legendre( 3, -0.5 ) ) );
+        CHECK_THAT(  0.0   , WithinRel( math::legendre( 3,  0.0 ) ) );
+        CHECK_THAT( -0.4375, WithinRel( math::legendre( 3,  0.5 ) ) );
+        CHECK_THAT(  1.0   , WithinRel( math::legendre( 3,  1.0 ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

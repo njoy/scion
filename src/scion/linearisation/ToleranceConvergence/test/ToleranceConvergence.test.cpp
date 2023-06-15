@@ -1,3 +1,4 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
 
 // what we are testing
@@ -6,7 +7,6 @@
 // other includes
 
 // convenience typedefs
-using namespace Catch;
 using namespace njoy::scion;
 
 SCENARIO( "ToleranceConvergence" ) {

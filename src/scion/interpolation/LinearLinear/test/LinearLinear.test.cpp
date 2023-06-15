@@ -1,5 +1,7 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
 // what we are testing
 #include "scion/interpolation/LinearLinear.hpp"
@@ -7,7 +9,6 @@
 // other includes
 
 // convenience typedefs
-using namespace Catch;
 using namespace njoy::scion;
 
 SCENARIO( "LinearLinear" ) {
@@ -25,9 +26,9 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 2.5 == Approx( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 4.0 == Approx( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1.0, WithinRel( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.5, WithinRel( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0, WithinRel( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -43,9 +44,9 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolation::linlin( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 2.5 == Approx( interpolation::linlin( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 4.0 == Approx( interpolation::linlin( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1.0, WithinRel( interpolation::linlin( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.5, WithinRel( interpolation::linlin( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0, WithinRel( interpolation::linlin( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

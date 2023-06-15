@@ -1,4 +1,7 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
+
+// what we are testing
 #include "utility/IteratorView.hpp"
 
 // other includes

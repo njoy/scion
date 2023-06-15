@@ -1,5 +1,7 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
 // what we are testing
 #include "scion/math/LinearLogTable.hpp"
@@ -8,7 +10,6 @@
 #include "utility/IteratorView.hpp"
 
 // convenience typedefs
-using namespace Catch;
 using namespace njoy::scion;
 template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
@@ -35,14 +36,14 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( 4 == chunk.numberPoints() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
-        CHECK( 1. == Approx( chunk.x()[0] ) );
-        CHECK( 2. == Approx( chunk.x()[1] ) );
-        CHECK( 3. == Approx( chunk.x()[2] ) );
-        CHECK( 4. == Approx( chunk.x()[3] ) );
-        CHECK( 4. == Approx( chunk.y()[0] ) );
-        CHECK( 3. == Approx( chunk.y()[1] ) );
-        CHECK( 2. == Approx( chunk.y()[2] ) );
-        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -50,18 +51,19 @@ SCENARIO( "LinearLogTable" ) {
       THEN( "a LinearLogTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk( 1. ) ) );
-        CHECK( 3. == Approx( chunk( 2. ) ) );
-        CHECK( 2. == Approx( chunk( 3. ) ) );
-        CHECK( 1. == Approx( chunk( 4. ) ) );
+        CHECK_THAT( 4., WithinRel( chunk( 1. ) ) );
+        CHECK_THAT( 3., WithinRel( chunk( 2. ) ) );
+        CHECK_THAT( 2., WithinRel( chunk( 3. ) ) );
+        CHECK_THAT( 1., WithinRel( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk( 0. ) ) );
-        CHECK( 0. == Approx( chunk( 5. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 0. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 3.415037499 == Approx( chunk( 1.5 ) ) );
-        CHECK( 1.464163065 == Approx( chunk( 3.5 ) ) );
+        CHECK_THAT( 3.41503749927884, WithinRel( chunk( 1.5 ) ) );
+        CHECK_THAT( 2.44966028678679, WithinRel( chunk( 2.5 ) ) );
+        CHECK_THAT( 1.46416306545103, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a LinearLogTable can be linearised" ) {
@@ -71,57 +73,57 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( 25 == linear.first.size() );
         CHECK( 25 == linear.second.size() );
 
-        CHECK( 1.    == Approx( linear.first[0] ) );
-        CHECK( 1.125 == Approx( linear.first[1] ) );
-        CHECK( 1.25  == Approx( linear.first[2] ) );
-        CHECK( 1.375 == Approx( linear.first[3] ) );
-        CHECK( 1.5   == Approx( linear.first[4] ) );
-        CHECK( 1.625 == Approx( linear.first[5] ) );
-        CHECK( 1.75  == Approx( linear.first[6] ) );
-        CHECK( 1.875 == Approx( linear.first[7] ) );
-        CHECK( 2     == Approx( linear.first[8] ) );
-        CHECK( 2.125 == Approx( linear.first[9] ) );
-        CHECK( 2.25  == Approx( linear.first[10] ) );
-        CHECK( 2.375 == Approx( linear.first[11] ) );
-        CHECK( 2.5   == Approx( linear.first[12] ) );
-        CHECK( 2.625 == Approx( linear.first[13] ) );
-        CHECK( 2.75  == Approx( linear.first[14] ) );
-        CHECK( 2.875 == Approx( linear.first[15] ) );
-        CHECK( 3.    == Approx( linear.first[16] ) );
-        CHECK( 3.125 == Approx( linear.first[17] ) );
-        CHECK( 3.25  == Approx( linear.first[18] ) );
-        CHECK( 3.375 == Approx( linear.first[19] ) );
-        CHECK( 3.5   == Approx( linear.first[20] ) );
-        CHECK( 3.625 == Approx( linear.first[21] ) );
-        CHECK( 3.75  == Approx( linear.first[22] ) );
-        CHECK( 3.875 == Approx( linear.first[23] ) );
-        CHECK( 4.    == Approx( linear.first[24] ) );
+        CHECK_THAT( 1.   , WithinRel( linear.first[0] ) );
+        CHECK_THAT( 1.125, WithinRel( linear.first[1] ) );
+        CHECK_THAT( 1.25 , WithinRel( linear.first[2] ) );
+        CHECK_THAT( 1.375, WithinRel( linear.first[3] ) );
+        CHECK_THAT( 1.5  , WithinRel( linear.first[4] ) );
+        CHECK_THAT( 1.625, WithinRel( linear.first[5] ) );
+        CHECK_THAT( 1.75 , WithinRel( linear.first[6] ) );
+        CHECK_THAT( 1.875, WithinRel( linear.first[7] ) );
+        CHECK_THAT( 2    , WithinRel( linear.first[8] ) );
+        CHECK_THAT( 2.125, WithinRel( linear.first[9] ) );
+        CHECK_THAT( 2.25 , WithinRel( linear.first[10] ) );
+        CHECK_THAT( 2.375, WithinRel( linear.first[11] ) );
+        CHECK_THAT( 2.5  , WithinRel( linear.first[12] ) );
+        CHECK_THAT( 2.625, WithinRel( linear.first[13] ) );
+        CHECK_THAT( 2.75 , WithinRel( linear.first[14] ) );
+        CHECK_THAT( 2.875, WithinRel( linear.first[15] ) );
+        CHECK_THAT( 3.   , WithinRel( linear.first[16] ) );
+        CHECK_THAT( 3.125, WithinRel( linear.first[17] ) );
+        CHECK_THAT( 3.25 , WithinRel( linear.first[18] ) );
+        CHECK_THAT( 3.375, WithinRel( linear.first[19] ) );
+        CHECK_THAT( 3.5  , WithinRel( linear.first[20] ) );
+        CHECK_THAT( 3.625, WithinRel( linear.first[21] ) );
+        CHECK_THAT( 3.75 , WithinRel( linear.first[22] ) );
+        CHECK_THAT( 3.875, WithinRel( linear.first[23] ) );
+        CHECK_THAT( 4.   , WithinRel( linear.first[24] ) );
 
-        CHECK( 4.          == Approx( linear.second[0] ) );
-        CHECK( 3.830074999 == Approx( linear.second[1] ) );
-        CHECK( 3.678071905 == Approx( linear.second[2] ) );
-        CHECK( 3.540568381 == Approx( linear.second[3] ) );
-        CHECK( 3.415037499 == Approx( linear.second[4] ) );
-        CHECK( 3.299560282 == Approx( linear.second[5] ) );
-        CHECK( 3.192645078 == Approx( linear.second[6] ) );
-        CHECK( 3.093109404 == Approx( linear.second[7] ) );
-        CHECK( 3.          == Approx( linear.second[8] ) );
-        CHECK( 2.850481285 == Approx( linear.second[9] ) );
-        CHECK( 2.709511291 == Approx( linear.second[10] ) );
-        CHECK( 2.576165116 == Approx( linear.second[11] ) );
-        CHECK( 2.449660287 == Approx( linear.second[12] ) );
-        CHECK( 2.329328936 == Approx( linear.second[13] ) );
-        CHECK( 2.21459646  == Approx( linear.second[14] ) );
-        CHECK( 2.104964924 == Approx( linear.second[15] ) );
-        CHECK( 2.          == Approx( linear.second[16] ) );
-        CHECK( 1.858100318 == Approx( linear.second[17] ) );
-        CHECK( 1.721766786 == Approx( linear.second[18] ) );
-        CHECK( 1.59057916  == Approx( linear.second[19] ) );
-        CHECK( 1.464163065 == Approx( linear.second[20] ) );
-        CHECK( 1.34218355  == Approx( linear.second[21] ) );
-        CHECK( 1.224339739 == Approx( linear.second[22] ) );
-        CHECK( 1.110360364 == Approx( linear.second[23] ) );
-        CHECK( 1.          == Approx( linear.second[24] ) );
+        CHECK_THAT( 4.              , WithinRel( linear.second[0] ) );
+        CHECK_THAT( 3.83007499855769, WithinRel( linear.second[1] ) );
+        CHECK_THAT( 3.67807190511264, WithinRel( linear.second[2] ) );
+        CHECK_THAT( 3.54056838136270, WithinRel( linear.second[3] ) );
+        CHECK_THAT( 3.41503749927884, WithinRel( linear.second[4] ) );
+        CHECK_THAT( 3.29956028185891, WithinRel( linear.second[5] ) );
+        CHECK_THAT( 3.19264507794240, WithinRel( linear.second[6] ) );
+        CHECK_THAT( 3.09310940439148, WithinRel( linear.second[7] ) );
+        CHECK_THAT( 3.              , WithinRel( linear.second[8] ) );
+        CHECK_THAT( 2.85048128530886, WithinRel( linear.second[9] ) );
+        CHECK_THAT( 2.70951129135145, WithinRel( linear.second[10] ) );
+        CHECK_THAT( 2.57616511633150, WithinRel( linear.second[11] ) );
+        CHECK_THAT( 2.44966028678679, WithinRel( linear.second[12] ) );
+        CHECK_THAT( 2.32932893596581, WithinRel( linear.second[13] ) );
+        CHECK_THAT( 2.21459646033567, WithinRel( linear.second[14] ) );
+        CHECK_THAT( 2.10496492439848, WithinRel( linear.second[15] ) );
+        CHECK_THAT( 2.              , WithinRel( linear.second[16] ) );
+        CHECK_THAT( 1.85810031827028, WithinRel( linear.second[17] ) );
+        CHECK_THAT( 1.72176678584324, WithinRel( linear.second[18] ) );
+        CHECK_THAT( 1.59057916034679, WithinRel( linear.second[19] ) );
+        CHECK_THAT( 1.46416306545103, WithinRel( linear.second[20] ) );
+        CHECK_THAT( 1.34218354996644, WithinRel( linear.second[21] ) );
+        CHECK_THAT( 1.22433973930853, WithinRel( linear.second[22] ) );
+        CHECK_THAT( 1.11036036428687, WithinRel( linear.second[23] ) );
+        CHECK_THAT( 1.              , WithinRel( linear.second[24] ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -155,16 +157,17 @@ SCENARIO( "LinearLogTable" ) {
       THEN( "a LinearLogTable can be constructed and members can be tested" ) {
 
         CHECK( InterpolationType::LinearLog == chunk.interpolation() );
+        CHECK( 4 == chunk.numberPoints() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
-        CHECK( 1. == Approx( chunk.x()[0] ) );
-        CHECK( 2. == Approx( chunk.x()[1] ) );
-        CHECK( 3. == Approx( chunk.x()[2] ) );
-        CHECK( 4. == Approx( chunk.x()[3] ) );
-        CHECK( 4. == Approx( chunk.y()[0] ) );
-        CHECK( 3. == Approx( chunk.y()[1] ) );
-        CHECK( 2. == Approx( chunk.y()[2] ) );
-        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -172,18 +175,19 @@ SCENARIO( "LinearLogTable" ) {
       THEN( "a LinearLogTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk( 1. ) ) );
-        CHECK( 3. == Approx( chunk( 2. ) ) );
-        CHECK( 2. == Approx( chunk( 3. ) ) );
-        CHECK( 1. == Approx( chunk( 4. ) ) );
+        CHECK_THAT( 4., WithinRel( chunk( 1. ) ) );
+        CHECK_THAT( 3., WithinRel( chunk( 2. ) ) );
+        CHECK_THAT( 2., WithinRel( chunk( 3. ) ) );
+        CHECK_THAT( 1., WithinRel( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk( 0. ) ) );
-        CHECK( 0. == Approx( chunk( 5. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 0. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 3.415037499 == Approx( chunk( 1.5 ) ) );
-        CHECK( 1.464163065 == Approx( chunk( 3.5 ) ) );
+        CHECK_THAT( 3.41503749927884, WithinRel( chunk( 1.5 ) ) );
+        CHECK_THAT( 2.44966028678679, WithinRel( chunk( 2.5 ) ) );
+        CHECK_THAT( 1.46416306545103, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a LinearLogTable can be linearised" ) {
@@ -193,57 +197,57 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( 25 == linear.first.size() );
         CHECK( 25 == linear.second.size() );
 
-        CHECK( 1.    == Approx( linear.first[0] ) );
-        CHECK( 1.125 == Approx( linear.first[1] ) );
-        CHECK( 1.25  == Approx( linear.first[2] ) );
-        CHECK( 1.375 == Approx( linear.first[3] ) );
-        CHECK( 1.5   == Approx( linear.first[4] ) );
-        CHECK( 1.625 == Approx( linear.first[5] ) );
-        CHECK( 1.75  == Approx( linear.first[6] ) );
-        CHECK( 1.875 == Approx( linear.first[7] ) );
-        CHECK( 2     == Approx( linear.first[8] ) );
-        CHECK( 2.125 == Approx( linear.first[9] ) );
-        CHECK( 2.25  == Approx( linear.first[10] ) );
-        CHECK( 2.375 == Approx( linear.first[11] ) );
-        CHECK( 2.5   == Approx( linear.first[12] ) );
-        CHECK( 2.625 == Approx( linear.first[13] ) );
-        CHECK( 2.75  == Approx( linear.first[14] ) );
-        CHECK( 2.875 == Approx( linear.first[15] ) );
-        CHECK( 3.    == Approx( linear.first[16] ) );
-        CHECK( 3.125 == Approx( linear.first[17] ) );
-        CHECK( 3.25  == Approx( linear.first[18] ) );
-        CHECK( 3.375 == Approx( linear.first[19] ) );
-        CHECK( 3.5   == Approx( linear.first[20] ) );
-        CHECK( 3.625 == Approx( linear.first[21] ) );
-        CHECK( 3.75  == Approx( linear.first[22] ) );
-        CHECK( 3.875 == Approx( linear.first[23] ) );
-        CHECK( 4.    == Approx( linear.first[24] ) );
+        CHECK_THAT( 1.   , WithinRel( linear.first[0] ) );
+        CHECK_THAT( 1.125, WithinRel( linear.first[1] ) );
+        CHECK_THAT( 1.25 , WithinRel( linear.first[2] ) );
+        CHECK_THAT( 1.375, WithinRel( linear.first[3] ) );
+        CHECK_THAT( 1.5  , WithinRel( linear.first[4] ) );
+        CHECK_THAT( 1.625, WithinRel( linear.first[5] ) );
+        CHECK_THAT( 1.75 , WithinRel( linear.first[6] ) );
+        CHECK_THAT( 1.875, WithinRel( linear.first[7] ) );
+        CHECK_THAT( 2    , WithinRel( linear.first[8] ) );
+        CHECK_THAT( 2.125, WithinRel( linear.first[9] ) );
+        CHECK_THAT( 2.25 , WithinRel( linear.first[10] ) );
+        CHECK_THAT( 2.375, WithinRel( linear.first[11] ) );
+        CHECK_THAT( 2.5  , WithinRel( linear.first[12] ) );
+        CHECK_THAT( 2.625, WithinRel( linear.first[13] ) );
+        CHECK_THAT( 2.75 , WithinRel( linear.first[14] ) );
+        CHECK_THAT( 2.875, WithinRel( linear.first[15] ) );
+        CHECK_THAT( 3.   , WithinRel( linear.first[16] ) );
+        CHECK_THAT( 3.125, WithinRel( linear.first[17] ) );
+        CHECK_THAT( 3.25 , WithinRel( linear.first[18] ) );
+        CHECK_THAT( 3.375, WithinRel( linear.first[19] ) );
+        CHECK_THAT( 3.5  , WithinRel( linear.first[20] ) );
+        CHECK_THAT( 3.625, WithinRel( linear.first[21] ) );
+        CHECK_THAT( 3.75 , WithinRel( linear.first[22] ) );
+        CHECK_THAT( 3.875, WithinRel( linear.first[23] ) );
+        CHECK_THAT( 4.   , WithinRel( linear.first[24] ) );
 
-        CHECK( 4.          == Approx( linear.second[0] ) );
-        CHECK( 3.830074999 == Approx( linear.second[1] ) );
-        CHECK( 3.678071905 == Approx( linear.second[2] ) );
-        CHECK( 3.540568381 == Approx( linear.second[3] ) );
-        CHECK( 3.415037499 == Approx( linear.second[4] ) );
-        CHECK( 3.299560282 == Approx( linear.second[5] ) );
-        CHECK( 3.192645078 == Approx( linear.second[6] ) );
-        CHECK( 3.093109404 == Approx( linear.second[7] ) );
-        CHECK( 3.          == Approx( linear.second[8] ) );
-        CHECK( 2.850481285 == Approx( linear.second[9] ) );
-        CHECK( 2.709511291 == Approx( linear.second[10] ) );
-        CHECK( 2.576165116 == Approx( linear.second[11] ) );
-        CHECK( 2.449660287 == Approx( linear.second[12] ) );
-        CHECK( 2.329328936 == Approx( linear.second[13] ) );
-        CHECK( 2.21459646  == Approx( linear.second[14] ) );
-        CHECK( 2.104964924 == Approx( linear.second[15] ) );
-        CHECK( 2.          == Approx( linear.second[16] ) );
-        CHECK( 1.858100318 == Approx( linear.second[17] ) );
-        CHECK( 1.721766786 == Approx( linear.second[18] ) );
-        CHECK( 1.59057916  == Approx( linear.second[19] ) );
-        CHECK( 1.464163065 == Approx( linear.second[20] ) );
-        CHECK( 1.34218355  == Approx( linear.second[21] ) );
-        CHECK( 1.224339739 == Approx( linear.second[22] ) );
-        CHECK( 1.110360364 == Approx( linear.second[23] ) );
-        CHECK( 1.          == Approx( linear.second[24] ) );
+        CHECK_THAT( 4.              , WithinRel( linear.second[0] ) );
+        CHECK_THAT( 3.83007499855769, WithinRel( linear.second[1] ) );
+        CHECK_THAT( 3.67807190511264, WithinRel( linear.second[2] ) );
+        CHECK_THAT( 3.54056838136270, WithinRel( linear.second[3] ) );
+        CHECK_THAT( 3.41503749927884, WithinRel( linear.second[4] ) );
+        CHECK_THAT( 3.29956028185891, WithinRel( linear.second[5] ) );
+        CHECK_THAT( 3.19264507794240, WithinRel( linear.second[6] ) );
+        CHECK_THAT( 3.09310940439148, WithinRel( linear.second[7] ) );
+        CHECK_THAT( 3.              , WithinRel( linear.second[8] ) );
+        CHECK_THAT( 2.85048128530886, WithinRel( linear.second[9] ) );
+        CHECK_THAT( 2.70951129135145, WithinRel( linear.second[10] ) );
+        CHECK_THAT( 2.57616511633150, WithinRel( linear.second[11] ) );
+        CHECK_THAT( 2.44966028678679, WithinRel( linear.second[12] ) );
+        CHECK_THAT( 2.32932893596581, WithinRel( linear.second[13] ) );
+        CHECK_THAT( 2.21459646033567, WithinRel( linear.second[14] ) );
+        CHECK_THAT( 2.10496492439848, WithinRel( linear.second[15] ) );
+        CHECK_THAT( 2.              , WithinRel( linear.second[16] ) );
+        CHECK_THAT( 1.85810031827028, WithinRel( linear.second[17] ) );
+        CHECK_THAT( 1.72176678584324, WithinRel( linear.second[18] ) );
+        CHECK_THAT( 1.59057916034679, WithinRel( linear.second[19] ) );
+        CHECK_THAT( 1.46416306545103, WithinRel( linear.second[20] ) );
+        CHECK_THAT( 1.34218354996644, WithinRel( linear.second[21] ) );
+        CHECK_THAT( 1.22433973930853, WithinRel( linear.second[22] ) );
+        CHECK_THAT( 1.11036036428687, WithinRel( linear.second[23] ) );
+        CHECK_THAT( 1.              , WithinRel( linear.second[24] ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

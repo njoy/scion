@@ -1,5 +1,7 @@
+// include Catch2
 #include <catch2/catch_test_macros.hpp>
-#include <catch2/catch_approx.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
 // what we are testing
 #include "scion/interpolation/Histogram.hpp"
@@ -7,7 +9,6 @@
 // other includes
 
 // convenience typedefs
-using namespace Catch;
 using namespace njoy::scion;
 
 SCENARIO( "Histogram" ) {
@@ -25,9 +26,9 @@ SCENARIO( "Histogram" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 1.0 == Approx( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 1.0 == Approx( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -43,9 +44,9 @@ SCENARIO( "Histogram" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolation::histogram( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 1.0 == Approx( interpolation::histogram( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 1.0 == Approx( interpolation::histogram( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( interpolation::histogram( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( interpolation::histogram( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1., WithinRel( interpolation::histogram( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
