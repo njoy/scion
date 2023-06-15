@@ -225,6 +225,16 @@ namespace math {
     }
 
     /**
+     *  @brief Unary minus
+     */
+    InterpolationTable operator-() const {
+
+      InterpolationTable result = *this;
+      result *= Y( -1. );
+      return result;
+    }
+
+    /**
      *  @brief Inplace InterpolationTable addition
      *
      *  @param[in] right    the table
@@ -274,6 +284,44 @@ namespace math {
     using Parent::isContained;
     using Parent::isSameDomain;
   };
+
+  /**
+   *  @brief Scalar addition
+   *
+   *  @param[in] right    the scalar
+   */
+  template < typename X, typename Y = X >
+  InterpolationTable< X, Y > operator+( const Y& left,
+                                        const InterpolationTable< X, Y >& right ) {
+
+    return right + left;
+  }
+
+  /**
+   *  @brief Scalar subtraction
+   *
+   *  @param[in] right    the scalar
+   */
+  template < typename X, typename Y = X >
+  InterpolationTable< X, Y > operator-( const Y& left,
+                                        const InterpolationTable< X, Y >& right ) {
+
+    auto result = -right;
+    result += left;
+    return result;
+  }
+
+  /**
+   *  @brief Scalar multiplication
+   *
+   *  @param[in] right    the scalar
+   */
+  template < typename X, typename Y = X >
+  InterpolationTable< X, Y > operator*( const Y& left,
+                                        const InterpolationTable< X, Y >& right ) {
+
+    return right * left;
+  }
 
 } // math namespace
 } // scion namespace
