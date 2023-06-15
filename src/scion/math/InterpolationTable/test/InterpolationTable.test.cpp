@@ -18,7 +18,7 @@ using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "InterpolationTable" ) {
 
-  GIVEN( "data without boundaries and no jumps" ) {
+  GIVEN( "linearised data without boundaries and no jumps" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -280,7 +280,7 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "data without boundaries and a jump" ) {
+  GIVEN( "linearised data without boundaries and a jump" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -567,7 +567,7 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "data with multiple regions without a jump" ) {
+  GIVEN( "non-linearised data with multiple regions without a jump" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -701,190 +701,31 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == linear.isLinearised() );
       } // THEN
 
-      THEN( "arithmetic operations can be performed" ) {
+      THEN( "arithmetic operations cannot be performed" ) {
 
         InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
+        InterpolationTable< double > right( { 1., 4. }, { 0., 0. } );
 
-        chunk += 2.;
+        // scalar operations
+        CHECK_THROWS( chunk += 2. );
+        CHECK_THROWS( chunk -= 2. );
+        CHECK_THROWS( chunk *= 2. );
+        CHECK_THROWS( chunk /= 2. );
+        CHECK_THROWS( result = chunk + 2. );
+        CHECK_THROWS( result = chunk - 2. );
+        CHECK_THROWS( result = chunk * 2. );
+        CHECK_THROWS( result = chunk / 2. );
 
-        CHECK( 4 == chunk.numberPoints() );
-        CHECK( 2 == chunk.numberRegions() );
-        CHECK( 4 == chunk.x().size() );
-        CHECK( 4 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 6., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 5., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 3 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        chunk -= 2.;
-
-        CHECK( 4 == chunk.numberPoints() );
-        CHECK( 2 == chunk.numberRegions() );
-        CHECK( 4 == chunk.x().size() );
-        CHECK( 4 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 3 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        chunk *= 2.;
-
-        CHECK( 4 == chunk.numberPoints() );
-        CHECK( 2 == chunk.numberRegions() );
-        CHECK( 4 == chunk.x().size() );
-        CHECK( 4 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 8., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 6., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 2., WithinRel( chunk.y()[3] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 3 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        chunk /= 2.;
-
-        CHECK( 4 == chunk.numberPoints() );
-        CHECK( 2 == chunk.numberRegions() );
-        CHECK( 4 == chunk.x().size() );
-        CHECK( 4 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 3 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        result = chunk + 2.;
-
-        CHECK( 4 == result.numberPoints() );
-        CHECK( 2 == result.numberRegions() );
-        CHECK( 4 == result.x().size() );
-        CHECK( 4 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
-        CHECK_THAT( 3., WithinRel( result.x()[2] ) );
-        CHECK_THAT( 4., WithinRel( result.x()[3] ) );
-        CHECK_THAT( 6., WithinRel( result.y()[0] ) );
-        CHECK_THAT( 5., WithinRel( result.y()[1] ) );
-        CHECK_THAT( 4., WithinRel( result.y()[2] ) );
-        CHECK_THAT( 3., WithinRel( result.y()[3] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 3 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        result = chunk - 2.;
-
-        CHECK( 4 == result.numberPoints() );
-        CHECK( 2 == result.numberRegions() );
-        CHECK( 4 == result.x().size() );
-        CHECK( 4 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT(  1., WithinRel( result.x()[0] ) );
-        CHECK_THAT(  2., WithinRel( result.x()[1] ) );
-        CHECK_THAT(  3., WithinRel( result.x()[2] ) );
-        CHECK_THAT(  4., WithinRel( result.x()[3] ) );
-        CHECK_THAT(  2., WithinRel( result.y()[0] ) );
-        CHECK_THAT(  1., WithinRel( result.y()[1] ) );
-        CHECK_THAT(  0., WithinRel( result.y()[2] ) );
-        CHECK_THAT( -1., WithinRel( result.y()[3] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 3 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        result = chunk * 2.;
-
-        CHECK( 4 == result.numberPoints() );
-        CHECK( 2 == result.numberRegions() );
-        CHECK( 4 == result.x().size() );
-        CHECK( 4 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
-        CHECK_THAT( 3., WithinRel( result.x()[2] ) );
-        CHECK_THAT( 4., WithinRel( result.x()[3] ) );
-        CHECK_THAT( 8., WithinRel( result.y()[0] ) );
-        CHECK_THAT( 6., WithinRel( result.y()[1] ) );
-        CHECK_THAT( 4., WithinRel( result.y()[2] ) );
-        CHECK_THAT( 2., WithinRel( result.y()[3] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 3 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        result = chunk / 2.;
-
-        CHECK( 4 == result.numberPoints() );
-        CHECK( 2 == result.numberRegions() );
-        CHECK( 4 == result.x().size() );
-        CHECK( 4 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1. , WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2. , WithinRel( result.x()[1] ) );
-        CHECK_THAT( 3. , WithinRel( result.x()[2] ) );
-        CHECK_THAT( 4. , WithinRel( result.x()[3] ) );
-        CHECK_THAT( 2.0, WithinRel( result.y()[0] ) );
-        CHECK_THAT( 1.5, WithinRel( result.y()[1] ) );
-        CHECK_THAT( 1.0, WithinRel( result.y()[2] ) );
-        CHECK_THAT( 0.5, WithinRel( result.y()[3] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 3 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        // table operations
+        CHECK_THROWS( chunk += right );
+        CHECK_THROWS( chunk -= right );
+        CHECK_THROWS( result = chunk + right );
+        CHECK_THROWS( result = chunk - right );
       } // THEN
     } // WHEN
   } // GIVEN
 
-  GIVEN( "data with multiple regions with a jump" ) {
+  GIVEN( "non-linearised data with multiple regions with a jump" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -1008,185 +849,26 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == linear.isLinearised() );
       } // THEN
 
-      THEN( "arithmetic operations can be performed" ) {
+      THEN( "arithmetic operations cannot be performed" ) {
 
         InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
+        InterpolationTable< double > right( { 1., 4. }, { 0., 0. } );
 
-        chunk += 2.;
+        // scalar operations
+        CHECK_THROWS( chunk += 2. );
+        CHECK_THROWS( chunk -= 2. );
+        CHECK_THROWS( chunk *= 2. );
+        CHECK_THROWS( chunk /= 2. );
+        CHECK_THROWS( result = chunk + 2. );
+        CHECK_THROWS( result = chunk - 2. );
+        CHECK_THROWS( result = chunk * 2. );
+        CHECK_THROWS( result = chunk / 2. );
 
-        CHECK( 5 == chunk.x().size() );
-        CHECK( 5 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
-        CHECK_THAT( 6., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 5., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 6., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 5., WithinRel( chunk.y()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[4] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 4 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        chunk -= 2.;
-
-        CHECK( 5 == chunk.x().size() );
-        CHECK( 5 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
-        CHECK_THAT( 2., WithinRel( chunk.y()[4] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 4 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        chunk *= 2.;
-
-        CHECK( 5 == chunk.x().size() );
-        CHECK( 5 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
-        CHECK_THAT( 8., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 6., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 8., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 6., WithinRel( chunk.y()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[4] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 4 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        chunk /= 2.;
-
-        CHECK( 5 == chunk.x().size() );
-        CHECK( 5 == chunk.y().size() );
-        CHECK( 2 == chunk.boundaries().size() );
-        CHECK( 2 == chunk.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
-        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
-        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
-        CHECK_THAT( 2., WithinRel( chunk.y()[4] ) );
-        CHECK( 1 == chunk.boundaries()[0] );
-        CHECK( 4 == chunk.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-
-        result = chunk + 2.;
-
-        CHECK( 5 == result.x().size() );
-        CHECK( 5 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( result.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( result.x()[4] ) );
-        CHECK_THAT( 6., WithinRel( result.y()[0] ) );
-        CHECK_THAT( 5., WithinRel( result.y()[1] ) );
-        CHECK_THAT( 6., WithinRel( result.y()[2] ) );
-        CHECK_THAT( 5., WithinRel( result.y()[3] ) );
-        CHECK_THAT( 4., WithinRel( result.y()[4] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 4 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        result = chunk - 2.;
-
-        CHECK( 5 == result.x().size() );
-        CHECK( 5 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( result.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( result.x()[4] ) );
-        CHECK_THAT( 2., WithinRel( result.y()[0] ) );
-        CHECK_THAT( 1., WithinRel( result.y()[1] ) );
-        CHECK_THAT( 2., WithinRel( result.y()[2] ) );
-        CHECK_THAT( 1., WithinRel( result.y()[3] ) );
-        CHECK_THAT( 0., WithinRel( result.y()[4] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 4 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        result = chunk * 2.;
-
-        CHECK( 5 == result.x().size() );
-        CHECK( 5 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
-        CHECK_THAT( 2., WithinRel( result.x()[2] ) );
-        CHECK_THAT( 3., WithinRel( result.x()[3] ) );
-        CHECK_THAT( 4., WithinRel( result.x()[4] ) );
-        CHECK_THAT( 8., WithinRel( result.y()[0] ) );
-        CHECK_THAT( 6., WithinRel( result.y()[1] ) );
-        CHECK_THAT( 8., WithinRel( result.y()[2] ) );
-        CHECK_THAT( 6., WithinRel( result.y()[3] ) );
-        CHECK_THAT( 4., WithinRel( result.y()[4] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 4 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        result = chunk / 2.;
-
-        CHECK( 5 == result.x().size() );
-        CHECK( 5 == result.y().size() );
-        CHECK( 2 == result.boundaries().size() );
-        CHECK( 2 == result.interpolants().size() );
-        CHECK_THAT( 1. , WithinRel( result.x()[0] ) );
-        CHECK_THAT( 2. , WithinRel( result.x()[1] ) );
-        CHECK_THAT( 2. , WithinRel( result.x()[2] ) );
-        CHECK_THAT( 3. , WithinRel( result.x()[3] ) );
-        CHECK_THAT( 4. , WithinRel( result.x()[4] ) );
-        CHECK_THAT( 2. , WithinRel( result.y()[0] ) );
-        CHECK_THAT( 1.5, WithinRel( result.y()[1] ) );
-        CHECK_THAT( 2. , WithinRel( result.y()[2] ) );
-        CHECK_THAT( 1.5, WithinRel( result.y()[3] ) );
-        CHECK_THAT( 1. , WithinRel( result.y()[4] ) );
-        CHECK( 1 == result.boundaries()[0] );
-        CHECK( 4 == result.boundaries()[1] );
-        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        // table operations
+        CHECK_THROWS( chunk += right );
+        CHECK_THROWS( chunk -= right );
+        CHECK_THROWS( result = chunk + right );
+        CHECK_THROWS( result = chunk - right );
       } // THEN
     } // WHEN
   } // GIVEN

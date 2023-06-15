@@ -141,11 +141,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator+=( const Y& right ) noexcept {
+    InterpolationTable& operator+=( const Y& right ) {
 
-      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
-                      [&right] ( auto&& y ) { return y + right; } );
-      return *this;
+      return this->operation( right, std::plus< Y >() );
     }
 
     /**
@@ -153,9 +151,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator-=( const Y& right ) noexcept {
+    InterpolationTable& operator-=( const Y& right ) {
 
-      return this->operator+=( -right );
+      return this->operation( right, std::minus< Y >() );
     }
 
     /**
@@ -163,11 +161,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator*=( const Y& right ) noexcept {
+    InterpolationTable& operator*=( const Y& right ) {
 
-      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
-                      [&right] ( auto&& y ) { return y * right; } );
-      return *this;
+      return this->operation( right, std::multiplies< Y >() );
     }
 
     /**
@@ -175,9 +171,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator/=( const Y& right ) noexcept {
+    InterpolationTable& operator/=( const Y& right ) {
 
-      return this->operator*=( Y( 1. ) / right );
+      return this->operation( Y( 1. ) / right, std::multiplies< Y >() );
     }
 
     /**
@@ -185,7 +181,7 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator+( const Y& right ) const noexcept {
+    InterpolationTable operator+( const Y& right ) const {
 
       InterpolationTable result = *this;
       result += right;
@@ -197,7 +193,7 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator-( const Y& right ) const noexcept {
+    InterpolationTable operator-( const Y& right ) const {
 
       InterpolationTable result = *this;
       result -= right;
@@ -209,7 +205,7 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator*( const Y& right ) const noexcept {
+    InterpolationTable operator*( const Y& right ) const {
 
       InterpolationTable result = *this;
       result *= right;
@@ -221,7 +217,7 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator/( const Y& right ) const noexcept {
+    InterpolationTable operator/( const Y& right ) const {
 
       InterpolationTable result = *this;
       result /= right;
