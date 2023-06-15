@@ -121,6 +121,64 @@ namespace math {
     }
 
     /**
+     *  @brief Series and scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived operator+( const Y& right ) const noexcept {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief Series and scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived operator-( const Y& right ) const noexcept {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result -= right;
+      return result;
+    }
+
+    /**
+     *  @brief Series and scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived operator*( const Y& right ) const noexcept {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result *= right;
+      return result;
+    }
+
+    /**
+     *  @brief Series and scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived operator/( const Y& right ) const noexcept {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result /= right;
+      return result;
+    }
+
+    /**
+     *  @brief Unary minus
+     */
+    Derived operator-() const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result *= Y( -1. );
+      return result;
+    }
+
+    /**
      *  @brief Inplace series addition
      *
      *  There is no domain checking on the two series. It is up to the user to
@@ -169,55 +227,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar addition
-     *
-     *  @param[in] right    the scalar
-     */
-    Derived operator+( const Y& right ) const noexcept {
-
-      Derived result = *static_cast< const Derived* >( this );
-      result += right;
-      return result;
-    }
-
-    /**
-     *  @brief Scalar subtraction
-     *
-     *  @param[in] right    the scalar
-     */
-    Derived operator-( const Y& right ) const noexcept {
-
-      Derived result = *static_cast< const Derived* >( this );
-      result -= right;
-      return result;
-    }
-
-    /**
-     *  @brief Scalar multiplication
-     *
-     *  @param[in] right    the scalar
-     */
-    Derived operator*( const Y& right ) const noexcept {
-
-      Derived result = *static_cast< const Derived* >( this );
-      result *= right;
-      return result;
-    }
-
-    /**
-     *  @brief Scalar division
-     *
-     *  @param[in] right    the scalar
-     */
-    Derived operator/( const Y& right ) const noexcept {
-
-      Derived result = *static_cast< const Derived* >( this );
-      result /= right;
-      return result;
-    }
-
-    /**
-     *  @brief Series addition
+     *  @brief Series and series addition
      *
      *  @param[in] right    the series
      */
@@ -229,7 +239,7 @@ namespace math {
     }
 
     /**
-     *  @brief Series subtraction
+     *  @brief Series and series subtraction
      *
      *  @param[in] right    the series
      */

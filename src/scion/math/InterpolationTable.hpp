@@ -177,7 +177,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar addition
+     *  @brief InterpolationTable and scalar addition
      *
      *  @param[in] right    the scalar
      */
@@ -189,7 +189,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar subtraction
+     *  @brief InterpolationTable and scalar subtraction
      *
      *  @param[in] right    the scalar
      */
@@ -201,7 +201,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar multiplication
+     *  @brief InterpolationTable and scalar multiplication
      *
      *  @param[in] right    the scalar
      */
@@ -213,7 +213,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar division
+     *  @brief InterpolationTable and scalar division
      *
      *  @param[in] right    the scalar
      */
@@ -255,7 +255,7 @@ namespace math {
     }
 
     /**
-     *  @brief InterpolationTable addition
+     *  @brief InterpolationTable and InterpolationTable addition
      *
      *  @param[in] right    the table
      */
@@ -267,7 +267,7 @@ namespace math {
     }
 
     /**
-     *  @brief InterpolationTable subtraction
+     *  @brief InterpolationTable and InterpolationTable subtraction
      *
      *  @param[in] right    the table
      */
@@ -286,25 +286,27 @@ namespace math {
   };
 
   /**
-   *  @brief Scalar addition
+   *  @brief Scalar and InterpolationTable addition
    *
-   *  @param[in] right    the scalar
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
    */
   template < typename X, typename Y = X >
-  InterpolationTable< X, Y > operator+( const Y& left,
-                                        const InterpolationTable< X, Y >& right ) {
+  InterpolationTable< X, Y >
+  operator+( const Y& left, const InterpolationTable< X, Y >& right ) {
 
     return right + left;
   }
 
   /**
-   *  @brief Scalar subtraction
+   *  @brief Scalar and InterpolationTable subtraction
    *
-   *  @param[in] right    the scalar
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
    */
   template < typename X, typename Y = X >
-  InterpolationTable< X, Y > operator-( const Y& left,
-                                        const InterpolationTable< X, Y >& right ) {
+  InterpolationTable< X, Y >
+  operator-( const Y& left, const InterpolationTable< X, Y >& right ) {
 
     auto result = -right;
     result += left;
@@ -312,13 +314,14 @@ namespace math {
   }
 
   /**
-   *  @brief Scalar multiplication
+   *  @brief Scalar and InterpolationTable multiplication
    *
-   *  @param[in] right    the scalar
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
    */
   template < typename X, typename Y = X >
-  InterpolationTable< X, Y > operator*( const Y& left,
-                                        const InterpolationTable< X, Y >& right ) {
+  InterpolationTable< X, Y >
+  operator*( const Y& left, const InterpolationTable< X, Y >& right ) {
 
     return right * left;
   }

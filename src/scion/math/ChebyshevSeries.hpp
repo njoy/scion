@@ -91,6 +91,47 @@ namespace math {
     using Parent::isSameDomain;
   };
 
+  /**
+   *  @brief Scalar and series addition
+   *
+   *  @param[in] left     the scalar
+   *  @param[in] right    the series
+   */
+  template < typename X, typename Y = X >
+  ChebyshevSeries< X, Y >
+  operator+( const Y& left, const ChebyshevSeries< X, Y >& right ) {
+
+    return right + left;
+  }
+
+  /**
+   *  @brief Scalar and series subtraction
+   *
+   *  @param[in] left     the scalar
+   *  @param[in] right    the series
+   */
+  template < typename X, typename Y = X >
+  ChebyshevSeries< X, Y >
+  operator-( const Y& left, const ChebyshevSeries< X, Y >& right ) {
+
+    auto result = -right;
+    result += left;
+    return result;
+  }
+
+  /**
+   *  @brief Scalar and series multiplication
+   *
+   *  @param[in] left     the scalar
+   *  @param[in] right    the series
+   */
+  template < typename X, typename Y = X >
+  ChebyshevSeries< X, Y >
+  operator*( const Y& left, const ChebyshevSeries< X, Y >& right ) {
+
+    return right * left;
+  }
+
 } // math namespace
 } // scion namespace
 } // njoy namespace
