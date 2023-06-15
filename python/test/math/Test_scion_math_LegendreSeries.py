@@ -171,6 +171,14 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             equal = LegendreSeries( [ 3., 0., 0., 1. ] )
             large = LegendreSeries( [ 3., 0., 0., 0., 1. ] )
 
+            result = -chunk
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual(  10.33333333333333, result.coefficients[0] )
+            self.assertAlmostEqual( -14.6             , result.coefficients[1] )
+            self.assertAlmostEqual(   4.66666666666666, result.coefficients[2] )
+            self.assertAlmostEqual(  -0.4             , result.coefficients[3] )
+
             chunk += 2.
             self.assertEqual( 3, chunk.order )
             self.assertEqual( 4, len( chunk.coefficients ) )
@@ -260,6 +268,14 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -9.33333333333333, result.coefficients[2] )
             self.assertAlmostEqual(   0.8             , result.coefficients[3] )
 
+            result = 2. * chunk
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -20.66666666666666, result.coefficients[0] )
+            self.assertAlmostEqual(  29.2             , result.coefficients[1] )
+            self.assertAlmostEqual(  -9.33333333333333, result.coefficients[2] )
+            self.assertAlmostEqual(   0.8             , result.coefficients[3] )
+
             result = chunk / 2.
             self.assertEqual( 3, result.order )
             self.assertEqual( 4, len( result.coefficients ) )
@@ -276,6 +292,14 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -4.66666666666666, result.coefficients[2] )
             self.assertAlmostEqual(  0.4             , result.coefficients[3] )
 
+            result = 2. + chunk
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -8.33333333333333, result.coefficients[0] )
+            self.assertAlmostEqual( 14.6             , result.coefficients[1] )
+            self.assertAlmostEqual( -4.66666666666666, result.coefficients[2] )
+            self.assertAlmostEqual(  0.4             , result.coefficients[3] )
+
             result = chunk - 2.
             self.assertEqual( 3, result.order )
             self.assertEqual( 4, len( result.coefficients ) )
@@ -283,6 +307,14 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  14.6             , result.coefficients[1] )
             self.assertAlmostEqual(  -4.66666666666666, result.coefficients[2] )
             self.assertAlmostEqual(   0.4             , result.coefficients[3] )
+
+            result = 2. - chunk
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual(  12.33333333333333, result.coefficients[0] )
+            self.assertAlmostEqual( -14.6             , result.coefficients[1] )
+            self.assertAlmostEqual(   4.66666666666666, result.coefficients[2] )
+            self.assertAlmostEqual(  -0.4             , result.coefficients[3] )
 
             result = chunk + small
             self.assertEqual( 3, result.order )
