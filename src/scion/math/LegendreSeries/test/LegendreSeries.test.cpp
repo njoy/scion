@@ -206,6 +206,16 @@ SCENARIO( "LegendreSeries" ) {
         LegendreSeries< double > large( { 3., 0., 0., 0., 1. } );
         LegendreSeries< double > result( { 0. } );
 
+        result = -chunk;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK_THAT(  10.33333333333333, WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( -14.6             , WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT(   4.66666666666666, WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(  -0.4             , WithinRel( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         chunk += 2.;
 
         CHECK( 3 == chunk.order() );
@@ -317,6 +327,16 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  0.4             , WithinRel( result.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = 2. + chunk;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK_THAT( -8.33333333333333, WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( 14.6             , WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( -4.66666666666666, WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(  0.4             , WithinRel( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         result = chunk - 2.;
 
         CHECK( 3 == result.order() );
@@ -327,7 +347,27 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(   0.4             , WithinRel( result.coefficients()[3] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = 2. - chunk;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK_THAT(  12.33333333333333, WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( -14.6             , WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT(   4.66666666666666, WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(  -0.4             , WithinRel( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         result = chunk * 2.;
+
+        CHECK( 3 == result.order() );
+        CHECK( 4 == result.coefficients().size() );
+        CHECK_THAT( -20.66666666666666, WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT(  29.2             , WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT(  -9.33333333333333, WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(   0.8             , WithinRel( result.coefficients()[3] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = 2. * chunk;
 
         CHECK( 3 == result.order() );
         CHECK( 4 == result.coefficients().size() );
