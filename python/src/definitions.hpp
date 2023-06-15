@@ -158,90 +158,22 @@ template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardOperatorDefinitions( PythonClass& component ) {
 
   component
-  .def(
-
-    "__add__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self + right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__sub__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self - right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__add__",
-    [] ( const Component& self, const Component& right ) -> decltype(auto)
-       { return self + right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__sub__",
-    [] ( const Component& self, const Component& right ) -> decltype(auto)
-       { return self - right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__mul__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self * right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__truediv__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self / right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__iadd__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self += right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__isub__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self -= right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__iadd__",
-    [] ( Component& self, const Component& right ) -> decltype(auto)
-       { return self += right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__isub__",
-    [] ( Component& self, const Component& right ) -> decltype(auto)
-       { return self -= right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__imul__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self *= right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__itruediv__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self /= right; },
-    python::is_operator()
-  );
+  .def( -python::self )
+  .def( python::self + Y() )
+  .def( python::self - Y() )
+  .def( python::self * Y() )
+  .def( python::self / Y() )
+  .def( python::self + python::self )
+  .def( python::self - python::self )
+  .def( python::self += Y() )
+  .def( python::self -= Y() )
+  .def( python::self *= Y() )
+  .def( python::self /= Y() )
+  .def( python::self += python::self )
+  .def( python::self -= python::self )
+  .def( Y() + python::self )
+  .def( Y() - python::self )
+  .def( Y() * python::self );
 }
 
 /**
