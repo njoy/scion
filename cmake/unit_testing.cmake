@@ -10,6 +10,12 @@ enable_testing()
 # Unit testing directories
 #######################################################################
 
+add_subdirectory( src/scion/interpolation/Histogram/test )
+add_subdirectory( src/scion/interpolation/LinearLinear/test )
+add_subdirectory( src/scion/interpolation/LinearLogarithmic/test )
+add_subdirectory( src/scion/interpolation/LogarithmicLinear/test )
+add_subdirectory( src/scion/interpolation/LogarithmicLogarithmic/test )
+
 add_subdirectory( src/scion/linearisation/Lineariser/test )
 
 add_subdirectory( src/scion/math/compare/test )

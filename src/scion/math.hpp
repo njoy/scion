@@ -11,3 +11,5 @@
 // function object interface
 #include "scion/math/IntervalDomain.hpp"
 #include "scion/math/OpenDomain.hpp"
+#include "scion/math/LegendreSeries.hpp"
+#include "scion/math/PolynomialSeries.hpp"

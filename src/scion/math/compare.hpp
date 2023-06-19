@@ -14,7 +14,7 @@ namespace math {
  *  @param[in] a           the first floating point number to compare
  *  @param[in] b           the second floating point number to compare
  *  @param[in] epsilon     the relative comparison tolerance
- *  @param[in] threshold   the absulate comparison tolerance
+ *  @param[in] threshold   the absolute comparison tolerance
  */
 template < typename X >
 bool isClose( const X& a, const X& b,
@@ -31,10 +31,10 @@ bool isClose( const X& a, const X& b,
   return diff < std::max( epsilon * norm, threshold );
 }
 
-/** @brief Compare a flaoting point number to zero
+/** @brief Compare a floating point number to zero
  *
- *  @param[in] a           the first floating point number to compare
- *  @param[in] threshold   the absulate comparison tolerance
+ *  @param[in] a           the floating point number to compare to zero
+ *  @param[in] threshold   the absolute comparison tolerance
  */
 template < typename X >
 bool isCloseToZero( const X& a,

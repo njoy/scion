@@ -8,6 +8,7 @@
 namespace python = pybind11;
 
 // declarations
+void wrapInterpolationModule( python::module& );
 void wrapMathModule( python::module& );
 
 /**
@@ -17,6 +18,9 @@ void wrapMathModule( python::module& );
  *  set on the PROPERTIES OUTPUT_NAME in the CMakeLists.txt file.
  */
 PYBIND11_MODULE( scion, module ) {
+
+  // wrap the interpolation submodule
+  wrapInterpolationModule( module );
 
   // wrap the math submodule
   wrapMathModule( module );

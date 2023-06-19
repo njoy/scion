@@ -29,10 +29,10 @@ void wrapHornerFor( python::module& module ) {
     "  y = c_n * (x + c_(n-1) * (x + c_(n - 2) * (x + ...\n\n"
     "The main reason for using the Horner scheme is computational efficiency.\n\n"
     "Source: Numerical recipes - Third edition, p201-202\n\n"
-    " Arguments:\n"
-    "     coefficients   a list of coefficient values (from lowest to highest\n"
-    "                    order coefficient)\n"
-    "     x              the value at which the polynomial must be evaluated"
+    "Arguments:\n"
+    "    coefficients   a list of coefficient values (from lowest to highest\n"
+    "                   order coefficient)\n"
+    "    x              the value at which the polynomial must be evaluated"
   );
 }
 

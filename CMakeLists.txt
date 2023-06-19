@@ -73,7 +73,10 @@ if( scion.python )
 
   pybind11_add_module( scion.python
       python/src/scion.python.cpp
+      python/src/interpolation.python.cpp
+      python/src/interpolation/interpolation.python.cpp
       python/src/math.python.cpp
+      python/src/math/compare.python.cpp
       python/src/math/horner.python.cpp
       python/src/math/legendre.python.cpp
       python/src/math/IntervalDomain.python.cpp
