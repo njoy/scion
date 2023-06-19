@@ -7,7 +7,7 @@ import unittest
 from scion.interpolation import histogram
 
 class Test_scion_interpolation_histogram( unittest.TestCase ) :
-    """Unit test for the horner function."""
+    """Unit test for the histogram interpolant."""
 
     def test_interpolation_function( self ) :
 
