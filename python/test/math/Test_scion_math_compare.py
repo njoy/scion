@@ -6,10 +6,10 @@ import unittest
 # local imports
 from scion.math import is_close, is_close_to_zero
 
-class Test_scion_math_horner( unittest.TestCase ) :
-    """Unit test for the horner function."""
+class Test_scion_math_compare( unittest.TestCase ) :
+    """Unit test for the comparison functiona."""
 
-    def test_horner( self ) :
+    def test_comparison( self ) :
 
         # floating point comparison
         self.assertEqual( False, is_close( 1., 2. ) )
