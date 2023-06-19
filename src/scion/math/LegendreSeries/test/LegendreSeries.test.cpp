@@ -77,25 +77,17 @@ SCENARIO( "LegendreSeries" ) {
 
       THEN( "roots can be calculated" ) {
 
-        std::vector< std::complex< double > > roots = chunk.roots();
+        std::vector< double > roots = chunk.roots();
 
         CHECK( 3 == roots.size() );
-        CHECK( 1.0 == Approx( roots[0].real() ) );
-        CHECK( 4.0 == Approx( roots[1].real() ) );
-        CHECK( 2.0 == Approx( roots[2].real() ) );
-        CHECK( 0.0 == Approx( roots[0].imag() ) );
-        CHECK( 0.0 == Approx( roots[1].imag() ) );
-        CHECK( 0.0 == Approx( roots[2].imag() ) );
+        CHECK( 1.0 == Approx( roots[0] ) );
+        CHECK( 2.0 == Approx( roots[1] ) );
+        CHECK( 4.0 == Approx( roots[2] ) );
 
         roots = chunk.roots( -8. );
 
-        CHECK( 3 == roots.size() );
-        CHECK(  0.0 == Approx( roots[0].real() ) );
-        CHECK(  3.5 == Approx( roots[1].real() ) );
-        CHECK(  3.5 == Approx( roots[2].real() ) );
-        CHECK(  0.0 == Approx( roots[0].imag() ) );
-        CHECK(  1.322875656 == Approx( roots[1].imag() ) );
-        CHECK( -1.322875656 == Approx( roots[2].imag() ) );
+        CHECK( 1 == roots.size() );
+        CHECK(  0.0 == Approx( roots[0] ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -107,22 +99,6 @@ SCENARIO( "LegendreSeries" ) {
       THEN( "an exception is thrown" ) {
 
         CHECK_THROWS( LegendreSeries< double >( {} ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x values are outside the domain" ) {
-
-      double max = std::numeric_limits<double>::max();
-      double min = -max;
-
-      LegendreSeries< double > chunk( { 1., 2., 3., 4. } );
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( chunk( min ) );
-        CHECK_THROWS( chunk( -10. ) );
-        CHECK_THROWS( chunk(  10. ) );
-        CHECK_THROWS( chunk( max ) );
       } // THEN
     } // WHEN
   } // GIVEN

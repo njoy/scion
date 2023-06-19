@@ -6,18 +6,9 @@
  *
  *    P(n+2,x) = (2k+1)/(k+1) x P(n+1,x) - k/(k+1) P(n,x)
  *
- *  An exception is thrown for values outside of the domain.
- *
  *  @param x   the value to be evaluated
  */
 Y evaluate( const X& x ) const {
-
-  if ( ! this->isInside( x ) ) {
-
-    Log::error( "Legendre polynomials are defined for x values in the [-1,1] interval" );
-    Log::info( "The value of x requested: {}", x );
-    throw std::exception();
-  }
 
   auto a = [] ( unsigned int k, const X& x ) -> Y {
 
