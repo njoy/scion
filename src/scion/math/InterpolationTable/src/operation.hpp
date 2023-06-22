@@ -45,8 +45,8 @@ InterpolationTable& operation( const InterpolationTable& right,
                                                            : this->x().front();
 
           Log::error( "The threshold table's first y value is not zero" );
-          Log::info( "Found x = ", xstart );
-          Log::info( "Found y = ", ystart );
+          Log::info( "Found x = {}", xstart );
+          Log::info( "Found y = {}", ystart );
           throw std::exception();
         }
       }
