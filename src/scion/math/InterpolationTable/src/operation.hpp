@@ -33,6 +33,24 @@ InterpolationTable& operation( const InterpolationTable& right,
     }
     else {
 
+      // check for threshold tables
+      if ( this->x().front() != right.x().front() ) {
+
+        Y ystart = this->x().front() < right.x().front() ? right.y().front()
+                                                         : this->y().front();
+
+        if ( Y( 0. ) != ystart ) {
+
+          X xstart = this->x().front() < right.x().front() ? right.x().front()
+                                                           : this->x().front();
+
+          Log::error( "The threshold table's first y value is not zero" );
+          Log::info( "Found x = ", xstart );
+          Log::info( "Found y = ", ystart );
+          throw std::exception();
+        }
+      }
+
       // unionise and evaluate on the new grid
       std::vector< X > x = unionisation::unionise( this->x(), right.x() );
       std::vector< Y > y = this->evaluateOnGrid( x );
