@@ -8,6 +8,16 @@ std::vector< Y > evaluateOnGrid( const std::vector< X >& x ) const {
   auto xTable = this->x().begin();
   auto yTable = this->y().begin();
 
+  if ( x.begin() != xIter ) {
+
+    if ( Y( 0. ) != *yTable ) {
+
+      Log::error( "The threshold table's first y value is not zero" );
+      Log::info( "Found y = ", *yTable );
+      throw std::exception();
+    }
+  }
+
   for ( ; xIter != x.end(); ++xIter ) {
 
     if ( *xIter < *xTable ) {
