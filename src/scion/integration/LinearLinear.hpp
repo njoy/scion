@@ -13,6 +13,8 @@ namespace integration {
   /**
    *  @class
    *  @brief Linear-linear integration (y is linear in x)
+   *
+   *  The integral of a panel is calculated exactly using the trapezoid rule.
    */
   class LinearLinear : public IntegratorBase< LinearLinear > {
 
