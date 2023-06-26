@@ -4,20 +4,20 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/Histogram.hpp"
+#include "scion/integration/LinearLinear.hpp"
 
 // other includes
 
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "Histogram" ) {
+SCENARIO( "LinearLinear" ) {
 
-  GIVEN( "Histogram integration object" ) {
+  GIVEN( "LinearLinear integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::Histogram integrator{};
+      integration::LinearLinear integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -26,12 +26,12 @@ SCENARIO( "Histogram" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK_THAT( 1., WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.5, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
 
-  GIVEN( "histogram integration function" ) {
+  GIVEN( "linlin integration function" ) {
 
     WHEN( "integrating an interval" ) {
 
@@ -42,7 +42,7 @@ SCENARIO( "Histogram" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK_THAT( 1., WithinRel( integration::histogram( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.5, WithinRel( integration::linlin( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
