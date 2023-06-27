@@ -28,6 +28,12 @@ add_python_test( interpolation.linlog interpolation/Test_scion_interpolation_lin
 add_python_test( interpolation.loglin interpolation/Test_scion_interpolation_loglin.py )
 add_python_test( interpolation.loglog interpolation/Test_scion_interpolation_loglog.py )
 
+add_python_test( integration.histogram integration/Test_scion_integration_histogram.py )
+add_python_test( integration.linlin integration/Test_scion_integration_linlin.py )
+add_python_test( integration.linlog integration/Test_scion_integration_linlog.py )
+add_python_test( integration.loglin integration/Test_scion_integration_loglin.py )
+add_python_test( integration.loglog integration/Test_scion_integration_loglog.py )
+
 add_python_test( linearisation.MidpointSplit linearisation/Test_scion_linearisation_MidpointSplit.py )
 add_python_test( linearisation.ToleranceConvergence linearisation/Test_scion_linearisation_ToleranceConvergence.py )
 add_python_test( linearisation.Lineariser linearisation/Test_scion_linearisation_Lineariser.py )
