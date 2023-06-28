@@ -1,36 +1,56 @@
-/**
- *  @class
- *  @brief The Gauss-Legendre 2-point quadrature rule
- */
-template< typename X, typename Y >
-class GaussLegendre< 2, X, Y > :
-  public GaussQuadratureBase< GaussLegendre< 2, X, Y >, X, Y > {
+#ifndef NJOY_SCION_INTEGRATION_GAUSSLEGENDRE_2
+#define NJOY_SCION_INTEGRATION_GAUSSLEGENDRE_2
 
-  /* type aliases */
-  using Parent = GaussQuadratureBase< GaussLegendre< 2, X, Y >, X, Y >;
+// system includes
+#include <array>
 
-  /* fields */
+// other includes
+#include "scion/integration/quadrature.hpp"
+#include "scion/integration/GaussQuadratureBase.hpp"
 
-public:
-
-  /* methods */
+namespace njoy {
+namespace scion {
+namespace integration {
 
   /**
-   *  @brief Return the number of points used in the quadrature rule
+   *  @class
+   *  @brief The Gauss-Legendre 2-point quadrature rule
    */
-  static constexpr const int number() noexcept { return 2; }
+  template< typename X, typename Y >
+  class GaussLegendre< 2, X, Y > :
+    public GaussQuadratureBase< GaussLegendre< 2, X, Y >, X, Y > {
 
-  /**
-   *  @brief Return the points and weights in the quadrature rule
-   */
-  static const std::array< std::pair< X, double >, 2 >& pairs() {
+    /* type aliases */
+    using Parent = GaussQuadratureBase< GaussLegendre< 2, X, Y >, X, Y >;
 
-    static constexpr const std::array< std::pair< X, double >, 2 > pairs = {
+    /* fields */
 
-      std::pair< X, double >{ -0.577350269189626, 1.000000000000000 },
-      std::pair< X, double >{  0.577350269189626, 1.000000000000000 } };
-    return pairs;
-  }
+  public:
 
-  using Parent::operator();
-};
+    /* methods */
+
+    /**
+     *  @brief Return the number of points used in the quadrature rule
+     */
+    static constexpr const int number() noexcept { return 2; }
+
+    /**
+     *  @brief Return the points and weights in the quadrature rule
+     */
+    static const std::array< std::pair< X, double >, 2 >& pairs() {
+
+      static constexpr const std::array< std::pair< X, double >, 2 > pairs = {
+
+        std::pair< X, double >{ -0.577350269189626, 1.000000000000000 },
+        std::pair< X, double >{  0.577350269189626, 1.000000000000000 } };
+      return pairs;
+    }
+
+    using Parent::operator();
+  };
+
+} // integration namespace
+} // scion namespace
+} // njoy namespace
+
+#endif
