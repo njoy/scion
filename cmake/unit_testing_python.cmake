@@ -33,6 +33,8 @@ add_python_test( integration.linlin integration/Test_scion_integration_linlin.py
 add_python_test( integration.linlog integration/Test_scion_integration_linlog.py )
 add_python_test( integration.loglin integration/Test_scion_integration_loglin.py )
 add_python_test( integration.loglog integration/Test_scion_integration_loglog.py )
+add_python_test( integration.GaussLegendre2 integration/Test_scion_integration_GaussLegendre2.py )
+add_python_test( integration.GaussLegendre7 integration/Test_scion_integration_GaussLegendre7.py )
 
 add_python_test( linearisation.MidpointSplit linearisation/Test_scion_linearisation_MidpointSplit.py )
 add_python_test( linearisation.ToleranceConvergence linearisation/Test_scion_linearisation_ToleranceConvergence.py )
