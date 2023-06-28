@@ -29,8 +29,9 @@ namespace integration {
      *  @param[in] yLeft    the left value on the y interval
      *  @param[in] yRight   the right value on the y interval
      */
-    template < typename X, typename Y >
-    Y integrate( const X& xLeft, const X& xRight,
+    template < typename X, typename Y,
+               typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& ) const noexcept {
 
       return yLeft * ( xRight - xLeft );

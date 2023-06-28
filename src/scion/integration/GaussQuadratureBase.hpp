@@ -21,6 +21,9 @@ namespace integration {
   template < typename Derived, typename X, typename Y = X >
   class GaussQuadratureBase {
 
+    /* type aliases */
+    using I = decltype( std::declval< X >() * std::declval< Y >() );
+
   public:
 
     /* methods */
@@ -31,15 +34,15 @@ namespace integration {
      *  @param[in] functor    the function to integrate
      */
     template < typename Functor >
-    Y operator()( Functor&& functor ) const {
+    I operator()( Functor&& functor ) const {
 
       const auto accumulate = [&] ( auto&& result, auto&& pair ) {
 
-        return result + pair.second * functor( pair.first );
+        return std::move( result ) + pair.second * functor( pair.first );
       };
 
       return std::accumulate( Derived::pairs().cbegin(), Derived::pairs().cend(),
-                              Y( 0. ), accumulate );
+                              I( 0. ), accumulate );
     }
   };
 
