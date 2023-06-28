@@ -11,9 +11,10 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief Base class for analytical integrator objects
+   *  @brief Base class for analytical integrator objects for tabulated data
    *
    *  This base class provides the common interface for all integrator objects.
+   *  These are the integral equivalents of the interpolators.
    */
   template < typename Derived >
   class IntegratorBase {
