@@ -354,4 +354,26 @@ void addStandardConvergenceDefinitions( PythonClass& component ) {
   );
 }
 
+/**
+ *  @brief Add standard quadrature definitions
+ *
+ *  This adds the following standard functions:
+ *    __call__
+ *
+ *  @param[in] component   the quadrature to which the definitions have to be added
+ */
+template < typename Component, typename X, typename Y, typename PythonClass >
+void addStandardQuadratureDefinitions( PythonClass& component ) {
+
+  component
+  .def(
+
+    "__call__",
+    [] ( Component& self, const std::function< Y( X ) >& function ) -> decltype(auto)
+       { return self( function ); },
+    python::arg( "x" ),
+    "Calculate the integral over the interval [-1, 1]"
+  );
+}
+
 #endif

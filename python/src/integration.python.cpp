@@ -12,6 +12,7 @@ namespace integration {
 
   // integration functions
   void wrapIntegrationFunctions( python::module& );
+  void wrapGaussLegendre( python::module& );
 }
 
 void wrapIntegrationModule( python::module& module ) {
@@ -25,4 +26,5 @@ void wrapIntegrationModule( python::module& module ) {
 
   // wrap scion's integration capabilities
   integration::wrapIntegrationFunctions( submodule );
+  integration::wrapGaussLegendre( submodule );
 }
