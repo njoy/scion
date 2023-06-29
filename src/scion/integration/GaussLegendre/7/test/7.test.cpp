@@ -7,6 +7,7 @@ using Catch::Matchers::WithinRel;
 #include "scion/integration/GaussLegendre/7.hpp"
 
 // other includes
+#include <cmath>
 
 // convenience typedefs
 using namespace njoy::scion;
