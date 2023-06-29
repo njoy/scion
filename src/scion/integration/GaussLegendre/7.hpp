@@ -15,6 +15,8 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Legendre 7-point quadrature rule
+   *
+   *  This quadrature rule integrates polynomials of order 13 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLegendre< 7, X, Y > :
