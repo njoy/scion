@@ -4,3 +4,6 @@
 #include "scion/integration/GaussLegendre/7.hpp"
 #include "scion/integration/GaussLegendre/8.hpp"
 #include "scion/integration/GaussLegendre/10.hpp"
+#include "scion/integration/GaussLegendre/16.hpp"
+#include "scion/integration/GaussLegendre/32.hpp"
+#include "scion/integration/GaussLegendre/64.hpp"

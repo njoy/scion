@@ -51,6 +51,9 @@ void wrapGaussLegendre( python::module& module ) {
   wrapGaussLegendreFor<  7, double >( module, "GaussLegendre7" );
   wrapGaussLegendreFor<  8, double >( module, "GaussLegendre8" );
   wrapGaussLegendreFor< 10, double >( module, "GaussLegendre10" );
+  wrapGaussLegendreFor< 16, double >( module, "GaussLegendre16" );
+  wrapGaussLegendreFor< 32, double >( module, "GaussLegendre32" );
+  wrapGaussLegendreFor< 64, double >( module, "GaussLegendre64" );
 }
 
 } // namespace integration
