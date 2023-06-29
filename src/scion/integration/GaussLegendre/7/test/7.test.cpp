@@ -24,7 +24,9 @@ SCENARIO( "Gauss-Legendre 7-point quadrature rule" ) {
         // y = f(x) = x + 1
         auto functor = [] ( double x ) { return x + 1.; };
 
-        CHECK_THAT( 2., WithinRel( integrator( functor ) ) );
+        CHECK_THAT(  2., WithinRel( integrator( functor ) ) );
+        CHECK_THAT(  2., WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 10., WithinRel( integrator( functor,  3.,  5. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

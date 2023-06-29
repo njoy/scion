@@ -44,6 +44,30 @@ namespace integration {
       return std::accumulate( Derived::pairs().cbegin(), Derived::pairs().cend(),
                               I( 0. ), accumulate );
     }
+
+    /**
+     *  @brief Calculate the integral of a function over the interval [a, b]
+     *
+     *  @param[in] functor    the function to integrate
+     */
+    template < typename Functor >
+    I operator()( Functor&& functor, const X& a, const X& b ) const {
+
+      const auto transform = [&] ( auto&& x ) {
+
+        return ( x + X( 1 ) ) * ( b - a ) / X( 2 ) + a;
+      };
+
+      const auto accumulate = [&] ( auto&& result, auto&& pair ) {
+
+        return std::move( result )
+               + pair.second * functor( transform( pair.first ) );
+      };
+
+      return ( b - a ) / X( 2 ) *
+             std::accumulate( Derived::pairs().cbegin(), Derived::pairs().cend(),
+                              I( 0. ), accumulate );
+    }
   };
 
 } // integration namespace
