@@ -369,10 +369,27 @@ void addStandardQuadratureDefinitions( PythonClass& component ) {
   .def(
 
     "__call__",
-    [] ( Component& self, const std::function< Y( X ) >& function ) -> decltype(auto)
-       { return self( function ); },
-    python::arg( "x" ),
-    "Calculate the integral over the interval [-1, 1]"
+    [] ( Component& self, const std::function< Y( X ) >& functor ) -> decltype(auto)
+       { return self( functor ); },
+    python::arg( "functor" ),
+    "Calculate the integral over the interval [-1, 1]\n\n"
+    "Arguments:\n"
+    "    self       the integrator object\n"
+    "    functor    the function to integrate\n"
+  )
+  .def(
+
+    "__call__",
+    [] ( Component& self, const std::function< Y( X ) >& functor,
+         const X& a, const X& b ) -> decltype(auto)
+       { return self( functor, a, b ); },
+    python::arg( "functor" ), python::arg( "a" ), python::arg( "b" ),
+    "Calculate the integral over the interval [a,b]\n\n"
+    "Arguments:\n"
+    "    self       the integrator object\n"
+    "    functor    the function to integrate\n"
+    "    a          the lower bound of the integration interval\n"
+    "    b          the upper bound of the integration interval"
   );
 }
 
