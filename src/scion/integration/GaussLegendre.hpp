@@ -1,3 +1,5 @@
+// Gauss-Legendre quadrature rules
+// the rules are exact for polynomial of order 2N-1 or less
 #include "scion/integration/GaussLegendre/2.hpp"
 #include "scion/integration/GaussLegendre/4.hpp"
 #include "scion/integration/GaussLegendre/6.hpp"

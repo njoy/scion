@@ -40,6 +40,7 @@ add_subdirectory( src/scion/integration/GaussLegendre/10/test )
 add_subdirectory( src/scion/integration/GaussLegendre/16/test )
 add_subdirectory( src/scion/integration/GaussLegendre/32/test )
 add_subdirectory( src/scion/integration/GaussLegendre/64/test )
+add_subdirectory( src/scion/integration/GaussLobatto/2/test )
 
 add_subdirectory( src/scion/interpolation/Histogram/test )
 add_subdirectory( src/scion/interpolation/LinearLinear/test )
