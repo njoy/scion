@@ -5,3 +5,4 @@
 #include "scion/integration/LogarithmicLinear.hpp"
 #include "scion/integration/LogarithmicLogarithmic.hpp"
 #include "scion/integration/GaussLegendre.hpp"
+#include "scion/integration/GaussLobatto.hpp"

@@ -78,6 +78,7 @@ if( scion.python )
       python/src/integration.python.cpp
       python/src/integration/integration.python.cpp
       python/src/integration/GaussLegendre.python.cpp
+      python/src/integration/GaussLobatto.python.cpp
       python/src/linearisation.python.cpp
       python/src/linearisation/MidpointSplit.python.cpp
       python/src/linearisation/ToleranceConvergence.python.cpp
