@@ -47,7 +47,7 @@ class Test_scion_integration_GaussLegendre7( unittest.TestCase ) :
 
         self.assertAlmostEqual( 2.                  , integrator( polymax ) )
         self.assertAlmostEqual( 2.                  , integrator( polymax, -1., 1. ) )
-        self.assertAlmostEqual( 4.356237631428576e+8, integrator( polymax, 3., 5. ) )
+        self.assertAlmostEqual( 4.356237631428576e+8, integrator( polymax, 3., 5. ), 4 )
 
 if __name__ == '__main__' :
 

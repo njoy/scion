@@ -50,9 +50,9 @@ class Test_scion_integration_GaussLegendre8( unittest.TestCase ) :
         self.assertAlmostEqual( 2.                  , integrator( poly13, -1., 1. ) )
         self.assertAlmostEqual( 4.356237631428576e+8, integrator( poly13, 3., 5. ), 4 )
 
-        self.assertAlmostEqual( 2.         , integrator( polymax ) )
-        self.assertAlmostEqual( 2.         , integrator( polymax, -1., 1. ) )
-        self.assertAlmostEqual( 9534052746., integrator( polymax, 3., 5. ), 3 )
+        self.assertAlmostEqual( 2.                  , integrator( polymax ) )
+        self.assertAlmostEqual( 2.                  , integrator( polymax, -1., 1. ) )
+        self.assertAlmostEqual( 9.534052746000000e+9, integrator( polymax, 3., 5. ), 3 )
 
 if __name__ == '__main__' :
 

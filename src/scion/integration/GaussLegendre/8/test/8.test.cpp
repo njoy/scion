@@ -95,9 +95,9 @@ SCENARIO( "Gauss-Legendre 8-point quadrature rule" ) {
         // y = f(x) = x + 1
         auto functor = [] ( double x ) { return std::pow( x, 15 ) + 1.; };
 
-        CHECK_THAT( 2.         , WithinRel( integrator( functor ) ) );
-        CHECK_THAT( 2.         , WithinRel( integrator( functor, -1.,  1. ) ) );
-        CHECK_THAT( 9534052746., WithinRel( integrator( functor,  3.,  5. ) ) );
+        CHECK_THAT( 2.                  , WithinRel( integrator( functor ) ) );
+        CHECK_THAT( 2.                  , WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 9.534052746000000e+9, WithinRel( integrator( functor,  3.,  5. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

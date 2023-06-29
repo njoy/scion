@@ -95,9 +95,9 @@ SCENARIO( "Gauss-Legendre 10-point quadrature rule" ) {
         // y = f(x) = x + 1
         auto functor = [] ( double x ) { return std::pow( x, 15 ) + 1.; };
 
-        CHECK_THAT( 2.         , WithinRel( integrator( functor ) ) );
-        CHECK_THAT( 2.         , WithinRel( integrator( functor, -1.,  1. ) ) );
-        CHECK_THAT( 9534052746., WithinRel( integrator( functor,  3.,  5. ) ) );
+        CHECK_THAT( 2.                  , WithinRel( integrator( functor ) ) );
+        CHECK_THAT( 2.                  , WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 9.534052746000000e+9, WithinRel( integrator( functor,  3.,  5. ) ) );
       } // THEN
 
       THEN( "the integration is performed exactly for an order 19 polynomial" ) {
@@ -105,9 +105,9 @@ SCENARIO( "Gauss-Legendre 10-point quadrature rule" ) {
         // y = f(x) = x + 1
         auto functor = [] ( double x ) { return std::pow( x, 19 ) + 1.; };
 
-        CHECK_THAT( 2.             , WithinRel( integrator( functor ) ) );
-        CHECK_THAT( 2.             , WithinRel( integrator( functor, -1.,  1. ) ) );
-        CHECK_THAT( 4768197242813.2, WithinRel( integrator( functor,  3.,  5. ) ) );
+        CHECK_THAT( 2.                     , WithinRel( integrator( functor ) ) );
+        CHECK_THAT( 2.                     , WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 4.768197242813200e+12, WithinRel( integrator( functor,  3.,  5. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

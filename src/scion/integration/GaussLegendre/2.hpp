@@ -43,8 +43,8 @@ namespace integration {
 
       static constexpr const std::array< std::pair< X, double >, 2 > pairs = {
 
-        std::pair< X, double >{ -0.5773502691896257, 1.0000000000000000 },
-        std::pair< X, double >{  0.5773502691896257, 1.0000000000000000 } };
+        std::pair< X, double >{ -5.77350269189625731e-1, 1.00000000000000000e+0 },
+        std::pair< X, double >{  5.77350269189625731e-1, 1.00000000000000000e+0 } };
       return pairs;
     }
 
