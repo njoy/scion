@@ -49,6 +49,8 @@ namespace integration {
      *  @brief Calculate the integral of a function over the interval [a, b]
      *
      *  @param[in] functor    the function to integrate
+     *  @param[in] a          the lower bound of the integration interval
+     *  @param[in] b          the upper bound of the integration interval
      */
     template < typename Functor >
     I operator()( Functor&& functor, const X& a, const X& b ) const {
