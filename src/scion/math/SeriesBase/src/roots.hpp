@@ -24,11 +24,16 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
     Eigen::EigenSolver< Matrix< Y > >
     solver( static_cast< const Derived* >( this )->companionMatrix( a ), false );
 
+    Derived derivative = this->derivative();
+    auto functor = [&a, this] ( const X& x ) { return ( *this )( x ) - a; };
+
     for ( const auto& value : solver.eigenvalues() ) {
 
       if ( isCloseToZero( value.imag() ) ) {
 
-        roots.emplace_back( value.real() );
+        roots.emplace_back( value.real() != X( 0. )
+                            ? newton( value.real(), functor, derivative )
+                            : value.real() );
       }
     }
 
