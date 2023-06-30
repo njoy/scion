@@ -5,3 +5,6 @@
 #include "scion/integration/GaussLobatto/6.hpp"
 #include "scion/integration/GaussLobatto/8.hpp"
 #include "scion/integration/GaussLobatto/10.hpp"
+#include "scion/integration/GaussLobatto/16.hpp"
+#include "scion/integration/GaussLobatto/32.hpp"
+#include "scion/integration/GaussLobatto/64.hpp"

@@ -47,6 +47,9 @@ add_python_test( integration.GaussLobatto4 integration/Test_scion_integration_Ga
 add_python_test( integration.GaussLobatto6 integration/Test_scion_integration_GaussLobatto6.py )
 add_python_test( integration.GaussLobatto8 integration/Test_scion_integration_GaussLobatto8.py )
 add_python_test( integration.GaussLobatto10 integration/Test_scion_integration_GaussLobatto10.py )
+add_python_test( integration.GaussLobatto16 integration/Test_scion_integration_GaussLobatto16.py )
+add_python_test( integration.GaussLobatto32 integration/Test_scion_integration_GaussLobatto32.py )
+add_python_test( integration.GaussLobatto64 integration/Test_scion_integration_GaussLobatto64.py )
 
 add_python_test( linearisation.MidpointSplit linearisation/Test_scion_linearisation_MidpointSplit.py )
 add_python_test( linearisation.ToleranceConvergence linearisation/Test_scion_linearisation_ToleranceConvergence.py )

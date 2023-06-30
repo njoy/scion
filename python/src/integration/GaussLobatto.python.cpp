@@ -50,6 +50,9 @@ void wrapGaussLobatto( python::module& module ) {
   wrapGaussLobattoFor<  6, double >( module, "GaussLobatto6" );
   wrapGaussLobattoFor<  8, double >( module, "GaussLobatto8" );
   wrapGaussLobattoFor< 10, double >( module, "GaussLobatto10" );
+  wrapGaussLobattoFor< 16, double >( module, "GaussLobatto16" );
+  wrapGaussLobattoFor< 32, double >( module, "GaussLobatto32" );
+  wrapGaussLobattoFor< 64, double >( module, "GaussLobatto64" );
 }
 
 } // namespace integration
