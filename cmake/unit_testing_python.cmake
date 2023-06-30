@@ -42,6 +42,7 @@ add_python_test( integration.GaussLegendre10 integration/Test_scion_integration_
 add_python_test( integration.GaussLegendre16 integration/Test_scion_integration_GaussLegendre16.py )
 add_python_test( integration.GaussLegendre32 integration/Test_scion_integration_GaussLegendre32.py )
 add_python_test( integration.GaussLegendre64 integration/Test_scion_integration_GaussLegendre64.py )
+add_python_test( integration.GaussLobatto2 integration/Test_scion_integration_GaussLobatto2.py )
 
 add_python_test( linearisation.MidpointSplit linearisation/Test_scion_linearisation_MidpointSplit.py )
 add_python_test( linearisation.ToleranceConvergence linearisation/Test_scion_linearisation_ToleranceConvergence.py )

@@ -21,7 +21,7 @@ SCENARIO( "Gauss-Lobatto 2-point quadrature rule" ) {
 
       THEN( "the integration is performed exactly for an order 0 polynomial" ) {
 
-        // y = f(x) = x + 1
+        // y = f(x) = 1
         auto functor = [] ( double x ) { return 1.; };
 
         CHECK_THAT( 2., WithinRel( integrator( functor ) ) );
