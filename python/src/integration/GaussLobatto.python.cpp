@@ -46,6 +46,10 @@ void wrapGaussLobatto( python::module& module ) {
 
   // wrap the integration functions we need
   wrapGaussLobattoFor<  2, double >( module, "GaussLobatto2" );
+  wrapGaussLobattoFor<  4, double >( module, "GaussLobatto4" );
+  wrapGaussLobattoFor<  6, double >( module, "GaussLobatto6" );
+  wrapGaussLobattoFor<  8, double >( module, "GaussLobatto8" );
+  wrapGaussLobattoFor< 10, double >( module, "GaussLobatto10" );
 }
 
 } // namespace integration
