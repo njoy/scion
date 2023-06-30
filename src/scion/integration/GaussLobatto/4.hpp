@@ -15,8 +15,6 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Lobatto 4-point quadrature rule
-   *
-   *  This quadrature rule integrates polynomials of order 5 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLobatto< 4, X, Y > :

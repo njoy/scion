@@ -15,8 +15,6 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Lobatto 2-point quadrature rule
-   *
-   *  This quadrature rule integrates polynomials of order 1 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLobatto< 2, X, Y > :

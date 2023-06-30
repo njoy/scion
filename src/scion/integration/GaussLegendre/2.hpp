@@ -15,8 +15,6 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Legendre 2-point quadrature rule
-   *
-   *  This quadrature rule integrates polynomials of order 3 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLegendre< 2, X, Y > :

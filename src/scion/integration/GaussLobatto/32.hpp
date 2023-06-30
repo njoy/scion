@@ -15,8 +15,6 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Lobatto 32-point quadrature rule
-   *
-   *  This quadrature rule integrates polynomials of order 61 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLobatto< 32, X, Y > :
