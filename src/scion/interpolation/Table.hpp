@@ -40,7 +40,7 @@ namespace interpolation {
     /* methods */
 
     /**
-     *  @brief Return the interpolator
+     *  @brief Return the panel interpolator
      */
     const Interpolator& interpolator() const noexcept {
 

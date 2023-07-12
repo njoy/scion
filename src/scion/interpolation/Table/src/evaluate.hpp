@@ -25,6 +25,6 @@ Y evaluate( const X& x ) const {
     std::advance( yIter, std::distance( this->x().begin(), xIter ) );
 
     return this->interpolator()( x, *std::prev( xIter ), *xIter,
-                                 *std::prev( yIter ), *yIter );
+                                    *std::prev( yIter ), *yIter );
   }
 }
