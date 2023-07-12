@@ -2,7 +2,6 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 using Catch::Matchers::WithinRel;
-using Catch::Matchers::WithinAbs;
 
 // what we are testing
 #include "scion/integration/Histogram.hpp"
@@ -31,7 +30,7 @@ SCENARIO( "Histogram" ) {
         CHECK_THAT( 1., WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
 
         // equal x values
-        CHECK_THAT( 0., WithinAbs( integrator( xLeft, xLeft, yLeft, yRight ), 1e-12 ) );
+        CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -51,7 +50,7 @@ SCENARIO( "Histogram" ) {
         CHECK_THAT( 1., WithinRel( integration::histogram( xLeft, xRight, yLeft, yRight ) ) );
 
         // equal x values
-        CHECK_THAT( 0., WithinAbs( integration::histogram( xLeft, xLeft, yLeft, yRight ), 1e-12 ) );
+        CHECK_THAT( 0., WithinRel( integration::histogram( xLeft, xLeft, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
