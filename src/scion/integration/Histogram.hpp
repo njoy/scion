@@ -34,7 +34,14 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& ) const noexcept {
 
-      return yLeft * ( xRight - xLeft );
+      if ( xLeft == xRight ) {
+
+        return I( 0. );
+      }
+      else {
+
+        return yLeft * ( xRight - xLeft );
+      }
     }
 
   public:

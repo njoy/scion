@@ -2,6 +2,7 @@
 #include <catch2/catch_test_macros.hpp>
 #include <catch2/matchers/catch_matchers_floating_point.hpp>
 using Catch::Matchers::WithinRel;
+using Catch::Matchers::WithinAbs;
 
 // what we are testing
 #include "scion/integration/LinearLinear.hpp"
@@ -26,7 +27,11 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.5, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinAbs( integrator( xLeft, xLeft, yLeft, yRight ), 1e-12 ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -42,7 +47,11 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.5, WithinRel( integration::linlin( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinAbs( integration::linlin( xLeft, xLeft, yLeft, yRight ), 1e-12 ) );
       } // THEN
     } // WHEN
   } // GIVEN

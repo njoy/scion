@@ -50,9 +50,16 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return ( yRight - yLeft ) / std::log( xRight / xLeft )
-             * xLeft * ( xRight / xLeft * ( std::log( xRight / xLeft ) - 1. ) + 1. )
-             + yLeft * ( xRight - xLeft );
+      if ( xLeft == xRight ) {
+
+        return I( 0. );
+      }
+      else {
+
+        return ( yRight - yLeft ) / std::log( xRight / xLeft )
+               * xLeft * ( xRight / xLeft * ( std::log( xRight / xLeft ) - 1. ) + 1. )
+               + yLeft * ( xRight - xLeft );
+      }
     }
 
   public:
