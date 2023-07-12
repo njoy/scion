@@ -47,7 +47,11 @@ SCENARIO( "LogarithmicLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.16404256133345, WithinRel( integration::loglin( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinAbs( integration::loglin( xLeft, xLeft, yLeft, yRight ), 1e-12 ) );
       } // THEN
     } // WHEN
   } // GIVEN
