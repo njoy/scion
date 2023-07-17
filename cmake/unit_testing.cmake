@@ -29,5 +29,6 @@ add_subdirectory( src/scion/math/newton/test )
 
 add_subdirectory( src/scion/math/IntervalDomain/test )
 add_subdirectory( src/scion/math/OpenDomain/test )
+add_subdirectory( src/scion/math/LinearLinearTable/test )
 add_subdirectory( src/scion/math/LegendreSeries/test )
 add_subdirectory( src/scion/math/PolynomialSeries/test )
