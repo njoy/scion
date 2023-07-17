@@ -1,7 +1,7 @@
 
-template< typename Iter, typename Functor, typename Convergence, typename Midpoint >
+template< typename Iter, typename Functor, typename Convergence, typename Split >
 void operator()( Iter first, Iter last, Functor&& functor,
-                 Convergence&& convergence, Midpoint&& midpoint ) {
+                 Convergence&& convergence, Split&& split ) {
 
   X xLeft = *first;
   Y yLeft = functor( xLeft );
@@ -19,7 +19,7 @@ void operator()( Iter first, Iter last, Functor&& functor,
     this->panel( xLeft, xRight, yLeft, yRight,
                  std::forward< Functor >( functor ),
                  std::forward< Convergence >( convergence ),
-                 std::forward< Midpoint >( midpoint ) );
+                 std::forward< Split >( split ) );
 
     xLeft = xRight;
     yLeft = yRight;

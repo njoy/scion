@@ -5,6 +5,8 @@
 
 // other includes
 #include <cmath>
+#include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
 
 // convenience typedefs
 using namespace njoy::scion;
@@ -14,25 +16,13 @@ SCENARIO( "Lineariser" ) {
   GIVEN( "valid data for linearisation" ) {
 
     // y = f(x) = exp(x)
-    auto functor = [] ( double x ) {
+    auto functor = [] ( double x ) { return std::exp( x ); };
 
-      return std::exp( x );
-    };
+    // split a panel using the midpoint
+    linearisation::MidpointSplit< double > split;
 
-    // take the midpoint between x1 and x2
-    auto midpoint = [] ( double x1, double x2 ) {
-
-      return 0.5 * ( x1 + x2 );
-    };
-
-    // a relative difference < 25% or difference < 1e-10
-    auto convergence = [] ( double trial, double reference,
-                            double,       double,
-                            double,       double ) {
-
-      double difference = std::abs( trial - reference );
-      return ( difference < 1E-10 ) || ( ( difference / reference ) < 0.25 );
-    };
+    // convergence tolerance < 25%
+    linearisation::ToleranceConvergence< double > convergence( 0.25 );
 
     WHEN( "the minimal grid is used" ) {
 
@@ -44,7 +34,7 @@ SCENARIO( "Lineariser" ) {
         std::vector< double > y;
 
         linearisation::Lineariser linearise( x, y );
-        linearise( grid.begin(), grid.end(), functor, convergence, midpoint );
+        linearise( grid.begin(), grid.end(), functor, convergence, split );
 
         CHECK( 9 == x.size() );
         CHECK( 9 == y.size() );
@@ -81,7 +71,7 @@ SCENARIO( "Lineariser" ) {
         std::vector< double > y;
 
         linearisation::Lineariser linearise( x, y );
-        linearise( grid.begin(), grid.end(), functor, convergence, midpoint );
+        linearise( grid.begin(), grid.end(), functor, convergence, split );
 
         CHECK( 11 == x.size() );
         CHECK( 11 == y.size() );
