@@ -6,7 +6,7 @@ void panel( X xLeft, X xRight, Y yLeft, Y yRight,
   while ( true ) {
 
     const X point = split( xLeft, xRight, yLeft, yRight );
-    const Y trial = Y( 0.5 ) * ( yLeft + yRight );
+    const Y trial = 0.5 * ( yLeft + yRight );
     const Y reference = functor( point );
 
     if ( criterion( trial, reference, xLeft, xRight, yLeft, yRight ) ) {
