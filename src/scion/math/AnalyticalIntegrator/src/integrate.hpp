@@ -1,6 +1,10 @@
 template < typename Y,
+           typename Interpolator,
+           typename Integrator,
            typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-std::vector< I > integrate( const InterpolationTable< X, Y >& table ) const {
+std::vector< I > integrate( const Interpolator& interpolator,
+                            const Integrator& integrator,
+                            const InterpolationTable< X, Y >& table ) const {
 
   if ( ! table.isLinearised() ) {
 
@@ -9,9 +13,6 @@ std::vector< I > integrate( const InterpolationTable< X, Y >& table ) const {
   }
 
   std::vector< I > result( this->boundaries().size() - 1, I( 0. ) );
-
-  auto interpolator = interpolation::LinearLinear();
-  auto integrator = integration::LinearLinear();
 
   auto gLeft = this->boundaries().begin();
   auto gRight = std::next( gLeft );

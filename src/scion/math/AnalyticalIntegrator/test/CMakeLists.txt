@@ -1,1 +1,1 @@
-add_cpp_test( math.MultiGroupIntegrator MultiGroupIntegrator.test.cpp )
+add_cpp_test( math.AnalyticalIntegrator AnalyticalIntegrator.test.cpp )

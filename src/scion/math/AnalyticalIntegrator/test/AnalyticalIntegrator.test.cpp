@@ -67,7 +67,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
 
       THEN( "the integrals are calculated correctly" ) {
 
-        std::vector< double > result = integrator.integrate( table );
+        std::vector< double > result = integrator( table );
 
         CHECK( 3 == result.size() );
         CHECK_THAT( 3.5, WithinRel( result[0] ) );
@@ -84,7 +84,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
 
       THEN( "the integrals are calculated correctly" ) {
 
-        std::vector< double > result = integrator.integrate( table );
+        std::vector< double > result = integrator( table );
 
         CHECK( 2 == result.size() );
         CHECK_THAT( 3., WithinRel( result[0] ) );
@@ -100,7 +100,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
 
       THEN( "the integrals are calculated correctly" ) {
 
-        std::vector< double > result = integrator.integrate( table );
+        std::vector< double > result = integrator( table );
 
         CHECK( 5 == result.size() );
         CHECK_THAT( 0.0, WithinRel( result[0] ) );
@@ -119,7 +119,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
 
       THEN( "the integrals are calculated correctly" ) {
 
-        std::vector< double > result = integrator.integrate( table );
+        std::vector< double > result = integrator( table );
 
         CHECK( 5 == result.size() );
         CHECK_THAT( 3.5, WithinRel( result[0] ) );
@@ -138,7 +138,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
 
       THEN( "the integrals are calculated correctly" ) {
 
-        std::vector< double > result = integrator.integrate( table );
+        std::vector< double > result = integrator( table );
 
         CHECK( 7 == result.size() );
         CHECK_THAT( 0.78, WithinRel( result[0] ) );

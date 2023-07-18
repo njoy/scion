@@ -63,9 +63,9 @@ void wrapAnalyticalIntegratorFor( python::module& module, const std::string& nam
   )
   .def(
 
-    "integrate",
+    "__call__",
     [] ( const Component& self, const InterpolationTable& table ) ->decltype(auto)
-       { return self.integrate( table ); },
+       { return self( table ); },
     python::arg( "table" )
   );
 }

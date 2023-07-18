@@ -25,8 +25,9 @@ namespace math {
     /* fields */
     std::vector< X > boundaries_;
 
-    /* auxiliary function */
+    /* auxiliary functions */
     #include "scion/math/AnalyticalIntegrator/src/verifyBoundaries.hpp"
+    #include "scion/math/AnalyticalIntegrator/src/integrate.hpp"
 
   public:
 
@@ -51,7 +52,7 @@ namespace math {
       return this->boundaries().size() - 1;
     }
 
-    #include "scion/math/AnalyticalIntegrator/src/integrate.hpp"
+    #include "scion/math/AnalyticalIntegrator/src/call.hpp"
   };
 
 } // math namespace
