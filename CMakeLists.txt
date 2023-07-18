@@ -102,6 +102,7 @@ if( scion.python )
       python/src/math/ChebyshevApproximation.python.cpp
       python/src/math/LegendreSeries.python.cpp
       python/src/math/PolynomialSeries.python.cpp
+      python/src/math/AnalyticalIntegrator.python.cpp
       )
 
   target_link_libraries( scion.python PRIVATE scion )

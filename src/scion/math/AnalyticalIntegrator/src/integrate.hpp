@@ -2,7 +2,7 @@ template < typename Y,
            typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
 std::vector< I > integrate( const InterpolationTable< X, Y >& table ) const {
 
-  if ( ! this->isLinearised() ) {
+  if ( ! table.isLinearised() ) {
 
     Log::error( "Cannot perform analytical integration on a table that has not been linearised" );
     throw std::exception();

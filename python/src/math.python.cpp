@@ -37,6 +37,9 @@ namespace math {
   void wrapChebyshevApproximation( python::module& );
   void wrapLegendreSeries( python::module& );
   void wrapPolynomialSeries( python::module& );
+
+  // integrator
+  void wrapAnalyticalIntegrator( python::module& );
 }
 
 void wrapMathModule( python::module& module ) {
@@ -67,4 +70,5 @@ void wrapMathModule( python::module& module ) {
   math::wrapChebyshevApproximation( submodule );
   math::wrapLegendreSeries( submodule );
   math::wrapPolynomialSeries( submodule );
+  math::wrapAnalyticalIntegrator( submodule );
 }
