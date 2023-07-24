@@ -12,6 +12,7 @@ namespace math {
 
   // utility functions
   void wrapComparisonFunctions( python::module& );
+  void wrapNewton( python::module& );
 
   // evaluation schemes
   void wrapClenshaw( python::module& );
@@ -44,6 +45,7 @@ void wrapMathModule( python::module& module ) {
 
   // wrap scion's math capabilities
   math::wrapComparisonFunctions( submodule );
+  math::wrapNewton( submodule );
   math::wrapClenshaw( submodule );
   math::wrapHorner( submodule );
   math::wrapLegendre( submodule );
