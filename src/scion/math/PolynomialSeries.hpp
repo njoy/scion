@@ -6,11 +6,16 @@
 #include <vector>
 
 // other includes
+#include "scion/linearisation/grid.hpp"
+#include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
+#include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/horner.hpp"
 #include "scion/math/matrix.hpp"
 #include "scion/math/newton.hpp"
 #include "scion/math/FunctionBase.hpp"
+#include "scion/math/LinearLinearTable.hpp"
 
 namespace njoy {
 namespace scion {
@@ -70,6 +75,7 @@ namespace math {
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
     #include "scion/math/PolynomialSeries/src/derivative.hpp"
     #include "scion/math/PolynomialSeries/src/roots.hpp"
+    #include "scion/math/PolynomialSeries/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();

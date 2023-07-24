@@ -31,3 +31,13 @@ void operator()( Iter first, Iter last, Functor&& functor,
     this->y_.get().push_back( yRight );
   }
 }
+
+template< typename Range, typename Functor, typename Convergence, typename Split >
+void operator()( const Range& grid, Functor&& functor,
+                 Convergence&& convergence, Split&& split ) {
+
+  ( *this )( grid.begin(), grid.end(),
+             std::forward< Functor >( functor ),
+             std::forward< Convergence >( convergence ),
+             std::forward< Split >( split ) );
+}

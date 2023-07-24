@@ -32,8 +32,11 @@ namespace linearisation {
      *
      *  @param[in] xLeft        the left value on the x interval
      *  @param[in] xRight       the right value on the x interval
+     *  @param[in] yLeft        the left value on the y interval
+     *  @param[in] yRight       the right value on the y interval
      */
-    X evaluate( const X& xLeft, const X& xRight ) const {
+    X evaluate( const X& xLeft, const X& xRight,
+                const Y&,       const Y& ) const {
 
       return X( 0.5 ) * ( xLeft + xRight );
     }
