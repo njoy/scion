@@ -35,8 +35,8 @@ namespace linearisation {
      *  @param[in] yLeft        the left value on the y interval
      *  @param[in] yRight       the right value on the y interval
      */
-    X evaluate( const X& xLeft, const X& xRight,
-                const Y&,       const Y& ) const {
+    X split( const X& xLeft, const X& xRight,
+             const Y&,       const Y& ) const {
 
       return X( 0.5 ) * ( xLeft + xRight );
     }

@@ -43,6 +43,27 @@ SCENARIO( "clenshaw" ) {
         CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
       } // THEN
     } // WHEN
+
+    WHEN( "the vectors are used" ) {
+
+      THEN( "the polynomials can be evaluated" ) {
+
+        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
+        CHECK(  1. == Approx( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
+        CHECK(  1. == Approx( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
+        CHECK(  1. == Approx( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
+
+        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
+        CHECK(  3. == Approx( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
+        CHECK(  6. == Approx( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
+        CHECK( 10. == Approx( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
+
+        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
+        CHECK( -1. == Approx( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
+        CHECK(  2. == Approx( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
+        CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 
   GIVEN( "valid data for Legendre polynomials" ) {
@@ -80,6 +101,27 @@ SCENARIO( "clenshaw" ) {
         CHECK( -1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
         CHECK(  2. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
         CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the vectors are used" ) {
+
+      THEN( "the Legendre polynomials can be evaluated" ) {
+
+        CHECK(   1. == Approx( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
+        CHECK(   1. == Approx( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
+        CHECK( -0.5 == Approx( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
+        CHECK( -0.5 == Approx( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
+
+        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
+        CHECK(  3. == Approx( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
+        CHECK(  6. == Approx( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
+        CHECK( 10. == Approx( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
+
+        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
+        CHECK( -1. == Approx( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
+        CHECK(  2. == Approx( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
+        CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

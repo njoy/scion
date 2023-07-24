@@ -17,7 +17,7 @@ class Test_scion_linearisation_ToleranceConvergence( unittest.TestCase ) :
         yRight = 3.
 
         # the default tolerance and threshold are used
-        chunk = ToleranceConvergence();
+        chunk = ToleranceConvergence()
 
         self.assertEqual( False, chunk( 1.000, 2., xLeft, xRight, yLeft, yRight ) )
         self.assertEqual( False, chunk( 1.900, 2., xLeft, xRight, yLeft, yRight ) )
@@ -30,7 +30,7 @@ class Test_scion_linearisation_ToleranceConvergence( unittest.TestCase ) :
         self.assertEqual( False, chunk( 3.000, 2., xLeft, xRight, yLeft, yRight ) )
 
         # a user defined tolerance and default threshold
-        chunk = ToleranceConvergence( 0.01 );
+        chunk = ToleranceConvergence( 0.01 )
 
         self.assertEqual( False, chunk( 1.000, 2., xLeft, xRight, yLeft, yRight ) )
         self.assertEqual( False, chunk( 1.900, 2., xLeft, xRight, yLeft, yRight ) )

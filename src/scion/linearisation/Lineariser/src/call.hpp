@@ -1,4 +1,12 @@
-
+/**
+ *  @brief Linearise a function
+ *
+ *  @param[in] first         the iterator to the beginning of the initial grid
+ *  @param[in] last          the iterator to the end of the initial grid
+ *  @param[in] functor       the function to linearise
+ *  @param[in] convergence   the convergence criterion functor
+ *  @param[in] split         the panel splitting functor
+ */
 template< typename Iter, typename Functor, typename Convergence, typename Split >
 void operator()( Iter first, Iter last, Functor&& functor,
                  Convergence&& convergence, Split&& split ) {
@@ -32,6 +40,14 @@ void operator()( Iter first, Iter last, Functor&& functor,
   }
 }
 
+/**
+ *  @brief Linearise a function
+ *
+ *  @param[in] grid          the initial grid
+ *  @param[in] functor       the function to linearise
+ *  @param[in] convergence   the convergence criterion functor
+ *  @param[in] split         the panel splitting functor
+ */
 template< typename Range, typename Functor, typename Convergence, typename Split >
 void operator()( const Range& grid, Functor&& functor,
                  Convergence&& convergence, Split&& split ) {
