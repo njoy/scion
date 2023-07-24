@@ -4,7 +4,7 @@ import unittest
 # third party imports
 
 # local imports
-from scion.math import clenshaw
+from scion.math import clenshaw, clenshaw_legendre
 
 class Test_scion_math_clenshaw( unittest.TestCase ) :
     """Unit test for the clenshaw function."""
@@ -60,6 +60,21 @@ class Test_scion_math_clenshaw( unittest.TestCase ) :
         self.assertAlmostEqual( -1., clenshaw( order1, a, b, 1., -1., -1. ) )
         self.assertAlmostEqual(  2., clenshaw( order2, a, b, 1., -1., -1. ) )
         self.assertAlmostEqual( -2., clenshaw( order3, a, b, 1., -1., -1. ) )
+
+        self.assertAlmostEqual(  1. , clenshaw_legendre( order0, 0. ) )
+        self.assertAlmostEqual(  1. , clenshaw_legendre( order1, 0. ) )
+        self.assertAlmostEqual( -0.5, clenshaw_legendre( order2, 0. ) )
+        self.assertAlmostEqual( -0.5, clenshaw_legendre( order3, 0. ) )
+
+        self.assertAlmostEqual(  1., clenshaw_legendre( order0, 1. ) )
+        self.assertAlmostEqual(  3., clenshaw_legendre( order1, 1. ) )
+        self.assertAlmostEqual(  6., clenshaw_legendre( order2, 1. ) )
+        self.assertAlmostEqual( 10., clenshaw_legendre( order3, 1. ) )
+
+        self.assertAlmostEqual(  1., clenshaw_legendre( order0, -1. ) )
+        self.assertAlmostEqual( -1., clenshaw_legendre( order1, -1. ) )
+        self.assertAlmostEqual(  2., clenshaw_legendre( order2, -1. ) )
+        self.assertAlmostEqual( -2., clenshaw_legendre( order3, -1. ) )
 
 if __name__ == '__main__' :
 

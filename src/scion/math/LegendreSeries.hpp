@@ -70,6 +70,7 @@ namespace math {
 
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
     #include "scion/math/LegendreSeries/src/derivative.hpp"
+    #include "scion/math/LegendreSeries/src/primitive.hpp"
     #include "scion/math/LegendreSeries/src/roots.hpp"
     #include "scion/math/LegendreSeries/src/linearise.hpp"
 

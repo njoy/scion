@@ -118,6 +118,40 @@ Y clenshaw( const Range& coefficients, FunctorA&& a, FunctorB&& b,
                    f0, f1, x );
 }
 
+/** @brief Clenshaw evaluation of a Legendre series using iterators
+ *
+ *  @param[in] first   an input iterator to the initial position in a sequence
+ *                     (must be the highest order coefficient)
+ *  @param[in] last    an input iterator to the final position in a sequence
+ *  @param[in] x       the value of X
+ */
+template < typename X, typename Y = X, typename Iter >
+Y clenshawLegendre( Iter first, Iter last, const X& x ) {
+
+  auto a = [] ( unsigned int k, const X& x ) -> Y {
+
+    return static_cast< Y >( 2 * k + 1 ) / static_cast< Y >( k + 1 ) * x;
+  };
+  auto b = [] ( unsigned int k, const X& x ) -> Y {
+
+    return - static_cast< Y >( k ) / static_cast< Y >( k + 1 );
+  };
+
+  return clenshaw( first, last, a, b, 1., x, x );
+}
+
+/** @brief Clenshaw evaluation of a Legendre series using a range
+ *
+ *  @param[in] coefficients   a range of coefficient values (from lowest to
+ *                            highest order coefficient)
+ *  @param[in] x              the value of X
+ */
+template < typename X, typename Y = X, typename Range >
+Y clenshawLegendre( const Range& coefficients, const X& x ) noexcept {
+
+  return clenshawLegendre( std::rbegin( coefficients ), std::rend( coefficients ), x );
+}
+
 } // math namespace
 } // scion namespace
 } // njoy namespace

@@ -5,7 +5,5 @@
  */
 Y evaluate( const X& x ) const {
 
-  return math::horner( this->coefficients().rbegin(),
-                       this->coefficients().rend(),
-                       x );
+  return math::horner( this->coefficients(), x );
 }

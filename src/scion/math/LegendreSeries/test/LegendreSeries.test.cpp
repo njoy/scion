@@ -75,6 +75,20 @@ SCENARIO( "LegendreSeries" ) {
         CHECK( 0. == Approx( fourth.coefficients()[0] ) );
       } // THEN
 
+
+      THEN( "a LegendreSeries can be integrated" ) {
+
+        LegendreSeries< double > primitive = chunk.primitive();
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK( -15.2 == Approx( primitive.coefficients()[0] ) );
+        CHECK( -9.4 == Approx( primitive.coefficients()[1] ) );
+        CHECK(  4.809523809523809 == Approx( primitive.coefficients()[2] ) );
+        CHECK( -0.933333333333333 == Approx( primitive.coefficients()[3] ) );
+        CHECK(  0.057142857142857 == Approx( primitive.coefficients()[4] ) );
+      } // THEN
+
       THEN( "roots can be calculated" ) {
 
         std::vector< double > roots = chunk.roots();
