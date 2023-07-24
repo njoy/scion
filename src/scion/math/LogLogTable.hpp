@@ -1,14 +1,17 @@
-#ifndef NJOY_SCION_MATH_LINEARLINEARTABLE
-#define NJOY_SCION_MATH_LINEARLINEARTABLE
+#ifndef NJOY_SCION_MATH_LOGLOGTABLE
+#define NJOY_SCION_MATH_LOGLOGTABLE
 
 // system includes
 #include <vector>
 
 // other includes
-#include "scion/interpolation/LinearLinear.hpp"
+#include "scion/interpolation/LogarithmicLogarithmic.hpp"
 #include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
+#include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/FunctionBase.hpp"
+#include "scion/math/LinearLinearTable.hpp"
 
 namespace njoy {
 namespace scion {
@@ -16,14 +19,14 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Tabulated data with linear-linear interpolation (y is linear in x)
+   *  @brief Tabulated data with log-log interpolation (ln(y) is linear in ln(x))
    */
   template < typename X, typename Y = X >
-  class LinearLinearTable : public FunctionBase< LinearLinearTable< X, Y >, X, Y > {
+  class LogLogTable : public FunctionBase< LogLogTable< X, Y >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LinearLinearTable< X, Y >, X, Y >;
-    using Table = interpolation::Table< interpolation::LinearLinear,
+    using Parent = FunctionBase< LogLogTable< X, Y >, X, Y >;
+    using Table = interpolation::Table< interpolation::LogarithmicLogarithmic,
                                         std::vector< X >,
                                         std::vector< Y > >;
 
@@ -35,7 +38,7 @@ namespace math {
   public:
 
     /* constructor */
-    #include "scion/math/LinearLinearTable/src/ctor.hpp"
+    #include "scion/math/LogLogTable/src/ctor.hpp"
 
     /* methods */
 
@@ -65,18 +68,7 @@ namespace math {
       return this->table_.evaluate( x );
     }
 
-    /**
-     *  @brief Linearise the table and return a LinearLinearTable
-     *
-     *  Note: this function returns a copy of the original table.
-     *
-     *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
-     */
-    template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-    LinearLinearTable linearise( Convergence&& = Convergence() ) const {
-
-      return *this;
-    }
+    #include "scion/math/LogLogTable/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();

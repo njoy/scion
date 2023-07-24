@@ -3,7 +3,7 @@
 #include <pybind11/stl.h>
 
 // local includes
-#include "scion/math/LinearLinearTable.hpp"
+#include "scion/math/LogLinearTable.hpp"
 #include "definitions.hpp"
 
 // namespace aliases
@@ -12,10 +12,10 @@ namespace python = pybind11;
 namespace math {
 
 template < typename X, typename Y = X >
-void wrapLinearLinearTableFor( python::module& module, const std::string& name ) {
+void wrapLogLinearTableFor( python::module& module, const std::string& name ) {
 
   // type aliases
-  using Component = njoy::scion::math::LinearLinearTable< X, Y >;
+  using Component = njoy::scion::math::LogLinearTable< X, Y >;
 
   // wrap views created by this component
 
@@ -24,7 +24,7 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
 
     module,
     name.c_str(),
-    "Tabulated data with linear-linear interpolation (y is linear in x)"
+    "Tabulated data with log-log interpolation (ln(y) is linear in x)"
   );
 
   // wrap the component
@@ -56,9 +56,9 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
   addStandardFunctionDefinitions< Component, X, Y >( component );
 }
 
-void wrapLinearLinearTable( python::module& module ) {
+void wrapLogLinearTable( python::module& module ) {
 
-  wrapLinearLinearTableFor< double >( module, "LinearLinearTable" );
+  wrapLogLinearTableFor< double >( module, "LogLinearTable" );
 }
 
 } // namespace math

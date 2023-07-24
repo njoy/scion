@@ -85,6 +85,9 @@ if( scion.python )
       python/src/math/IntervalDomain.python.cpp
       python/src/math/OpenDomain.python.cpp
       python/src/math/LinearLinearTable.python.cpp
+      python/src/math/LogLogTable.python.cpp
+      python/src/math/LogLinearTable.python.cpp
+      python/src/math/LinearLogTable.python.cpp
       python/src/math/LegendreSeries.python.cpp
       python/src/math/PolynomialSeries.python.cpp
       )

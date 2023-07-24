@@ -41,6 +41,11 @@ class Test_scion_math_LinearLinearTable( unittest.TestCase ) :
             self.assertAlmostEqual( 3.5, chunk( x = 1.5 ) )
             self.assertAlmostEqual( 1.5, chunk( x = 3.5 ) )
 
+            # verify linearisation
+            linear = chunk.linearise()
+            self.assertEqual( linear.x, chunk.x )
+            self.assertEqual( linear.y, chunk.y )
+
         # the data is given explicitly
         chunk = LinearLinearTable( x = [ 1., 2., 3., 4. ],
                                    y = [ 4., 3., 2., 1. ] )

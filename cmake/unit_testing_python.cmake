@@ -42,6 +42,12 @@ set_tests_properties( scion.python.math.OpenDomain PROPERTIES ENVIRONMENT PYTHON
 
 add_test( NAME scion.python.math.LinearLinearTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LinearLinearTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LinearLinearTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.LinearLogTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LinearLogTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.LinearLogTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.LogLinearTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LogLinearTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.LogLinearTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.LogLogTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LogLogTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.LogLogTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.LegendreSeries COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LegendreSeries.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LegendreSeries PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.PolynomialSeries COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_PolynomialSeries.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
