@@ -12,7 +12,6 @@
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/math/matrix.hpp"
-#include "scion/math/newton.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/LinearLinearTable.hpp"
 

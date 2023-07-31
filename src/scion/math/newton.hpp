@@ -2,7 +2,7 @@
 #define NJOY_SCION_MATH_NEWTON
 
 // system includes
-#include <iostream>
+
 // other includes
 #include "scion/math/compare.hpp"
 
