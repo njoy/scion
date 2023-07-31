@@ -19,6 +19,7 @@ namespace math {
   void wrapHorner( python::module& );
 
   // special functions
+  void wrapChebyshev( python::module& );
   void wrapLegendre( python::module& );
 
   // function interface
@@ -49,6 +50,7 @@ void wrapMathModule( python::module& module ) {
   math::wrapNewton( submodule );
   math::wrapClenshaw( submodule );
   math::wrapHorner( submodule );
+  math::wrapChebyshev( submodule );
   math::wrapLegendre( submodule );
   math::wrapIntervalDomain( submodule );
   math::wrapOpenDomain( submodule );

@@ -21,6 +21,7 @@ add_subdirectory( src/scion/linearisation/ToleranceConvergence/test )
 add_subdirectory( src/scion/linearisation/MidpointSplit/test )
 add_subdirectory( src/scion/linearisation/Lineariser/test )
 
+add_subdirectory( src/scion/math/chebyshev/test )
 add_subdirectory( src/scion/math/compare/test )
 add_subdirectory( src/scion/math/clenshaw/test )
 add_subdirectory( src/scion/math/horner/test )

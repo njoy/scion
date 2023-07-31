@@ -84,6 +84,7 @@ if( scion.python )
       python/src/math/compare.python.cpp
       python/src/math/horner.python.cpp
       python/src/math/newton.python.cpp
+      python/src/math/chebyshev.python.cpp
       python/src/math/legendre.python.cpp
       python/src/math/IntervalDomain.python.cpp
       python/src/math/OpenDomain.python.cpp
