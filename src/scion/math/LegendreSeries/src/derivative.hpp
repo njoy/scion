@@ -5,7 +5,7 @@
  *  Legendre series function. The coefficients of the new Legendre series
  *  are calculated using the derivative of a Legendre polynomial as a
  *  function of other Legendre polynomials:
- *    d/dx P_(n + 1) = (2 * n + 1) * P_n + (2 * (n - 2) + 1) * P_(n - 2)
+ *    d/dx P_(n + 1) = (2 * n + 1) * P_n + (2 * (n - 2) + 1) * P_(n - 2) + ...
  *  knowing that:
  *    d/dx P_0 = 0.0
  *    d/dx P_1 = P_0

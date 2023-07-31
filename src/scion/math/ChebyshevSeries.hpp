@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_MATH_LEGENDRESERIES
-#define NJOY_SCION_MATH_LEGENDRESERIES
+#ifndef NJOY_SCION_MATH_CHEBYSHEVSERIES
+#define NJOY_SCION_MATH_CHEBYSHEVSERIES
 
 // system includes
 #include <vector>
@@ -22,38 +22,38 @@ namespace math {
 
   /**
    *  @class
-   *  @brief A Legendre series function y -> f(x) = sum c_i P_i(x) of order n
+   *  @brief A Chebyshev series function y -> f(x) = sum c_i T_i(x) of order n
    *
-   *  This class represents a Legendre series function y -> f(x) =
-   *  sum c_i P_i(x) defined over the domain [-1,1].
+   *  This class represents a Chebyshev series function y -> f(x) =
+   *  sum c_i T_i(x) defined over the domain [-1,1].
    *
    *  The Clenshaw recursion scheme is used for the evaluation of the series
-   *  using the following recursion relation for Legendre polynomials:
+   *  using the following recursion relation for Chebyshev polynomials:
    *
-   *    P_(n+1) = (2n+1)/(n+1) x P_n - n/(n+1) P_(n-1)
+   *    T_(n+1) = 2 x T_n - T_(n-1)
    */
   template < typename X, typename Y = X >
-  class LegendreSeries : public FunctionBase< LegendreSeries< X, Y >, X, Y > {
+  class ChebyshevSeries : public FunctionBase< ChebyshevSeries< X, Y >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LegendreSeries< X, Y >, X, Y >;
+    using Parent = FunctionBase< ChebyshevSeries< X, Y >, X, Y >;
 
     /* fields */
     std::vector< Y > coefficients_;
 
     /* auxiliary function */
-    #include "scion/math/LegendreSeries/src/verifyCoefficients.hpp"
-    #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
+    #include "scion/math/ChebyshevSeries/src/verifyCoefficients.hpp"
+    #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:
 
     /* constructor */
-    #include "scion/math/LegendreSeries/src/ctor.hpp"
+    #include "scion/math/ChebyshevSeries/src/ctor.hpp"
 
     /* methods */
 
     /**
-     *  @brief Return the Legendre coefficients
+     *  @brief Return the Chebyshev coefficients
      */
     const std::vector< Y >& coefficients() const noexcept {
 
@@ -61,18 +61,18 @@ namespace math {
     }
 
     /**
-     *  @brief Return the Legendre order
+     *  @brief Return the Chebyshev order
      */
     unsigned int order() const noexcept {
 
       return this->coefficients().size() - 1;
     }
 
-    #include "scion/math/LegendreSeries/src/evaluate.hpp"
-    #include "scion/math/LegendreSeries/src/derivative.hpp"
-    #include "scion/math/LegendreSeries/src/primitive.hpp"
-    #include "scion/math/LegendreSeries/src/roots.hpp"
-    #include "scion/math/LegendreSeries/src/linearise.hpp"
+    #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
+    #include "scion/math/ChebyshevSeries/src/derivative.hpp"
+    #include "scion/math/ChebyshevSeries/src/primitive.hpp"
+    #include "scion/math/ChebyshevSeries/src/roots.hpp"
+    #include "scion/math/ChebyshevSeries/src/linearise.hpp"
 
     using Parent::domain;
     using Parent::operator();

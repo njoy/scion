@@ -91,6 +91,7 @@ if( scion.python )
       python/src/math/LogLogTable.python.cpp
       python/src/math/LogLinearTable.python.cpp
       python/src/math/LinearLogTable.python.cpp
+      python/src/math/ChebyshevSeries.python.cpp
       python/src/math/LegendreSeries.python.cpp
       python/src/math/PolynomialSeries.python.cpp
       )

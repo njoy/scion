@@ -5,15 +5,14 @@
  *  Legendre series function. The coefficients of the new Legendre series
  *  are calculated using the integral of a Legendre polynomial as a
  *  function of other Legendre polynomials:
- *    int[-1,x] P_n = (P_(n + 1) - P_(n - 1))/(2 * n + 1)
+ *    int P_n = (P_(n + 1) - P_(n - 1))/(2 * n + 1)
  *
- *  The integral function is defined so that int[-1,-1] f(x) = 0.0.
+ *  The integrated series is defined so that the integral function for x = left
+ *  equals 0.
  *
- *  Due to orthogonality of the Legendre polynomials, the integral between
- *  -1 and 1 is always equal to the coefficient of the P_0 polynomial
- *  multiplied by two.
+ *  @param[in] left    the left bound of the integral (default = 0)
  */
-LegendreSeries primitive() const {
+LegendreSeries primitive( const X& left = X( 0. ) ) const {
 
   unsigned int order = this->order();
   std::vector< Y > primitive( order + 2, Y( 0. ) );
@@ -24,7 +23,7 @@ LegendreSeries primitive() const {
     primitive[i + 1] += c;
     primitive[i - 1] -= c;
   }
-  primitive[0] -= clenshawLegendre( primitive, X( -1. ) );
+  primitive[0] -= clenshawLegendre( primitive, left );
 
   return LegendreSeries( std::move( primitive ) );
 }

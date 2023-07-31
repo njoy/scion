@@ -21,5 +21,6 @@
 #include "scion/math/LinearLogTable.hpp"
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
+#include "scion/math/ChebyshevSeries.hpp"
 #include "scion/math/LegendreSeries.hpp"
 #include "scion/math/PolynomialSeries.hpp"

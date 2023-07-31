@@ -3,7 +3,7 @@
 #include <pybind11/stl.h>
 
 // local includes
-#include "scion/math/LegendreSeries.hpp"
+#include "scion/math/ChebyshevSeries.hpp"
 #include "definitions.hpp"
 
 // namespace aliases
@@ -12,10 +12,10 @@ namespace python = pybind11;
 namespace math {
 
 template < typename X, typename Y = X >
-void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
+void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
 
   // type aliases
-  using Component = njoy::scion::math::LegendreSeries< X, Y >;
+  using Component = njoy::scion::math::ChebyshevSeries< X, Y >;
 
   // wrap views created by this component
 
@@ -24,12 +24,12 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
 
     module,
     name.c_str(),
-    "A Legendre series function y -> f(x) = sum c_i P_i(x) of order n\n\n"
-    "This class represents a Legendre series function y -> f(x) = sum c_i P_i(x)\n"
-    "defined over the domain [-1,1].\n\n"
+    "A Chebyshev series function y -> f(x) = sum c_i T_i(x) of order n\n\n"
+    "This class represents a Chebyshev series function y -> f(x) =\n"
+    "sum c_i T_i(x) defined over the domain [-1,1].\n\n"
     "The Clenshaw recursion scheme is used for the evaluation of the series\n"
-    "using the following recursion relation for Legendre polynomials:\n"
-    "  P_(n+2) = (2k+1)/(k+1) x P_(n+1) - k/(k+1) P_n"
+    "using the following recursion relation for Chebyshev polynomials:\n"
+    "  T_(n+1) = 2 x T_n - T_(n-1)"
   );
 
   // wrap the component
@@ -41,33 +41,33 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "Initialise the function\n\n"
     "Arguments:\n"
     "    self           the function\n"
-    "    coefficients   the coefficients of the Legendre series (from\n"
+    "    coefficients   the coefficients of the Chebyshev series (from\n"
     "                   lowest to highest order coefficient)"
   )
   .def_property_readonly(
 
     "coefficients",
     &Component::coefficients,
-    "The Legendre coefficients"
+    "The Chebyshev coefficients"
   )
   .def_property_readonly(
 
     "order",
     &Component::order,
-    "The Legendre order"
+    "The Chebyshev order"
   )
   .def(
 
     "derivative",
     &Component::derivative,
-    "Return the derivative of the Legendre series"
+    "Return the derivative of the Chebyshev series"
   )
   .def(
 
     "primitive",
     &Component::primitive,
     python::arg( "left" ) = X( 0. ),
-    "Return the primitive or antiderivative of the Legendre series\n\n"
+    "Return the primitive or antiderivative of the Chebyshev series\n\n"
     "Arguments:\n"
     "    self   the function\n"
     "    left   the left bound of the integral (default = 0)"
@@ -77,11 +77,11 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
     "roots",
     &Component::roots,
     python::arg( "a" ) = X( 0. ),
-    "Calculate the real roots of the Legendre series so that f(x) = a\n\n"
-    "This function calculates all roots on the real axis of the Legendre series.\n\n"
-    "The roots of the Legendre series are the eigenvalues of the Frobenius\n"
+    "Calculate the real roots of the Chebyshev series so that f(x) = a\n\n"
+    "This function calculates all roots on the real axis of the Chebyshev series.\n\n"
+    "The roots of the Chebyshev series are the eigenvalues of the Frobenius\n"
     "companion matrix whose elements are trivial functions of the coefficients of\n"
-    "the Legendre series. The resulting roots are in the complex plane so the\n"
+    "the Chebyshev series. The resulting roots are in the complex plane so the\n"
     "roots that are not on the real axis are filtered out. The roots on the real\n"
     "axis are then improved upon using a few iterations of the Newton-Rhapson\n"
     "method.\n\n"
@@ -94,9 +94,9 @@ void wrapLegendreSeriesFor( python::module& module, const std::string& name ) {
   addStandardFunctionDefinitions< Component, X, Y >( component );
 }
 
-void wrapLegendreSeries( python::module& module ) {
+void wrapChebyshevSeries( python::module& module ) {
 
-  wrapLegendreSeriesFor< double >( module, "LegendreSeries" );
+  wrapChebyshevSeriesFor< double >( module, "ChebyshevSeries" );
 }
 
 } // namespace math

@@ -152,6 +152,40 @@ Y clenshawLegendre( const Range& coefficients, const X& x ) noexcept {
   return clenshawLegendre( std::rbegin( coefficients ), std::rend( coefficients ), x );
 }
 
+/** @brief Clenshaw evaluation of a Chebyshev series using iterators
+ *
+ *  @param[in] first   an input iterator to the initial position in a sequence
+ *                     (must be the highest order coefficient)
+ *  @param[in] last    an input iterator to the final position in a sequence
+ *  @param[in] x       the value of X
+ */
+template < typename X, typename Y = X, typename Iter >
+Y clenshawChebyshev( Iter first, Iter last, const X& x ) {
+
+  auto a = [] ( unsigned int k, const X& x ) -> Y {
+
+    return static_cast< Y >( 2 ) * x;
+  };
+  auto b = [] ( unsigned int k, const X& x ) -> Y {
+
+    return - static_cast< Y >( 1 );
+  };
+
+  return clenshaw( first, last, a, b, 1., x, x );
+}
+
+/** @brief Clenshaw evaluation of a Chebyshev series using a range
+ *
+ *  @param[in] coefficients   a range of coefficient values (from lowest to
+ *                            highest order coefficient)
+ *  @param[in] x              the value of X
+ */
+template < typename X, typename Y = X, typename Range >
+Y clenshawChebyshev( const Range& coefficients, const X& x ) noexcept {
+
+  return clenshawChebyshev( std::rbegin( coefficients ), std::rend( coefficients ), x );
+}
+
 } // math namespace
 } // scion namespace
 } // njoy namespace
