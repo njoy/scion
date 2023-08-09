@@ -20,7 +20,7 @@ Y evaluate( const X& x ) const {
                                    this->boundaries().end(), index );
     if ( this->boundaries().end() == bIter ) {
 
-        --bIter;
+      --bIter;
     }
     index = std::distance( this->boundaries().begin(), bIter );
   }
