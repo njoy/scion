@@ -11,6 +11,7 @@ using namespace njoy::scion;
 template < typename X, typename Y = X > using LinearLinearTable = math::LinearLinearTable< X, Y >;
 template < typename X, typename Y = X > using LinearLogTable = math::LinearLogTable< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "LinearLogTable" ) {
 
@@ -25,6 +26,7 @@ SCENARIO( "LinearLogTable" ) {
 
       THEN( "a LinearLogTable can be constructed and members can be tested" ) {
 
+        CHECK( InterpolationType::LinearLog == chunk.interpolation() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
         CHECK( 1. == Approx( chunk.x()[0] ) );

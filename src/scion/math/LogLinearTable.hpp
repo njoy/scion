@@ -5,6 +5,7 @@
 #include <vector>
 
 // other includes
+#include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LogarithmicLinear.hpp"
 #include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
@@ -41,6 +42,14 @@ namespace math {
     #include "scion/math/LogLinearTable/src/ctor.hpp"
 
     /* methods */
+
+    /**
+     *  @brief Return the interpolation type
+     */
+    static constexpr interpolation::InterpolationType interpolation() noexcept {
+
+      return interpolation::InterpolationType::LogLinear;
+    }
 
     /**
      *  @brief Return the x values of the table

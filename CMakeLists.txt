@@ -75,6 +75,7 @@ if( scion.python )
       python/src/scion.python.cpp
       python/src/interpolation.python.cpp
       python/src/interpolation/interpolation.python.cpp
+      python/src/interpolation/InterpolationType.python.cpp
       python/src/linearisation.python.cpp
       python/src/linearisation/MidpointSplit.python.cpp
       python/src/linearisation/ToleranceConvergence.python.cpp

@@ -5,6 +5,7 @@
 #include <vector>
 
 // other includes
+#include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
 #include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
@@ -38,6 +39,14 @@ namespace math {
     #include "scion/math/LinearLinearTable/src/ctor.hpp"
 
     /* methods */
+
+    /**
+     *  @brief Return the interpolation type
+     */
+    static constexpr interpolation::InterpolationType interpolation() noexcept {
+
+      return interpolation::InterpolationType::LinearLinear;
+    }
 
     /**
      *  @brief Return the x values of the table

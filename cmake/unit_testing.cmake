@@ -10,6 +10,8 @@ enable_testing()
 # Unit testing directories
 #######################################################################
 
+add_subdirectory( src/utility/IteratorView/test )
+
 add_subdirectory( src/scion/interpolation/Histogram/test )
 add_subdirectory( src/scion/interpolation/LinearLinear/test )
 add_subdirectory( src/scion/interpolation/LinearLogarithmic/test )
