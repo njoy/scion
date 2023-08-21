@@ -21,20 +21,27 @@ namespace math {
   /**
    *  @class
    *  @brief Tabulated data with log-linear interpolation (ln(y) is linear in x)
+   *
+   *  The LogLinearTable is templatised on the container type used for the
+   *  x and y values in addition to the actual x and y types. This allows us to
+   *  use something like utility::IteratorView instead of std::vector.
    */
-  template < typename X, typename Y = X >
-  class LogLinearTable : public FunctionBase< LogLinearTable< X, Y >, X, Y > {
+  template < typename X, typename Y = X,
+             typename XContainer = std::vector< X >,
+             typename YContainer = std::vector< Y > >
+  class LogLinearTable :
+    public FunctionBase< LogLinearTable< X, Y, XContainer, YContainer >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< LogLinearTable< X, Y >, X, Y >;
+    using Parent = FunctionBase< LogLinearTable< X, Y, XContainer, YContainer >, X, Y >;
     using Table = interpolation::Table< interpolation::LogarithmicLinear,
-                                        std::vector< X >,
-                                        std::vector< Y > >;
+                                        XContainer, YContainer >;
 
     /* fields */
     Table table_;
 
-    /* auxiliary function */
+    /* auxiliary function explicitly taken from LinearLogTable */
+    #include "scion/math/LinearLogTable/src/verifyTable.hpp"
 
   public:
 
@@ -54,7 +61,7 @@ namespace math {
     /**
      *  @brief Return the x values of the table
      */
-    const std::vector< X >& x() const noexcept {
+    const XContainer& x() const noexcept {
 
       return this->table_.x();
     }
@@ -62,7 +69,7 @@ namespace math {
     /**
      *  @brief Return the y values of the table
      */
-    const std::vector< Y >& y() const noexcept {
+    const YContainer& y() const noexcept {
 
       return this->table_.y();
     }
