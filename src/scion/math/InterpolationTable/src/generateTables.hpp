@@ -48,6 +48,14 @@ void generateTables() {
             YContainer( yStart, yEnd ) ) );
         break;
       }
+      case interpolation::InterpolationType::Histogram : {
+
+        tables.emplace_back(
+          HistogramTable< X, Y, XContainer, YContainer >(
+            XContainer( xStart, xEnd ),
+            YContainer( yStart, yEnd ) ) );
+        break;
+      }
       case interpolation::InterpolationType::LinearLog : {
 
         tables.emplace_back( LinearLogTable< X, Y, XContainer, YContainer >(

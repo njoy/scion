@@ -10,6 +10,7 @@
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/LinearLinearTable.hpp"
+#include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLogTable.hpp"
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
@@ -35,6 +36,7 @@ namespace math {
     using YContainer = njoy::utility::IteratorView< YIterator >;
     using TableVariant = std::variant<
                              LinearLinearTable< X, Y, XContainer, YContainer >,
+                             HistogramTable< X, Y, XContainer, YContainer >,
                              LinearLogTable< X, Y, XContainer, YContainer >,
                              LogLinearTable< X, Y, XContainer, YContainer >,
                              LogLogTable< X, Y, XContainer, YContainer > >;

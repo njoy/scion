@@ -50,6 +50,8 @@ set_tests_properties( scion.python.math.OpenDomain PROPERTIES ENVIRONMENT PYTHON
 
 add_test( NAME scion.python.math.LinearLinearTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LinearLinearTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LinearLinearTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
+add_test( NAME scion.python.math.HistogramTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_HistogramTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
+set_tests_properties( scion.python.math.HistogramTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.LinearLogTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LinearLogTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
 set_tests_properties( scion.python.math.LinearLogTable PROPERTIES ENVIRONMENT PYTHONPATH=${SCION_PYTHONPATH}:$ENV{PYTHONPATH})
 add_test( NAME scion.python.math.LogLinearTable COMMAND ${PYTHON_EXECUTABLE} -m unittest -v test/math/Test_scion_math_LogLinearTable.py WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/python )
