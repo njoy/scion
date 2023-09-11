@@ -14,6 +14,7 @@
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
 #include "scion/math/IntervalDomain.hpp"
+#include "scion/verification/ranges.hpp"
 
 namespace njoy {
 namespace scion {

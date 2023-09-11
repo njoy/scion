@@ -7,6 +7,7 @@
 
 // other includes
 #include "Log.hpp"
+#include "scion/verification/ranges.hpp"
 
 namespace njoy {
 namespace scion {

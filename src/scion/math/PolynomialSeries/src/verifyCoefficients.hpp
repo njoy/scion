@@ -1,6 +1,6 @@
 static void verifyCoefficients( const std::vector< Y >& coefficients ) {
 
-  if ( 0 == coefficients.size() ) {
+  if ( verification::isEmpty( coefficients ) ) {
 
     Log::error( "No coefficients defined for a polynomial series expansion" );
     throw std::exception();

@@ -26,9 +26,6 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
 
     Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrix( a ), false );
 
-    PolynomialSeries derivative = this->derivative();
-    auto functor = [&a, this] ( const X& x ) { return this->evaluate( x ) - a; };
-
     for ( const auto& value : solver.eigenvalues().reshaped() ) {
 
       if ( isCloseToZero( value.imag() ) ) {

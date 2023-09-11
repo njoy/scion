@@ -25,9 +25,6 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
 
     Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrixNumpy( a ), false );
 
-    LegendreSeries derivative = this->derivative();
-    auto functor = [&a, this] ( const X& x ) { return this->evaluate( x ) - a; };
-
     for ( const auto& value : solver.eigenvalues().reshaped() ) {
 
       if ( isCloseToZero( value.imag() ) ) {

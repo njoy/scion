@@ -13,6 +13,7 @@
 #include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/LinearLinearTable.hpp"
+#include "scion/verification/ranges.hpp"
 
 namespace njoy {
 namespace scion {
@@ -40,8 +41,8 @@ namespace math {
     /* fields */
     Table table_;
 
-    /* auxiliary function explicitly taken from LinearLogTable */
-    #include "scion/math/LinearLogTable/src/verifyTable.hpp"
+    /* auxiliary function */
+    #include "scion/math/LogLinearTable/src/verifyTable.hpp"
 
   public:
 

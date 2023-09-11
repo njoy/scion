@@ -14,6 +14,7 @@
 #include "scion/math/matrix.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/LinearLinearTable.hpp"
+#include "scion/verification/ranges.hpp"
 
 namespace njoy {
 namespace scion {
