@@ -2,6 +2,22 @@ void generateTables() {
 
   std::vector< TableVariant > tables;
 
+  if ( this->x().size() != this->y().size() ) {
+
+    Log::error( "Inconsistent number of x and y values for tabulated data" );
+    Log::info( "x.size(): {}", this->x().size() );
+    Log::info( "y.size(): {}", this->y().size() );
+    throw std::exception();
+  }
+
+  if ( this->boundaries().back() != this->numberPoints() - 1 ) {
+
+    Log::error( "The last boundary value does not point to the last x value" );
+    Log::info( "x.size(): {}", this->x().size() );
+    Log::info( "boundaries.back(): {}", this->boundaries().back() );
+    throw std::exception();
+  }
+
   auto xStart = this->x().begin();
   auto yStart = this->y().begin();
   auto xEnd = xStart;

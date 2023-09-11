@@ -49,8 +49,10 @@ InterpolationTable& operator=( InterpolationTable&& base ) {
 /**
  *  @brief Constructor
  *
- *  @param x   the x values of the tabulated data
- *  @param y   the y values of the tabulated data
+ *  @param x              the x values of the tabulated data
+ *  @param y              the y values of the tabulated data
+ *  @param boundaries     the boundaries of the interpolation regions
+ *  @param interpolants   the interpolation types of the interpolation regions
  */
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     std::vector< std::size_t > boundaries,

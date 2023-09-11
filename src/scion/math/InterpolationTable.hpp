@@ -21,7 +21,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Tabulated data with linear-linear interpolation (y is linear in x)
+   *  @brief Tabulated data with one or more interpolation types
    */
   template < typename X, typename Y = X >
   class InterpolationTable : public FunctionBase< InterpolationTable< X, Y >, X, Y > {
