@@ -30,6 +30,7 @@ SCENARIO( "LogLogTable" ) {
       THEN( "a LogLogTable can be constructed and members can be tested" ) {
 
         CHECK( InterpolationType::LogLog == chunk.interpolation() );
+        CHECK( 4 == chunk.numberPoints() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
         CHECK( 1. == Approx( chunk.x()[0] ) );

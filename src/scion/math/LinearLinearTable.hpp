@@ -71,6 +71,14 @@ namespace math {
     }
 
     /**
+     *  @brief Return the number of points in the table
+     */
+    std::size_t numberPoints() const noexcept {
+
+      return this->x().size();
+    }
+
+    /**
      *  @brief Evaluate the function for a value of x
      *
      *  @param x   the value to be evaluated

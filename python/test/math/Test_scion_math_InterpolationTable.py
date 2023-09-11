@@ -17,6 +17,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
         def verify_chunk( self, chunk ) :
 
             # verify content
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 2, chunk.number_regions )
             self.assertEqual( 4, len( chunk.x ) )
             self.assertEqual( 4, len( chunk.y ) )
             self.assertEqual( 2, len( chunk.boundaries ) )

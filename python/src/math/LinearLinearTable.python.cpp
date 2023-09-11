@@ -56,6 +56,12 @@ void wrapLinearLinearTableFor( python::module& module, const std::string& name )
     "y",
     &Component::y,
     "The y values of the table"
+  )
+  .def_property_readonly(
+
+    "number_points",
+    &Component::numberPoints,
+    "The number of points in the table"
   );
 
   // add standard function definitions

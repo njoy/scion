@@ -33,6 +33,8 @@ SCENARIO( "InterpolationTable" ) {
 
       THEN( "a InterpolationTable can be constructed and members can be tested" ) {
 
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
         CHECK( 2 == chunk.boundaries().size() );

@@ -18,6 +18,7 @@ class Test_scion_math_LinearLogTable( unittest.TestCase ) :
 
             # verify content
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolation )
+            self.assertEqual( 4, chunk.number_points )
             self.assertEqual( 4, len( chunk.x ) )
             self.assertEqual( 4, len( chunk.y ) )
             self.assertAlmostEqual( 1., chunk.x[0] )
