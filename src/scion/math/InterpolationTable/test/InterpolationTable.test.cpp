@@ -1579,5 +1579,20 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
       } // THEN
     } // WHEN
+
+    WHEN( "the last boundary does not point to the last point" ) {
+
+      std::vector< double > x = { 1., 2., 4., 4. };
+      std::vector< double > y = { 4., 3., 1., 4. };
+      std::vector< std::size_t > boundaries = { 2 };
+      std::vector< InterpolationType > interpolants = { InterpolationType::LinearLinear };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ),
+                                                    std::move( boundaries ),
+                                                    std::move( interpolants ) ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 } // SCENARIO
