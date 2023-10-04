@@ -13,31 +13,24 @@
  *  The derivative function is defined over the same domain as the
  *  original function.
  */
-ChebyshevSeries derivative() const {
+ChebyshevSeries calculateDerivative() const {
 
   const unsigned int order = this->order();
-  if ( 0 == order ) {
+  std::vector< Y > derivative( order, Y( 0. ) );
+  for ( unsigned int i = 0; i < order; ++i ) {
 
-    return ChebyshevSeries( { Y( 0. ) } );
-  }
-  else {
+    const Y a = static_cast< Y >( 2 * ( i + 1 ) ) * this->coefficients()[i + 1];
+    int j = static_cast< int >( i );
+    while ( 0 < j ) {
 
-    std::vector< Y > derivative( order, Y( 0. ) );
-    for ( unsigned int i = 0; i < order; ++i ) {
-
-      const Y a = static_cast< Y >( 2 * ( i + 1 ) ) * this->coefficients()[i + 1];
-      int j = static_cast< int >( i );
-      while ( 0 < j ) {
-
-        derivative[j] += a;
-        j -= 2;
-      }
-      if ( 0 == j ) {
-
-        derivative[0] += static_cast< Y >( i + 1 ) * this->coefficients()[i + 1];
-      }
+      derivative[j] += a;
+      j -= 2;
     }
+    if ( 0 == j ) {
 
-    return ChebyshevSeries( std::move( derivative ) );
+      derivative[0] += static_cast< Y >( i + 1 ) * this->coefficients()[i + 1];
+    }
   }
+
+  return ChebyshevSeries( std::move( derivative ) );
 }

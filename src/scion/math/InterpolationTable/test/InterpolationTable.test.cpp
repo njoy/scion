@@ -58,21 +58,21 @@ SCENARIO( "InterpolationTable" ) {
       THEN( "a InterpolationTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 2. ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 3. ) ) );
-        CHECK( 1. == Approx( chunk.evaluate( 4. ) ) );
+        CHECK( 4. == Approx( chunk( 1. ) ) );
+        CHECK( 3. == Approx( chunk( 2. ) ) );
+        CHECK( 2. == Approx( chunk( 3. ) ) );
+        CHECK( 1. == Approx( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk.evaluate( 0. ) ) );
-        CHECK( 0. == Approx( chunk.evaluate( 5. ) ) );
+        CHECK( 0. == Approx( chunk( 0. ) ) );
+        CHECK( 0. == Approx( chunk( 5. ) ) );
 
         // values of x inside the x grid (lin-lin piece)
-        CHECK( 3.5 == Approx( chunk.evaluate( 1.5 ) ) );
+        CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
 
         // values of x inside the x grid (lin-log piece)
-        CHECK( 2.449660287 == Approx( chunk.evaluate( 2.5 ) ) );
-        CHECK( 1.464163065 == Approx( chunk.evaluate( 3.5 ) ) );
+        CHECK( 2.449660287 == Approx( chunk( 2.5 ) ) );
+        CHECK( 1.464163065 == Approx( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a InterpolationTable can be linearised" ) {
@@ -167,21 +167,21 @@ SCENARIO( "InterpolationTable" ) {
       THEN( "a InterpolationTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
-        CHECK( 4. == Approx( chunk.evaluate( 2. ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 3. ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 4. ) ) );
+        CHECK( 4. == Approx( chunk( 1. ) ) );
+        CHECK( 4. == Approx( chunk( 2. ) ) );
+        CHECK( 3. == Approx( chunk( 3. ) ) );
+        CHECK( 2. == Approx( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk.evaluate( 0. ) ) );
-        CHECK( 0. == Approx( chunk.evaluate( 5. ) ) );
+        CHECK( 0. == Approx( chunk( 0. ) ) );
+        CHECK( 0. == Approx( chunk( 5. ) ) );
 
         // values of x inside the x grid (lin-lin piece)
-        CHECK( 3.5 == Approx( chunk.evaluate( 1.5 ) ) );
+        CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
 
         // values of x inside the x grid (lin-log piece)
-        CHECK( 3.449660287 == Approx( chunk.evaluate( 2.5 ) ) );
-        CHECK( 2.464163065 == Approx( chunk.evaluate( 3.5 ) ) );
+        CHECK( 3.449660287 == Approx( chunk( 2.5 ) ) );
+        CHECK( 2.464163065 == Approx( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a InterpolationTable can be linearised" ) {

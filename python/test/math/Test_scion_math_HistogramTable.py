@@ -31,10 +31,10 @@ class Test_scion_math_HistogramTable( unittest.TestCase ) :
             self.assertAlmostEqual( 1., chunk.y[3] )
 
             # verify evaluation - values of x in the x grid
-            self.assertAlmostEqual( 4., chunk.evaluate( x = 1. ) )
-            self.assertAlmostEqual( 4., chunk.evaluate( x = 2. ) )
-            self.assertAlmostEqual( 3., chunk.evaluate( x = 3. ) )
-            self.assertAlmostEqual( 2., chunk.evaluate( x = 4. ) )
+            self.assertAlmostEqual( 4., chunk( x = 1. ) )
+            self.assertAlmostEqual( 4., chunk( x = 2. ) )
+            self.assertAlmostEqual( 3., chunk( x = 3. ) )
+            self.assertAlmostEqual( 2., chunk( x = 4. ) )
 
             # verify evaluation - values of x outside the x grid
             self.assertAlmostEqual( 0.0, chunk( x = 0. ) )

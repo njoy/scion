@@ -17,27 +17,20 @@
  *  The derivative function is defined over the same domain as the
  *  original function.
  */
-LegendreSeries derivative() const {
+LegendreSeries calculateDerivative() const {
 
   const unsigned int order = this->order();
-  if ( 0 == order ) {
+  std::vector< Y > derivative( order, Y( 0. ) );
+  for ( unsigned int i = 0; i < order; ++i ) {
 
-    return LegendreSeries( { Y( 0. ) } );
-  }
-  else {
+    const Y a = this->coefficients()[i + 1];
+    int j = static_cast< int >( i );
+    while ( 0 <= j ) {
 
-    std::vector< Y > derivative( order, Y( 0. ) );
-    for ( unsigned int i = 0; i < order; ++i ) {
-
-      const Y a = this->coefficients()[i + 1];
-      int j = static_cast< int >( i );
-      while ( 0 <= j ) {
-
-        derivative[j] += static_cast< Y >( 2 * j + 1 ) * a;
-        j -= 2;
-      }
+      derivative[j] += static_cast< Y >( 2 * j + 1 ) * a;
+      j -= 2;
     }
-
-    return LegendreSeries( std::move( derivative ) );
   }
+
+  return LegendreSeries( std::move( derivative ) );
 }

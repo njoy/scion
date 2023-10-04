@@ -1,14 +1,12 @@
 /**
- *  @brief Calculate the real roots of the Chebyshev series so that f(x) = a
+ *  @brief Calculate the real roots of the series so that f(x) = a
  *
- *  This function calculates all roots on the real axis of the Chebyshev series.
+ *  This function calculates all roots on the real axis of the series.
  *
- *  The roots of the Chebyshev series are the eigenvalues of the Frobenius
- *  companion matrix whose elements are trivial functions of the coefficients of
- *  the Chebyshev series. The resulting roots are in the complex plane so the
- *  roots that are not on the real axis are filtered out. The roots on the real
- *  axis are then improved upon using a few iterations of the Newton-Rhapson
- *  method.
+ *  The roots of the series are the eigenvalues of the companion matrix whose
+ *  elements are trivial functions of the coefficients of the series. The
+ *  resulting roots are in the complex plane so the roots that are not on the
+ *  real axis are filtered out.
  *
  *  @param[in] a   the value of a (default is zero)
  */
@@ -23,7 +21,8 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
   }
   else if ( 1 < this->order() ) {
 
-    Eigen::EigenSolver< Matrix< Y > > solver( this->companionMatrixNumpy( a ), false );
+    Eigen::EigenSolver< Matrix< Y > >
+    solver( static_cast< const Derived* >( this )->companionMatrix( a ), false );
 
     for ( const auto& value : solver.eigenvalues().reshaped() ) {
 

@@ -43,38 +43,6 @@ SCENARIO( "ChebyshevApproximation" ) {
 
       THEN( "a ChebyshevApproximation can be evaluated" ) {
 
-        CHECK( -1.0       == Approx( chunk.evaluate( -1. ) ) );
-        CHECK( -0.9999999 == Approx( chunk.evaluate( -0.9999999 ) ) );
-        CHECK( -0.999999  == Approx( chunk.evaluate( -0.999999 ) ) );
-        CHECK( -0.99999   == Approx( chunk.evaluate( -0.99999 ) ) );
-        CHECK( -0.9999    == Approx( chunk.evaluate( -0.9999 ) ) );
-        CHECK( -0.999     == Approx( chunk.evaluate( -0.999 ) ) );
-        CHECK( -0.99      == Approx( chunk.evaluate( -0.99 ) ) );
-        CHECK( -0.9       == Approx( chunk.evaluate( -0.9 ) ) );
-        CHECK( -0.5       == Approx( chunk.evaluate( -0.5 ) ) );
-        CHECK( -0.05      == Approx( chunk.evaluate( -0.05 ) ) );
-        CHECK( -0.005     == Approx( chunk.evaluate( -0.005 ) ) );
-        CHECK( -0.0005    == Approx( chunk.evaluate( -0.0005 ) ) );
-        CHECK( -0.00005   == Approx( chunk.evaluate( -0.00005 ) ) );
-        CHECK( -0.000005  == Approx( chunk.evaluate( -0.000005 ) ) );
-        CHECK( -0.0000005 == Approx( chunk.evaluate( -0.0000005 ) ) );
-        CHECK(  0.0       == Approx( chunk.evaluate(  0. ) ) );
-        CHECK( +0.0000005 == Approx( chunk.evaluate(  0.0000005 ) ) );
-        CHECK( +0.000005  == Approx( chunk.evaluate(  0.000005 ) ) );
-        CHECK( +0.00005   == Approx( chunk.evaluate(  0.00005 ) ) );
-        CHECK( +0.0005    == Approx( chunk.evaluate(  0.0005 ) ) );
-        CHECK( +0.005     == Approx( chunk.evaluate(  0.005 ) ) );
-        CHECK( +0.05      == Approx( chunk.evaluate(  0.05 ) ) );
-        CHECK( +0.5       == Approx( chunk.evaluate(  0.5 ) ) );
-        CHECK( +0.9       == Approx( chunk.evaluate(  0.9 ) ) );
-        CHECK( +0.99      == Approx( chunk.evaluate(  0.99 ) ) );
-        CHECK( +0.999     == Approx( chunk.evaluate(  0.999 ) ) );
-        CHECK( +0.9999    == Approx( chunk.evaluate(  0.9999 ) ) );
-        CHECK( +0.99999   == Approx( chunk.evaluate(  0.99999 ) ) );
-        CHECK( +0.999999  == Approx( chunk.evaluate(  0.999999 ) ) );
-        CHECK( +0.9999999 == Approx( chunk.evaluate(  0.9999999 ) ) );
-        CHECK( +1.0       == Approx( chunk.evaluate(  1. ) ) );
-
         CHECK( -1.0       == Approx( chunk( -1. ) ) );
         CHECK( -0.9999999 == Approx( chunk( -0.9999999 ) ) );
         CHECK( -0.999999  == Approx( chunk( -0.999999 ) ) );
@@ -137,38 +105,6 @@ SCENARIO( "ChebyshevApproximation" ) {
       } // THEN
 
       THEN( "a ChebyshevApproximation can be evaluated" ) {
-
-        CHECK( -1.0       == Approx( chunk.evaluate( -1. ) ) );
-        CHECK( -0.9999999 == Approx( chunk.evaluate( -0.9999999 ) ) );
-        CHECK( -0.999999  == Approx( chunk.evaluate( -0.999999 ) ) );
-        CHECK( -0.99999   == Approx( chunk.evaluate( -0.99999 ) ) );
-        CHECK( -0.9999    == Approx( chunk.evaluate( -0.9999 ) ) );
-        CHECK( -0.999     == Approx( chunk.evaluate( -0.999 ) ) );
-        CHECK( -0.99      == Approx( chunk.evaluate( -0.99 ) ) );
-        CHECK( -0.9       == Approx( chunk.evaluate( -0.9 ) ) );
-        CHECK( -0.5       == Approx( chunk.evaluate( -0.5 ) ) );
-        CHECK( -0.05      == Approx( chunk.evaluate( -0.05 ) ) );
-        CHECK( -0.005     == Approx( chunk.evaluate( -0.005 ) ) );
-        CHECK( -0.0005    == Approx( chunk.evaluate( -0.0005 ) ) );
-        CHECK( -0.00005   == Approx( chunk.evaluate( -0.00005 ) ) );
-        CHECK( -0.000005  == Approx( chunk.evaluate( -0.000005 ) ) );
-        CHECK( -0.0000005 == Approx( chunk.evaluate( -0.0000005 ) ) );
-        CHECK(  0.0       == Approx( chunk.evaluate(  0. ) ) );
-        CHECK( +0.0000005 == Approx( chunk.evaluate(  0.0000005 ) ) );
-        CHECK( +0.000005  == Approx( chunk.evaluate(  0.000005 ) ) );
-        CHECK( +0.00005   == Approx( chunk.evaluate(  0.00005 ) ) );
-        CHECK( +0.0005    == Approx( chunk.evaluate(  0.0005 ) ) );
-        CHECK( +0.005     == Approx( chunk.evaluate(  0.005 ) ) );
-        CHECK( +0.05      == Approx( chunk.evaluate(  0.05 ) ) );
-        CHECK( +0.5       == Approx( chunk.evaluate(  0.5 ) ) );
-        CHECK( +0.9       == Approx( chunk.evaluate(  0.9 ) ) );
-        CHECK( +0.99      == Approx( chunk.evaluate(  0.99 ) ) );
-        CHECK( +0.999     == Approx( chunk.evaluate(  0.999 ) ) );
-        CHECK( +0.9999    == Approx( chunk.evaluate(  0.9999 ) ) );
-        CHECK( +0.99999   == Approx( chunk.evaluate(  0.99999 ) ) );
-        CHECK( +0.999999  == Approx( chunk.evaluate(  0.999999 ) ) );
-        CHECK( +0.9999999 == Approx( chunk.evaluate(  0.9999999 ) ) );
-        CHECK( +1.0       == Approx( chunk.evaluate(  1. ) ) );
 
         CHECK( -1.0       == Approx( chunk( -1. ) ) );
         CHECK( -0.9999999 == Approx( chunk( -0.9999999 ) ) );

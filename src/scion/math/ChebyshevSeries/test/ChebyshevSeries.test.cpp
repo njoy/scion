@@ -39,10 +39,6 @@ SCENARIO( "ChebyshevSeries" ) {
 
       THEN( "a ChebyshevSeries can be evaluated" ) {
 
-        CHECK(  -8.0 == Approx( chunk.evaluate(  0. ) ) );
-        CHECK(   0.0 == Approx( chunk.evaluate(  1. ) ) );
-        CHECK( -30.0 == Approx( chunk.evaluate( -1. ) ) );
-
         CHECK(  -8.0 == Approx( chunk(  0. ) ) );
         CHECK(   0.0 == Approx( chunk(  1. ) ) );
         CHECK( -30.0 == Approx( chunk( -1. ) ) );

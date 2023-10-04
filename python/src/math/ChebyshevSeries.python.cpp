@@ -29,7 +29,23 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
     "sum c_i T_i(x) defined over the domain [-1,1].\n\n"
     "The Clenshaw recursion scheme is used for the evaluation of the series\n"
     "using the following recursion relation for Chebyshev polynomials:\n"
-    "  T_(n+1) = 2 x T_n - T_(n-1)"
+    "  T_(n+1) = 2 x T_n - T_(n-1)\n\n"
+    "The derivative function of a Chebyshev series function is another\n"
+    "Chebyshev series function. The coefficients of the new Chebyshev series\n"
+    "are calculated using the derivative of a Chebyshev polynomial as a\n"
+    "function of other Chebyshev polynomials:\n"
+    "  d/dx T_n = 2 n ( T_(n-1) + T_(n-3) + ... + T_1 ) if n is even\n"
+    "  d/dx T_n = 2 n ( T_(n-1) + T_(n-3) + ... + T_2 ) + n T_0 if n is odd\n"
+    "This relation can be proven by mathematical induction.\n\n"
+    "The primitive or antiderivative of a Chebyshev series function is another\n"
+    "Chebyshev series function. The coefficients of the new Chebyshev series\n"
+    "are calculated using the integral of a Chebyshev polynomial as a\n"
+    "function of other Chebyshev polynomials:\n"
+    "  2 int T_n = T_(n + 1)/(n + 1) - T_(n - 1)/(n - 1)\n\n"
+    "The integrated series is defined so that the integral function for x = left\n"
+    "equals 0.\n\n"
+    "The derivative  and primitive function is defined over the same domain as\n"
+    "the original function."
   );
 
   // wrap the component
@@ -43,55 +59,10 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
     "    self           the function\n"
     "    coefficients   the coefficients of the Chebyshev series (from\n"
     "                   lowest to highest order coefficient)"
-  )
-  .def_property_readonly(
-
-    "coefficients",
-    &Component::coefficients,
-    "The Chebyshev coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    &Component::order,
-    "The Chebyshev order"
-  )
-  .def(
-
-    "derivative",
-    &Component::derivative,
-    "Return the derivative of the Chebyshev series"
-  )
-  .def(
-
-    "primitive",
-    &Component::primitive,
-    python::arg( "left" ) = X( 0. ),
-    "Return the primitive or antiderivative of the Chebyshev series\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    left   the left bound of the integral (default = 0)"
-  )
-  .def(
-
-    "roots",
-    &Component::roots,
-    python::arg( "a" ) = X( 0. ),
-    "Calculate the real roots of the Chebyshev series so that f(x) = a\n\n"
-    "This function calculates all roots on the real axis of the Chebyshev series.\n\n"
-    "The roots of the Chebyshev series are the eigenvalues of the Frobenius\n"
-    "companion matrix whose elements are trivial functions of the coefficients of\n"
-    "the Chebyshev series. The resulting roots are in the complex plane so the\n"
-    "roots that are not on the real axis are filtered out. The roots on the real\n"
-    "axis are then improved upon using a few iterations of the Newton-Rhapson\n"
-    "method.\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSeriesDefinitions< Component, X, Y >( component );
 }
 
 void wrapChebyshevSeries( python::module& module ) {

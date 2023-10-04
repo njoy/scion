@@ -6,11 +6,7 @@
  *                        (from lowest to highest order coefficient)
  */
 PolynomialSeries( DomainVariant domain, std::vector< Y > coefficients ) :
-  Parent( std::move( domain ) ),
-  coefficients_( std::move( coefficients ) ) {
-
-  verifyCoefficients( this->coefficients() );
-}
+  Parent( IntervalDomain( -1., 1. ), std::move( coefficients ) ) {}
 
 /**
  *  @brief Constructor

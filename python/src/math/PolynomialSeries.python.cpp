@@ -28,7 +28,16 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "This class represents a polynomial function y -> f(x) = sum c_i x^i of\n"
     "order n defined over a domain. Currently, the domain can either be the\n"
     "open domain where every value of x is allowed or the interval domain that\n"
-    "restricts x to an interval [a,b]."
+    "restricts x to an interval [a,b].\n\n"
+    "The horner scheme is used for the evaluation of the series.\n\n"
+    "The first order derivative of a polynomial series is another polynomial\n"
+    "series: y -> d/dx f(x) = sum i c_i x^(i-1) for i = 1 to n\n\n"
+    "The primitive or antiderivative of a polynomial series is another polynomial\n"
+    "series: y -> int[left,x] f(x) dx = c_0 + sum c_i/(i+1) x^(i+1)\n"
+    "The integrated series is defined so that the integral function for x = left\n"
+    "equals 0.\n\n"
+    "The derivative and primitive function is defined over the same domain as\n"
+    "the original series."
   );
 
   // wrap the component
@@ -55,55 +64,10 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     "    upper          the upper limit of the domain\n"
     "    coefficients   the coefficients of the polynomial series (from\n"
     "                   lowest to highest order coefficient)"
-  )
-  .def_property_readonly(
-
-    "coefficients",
-    &Component::coefficients,
-    "The polynomial coefficients"
-  )
-  .def_property_readonly(
-
-    "order",
-    &Component::order,
-    "The polynomial series order"
-  )
-  .def(
-
-    "derivative",
-    &Component::derivative,
-    "Return the derivative of the polynomial series"
-  )
-  .def(
-
-    "primitive",
-    &Component::primitive,
-    python::arg( "left" ) = X( 0. ),
-    "Return the primitive or antiderivative of the polynomial series\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    left   the left bound of the integral (default = 0)"
-  )
-  .def(
-
-    "roots",
-    &Component::roots,
-    python::arg( "a" ) = X( 0. ),
-    "Calculate the real roots of the polynomial series so that f(x) = a\n\n"
-    "This function calculates all roots on the real axis of the polynomial series.\n\n"
-    "The roots of the polynomial series are the eigenvalues of the Frobenius\n"
-    "companion matrix whose elements are trivial functions of the coefficients of\n"
-    "the polynomial series. The resulting roots are in the complex plane so the\n"
-    "roots that are not on the real axis are filtered out. The roots on the real\n"
-    "axis are then improved upon using a few iterations of the Newton-Rhapson\n"
-    "method.\n\n"
-    "Arguments:\n"
-    "    self   the function\n"
-    "    a      the value of a (default is zero)"
   );
 
   // add standard function definitions
-  addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardSeriesDefinitions< Component, X, Y >( component );
 }
 
 void wrapPolynomialSeries( python::module& module ) {

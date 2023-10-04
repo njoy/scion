@@ -19,7 +19,25 @@ namespace math {
    *
    *  Users should note that the underlying Chebyshev series is ALWAYS defined in
    *  [-1, 1] and that the approximated function is defined on [a,b] and that
-   *  a domain transformation is required to go from one to the other.
+   *  a domain transformation is required to go from one to the other. This
+   *  transformation is performed inside this object.
+   *
+   *  Chebyshev function approximation only works well within the defined
+   *  domain. Outside of the domain, the approximated function can quickly diverge.
+   *  Range checking by the user is advised.
+   *
+   *  The derivative function of an approximated function is another approximated
+   *  function. The derivative is equal to the derivative of the underlying
+   *  Chebyshev series and is defined over the same domain as the original
+   *  approximated function.
+   *
+   *  The primitive of an approximated function is another approximated
+   *  function. The primitive is equal to the primitive of the underlying
+   *  Chebyshev series and is defined over the same domain as the original
+   *  approximated function.
+   *
+   *  The integral function is defined so that the integral function for x = left
+   *  equals 0.
    */
   template < typename X, typename Y = X >
   class ChebyshevApproximation : public FunctionBase< ChebyshevApproximation< X, Y >, X, Y > {
@@ -41,6 +59,10 @@ namespace math {
     /* constructor */
     #include "scion/math/ChebyshevApproximation/src/ctor.hpp"
 
+    /* interface implementation function */
+
+    #include "scion/math/ChebyshevApproximation/src/evaluate.hpp"
+
     /* methods */
 
     /**
@@ -59,7 +81,6 @@ namespace math {
       return this->series_.order();
     }
 
-    #include "scion/math/ChebyshevApproximation/src/evaluate.hpp"
     #include "scion/math/ChebyshevApproximation/src/derivative.hpp"
     #include "scion/math/ChebyshevApproximation/src/primitive.hpp"
     #include "scion/math/ChebyshevApproximation/src/roots.hpp"

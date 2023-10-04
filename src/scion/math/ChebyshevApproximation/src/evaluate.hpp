@@ -1,7 +1,7 @@
 /**
  *  @brief Evaluate the approximated function for a value of x
  *
- *  Note: Chebyshev function approximation only works well within the defined
+ *  Chebyshev function approximation only works well within the defined
  *  domain. Outside of the domain, the approximated function can quickly diverge.
  *  Range checking by the user is advised.
  *
