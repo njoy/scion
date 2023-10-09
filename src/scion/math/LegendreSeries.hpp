@@ -79,6 +79,10 @@ namespace math {
     using Parent::derivative;
     using Parent::primitive;
     using Parent::linearise;
+    using Parent::operator+=;
+    using Parent::operator-=;
+    using Parent::operator*=;
+    using Parent::operator/=;
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

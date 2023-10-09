@@ -62,6 +62,17 @@ void wrapChebyshevApproximationFor( python::module& module, const std::string& n
     "    upper       the upper limit of the domain\n"
     "    function    the function to be approximated\n"
     "    order       the order of the approximation"
+  )
+  .def(
+
+    python::init< X, X, std::vector< Y > >(),
+    python::arg( "lower" ), python::arg( "upper" ), python::arg( "coefficients" ),
+    "Initialise the function\n\n"
+    "Arguments:\n"
+    "    self            the function\n"
+    "    lower           the lower limit of the domain\n"
+    "    upper           the upper limit of the domain\n"
+    "    coefficients    the coefficients that approximate the function"
   );
 
   // add standard function definitions

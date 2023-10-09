@@ -4,6 +4,7 @@
 // system includes
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
+#include <pybind11/operators.h>
 
 // other includes
 #include "scion/linearisation/ToleranceConvergence.hpp"
@@ -171,6 +172,48 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
     "Arguments:\n"
     "    self   the function\n"
     "    a      the value of a (default is zero)"
+  )
+  .def(
+
+    "__iadd__",
+    [] ( Component& self, const X& right ) -> decltype(auto)
+       { return self += right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__isub__",
+    [] ( Component& self, const X& right ) -> decltype(auto)
+       { return self -= right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__iadd__",
+    [] ( Component& self, const Component& right ) -> decltype(auto)
+       { return self += right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__isub__",
+    [] ( Component& self, const Component& right ) -> decltype(auto)
+       { return self -= right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__imul__",
+    [] ( Component& self, const X& right ) -> decltype(auto)
+       { return self *= right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__itruediv__",
+    [] ( Component& self, const X& right ) -> decltype(auto)
+       { return self /= right; },
+    python::is_operator()
   );
 
   // add standard function definitions

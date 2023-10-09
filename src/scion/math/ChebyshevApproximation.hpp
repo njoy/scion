@@ -86,6 +86,80 @@ namespace math {
     #include "scion/math/ChebyshevApproximation/src/roots.hpp"
     #include "scion/math/ChebyshevApproximation/src/linearise.hpp"
 
+    /**
+     *  @brief Inplace scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation& operator+=( const Y& right ) {
+
+      this->series_ += right;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation& operator-=( const Y& right ) {
+
+      return this->operator+=( -right );
+    }
+
+    /**
+     *  @brief Inplace series addition
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
+     */
+    ChebyshevApproximation& operator+=( const ChebyshevApproximation& right ) {
+
+      this->series_ += right.series_;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace series subtraction
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
+     */
+    ChebyshevApproximation& operator-=( const ChebyshevApproximation& right ) {
+
+      this->series_ -= right.series_;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation& operator*=( const Y& right ) {
+
+      this->series_ *= right;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    ChebyshevApproximation& operator/=( const Y& right ) {
+
+      return this->operator*=( Y( 1. ) / right );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

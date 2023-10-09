@@ -42,6 +42,7 @@ namespace math {
 
     /* auxiliary function */
     #include "scion/math/SeriesBase/src/verifyCoefficients.hpp"
+    #include "scion/math/SeriesBase/src/trimCoefficients.hpp"
 
   protected:
 
@@ -72,6 +73,99 @@ namespace math {
     #include "scion/math/SeriesBase/src/derivative.hpp"
     #include "scion/math/SeriesBase/src/primitive.hpp"
     #include "scion/math/SeriesBase/src/linearise.hpp"
+
+    /**
+     *  @brief Inplace scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator+=( const Y& right ) {
+
+      this->coefficients_[0] += right;
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Inplace scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator-=( const Y& right ) {
+
+      return this->operator+=( -right );
+    }
+
+    /**
+     *  @brief Inplace scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator*=( const Y& right ) {
+
+      for ( auto& value : this->coefficients_ ) {
+
+        value *= right;
+      }
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Inplace scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    Derived& operator/=( const Y& right ) {
+
+      return this->operator*=( Y( 1. ) / right );
+    }
+
+    /**
+     *  @brief Inplace series addition
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
+     */
+    Derived& operator+=( const Derived& right ) {
+
+      if ( this->coefficients().size() < right.coefficients().size() ) {
+
+        this->coefficients_.resize( right.coefficients().size(), Y( 0. ) );
+      }
+      for ( unsigned int i = 0; i < right.coefficients().size(); ++i ) {
+
+        this->coefficients_[i] += right.coefficients()[i];
+      }
+      this->trimCoefficients();
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Inplace series subtraction
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
+     */
+    Derived& operator-=( const Derived& right ) {
+
+      if ( this->coefficients().size() < right.coefficients().size() ) {
+
+        this->coefficients_.resize( right.coefficients().size(), Y( 0. ) );
+      }
+      for ( unsigned int i = 0; i < right.coefficients().size(); ++i ) {
+
+        this->coefficients_[i] -= right.coefficients()[i];
+      }
+      this->trimCoefficients();
+      return *static_cast< Derived* >( this );
+    }
 
     using Parent::domain;
     using Parent::operator();
