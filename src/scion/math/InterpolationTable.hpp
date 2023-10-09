@@ -8,6 +8,7 @@
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
+#include "scion/unionisation/unionise.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
@@ -50,8 +51,11 @@ namespace math {
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
     std::vector< TableVariant > tables_;
+    bool linearised_;
 
     /* auxiliary function */
+    #include "scion/math/InterpolationTable/src/evaluateOnGrid.hpp"
+    #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
     #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
 
@@ -121,6 +125,14 @@ namespace math {
       return this->boundaries().size();
     }
 
+    /**
+     *  @brief Return whether or not the data is linearised
+     */
+    bool isLinearised() const noexcept {
+
+      return this->linearised_;
+    }
+
     #include "scion/math/InterpolationTable/src/linearise.hpp"
 
     /**
@@ -134,6 +146,7 @@ namespace math {
                       [&right] ( auto&& y ) { return y + right; } );
       return *this;
     }
+
     /**
      *  @brief Inplace scalar subtraction
      *
@@ -211,6 +224,50 @@ namespace math {
 
       InterpolationTable result = *this;
       result /= right;
+      return result;
+    }
+
+    /**
+     *  @brief Inplace InterpolationTable addition
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable& operator+=( const InterpolationTable& right ) {
+
+      return this->operation( right, std::plus< Y >() );
+    }
+
+    /**
+     *  @brief Inplace InterpolationTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable& operator-=( const InterpolationTable& right ) {
+
+      return this->operation( right, std::minus< Y >() );
+    }
+
+    /**
+     *  @brief InterpolationTable addition
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable operator+( const InterpolationTable& right ) const {
+
+      InterpolationTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief InterpolationTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    InterpolationTable operator-( const InterpolationTable& right ) const {
+
+      InterpolationTable result = *this;
+      result -= right;
       return result;
     }
 

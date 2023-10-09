@@ -81,5 +81,6 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
                    interpolation::InterpolationType interpolant ) {
 
   return processBoundaries( x, y,
-                            { x.size() > 0 ? x.size() - 1 : 0 }, { interpolant } );
+                            { x.size() > 0 ? x.size() - 1 : 0 },
+                            { interpolant } );
 }

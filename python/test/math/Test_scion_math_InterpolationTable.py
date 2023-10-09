@@ -34,6 +34,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 1., chunk.y[3] )
             self.assertEqual( 3, chunk.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( True, chunk.is_linearised )
 
             # verify evaluation - values of x in the x grid
             self.assertAlmostEqual( 4., chunk( x = 1. ) )
@@ -87,6 +88,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 3., linear.y[1] )
             self.assertAlmostEqual( 2., linear.y[2] )
             self.assertAlmostEqual( 1., linear.y[3] )
+
+            self.assertEqual( True, linear.is_linearised )
 
             # verify arithmetic operators
             chunk += 2.
@@ -254,6 +257,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 4, chunk.boundaries[1] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+            self.assertEqual( True, chunk.is_linearised )
 
             # verify evaluation - values of x in the x grid
             self.assertAlmostEqual( 4., chunk( x = 1. ) )
@@ -311,6 +315,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 4., linear.y[2] )
             self.assertAlmostEqual( 3., linear.y[3] )
             self.assertAlmostEqual( 2., linear.y[4] )
+
+            self.assertEqual( True, linear.is_linearised )
 
             # verify arithmetic operators
             chunk += 2.
@@ -494,6 +500,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, chunk.boundaries[1] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+            self.assertEqual( False, chunk.is_linearised )
 
             # verify evaluation - values of x in the x grid
             self.assertAlmostEqual( 4., chunk( x = 1. ) )
@@ -577,6 +584,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 1.224339739, linear.y[15] )
             self.assertAlmostEqual( 1.110360364, linear.y[16] )
             self.assertAlmostEqual( 1.         , linear.y[17] )
+
+            self.assertEqual( True, linear.is_linearised )
 
             # verify arithmetic operators
             chunk += 2.
@@ -760,6 +769,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 4, chunk.boundaries[1] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+            self.assertEqual( False, chunk.is_linearised )
 
             # verify evaluation - values of x in the x grid
             self.assertAlmostEqual( 4., chunk( x = 1. ) )
@@ -833,6 +843,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 2.464163065, linear.y[9] )
             self.assertAlmostEqual( 2.224339739, linear.y[10] )
             self.assertAlmostEqual( 2.         , linear.y[11] )
+
+            self.assertEqual( True, linear.is_linearised )
 
             # verify arithmetic operators
             chunk += 2.

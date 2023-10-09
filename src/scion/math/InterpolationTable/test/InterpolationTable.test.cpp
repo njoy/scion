@@ -44,6 +44,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 1. == Approx( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isLinearised() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
@@ -270,6 +271,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3. == Approx( linear.y()[1] ) );
         CHECK( 2. == Approx( linear.y()[2] ) );
         CHECK( 1. == Approx( linear.y()[3] ) );
+
+        CHECK( true == linear.isLinearised() );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -307,6 +310,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( true == chunk.isLinearised() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -362,17 +366,19 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
 
-        CHECK( 1.    == Approx( linear.x()[0] ) );
-        CHECK( 2.    == Approx( linear.x()[1] ) );
-        CHECK( 2.    == Approx( linear.x()[2] ) );
-        CHECK( 3.    == Approx( linear.x()[3] ) );
-        CHECK( 4.    == Approx( linear.x()[4] ) );
+        CHECK( 1. == Approx( linear.x()[0] ) );
+        CHECK( 2. == Approx( linear.x()[1] ) );
+        CHECK( 2. == Approx( linear.x()[2] ) );
+        CHECK( 3. == Approx( linear.x()[3] ) );
+        CHECK( 4. == Approx( linear.x()[4] ) );
 
-        CHECK( 4.          == Approx( linear.y()[0] ) );
-        CHECK( 3.          == Approx( linear.y()[1] ) );
-        CHECK( 4.          == Approx( linear.y()[2] ) );
-        CHECK( 3.          == Approx( linear.y()[3] ) );
-        CHECK( 2.          == Approx( linear.y()[4] ) );
+        CHECK( 4. == Approx( linear.y()[0] ) );
+        CHECK( 3. == Approx( linear.y()[1] ) );
+        CHECK( 4. == Approx( linear.y()[2] ) );
+        CHECK( 3. == Approx( linear.y()[3] ) );
+        CHECK( 2. == Approx( linear.y()[4] ) );
+
+        CHECK( true == linear.isLinearised() );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -595,6 +601,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -687,6 +694,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 1.224339739 == Approx( linear.y()[15] ) );
         CHECK( 1.110360364 == Approx( linear.y()[16] ) );
         CHECK( 1.          == Approx( linear.y()[17] ) );
+
+        CHECK( true == linear.isLinearised() );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -909,6 +918,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -991,6 +1001,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 2.464163065 == Approx( linear.y()[9] ) );
         CHECK( 2.224339739 == Approx( linear.y()[10] ) );
         CHECK( 2.          == Approx( linear.y()[11] ) );
+
+        CHECK( true == linear.isLinearised() );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {

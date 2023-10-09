@@ -7,6 +7,7 @@ void generateTables() {
   auto xEnd = xStart;
   auto yEnd = yStart;
   std::size_t nr = this->boundaries().size();
+  bool linearised = true;
   for ( std::size_t i = 0; i < nr; ++i ) {
 
     auto xEnd = this->x().begin();
@@ -26,6 +27,7 @@ void generateTables() {
       }
       case interpolation::InterpolationType::Histogram : {
 
+        linearised = false;
         tables.emplace_back(
           HistogramTable< X, Y, XContainer, YContainer >(
             XContainer( xStart, xEnd ),
@@ -34,6 +36,7 @@ void generateTables() {
       }
       case interpolation::InterpolationType::LinearLog : {
 
+        linearised = false;
         tables.emplace_back( LinearLogTable< X, Y, XContainer, YContainer >(
             XContainer( xStart, xEnd ),
             YContainer( yStart, yEnd ) ) );
@@ -41,6 +44,7 @@ void generateTables() {
       }
       case interpolation::InterpolationType::LogLinear : {
 
+        linearised = false;
         tables.emplace_back( LogLinearTable< X, Y, XContainer, YContainer >(
             XContainer( xStart, xEnd ),
             YContainer( yStart, yEnd ) ) );
@@ -48,6 +52,7 @@ void generateTables() {
       }
       case interpolation::InterpolationType::LogLog : {
 
+        linearised = false;
         tables.emplace_back( LogLogTable< X, Y, XContainer, YContainer >(
             XContainer( xStart, xEnd ),
             YContainer( yStart, yEnd ) ) );
@@ -69,5 +74,6 @@ void generateTables() {
     }
   }
 
+  this->linearised_ = linearised;
   this->tables_ = tables;
 }

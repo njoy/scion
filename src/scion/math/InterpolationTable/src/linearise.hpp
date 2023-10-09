@@ -6,49 +6,56 @@
 template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
 InterpolationTable linearise( Convergence&& convergence = Convergence() ) const {
 
-  std::vector< X > x;
-  std::vector< Y > y;
-  std::vector< std::size_t > boundaries;
-  std::vector< interpolation::InterpolationType > interpolants;
+  if ( ! this->isLinearised() ) {
 
-  auto linearise = [&convergence] ( const auto& table )
-                                  { return table.linearise( convergence ); };
+    std::vector< X > x;
+    std::vector< Y > y;
+    std::vector< std::size_t > boundaries;
+    std::vector< interpolation::InterpolationType > interpolants;
 
-  auto check = [this] ( const auto& table ) {
+    auto linearise = [&convergence] ( const auto& table )
+                                    { return table.linearise( convergence ); };
 
-    if ( table.x().end() != this->x().end() ) {
+    auto check = [this] ( const auto& table ) {
 
-      if ( *( table.x().end() ) == table.x().back() ) {
+      if ( table.x().end() != this->x().end() ) {
 
-        if ( *( table.y().end() ) != table.y().back() ) {
+        if ( *( table.x().end() ) == table.x().back() ) {
 
-          return true;
+          if ( *( table.y().end() ) != table.y().back() ) {
+
+            return true;
+          }
         }
+        return false;
       }
-      return false;
+      return true;
+    };
+
+    for ( const auto& table : this->tables_ ) {
+
+      auto linearised = std::visit( linearise, table );
+      bool isJumpOrEnd = std::visit( check, table );
+
+      if ( isJumpOrEnd ) {
+
+        x.insert( x.end(), linearised.first.begin(), linearised.first.end() );
+        y.insert( y.end(), linearised.second.begin(), linearised.second.end() );
+        boundaries.push_back( x.size() - 1 );
+        interpolants.push_back( interpolation::InterpolationType::LinearLinear );
+      }
+      else {
+
+        x.insert( x.end(), linearised.first.begin(), std::prev( linearised.first.end() ) );
+        y.insert( y.end(), linearised.second.begin(), std::prev( linearised.second.end() ) );
+      }
     }
-    return true;
-  };
 
-  for ( const auto& table : this->tables_ ) {
-
-    auto linearised = std::visit( linearise, table );
-    bool isJumpOrEnd = std::visit( check, table );
-
-    if ( isJumpOrEnd ) {
-
-      x.insert( x.end(), linearised.first.begin(), linearised.first.end() );
-      y.insert( y.end(), linearised.second.begin(), linearised.second.end() );
-      boundaries.push_back( x.size() - 1 );
-      interpolants.push_back( interpolation::InterpolationType::LinearLinear );
-    }
-    else {
-
-      x.insert( x.end(), linearised.first.begin(), std::prev( linearised.first.end() ) );
-      y.insert( y.end(), linearised.second.begin(), std::prev( linearised.second.end() ) );
-    }
+    return InterpolationTable( std::move( x ), std::move( y ),
+                               std::move( boundaries ), std::move( interpolants ) );
   }
+  else {
 
-  return InterpolationTable( std::move( x ), std::move( y ),
-                             std::move( boundaries ), std::move( interpolants ) );
+    return *this;
+  }
 }
