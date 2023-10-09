@@ -9,6 +9,12 @@
 using namespace njoy::scion;
 template < typename X, typename Y = X > using LegendreSeries = math::LegendreSeries< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+template < typename X, typename Y = X >
+using InterpolationTable = math::InterpolationTable< X, Y >;
+template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+using InterpolationType = interpolation::InterpolationType;
+template< typename X, typename Y = X >
+using ToleranceConvergence = linearisation::ToleranceConvergence< X, Y >;
 
 SCENARIO( "LegendreSeries" ) {
 
@@ -107,6 +113,68 @@ SCENARIO( "LegendreSeries" ) {
 
         CHECK( 1 == roots.size() );
         CHECK(  0.0 == Approx( roots[0] ) );
+      } // THEN
+
+      THEN( "a PolynomialSeries can be linearised" ) {
+
+        ToleranceConvergence< double > convergence( 0.01 );
+        InterpolationTable< double > linear = chunk.linearise( convergence );
+
+        CHECK( 21 == linear.numberPoints() );
+        CHECK( 1 == linear.numberRegions() );
+
+        CHECK( 21 == linear.x().size() );
+        CHECK( 21 == linear.y().size() );
+        CHECK( 1 == linear.boundaries().size() );
+        CHECK( 1 == linear.interpolants().size() );
+
+        CHECK( 20 == linear.boundaries()[0] );
+
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+
+        CHECK( -1.0       == Approx( linear.x()[0] ) );
+        CHECK( -0.75      == Approx( linear.x()[1] ) );
+        CHECK( -0.5       == Approx( linear.x()[2] ) );
+        CHECK( -0.25      == Approx( linear.x()[3] ) );
+        CHECK( -0.125     == Approx( linear.x()[4] ) );
+        CHECK(  0.0       == Approx( linear.x()[5] ) );
+        CHECK(  0.125     == Approx( linear.x()[6] ) );
+        CHECK(  0.25      == Approx( linear.x()[7] ) );
+        CHECK(  0.375     == Approx( linear.x()[8] ) );
+        CHECK(  0.5       == Approx( linear.x()[9] ) );
+        CHECK(  0.625     == Approx( linear.x()[10] ) );
+        CHECK(  0.6875    == Approx( linear.x()[11] ) );
+        CHECK(  0.75      == Approx( linear.x()[12] ) );
+        CHECK(  0.8125    == Approx( linear.x()[13] ) );
+        CHECK(  0.875     == Approx( linear.x()[14] ) );
+        CHECK(  0.90625   == Approx( linear.x()[15] ) );
+        CHECK(  0.9375    == Approx( linear.x()[16] ) );
+        CHECK(  0.96875   == Approx( linear.x()[17] ) );
+        CHECK(  0.984375  == Approx( linear.x()[18] ) );
+        CHECK(  0.9921875 == Approx( linear.x()[19] ) );
+        CHECK(  1.0       == Approx( linear.x()[20] ) );
+
+        CHECK( -30.0       == Approx( linear.y()[0] ) );
+        CHECK( -22.859375  == Approx( linear.y()[1] ) );
+        CHECK( -16.875     == Approx( linear.y()[2] ) );
+        CHECK( -11.953125  == Approx( linear.y()[3] ) );
+        CHECK( -9.86132813 == Approx( linear.y()[4] ) );
+        CHECK( -8.0        == Approx( linear.y()[5] ) );
+        CHECK( -6.35742188 == Approx( linear.y()[6] ) );
+        CHECK( -4.921875   == Approx( linear.y()[7] ) );
+        CHECK( -3.68164063 == Approx( linear.y()[8] ) );
+        CHECK( -2.625      == Approx( linear.y()[9] ) );
+        CHECK( -1.74023438 == Approx( linear.y()[10] ) );
+        CHECK( -1.35864258 == Approx( linear.y()[11] ) );
+        CHECK( -1.015625   == Approx( linear.y()[12] ) );
+        CHECK( -0.70971680 == Approx( linear.y()[13] ) );
+        CHECK( -0.43945313 == Approx( linear.y()[14] ) );
+        CHECK( -0.31723023 == Approx( linear.y()[15] ) );
+        CHECK( -0.20336914 == Approx( linear.y()[16] ) );
+        CHECK( -0.09768677 == Approx( linear.y()[17] ) );
+        CHECK( -0.04785538 == Approx( linear.y()[18] ) );
+        CHECK( -0.02368212 == Approx( linear.y()[19] ) );
+        CHECK(  0.0        == Approx( linear.y()[20] ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
