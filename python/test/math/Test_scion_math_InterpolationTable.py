@@ -74,6 +74,151 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 2., linear.y[2] )
             self.assertAlmostEqual( 1., linear.y[3] )
 
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 1, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 1, len( chunk.boundaries ) )
+            self.assertEqual( 1, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 6., chunk.y[0] )
+            self.assertAlmostEqual( 5., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertEqual( 3, chunk.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+
+            chunk -= 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 1, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 1, len( chunk.boundaries ) )
+            self.assertEqual( 1, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 1., chunk.y[3] )
+            self.assertEqual( 3, chunk.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+
+            chunk *= 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 1, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 1, len( chunk.boundaries ) )
+            self.assertEqual( 1, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 8., chunk.y[0] )
+            self.assertAlmostEqual( 6., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 2., chunk.y[3] )
+            self.assertEqual( 3, chunk.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+
+            chunk /= 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 1, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 1, len( chunk.boundaries ) )
+            self.assertEqual( 1, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 1., chunk.y[3] )
+            self.assertEqual( 3, chunk.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+
+            result = chunk + 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 1, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 1, len( result.boundaries ) )
+            self.assertEqual( 1, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 3., result.x[2] )
+            self.assertAlmostEqual( 4., result.x[3] )
+            self.assertAlmostEqual( 6., result.y[0] )
+            self.assertAlmostEqual( 5., result.y[1] )
+            self.assertAlmostEqual( 4., result.y[2] )
+            self.assertAlmostEqual( 3., result.y[3] )
+            self.assertEqual( 3, result.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+
+            result = chunk - 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 1, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 1, len( result.boundaries ) )
+            self.assertEqual( 1, len( result.interpolants ) )
+            self.assertAlmostEqual(  1., result.x[0] )
+            self.assertAlmostEqual(  2., result.x[1] )
+            self.assertAlmostEqual(  3., result.x[2] )
+            self.assertAlmostEqual(  4., result.x[3] )
+            self.assertAlmostEqual(  2., result.y[0] )
+            self.assertAlmostEqual(  1., result.y[1] )
+            self.assertAlmostEqual(  0., result.y[2] )
+            self.assertAlmostEqual( -1., result.y[3] )
+            self.assertEqual( 3, result.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+
+            result = chunk * 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 1, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 1, len( result.boundaries ) )
+            self.assertEqual( 1, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 3., result.x[2] )
+            self.assertAlmostEqual( 4., result.x[3] )
+            self.assertAlmostEqual( 8., result.y[0] )
+            self.assertAlmostEqual( 6., result.y[1] )
+            self.assertAlmostEqual( 4., result.y[2] )
+            self.assertAlmostEqual( 2., result.y[3] )
+            self.assertEqual( 3, result.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+
+            result = chunk / 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 1, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 1, len( result.boundaries ) )
+            self.assertEqual( 1, len( result.interpolants ) )
+            self.assertAlmostEqual( 1. , result.x[0] )
+            self.assertAlmostEqual( 2. , result.x[1] )
+            self.assertAlmostEqual( 3. , result.x[2] )
+            self.assertAlmostEqual( 4. , result.x[3] )
+            self.assertAlmostEqual( 2. , result.y[0] )
+            self.assertAlmostEqual( 1.5, result.y[1] )
+            self.assertAlmostEqual( 1. , result.y[2] )
+            self.assertAlmostEqual( 0.5, result.y[3] )
+            self.assertEqual( 3, result.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+
         def verify_chunk_no_jump( self, chunk ) :
 
             # verify content
@@ -166,6 +311,167 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 1.110360364, linear.y[16] )
             self.assertAlmostEqual( 1.         , linear.y[17] )
 
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 2, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 6., chunk.y[0] )
+            self.assertAlmostEqual( 5., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 3, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            chunk -= 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 2, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 1., chunk.y[3] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 3, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            chunk *= 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 2, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 8., chunk.y[0] )
+            self.assertAlmostEqual( 6., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 2., chunk.y[3] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 3, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            chunk /= 2.
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 2, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 3., chunk.x[2] )
+            self.assertAlmostEqual( 4., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 1., chunk.y[3] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 3, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            result = chunk + 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 2, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 3., result.x[2] )
+            self.assertAlmostEqual( 4., result.x[3] )
+            self.assertAlmostEqual( 6., result.y[0] )
+            self.assertAlmostEqual( 5., result.y[1] )
+            self.assertAlmostEqual( 4., result.y[2] )
+            self.assertAlmostEqual( 3., result.y[3] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 3, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
+            result = chunk - 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 2, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual(  1., result.x[0] )
+            self.assertAlmostEqual(  2., result.x[1] )
+            self.assertAlmostEqual(  3., result.x[2] )
+            self.assertAlmostEqual(  4., result.x[3] )
+            self.assertAlmostEqual(  2., result.y[0] )
+            self.assertAlmostEqual(  1., result.y[1] )
+            self.assertAlmostEqual(  0., result.y[2] )
+            self.assertAlmostEqual( -1., result.y[3] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 3, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
+            result = chunk * 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 2, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 3., result.x[2] )
+            self.assertAlmostEqual( 4., result.x[3] )
+            self.assertAlmostEqual( 8., result.y[0] )
+            self.assertAlmostEqual( 6., result.y[1] )
+            self.assertAlmostEqual( 4., result.y[2] )
+            self.assertAlmostEqual( 2., result.y[3] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 3, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
+            result = chunk / 2.
+            self.assertEqual( 4, result.number_points )
+            self.assertEqual( 2, result.number_regions )
+            self.assertEqual( 4, len( result.x ) )
+            self.assertEqual( 4, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1. , result.x[0] )
+            self.assertAlmostEqual( 2. , result.x[1] )
+            self.assertAlmostEqual( 3. , result.x[2] )
+            self.assertAlmostEqual( 4. , result.x[3] )
+            self.assertAlmostEqual( 2. , result.y[0] )
+            self.assertAlmostEqual( 1.5, result.y[1] )
+            self.assertAlmostEqual( 1. , result.y[2] )
+            self.assertAlmostEqual( 0.5, result.y[3] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 3, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
         def verify_chunk_jump( self, chunk ) :
 
             # verify content
@@ -248,6 +554,167 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 2.224339739, linear.y[10] )
             self.assertAlmostEqual( 2.         , linear.y[11] )
 
+            # verify arithmetic operators
+            chunk += 2.
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 6., chunk.y[0] )
+            self.assertAlmostEqual( 5., chunk.y[1] )
+            self.assertAlmostEqual( 6., chunk.y[2] )
+            self.assertAlmostEqual( 5., chunk.y[3] )
+            self.assertAlmostEqual( 4., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            chunk -= 2.
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertAlmostEqual( 2., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            chunk *= 2.
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 8., chunk.y[0] )
+            self.assertAlmostEqual( 6., chunk.y[1] )
+            self.assertAlmostEqual( 8., chunk.y[2] )
+            self.assertAlmostEqual( 6., chunk.y[3] )
+            self.assertAlmostEqual( 4., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            chunk /= 2.
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertAlmostEqual( 2., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+
+            result = chunk + 2.
+            self.assertEqual( 5, len( result.x ) )
+            self.assertEqual( 5, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 2., result.x[2] )
+            self.assertAlmostEqual( 3., result.x[3] )
+            self.assertAlmostEqual( 4., result.x[4] )
+            self.assertAlmostEqual( 6., result.y[0] )
+            self.assertAlmostEqual( 5., result.y[1] )
+            self.assertAlmostEqual( 6., result.y[2] )
+            self.assertAlmostEqual( 5., result.y[3] )
+            self.assertAlmostEqual( 4., result.y[4] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 4, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
+            result = chunk - 2.
+            self.assertEqual( 5, len( result.x ) )
+            self.assertEqual( 5, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 2., result.x[2] )
+            self.assertAlmostEqual( 3., result.x[3] )
+            self.assertAlmostEqual( 4., result.x[4] )
+            self.assertAlmostEqual( 2., result.y[0] )
+            self.assertAlmostEqual( 1., result.y[1] )
+            self.assertAlmostEqual( 2., result.y[2] )
+            self.assertAlmostEqual( 1., result.y[3] )
+            self.assertAlmostEqual( 0., result.y[4] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 4, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
+            result = chunk * 2.
+            self.assertEqual( 5, len( result.x ) )
+            self.assertEqual( 5, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 2., result.x[2] )
+            self.assertAlmostEqual( 3., result.x[3] )
+            self.assertAlmostEqual( 4., result.x[4] )
+            self.assertAlmostEqual( 8., result.y[0] )
+            self.assertAlmostEqual( 6., result.y[1] )
+            self.assertAlmostEqual( 8., result.y[2] )
+            self.assertAlmostEqual( 6., result.y[3] )
+            self.assertAlmostEqual( 4., result.y[4] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 4, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
+            result = chunk / 2.
+            self.assertEqual( 5, len( result.x ) )
+            self.assertEqual( 5, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1. , result.x[0] )
+            self.assertAlmostEqual( 2. , result.x[1] )
+            self.assertAlmostEqual( 2. , result.x[2] )
+            self.assertAlmostEqual( 3. , result.x[3] )
+            self.assertAlmostEqual( 4. , result.x[4] )
+            self.assertAlmostEqual( 2. , result.y[0] )
+            self.assertAlmostEqual( 1.5, result.y[1] )
+            self.assertAlmostEqual( 2. , result.y[2] )
+            self.assertAlmostEqual( 1.5, result.y[3] )
+            self.assertAlmostEqual( 1. , result.y[4] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 4, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, result.interpolants[1] )
+
         # the data is given explicitly for data without boundaries
         chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
                                     y = [ 4., 3., 2., 1. ],
@@ -273,30 +740,30 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
         verify_chunk_jump( self, chunk )
 
-#    def test_failures( self ) :
-#
-#        print( '\n' )
-#
-#        # there are not enough values in the x or y grid
-#        with self.assertRaises( Exception ) :
-#
-#            chunk = InterpolationTable( x = [], y = [] )
-#
-#        with self.assertRaises( Exception ) :
-#
-#            chunk = InterpolationTable( x = [ 1. ], y = [ 4. ] )
-#
-#        # the x and y grid do not have the same number of points
-#        with self.assertRaises( Exception ) :
-#
-#            chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
-#                                        y = [ 4., 3., 2. ] )
-#
-#        # the x grid is not sorted
-#        with self.assertRaises( Exception ) :
-#
-#            chunk = InterpolationTable( x = [ 1., 3., 2., 4. ],
-#                                        y = [ 4., 3., 2., 1. ] )
+    def test_failures( self ) :
+
+        print( '\n' )
+
+        # there are not enough values in the x or y grid
+        with self.assertRaises( Exception ) :
+
+            chunk = InterpolationTable( x = [], y = [] )
+
+        with self.assertRaises( Exception ) :
+
+            chunk = InterpolationTable( x = [ 1. ], y = [ 4. ] )
+
+        # the x and y grid do not have the same number of points
+        with self.assertRaises( Exception ) :
+
+            chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
+                                        y = [ 4., 3., 2. ] )
+
+        # the x grid is not sorted
+        with self.assertRaises( Exception ) :
+
+            chunk = InterpolationTable( x = [ 1., 3., 2., 4. ],
+                                        y = [ 4., 3., 2., 1. ] )
 
 if __name__ == '__main__' :
 

@@ -2,6 +2,16 @@ void generateTables() {
 
   std::vector< TableVariant > tables;
 
+  if ( ( ! verification::isAtLeastOfSize( this->x(), 2 ) ) ||
+       ( ! verification::isAtLeastOfSize( this->y(), 2 ) ) ) {
+
+    Log::error( "Insufficient x or y values defined for tabulated data "
+                "(at least 2 points are required)" );
+    Log::info( "x.size(): {}", this->x().size() );
+    Log::info( "y.size(): {}", this->y().size() );
+    throw std::exception();
+  }
+
   if ( ! verification::isSameSize( this->x(), this->y() ) ) {
 
     Log::error( "Inconsistent number of x and y values for tabulated data" );

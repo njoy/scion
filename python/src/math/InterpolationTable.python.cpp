@@ -92,6 +92,62 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     "number_regions",
     &Component::numberRegions,
     "The number of interpolation regions in the table"
+  )
+  .def(
+
+    "__add__",
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
+       { return self + right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__sub__",
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
+       { return self - right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__mul__",
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
+       { return self * right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__truediv__",
+    [] ( const Component& self, const Y& right ) -> decltype(auto)
+       { return self / right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__iadd__",
+    [] ( Component& self, const Y& right ) -> decltype(auto)
+       { return self += right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__isub__",
+    [] ( Component& self, const Y& right ) -> decltype(auto)
+       { return self -= right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__imul__",
+    [] ( Component& self, const Y& right ) -> decltype(auto)
+       { return self *= right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__itruediv__",
+    [] ( Component& self, const Y& right ) -> decltype(auto)
+       { return self /= right; },
+    python::is_operator()
   );
 
   // add standard function definitions

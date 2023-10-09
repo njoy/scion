@@ -154,7 +154,6 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             small = LegendreSeries( [ 3., 0., 1. ] )
             equal = LegendreSeries( [ 3., 0., 0., 1. ] )
             large = LegendreSeries( [ 3., 0., 0., 0., 1. ] )
-            result = LegendreSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )

@@ -172,7 +172,6 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             small = PolynomialSeries( [ 3., 0., 1. ] )
             equal = PolynomialSeries( [ 3., 0., 0., 1. ] )
             large = PolynomialSeries( [ 3., 0., 0., 0., 1. ] )
-            result = PolynomialSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )

@@ -117,6 +117,97 @@ namespace math {
     #include "scion/math/InterpolationTable/src/evaluate.hpp"
     #include "scion/math/InterpolationTable/src/linearise.hpp"
 
+    /**
+     *  @brief Inplace scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable& operator+=( const Y& right ) noexcept {
+
+      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
+                      [&right] ( auto&& y ) { return y + right; } );
+      return *this;
+    }
+    /**
+     *  @brief Inplace scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable& operator-=( const Y& right ) noexcept {
+
+      return this->operator+=( -right );
+    }
+
+    /**
+     *  @brief Inplace scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable& operator*=( const Y& right ) noexcept {
+
+      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
+                      [&right] ( auto&& y ) { return y * right; } );
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable& operator/=( const Y& right ) noexcept {
+
+      return this->operator*=( Y( 1. ) / right );
+    }
+
+    /**
+     *  @brief Scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable operator+( const Y& right ) const noexcept {
+
+      InterpolationTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable operator-( const Y& right ) const noexcept {
+
+      InterpolationTable result = *this;
+      result -= right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable operator*( const Y& right ) const noexcept {
+
+      InterpolationTable result = *this;
+      result *= right;
+      return result;
+    }
+
+    /**
+     *  @brief Scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    InterpolationTable operator/( const Y& right ) const noexcept {
+
+      InterpolationTable result = *this;
+      result /= right;
+      return result;
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
