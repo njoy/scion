@@ -30,6 +30,11 @@ namespace math {
                             interpolation::Histogram, X, Y,
                             XContainer, YContainer > {
 
+    /* friend declarations */
+    friend class SingleTableBase< HistogramTable< X, Y, XContainer, YContainer >,
+                                  interpolation::Histogram, X, Y,
+                                  XContainer, YContainer >;
+
     /* type aliases */
     using Parent = SingleTableBase< HistogramTable< X, Y, XContainer, YContainer >,
                                     interpolation::Histogram, X, Y,
@@ -39,12 +44,7 @@ namespace math {
 
     /* auxiliary function */
 
-  public:
-
-    /* constructor */
-    #include "scion/math/HistogramTable/src/ctor.hpp"
-
-    /* methods */
+    /* interface implementation functions */
 
     /**
      *  @brief Return the interpolation type
@@ -53,6 +53,13 @@ namespace math {
 
       return interpolation::InterpolationType::Histogram;
     }
+
+  public:
+
+    /* constructor */
+    #include "scion/math/HistogramTable/src/ctor.hpp"
+
+    /* methods */
 
     using Parent::interpolation;
     using Parent::x;

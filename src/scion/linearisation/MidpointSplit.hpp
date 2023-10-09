@@ -17,15 +17,13 @@ namespace linearisation {
   template< typename X, typename Y = X >
   class MidpointSplit : public SplitBase< MidpointSplit< X, Y >, X, Y > {
 
+    /* friend declarations */
+    friend class SplitBase< MidpointSplit< X, Y >, X, Y >;
+
     /* type aliases */
     using Parent = SplitBase< MidpointSplit< X, Y >, X, Y >;
 
-  public:
-
-    /* constructor */
-    MidpointSplit() = default;
-
-    /* methods */
+    /* interface implementation functions */
 
     /**
      *  @brief Split the panel by returning the midpoint of the panel
@@ -40,6 +38,13 @@ namespace linearisation {
 
       return X( 0.5 ) * ( xLeft + xRight );
     }
+
+  public:
+
+    /* constructor */
+    MidpointSplit() = default;
+
+    /* methods */
 
     using Parent::operator();
   };

@@ -16,7 +16,10 @@ namespace interpolation {
    */
   class Histogram : public InterpolatorBase< Histogram > {
 
-  public:
+    /* friend declarations */
+    friend class InterpolatorBase< Histogram >;
+
+    /* interface implementation functions */
 
     /**
      *  @brief Perform histogram interpolation (y is constant in x)
@@ -34,6 +37,8 @@ namespace interpolation {
 
       return yLeft;
     }
+
+  public:
 
     using InterpolatorBase::operator();
   };

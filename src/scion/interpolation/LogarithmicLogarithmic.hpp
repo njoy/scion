@@ -16,7 +16,10 @@ namespace interpolation {
    */
   class LogarithmicLogarithmic : public InterpolatorBase< LogarithmicLogarithmic > {
 
-  public:
+    /* friend declarations */
+    friend class InterpolatorBase< LogarithmicLogarithmic >;
+
+    /* interface implementation functions */
 
     /**
      *  @brief Perform logarithmic-logarithmic interpolation (ln(y) is linear in ln(x))
@@ -36,6 +39,8 @@ namespace interpolation {
                                * std::log( yRight / yLeft )
                                / std::log( xRight / xLeft ) );
     }
+
+  public:
 
     using InterpolatorBase::operator();
   };

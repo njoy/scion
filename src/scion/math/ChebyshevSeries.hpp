@@ -46,24 +46,27 @@ namespace math {
   template < typename X, typename Y = X >
   class ChebyshevSeries : public SeriesBase< ChebyshevSeries< X, Y >, X, Y > {
 
+    /* friend declarations */
+    friend class SeriesBase< ChebyshevSeries< X, Y >, X, Y >;
+    friend class FunctionBase< ChebyshevSeries< X, Y >, X, Y >;
+
     /* type aliases */
     using Parent = SeriesBase< ChebyshevSeries< X, Y >, X, Y >;
 
     /* fields */
 
-    /* auxiliary function */
+    /* auxiliary functions */
+
+    /* interface implementation functions */
+    #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
+    #include "scion/math/ChebyshevSeries/src/calculateDerivative.hpp"
+    #include "scion/math/ChebyshevSeries/src/calculatePrimitive.hpp"
+    #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:
 
     /* constructor */
     #include "scion/math/ChebyshevSeries/src/ctor.hpp"
-
-    /* interface implementation function */
-
-    #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
-    #include "scion/math/ChebyshevSeries/src/calculateDerivative.hpp"
-    #include "scion/math/ChebyshevSeries/src/calculatePrimitive.hpp"
-    #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
     /* methods */
 

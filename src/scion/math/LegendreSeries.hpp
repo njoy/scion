@@ -52,24 +52,27 @@ namespace math {
   template < typename X, typename Y = X >
   class LegendreSeries : public SeriesBase< LegendreSeries< X, Y >, X, Y > {
 
+    /* friend declarations */
+    friend class SeriesBase< LegendreSeries< X, Y >, X, Y >;
+    friend class FunctionBase< LegendreSeries< X, Y >, X, Y >;
+
     /* type aliases */
     using Parent = SeriesBase< LegendreSeries< X, Y >, X, Y >;
 
     /* fields */
 
-    /* auxiliary function */
+    /* auxiliary functions */
+
+    /* interface implementation functions */
+    #include "scion/math/LegendreSeries/src/evaluate.hpp"
+    #include "scion/math/LegendreSeries/src/calculateDerivative.hpp"
+    #include "scion/math/LegendreSeries/src/calculatePrimitive.hpp"
+    #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
   public:
 
     /* constructor */
     #include "scion/math/LegendreSeries/src/ctor.hpp"
-
-    /* interface implementation function */
-
-    #include "scion/math/LegendreSeries/src/evaluate.hpp"
-    #include "scion/math/LegendreSeries/src/calculateDerivative.hpp"
-    #include "scion/math/LegendreSeries/src/calculatePrimitive.hpp"
-    #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
     /* methods */
 

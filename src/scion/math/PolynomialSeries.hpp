@@ -38,12 +38,22 @@ namespace math {
   template < typename X, typename Y = X >
   class PolynomialSeries : public SeriesBase< PolynomialSeries< X, Y >, X, Y > {
 
+    /* friend declarations */
+    friend class SeriesBase< PolynomialSeries< X, Y >, X, Y >;
+    friend class FunctionBase< PolynomialSeries< X, Y >, X, Y >;
+
     /* type aliases */
     using Parent = SeriesBase< PolynomialSeries< X, Y >, X, Y >;
 
     /* fields */
 
-    /* auxiliary function */
+    /* auxiliary functions */
+
+    /* interface implementation functions */
+    #include "scion/math/PolynomialSeries/src/evaluate.hpp"
+    #include "scion/math/PolynomialSeries/src/calculateDerivative.hpp"
+    #include "scion/math/PolynomialSeries/src/calculatePrimitive.hpp"
+    #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
   public:
 
@@ -52,13 +62,6 @@ namespace math {
 
     /* constructor */
     #include "scion/math/PolynomialSeries/src/ctor.hpp"
-
-    /* interface implementation function */
-
-    #include "scion/math/PolynomialSeries/src/evaluate.hpp"
-    #include "scion/math/PolynomialSeries/src/calculateDerivative.hpp"
-    #include "scion/math/PolynomialSeries/src/calculatePrimitive.hpp"
-    #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
     /* methods */
 

@@ -24,7 +24,7 @@ Y evaluate( const X& x ) const {
     auto yIter = this->y().begin();
     std::advance( yIter, std::distance( this->x().begin(), xIter ) );
 
-    return this->interpolator().interpolate( x, *std::prev( xIter ), *xIter,
-                                                *std::prev( yIter ), *yIter );
+    return this->interpolator()( x, *std::prev( xIter ), *xIter,
+                                 *std::prev( yIter ), *yIter );
   }
 }

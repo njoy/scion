@@ -28,6 +28,9 @@ namespace linearisation {
   template< typename X, typename Y = X >
   class ToleranceConvergence : public ConvergenceBase< ToleranceConvergence< X, Y >, X, Y > {
 
+    /* friend declarations */
+    friend class ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
+
     /* type aliases */
     using Parent = ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
 
@@ -36,6 +39,30 @@ namespace linearisation {
     Y threshold_;
 
     /* auxiliary function */
+
+    /* interface implementation functions */
+
+    /**
+     *  @brief Verify convergence of the linearisation using a simple tolerance
+     *
+     *  @param[in] trial        the trial value to be tested
+     *  @param[in] reference    the reference value to be tested against
+     *
+     *  The last 4 arguments imposed by the ConvergenceBase class are not used.
+     */
+    bool hasConverged( const Y& trial, const Y& reference,
+                       const X&      , const X&          ,
+                       const Y&      , const Y&            ) const {
+
+      if ( trial == reference ) {
+
+        return true;
+      }
+
+      const auto diff = std::abs( trial - reference );
+      const auto norm = std::abs( reference );
+      return diff < std::max( this->tolerance() * norm, this->threshold() );
+    }
 
   public:
 
@@ -58,28 +85,6 @@ namespace linearisation {
     const Y& threshold() const {
 
       return this->threshold_;
-    }
-
-    /**
-     *  @brief Verify convergence of the linearisation using a simple tolerance
-     *
-     *  @param[in] trial        the trial value to be tested
-     *  @param[in] reference    the reference value to be tested against
-     *
-     *  The last 4 arguments imposed by the ConvergenceBase class are not used.
-     */
-    bool hasConverged( const Y& trial, const Y& reference,
-                       const X&      , const X&          ,
-                       const Y&      , const Y&            ) const {
-
-      if ( trial == reference ) {
-
-        return true;
-      }
-
-      const auto diff = std::abs( trial - reference );
-      const auto norm = std::abs( reference );
-      return diff < std::max( this->tolerance() * norm, this->threshold() );
     }
 
     using Parent::operator();
