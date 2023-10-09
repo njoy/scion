@@ -67,6 +67,16 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -0.933333333333333, primitive.coefficients[3] )
             self.assertAlmostEqual(  0.057142857142857, primitive.coefficients[4] )
 
+            primitive = chunk.primitive( left = -1. )
+
+            self.assertEqual( 4, primitive.order )
+            self.assertEqual( 5, len( primitive.coefficients ) )
+            self.assertAlmostEqual( -15.2, primitive.coefficients[0] )
+            self.assertAlmostEqual( -9.4, primitive.coefficients[1] )
+            self.assertAlmostEqual(  4.809523809523809, primitive.coefficients[2] )
+            self.assertAlmostEqual( -0.933333333333333, primitive.coefficients[3] )
+            self.assertAlmostEqual(  0.057142857142857, primitive.coefficients[4] )
+
             # verify roots
             roots = chunk.roots()
             self.assertEqual( 3, len( roots ) )
@@ -82,6 +92,7 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             small = LegendreSeries( [ 3., 0., 1. ] )
             equal = LegendreSeries( [ 3., 0., 0., 1. ] )
             large = LegendreSeries( [ 3., 0., 0., 0., 1. ] )
+            result = LegendreSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )
@@ -163,6 +174,88 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  14.6       , chunk.coefficients[1] )
             self.assertAlmostEqual(  -4.66666667, chunk.coefficients[2] )
             self.assertAlmostEqual(   0.4       , chunk.coefficients[3] )
+
+            result = chunk * 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -20.66666666, result.coefficients[0] )
+            self.assertAlmostEqual(  29.2       , result.coefficients[1] )
+            self.assertAlmostEqual(  -9.33333333, result.coefficients[2] )
+            self.assertAlmostEqual(   0.8       , result.coefficients[3] )
+
+            result = chunk / 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5.16666666, result.coefficients[0] )
+            self.assertAlmostEqual(  7.3       , result.coefficients[1] )
+            self.assertAlmostEqual( -2.33333334, result.coefficients[2] )
+            self.assertAlmostEqual(  0.2       , result.coefficients[3] )
+
+            result = chunk + 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -8.33333333, result.coefficients[0] )
+            self.assertAlmostEqual( 14.6       , result.coefficients[1] )
+            self.assertAlmostEqual( -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(  0.4       , result.coefficients[3] )
+
+            result = chunk - 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -12.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , result.coefficients[3] )
+
+            result = chunk + small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual(  -7.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -3.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , result.coefficients[3] )
+
+            result = chunk - small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -13.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -5.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , result.coefficients[3] )
+
+            result = chunk + equal
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual(  -7.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   1.4       , result.coefficients[3] )
+
+            result = chunk - equal
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -13.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(  -0.6       , result.coefficients[3] )
+
+            result = chunk + large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual(  -7.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , result.coefficients[3] )
+            self.assertAlmostEqual(   1.        , result.coefficients[4] )
+
+            result = chunk - large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual( -13.33333333, result.coefficients[0] )
+            self.assertAlmostEqual(  14.6       , result.coefficients[1] )
+            self.assertAlmostEqual(  -4.66666667, result.coefficients[2] )
+            self.assertAlmostEqual(   0.4       , result.coefficients[3] )
+            self.assertAlmostEqual(  -1.        , result.coefficients[4] )
 
         # the data is given explicitly
         chunk = LegendreSeries( coefficients = [ -31./3., 73./5., -14./3., 2./5. ] )

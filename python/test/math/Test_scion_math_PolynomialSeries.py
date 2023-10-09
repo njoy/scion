@@ -82,6 +82,19 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -1., primitive.domain.lower_limit )
             self.assertAlmostEqual(  1., primitive.domain.upper_limit )
 
+            primitive = chunk.primitive( left = -1. )
+
+            self.assertEqual( 4, primitive.order )
+            self.assertEqual( 5, len( primitive.coefficients ) )
+            self.assertAlmostEqual( -211. / 12., primitive.coefficients[0] )
+            self.assertAlmostEqual(  -8., primitive.coefficients[1] )
+            self.assertAlmostEqual(   7., primitive.coefficients[2] )
+            self.assertAlmostEqual(  -7. / 3., primitive.coefficients[3] )
+            self.assertAlmostEqual(   1. / 4., primitive.coefficients[4] )
+            self.assertEqual( True, isinstance( primitive.domain, IntervalDomain ) )
+            self.assertAlmostEqual( -1., primitive.domain.lower_limit )
+            self.assertAlmostEqual(  1., primitive.domain.upper_limit )
+
             # verify roots
             roots = chunk.roots()
             self.assertEqual( 3, len( roots ) )
@@ -97,6 +110,7 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             small = PolynomialSeries( [ 3., 0., 1. ] )
             equal = PolynomialSeries( [ 3., 0., 0., 1. ] )
             large = PolynomialSeries( [ 3., 0., 0., 0., 1. ] )
+            result = PolynomialSeries( [ 0. ] )
 
             chunk += 2.
             self.assertEqual( 3, chunk.order )
@@ -178,6 +192,87 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( 14., chunk.coefficients[1] )
             self.assertAlmostEqual( -7., chunk.coefficients[2] )
             self.assertAlmostEqual(  1., chunk.coefficients[3] )
+
+            result = chunk + 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -6., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -7., result.coefficients[2] )
+            self.assertAlmostEqual(  1., result.coefficients[3] )
+
+            result = chunk - 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -10., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -7., result.coefficients[2] )
+            self.assertAlmostEqual(   1., result.coefficients[3] )
+
+            result = chunk * 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -16., result.coefficients[0] )
+            self.assertAlmostEqual(  28., result.coefficients[1] )
+            self.assertAlmostEqual( -14., result.coefficients[2] )
+            self.assertAlmostEqual(   2., result.coefficients[3] )
+
+            result = chunk / 2.
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -4.0, result.coefficients[0] )
+            self.assertAlmostEqual(  7.0, result.coefficients[1] )
+            self.assertAlmostEqual( -3.5, result.coefficients[2] )
+            self.assertAlmostEqual(  0.5, result.coefficients[3] )
+
+            result = chunk + small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -6., result.coefficients[2] )
+            self.assertAlmostEqual(  1., result.coefficients[3] )
+
+            result = chunk - small
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -11., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -8., result.coefficients[2] )
+            self.assertAlmostEqual(   1., result.coefficients[3] )
+
+            result = chunk + equal
+            self.assertEqual( 3, result.order )
+            self.assertEqual( 4, len( result.coefficients ) )
+            self.assertAlmostEqual( -5., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -7., result.coefficients[2] )
+            self.assertAlmostEqual(  2., result.coefficients[3] )
+
+            result = chunk - equal
+            self.assertEqual( 2, result.order )
+            self.assertEqual( 3, len( result.coefficients ) )
+            self.assertAlmostEqual( -11., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -7., result.coefficients[2] )
+
+            result = chunk + large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual( -5., result.coefficients[0] )
+            self.assertAlmostEqual( 14., result.coefficients[1] )
+            self.assertAlmostEqual( -7., result.coefficients[2] )
+            self.assertAlmostEqual(  1., result.coefficients[3] )
+            self.assertAlmostEqual(  1., result.coefficients[4] )
+
+            result = chunk - large
+            self.assertEqual( 4, result.order )
+            self.assertEqual( 5, len( result.coefficients ) )
+            self.assertAlmostEqual( -11., result.coefficients[0] )
+            self.assertAlmostEqual(  14., result.coefficients[1] )
+            self.assertAlmostEqual(  -7., result.coefficients[2] )
+            self.assertAlmostEqual(   1., result.coefficients[3] )
+            self.assertAlmostEqual(  -1., result.coefficients[4] )
 
         # the data is given explicitly
         chunk = PolynomialSeries( lower = -1., upper = 1.,
