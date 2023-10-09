@@ -45,6 +45,18 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     "    boundaries     the boundaries of the interpolation regions\n"
     "    interpolants   the interpolation types of the interpolation regions"
   )
+  .def(
+
+    python::init< std::vector< X >, std::vector< Y >, InterpolationType >(),
+    python::arg( "x" ), python::arg( "y" ),
+    python::arg( "interpolant" ) = InterpolationType::LinearLinear,
+    "Initialise the function\n\n"
+    "Arguments:\n"
+    "    self          the function\n"
+    "    x             the x values of the tabulated data\n"
+    "    y             the y values of the tabulated data\n"
+    "    interpolant   the interpolation type (default lin-lin)"
+  )
   .def_property_readonly(
 
     "x",

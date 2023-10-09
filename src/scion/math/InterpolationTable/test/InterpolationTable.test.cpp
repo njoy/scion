@@ -7,14 +7,94 @@
 
 // convenience typedefs
 using namespace njoy::scion;
-template < typename X, typename Y = X > using LinearLinearTable = math::LinearLinearTable< X, Y >;
-template < typename X, typename Y = X > using InterpolationTable = math::InterpolationTable< X, Y >;
+template < typename X, typename Y = X >
+using InterpolationTable = math::InterpolationTable< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "InterpolationTable" ) {
 
-  GIVEN( "data without a jump" ) {
+  GIVEN( "data without boundaries" ) {
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 2., 3., 4. };
+      const std::vector< double > y = { 4., 3., 2., 1. };
+      InterpolationType interpolant = InterpolationType::LinearLinear;
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          interpolant );
+
+      THEN( "an InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK( 1. == Approx( chunk.x()[0] ) );
+        CHECK( 2. == Approx( chunk.x()[1] ) );
+        CHECK( 3. == Approx( chunk.x()[2] ) );
+        CHECK( 4. == Approx( chunk.x()[3] ) );
+        CHECK( 4. == Approx( chunk.y()[0] ) );
+        CHECK( 3. == Approx( chunk.y()[1] ) );
+        CHECK( 2. == Approx( chunk.y()[2] ) );
+        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+
+      THEN( "a InterpolationTable can be evaluated" ) {
+
+        // values of x in the x grid
+        CHECK( 4. == Approx( chunk( 1. ) ) );
+        CHECK( 3. == Approx( chunk( 2. ) ) );
+        CHECK( 2. == Approx( chunk( 3. ) ) );
+        CHECK( 1. == Approx( chunk( 4. ) ) );
+
+        // values of x outside the x grid
+        CHECK( 0. == Approx( chunk( 0. ) ) );
+        CHECK( 0. == Approx( chunk( 5. ) ) );
+
+        // values of x inside the x grid
+        CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
+        CHECK( 2.5 == Approx( chunk( 2.5 ) ) );
+        CHECK( 1.5 == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "a InterpolationTable can be linearised" ) {
+
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 4 == linear.numberPoints() );
+        CHECK( 1 == linear.numberRegions() );
+
+        CHECK( 4 == linear.x().size() );
+        CHECK( 4 == linear.y().size() );
+        CHECK( 1 == linear.boundaries().size() );
+        CHECK( 1 == linear.interpolants().size() );
+
+        CHECK( 3 == linear.boundaries()[0] );
+
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+
+        CHECK( 1. == Approx( linear.x()[0] ) );
+        CHECK( 2. == Approx( linear.x()[1] ) );
+        CHECK( 3. == Approx( linear.x()[2] ) );
+        CHECK( 4. == Approx( linear.x()[3] ) );
+
+        CHECK( 4. == Approx( linear.y()[0] ) );
+        CHECK( 3. == Approx( linear.y()[1] ) );
+        CHECK( 2. == Approx( linear.y()[2] ) );
+        CHECK( 1. == Approx( linear.y()[3] ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "data with multiple regions without a jump" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -31,7 +111,7 @@ SCENARIO( "InterpolationTable" ) {
                                           std::move( boundaries ),
                                           std::move( interpolants ) );
 
-      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+      THEN( "an InterpolationTable can be constructed and members can be tested" ) {
 
         CHECK( 4 == chunk.numberPoints() );
         CHECK( 2 == chunk.numberRegions() );
@@ -77,10 +157,19 @@ SCENARIO( "InterpolationTable" ) {
 
       THEN( "a InterpolationTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 18 == linear.numberPoints() );
+        CHECK( 1 == linear.numberRegions() );
 
         CHECK( 18 == linear.x().size() );
         CHECK( 18 == linear.y().size() );
+        CHECK( 1 == linear.boundaries().size() );
+        CHECK( 1 == linear.interpolants().size() );
+
+        CHECK( 17 == linear.boundaries()[0] );
+
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
 
         CHECK( 1.    == Approx( linear.x()[0] ) );
         CHECK( 2.    == Approx( linear.x()[1] ) );
@@ -123,7 +212,7 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "data with a jump" ) {
+  GIVEN( "data with multiple regions with a jump" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -184,12 +273,23 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 2.464163065 == Approx( chunk( 3.5 ) ) );
       } // THEN
 
-      THEN( "a InterpolationTable can be linearised" ) {
+      THEN( "an InterpolationTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 12 == linear.numberPoints() );
+        CHECK( 2 == linear.numberRegions() );
 
         CHECK( 12 == linear.x().size() );
         CHECK( 12 == linear.y().size() );
+        CHECK( 2 == linear.boundaries().size() );
+        CHECK( 2 == linear.interpolants().size() );
+
+        CHECK(  1 == linear.boundaries()[0] );
+        CHECK( 11 == linear.boundaries()[1] );
+
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
 
         CHECK( 1.    == Approx( linear.x()[0] ) );
         CHECK( 2.    == Approx( linear.x()[1] ) );

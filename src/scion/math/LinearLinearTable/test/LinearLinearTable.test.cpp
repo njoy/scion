@@ -63,9 +63,9 @@ SCENARIO( "LinearLinearTable" ) {
 
       THEN( "a LinearLinearTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
-        CHECK( linear.x() == chunk.x() );
-        CHECK( linear.y() == chunk.y() );
+        auto linear = chunk.linearise();
+        CHECK( linear.first == chunk.x() );
+        CHECK( linear.second == chunk.y() );
       } // THEN
     } // WHEN
 
@@ -117,9 +117,9 @@ SCENARIO( "LinearLinearTable" ) {
 
       THEN( "a LinearLinearTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
-        CHECK( linear.x() == chunk.x() );
-        CHECK( linear.y() == chunk.y() );
+        auto linear = chunk.linearise();
+        CHECK( linear.first == chunk.x() );
+        CHECK( linear.second == chunk.y() );
       } // THEN
     } // WHEN
   } // GIVEN

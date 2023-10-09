@@ -4,7 +4,8 @@
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */
 template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() ) const {
+std::pair< std::vector< X >, std::vector< X > >
+linearise( Convergence&& convergence = Convergence() ) const {
 
   std::vector< X > x;
   std::vector< Y > y;
@@ -14,5 +15,5 @@ LinearLinearTable< X, Y > linearise( Convergence&& convergence = Convergence() )
               std::forward< Convergence >( convergence ),
               linearisation::MidpointSplit< X >() );
 
-  return LinearLinearTable< X, Y >( std::move( x ), std::move( y ) );
+  return std::make_pair( std::move( x ), std::move( y ) );
 }

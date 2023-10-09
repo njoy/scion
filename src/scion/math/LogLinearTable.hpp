@@ -12,7 +12,6 @@
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
 #include "scion/math/FunctionBase.hpp"
-#include "scion/math/LinearLinearTable.hpp"
 #include "scion/verification/ranges.hpp"
 
 namespace njoy {

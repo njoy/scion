@@ -8,7 +8,7 @@
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
-#include "scion/math/LinearLinearTable.hpp"
+#include "scion/math/InterpolationTable.hpp"
 #include "scion/math/FunctionBase.hpp"
 #include "scion/math/compare.hpp"
 #include "scion/verification/ranges.hpp"

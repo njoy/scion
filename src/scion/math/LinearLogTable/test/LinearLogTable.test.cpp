@@ -8,7 +8,6 @@
 
 // convenience typedefs
 using namespace njoy::scion;
-template < typename X, typename Y = X > using LinearLinearTable = math::LinearLinearTable< X, Y >;
 template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
            typename YContainer = std::vector< Y > >
@@ -64,62 +63,62 @@ SCENARIO( "LinearLogTable" ) {
 
       THEN( "a LinearLogTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
+        auto linear = chunk.linearise();
 
-        CHECK( 25 == linear.x().size() );
-        CHECK( 25 == linear.y().size() );
+        CHECK( 25 == linear.first.size() );
+        CHECK( 25 == linear.second.size() );
 
-        CHECK( 1.    == Approx( linear.x()[0] ) );
-        CHECK( 1.125 == Approx( linear.x()[1] ) );
-        CHECK( 1.25  == Approx( linear.x()[2] ) );
-        CHECK( 1.375 == Approx( linear.x()[3] ) );
-        CHECK( 1.5   == Approx( linear.x()[4] ) );
-        CHECK( 1.625 == Approx( linear.x()[5] ) );
-        CHECK( 1.75  == Approx( linear.x()[6] ) );
-        CHECK( 1.875 == Approx( linear.x()[7] ) );
-        CHECK( 2     == Approx( linear.x()[8] ) );
-        CHECK( 2.125 == Approx( linear.x()[9] ) );
-        CHECK( 2.25  == Approx( linear.x()[10] ) );
-        CHECK( 2.375 == Approx( linear.x()[11] ) );
-        CHECK( 2.5   == Approx( linear.x()[12] ) );
-        CHECK( 2.625 == Approx( linear.x()[13] ) );
-        CHECK( 2.75  == Approx( linear.x()[14] ) );
-        CHECK( 2.875 == Approx( linear.x()[15] ) );
-        CHECK( 3.    == Approx( linear.x()[16] ) );
-        CHECK( 3.125 == Approx( linear.x()[17] ) );
-        CHECK( 3.25  == Approx( linear.x()[18] ) );
-        CHECK( 3.375 == Approx( linear.x()[19] ) );
-        CHECK( 3.5   == Approx( linear.x()[20] ) );
-        CHECK( 3.625 == Approx( linear.x()[21] ) );
-        CHECK( 3.75  == Approx( linear.x()[22] ) );
-        CHECK( 3.875 == Approx( linear.x()[23] ) );
-        CHECK( 4.    == Approx( linear.x()[24] ) );
+        CHECK( 1.    == Approx( linear.first[0] ) );
+        CHECK( 1.125 == Approx( linear.first[1] ) );
+        CHECK( 1.25  == Approx( linear.first[2] ) );
+        CHECK( 1.375 == Approx( linear.first[3] ) );
+        CHECK( 1.5   == Approx( linear.first[4] ) );
+        CHECK( 1.625 == Approx( linear.first[5] ) );
+        CHECK( 1.75  == Approx( linear.first[6] ) );
+        CHECK( 1.875 == Approx( linear.first[7] ) );
+        CHECK( 2     == Approx( linear.first[8] ) );
+        CHECK( 2.125 == Approx( linear.first[9] ) );
+        CHECK( 2.25  == Approx( linear.first[10] ) );
+        CHECK( 2.375 == Approx( linear.first[11] ) );
+        CHECK( 2.5   == Approx( linear.first[12] ) );
+        CHECK( 2.625 == Approx( linear.first[13] ) );
+        CHECK( 2.75  == Approx( linear.first[14] ) );
+        CHECK( 2.875 == Approx( linear.first[15] ) );
+        CHECK( 3.    == Approx( linear.first[16] ) );
+        CHECK( 3.125 == Approx( linear.first[17] ) );
+        CHECK( 3.25  == Approx( linear.first[18] ) );
+        CHECK( 3.375 == Approx( linear.first[19] ) );
+        CHECK( 3.5   == Approx( linear.first[20] ) );
+        CHECK( 3.625 == Approx( linear.first[21] ) );
+        CHECK( 3.75  == Approx( linear.first[22] ) );
+        CHECK( 3.875 == Approx( linear.first[23] ) );
+        CHECK( 4.    == Approx( linear.first[24] ) );
 
-        CHECK( 4.          == Approx( linear.y()[0] ) );
-        CHECK( 3.830074999 == Approx( linear.y()[1] ) );
-        CHECK( 3.678071905 == Approx( linear.y()[2] ) );
-        CHECK( 3.540568381 == Approx( linear.y()[3] ) );
-        CHECK( 3.415037499 == Approx( linear.y()[4] ) );
-        CHECK( 3.299560282 == Approx( linear.y()[5] ) );
-        CHECK( 3.192645078 == Approx( linear.y()[6] ) );
-        CHECK( 3.093109404 == Approx( linear.y()[7] ) );
-        CHECK( 3.          == Approx( linear.y()[8] ) );
-        CHECK( 2.850481285 == Approx( linear.y()[9] ) );
-        CHECK( 2.709511291 == Approx( linear.y()[10] ) );
-        CHECK( 2.576165116 == Approx( linear.y()[11] ) );
-        CHECK( 2.449660287 == Approx( linear.y()[12] ) );
-        CHECK( 2.329328936 == Approx( linear.y()[13] ) );
-        CHECK( 2.21459646  == Approx( linear.y()[14] ) );
-        CHECK( 2.104964924 == Approx( linear.y()[15] ) );
-        CHECK( 2.          == Approx( linear.y()[16] ) );
-        CHECK( 1.858100318 == Approx( linear.y()[17] ) );
-        CHECK( 1.721766786 == Approx( linear.y()[18] ) );
-        CHECK( 1.59057916  == Approx( linear.y()[19] ) );
-        CHECK( 1.464163065 == Approx( linear.y()[20] ) );
-        CHECK( 1.34218355  == Approx( linear.y()[21] ) );
-        CHECK( 1.224339739 == Approx( linear.y()[22] ) );
-        CHECK( 1.110360364 == Approx( linear.y()[23] ) );
-        CHECK( 1.          == Approx( linear.y()[24] ) );
+        CHECK( 4.          == Approx( linear.second[0] ) );
+        CHECK( 3.830074999 == Approx( linear.second[1] ) );
+        CHECK( 3.678071905 == Approx( linear.second[2] ) );
+        CHECK( 3.540568381 == Approx( linear.second[3] ) );
+        CHECK( 3.415037499 == Approx( linear.second[4] ) );
+        CHECK( 3.299560282 == Approx( linear.second[5] ) );
+        CHECK( 3.192645078 == Approx( linear.second[6] ) );
+        CHECK( 3.093109404 == Approx( linear.second[7] ) );
+        CHECK( 3.          == Approx( linear.second[8] ) );
+        CHECK( 2.850481285 == Approx( linear.second[9] ) );
+        CHECK( 2.709511291 == Approx( linear.second[10] ) );
+        CHECK( 2.576165116 == Approx( linear.second[11] ) );
+        CHECK( 2.449660287 == Approx( linear.second[12] ) );
+        CHECK( 2.329328936 == Approx( linear.second[13] ) );
+        CHECK( 2.21459646  == Approx( linear.second[14] ) );
+        CHECK( 2.104964924 == Approx( linear.second[15] ) );
+        CHECK( 2.          == Approx( linear.second[16] ) );
+        CHECK( 1.858100318 == Approx( linear.second[17] ) );
+        CHECK( 1.721766786 == Approx( linear.second[18] ) );
+        CHECK( 1.59057916  == Approx( linear.second[19] ) );
+        CHECK( 1.464163065 == Approx( linear.second[20] ) );
+        CHECK( 1.34218355  == Approx( linear.second[21] ) );
+        CHECK( 1.224339739 == Approx( linear.second[22] ) );
+        CHECK( 1.110360364 == Approx( linear.second[23] ) );
+        CHECK( 1.          == Approx( linear.second[24] ) );
       } // THEN
     } // WHEN
 
@@ -171,62 +170,62 @@ SCENARIO( "LinearLogTable" ) {
 
       THEN( "a LinearLogTable can be linearised" ) {
 
-        LinearLinearTable< double > linear = chunk.linearise();
+        auto linear = chunk.linearise();
 
-        CHECK( 25 == linear.x().size() );
-        CHECK( 25 == linear.y().size() );
+        CHECK( 25 == linear.first.size() );
+        CHECK( 25 == linear.second.size() );
 
-        CHECK( 1.    == Approx( linear.x()[0] ) );
-        CHECK( 1.125 == Approx( linear.x()[1] ) );
-        CHECK( 1.25  == Approx( linear.x()[2] ) );
-        CHECK( 1.375 == Approx( linear.x()[3] ) );
-        CHECK( 1.5   == Approx( linear.x()[4] ) );
-        CHECK( 1.625 == Approx( linear.x()[5] ) );
-        CHECK( 1.75  == Approx( linear.x()[6] ) );
-        CHECK( 1.875 == Approx( linear.x()[7] ) );
-        CHECK( 2     == Approx( linear.x()[8] ) );
-        CHECK( 2.125 == Approx( linear.x()[9] ) );
-        CHECK( 2.25  == Approx( linear.x()[10] ) );
-        CHECK( 2.375 == Approx( linear.x()[11] ) );
-        CHECK( 2.5   == Approx( linear.x()[12] ) );
-        CHECK( 2.625 == Approx( linear.x()[13] ) );
-        CHECK( 2.75  == Approx( linear.x()[14] ) );
-        CHECK( 2.875 == Approx( linear.x()[15] ) );
-        CHECK( 3.    == Approx( linear.x()[16] ) );
-        CHECK( 3.125 == Approx( linear.x()[17] ) );
-        CHECK( 3.25  == Approx( linear.x()[18] ) );
-        CHECK( 3.375 == Approx( linear.x()[19] ) );
-        CHECK( 3.5   == Approx( linear.x()[20] ) );
-        CHECK( 3.625 == Approx( linear.x()[21] ) );
-        CHECK( 3.75  == Approx( linear.x()[22] ) );
-        CHECK( 3.875 == Approx( linear.x()[23] ) );
-        CHECK( 4.    == Approx( linear.x()[24] ) );
+        CHECK( 1.    == Approx( linear.first[0] ) );
+        CHECK( 1.125 == Approx( linear.first[1] ) );
+        CHECK( 1.25  == Approx( linear.first[2] ) );
+        CHECK( 1.375 == Approx( linear.first[3] ) );
+        CHECK( 1.5   == Approx( linear.first[4] ) );
+        CHECK( 1.625 == Approx( linear.first[5] ) );
+        CHECK( 1.75  == Approx( linear.first[6] ) );
+        CHECK( 1.875 == Approx( linear.first[7] ) );
+        CHECK( 2     == Approx( linear.first[8] ) );
+        CHECK( 2.125 == Approx( linear.first[9] ) );
+        CHECK( 2.25  == Approx( linear.first[10] ) );
+        CHECK( 2.375 == Approx( linear.first[11] ) );
+        CHECK( 2.5   == Approx( linear.first[12] ) );
+        CHECK( 2.625 == Approx( linear.first[13] ) );
+        CHECK( 2.75  == Approx( linear.first[14] ) );
+        CHECK( 2.875 == Approx( linear.first[15] ) );
+        CHECK( 3.    == Approx( linear.first[16] ) );
+        CHECK( 3.125 == Approx( linear.first[17] ) );
+        CHECK( 3.25  == Approx( linear.first[18] ) );
+        CHECK( 3.375 == Approx( linear.first[19] ) );
+        CHECK( 3.5   == Approx( linear.first[20] ) );
+        CHECK( 3.625 == Approx( linear.first[21] ) );
+        CHECK( 3.75  == Approx( linear.first[22] ) );
+        CHECK( 3.875 == Approx( linear.first[23] ) );
+        CHECK( 4.    == Approx( linear.first[24] ) );
 
-        CHECK( 4.          == Approx( linear.y()[0] ) );
-        CHECK( 3.830074999 == Approx( linear.y()[1] ) );
-        CHECK( 3.678071905 == Approx( linear.y()[2] ) );
-        CHECK( 3.540568381 == Approx( linear.y()[3] ) );
-        CHECK( 3.415037499 == Approx( linear.y()[4] ) );
-        CHECK( 3.299560282 == Approx( linear.y()[5] ) );
-        CHECK( 3.192645078 == Approx( linear.y()[6] ) );
-        CHECK( 3.093109404 == Approx( linear.y()[7] ) );
-        CHECK( 3.          == Approx( linear.y()[8] ) );
-        CHECK( 2.850481285 == Approx( linear.y()[9] ) );
-        CHECK( 2.709511291 == Approx( linear.y()[10] ) );
-        CHECK( 2.576165116 == Approx( linear.y()[11] ) );
-        CHECK( 2.449660287 == Approx( linear.y()[12] ) );
-        CHECK( 2.329328936 == Approx( linear.y()[13] ) );
-        CHECK( 2.21459646  == Approx( linear.y()[14] ) );
-        CHECK( 2.104964924 == Approx( linear.y()[15] ) );
-        CHECK( 2.          == Approx( linear.y()[16] ) );
-        CHECK( 1.858100318 == Approx( linear.y()[17] ) );
-        CHECK( 1.721766786 == Approx( linear.y()[18] ) );
-        CHECK( 1.59057916  == Approx( linear.y()[19] ) );
-        CHECK( 1.464163065 == Approx( linear.y()[20] ) );
-        CHECK( 1.34218355  == Approx( linear.y()[21] ) );
-        CHECK( 1.224339739 == Approx( linear.y()[22] ) );
-        CHECK( 1.110360364 == Approx( linear.y()[23] ) );
-        CHECK( 1.          == Approx( linear.y()[24] ) );
+        CHECK( 4.          == Approx( linear.second[0] ) );
+        CHECK( 3.830074999 == Approx( linear.second[1] ) );
+        CHECK( 3.678071905 == Approx( linear.second[2] ) );
+        CHECK( 3.540568381 == Approx( linear.second[3] ) );
+        CHECK( 3.415037499 == Approx( linear.second[4] ) );
+        CHECK( 3.299560282 == Approx( linear.second[5] ) );
+        CHECK( 3.192645078 == Approx( linear.second[6] ) );
+        CHECK( 3.093109404 == Approx( linear.second[7] ) );
+        CHECK( 3.          == Approx( linear.second[8] ) );
+        CHECK( 2.850481285 == Approx( linear.second[9] ) );
+        CHECK( 2.709511291 == Approx( linear.second[10] ) );
+        CHECK( 2.576165116 == Approx( linear.second[11] ) );
+        CHECK( 2.449660287 == Approx( linear.second[12] ) );
+        CHECK( 2.329328936 == Approx( linear.second[13] ) );
+        CHECK( 2.21459646  == Approx( linear.second[14] ) );
+        CHECK( 2.104964924 == Approx( linear.second[15] ) );
+        CHECK( 2.          == Approx( linear.second[16] ) );
+        CHECK( 1.858100318 == Approx( linear.second[17] ) );
+        CHECK( 1.721766786 == Approx( linear.second[18] ) );
+        CHECK( 1.59057916  == Approx( linear.second[19] ) );
+        CHECK( 1.464163065 == Approx( linear.second[20] ) );
+        CHECK( 1.34218355  == Approx( linear.second[21] ) );
+        CHECK( 1.224339739 == Approx( linear.second[22] ) );
+        CHECK( 1.110360364 == Approx( linear.second[23] ) );
+        CHECK( 1.          == Approx( linear.second[24] ) );
       } // THEN
     } // WHEN
   } // GIVEN

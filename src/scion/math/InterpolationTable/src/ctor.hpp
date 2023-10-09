@@ -4,6 +4,7 @@
  *  @param[in] table    the table to be copied
  */
 InterpolationTable( const InterpolationTable& table ) :
+  Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
   x_( table.x_ ), y_( table.y_ ),
   boundaries_( table.boundaries_ ),
   interpolants_( table.interpolants_ ) {
@@ -17,6 +18,7 @@ InterpolationTable( const InterpolationTable& table ) :
  *  @param[in] table    the table to be moved
  */
 InterpolationTable( InterpolationTable&& table ) :
+  Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
   x_( std::move( table.x_ ) ), y_( std::move( table.y_ ) ),
   boundaries_( std::move( table.boundaries_ ) ),
   interpolants_( std::move( table.interpolants_ ) ) {
@@ -31,7 +33,10 @@ InterpolationTable( InterpolationTable&& table ) :
  */
 InterpolationTable& operator=( const InterpolationTable& base ) {
 
-  new (this) InterpolationTable( base );
+  if ( this != &base ) {
+
+    new (this) InterpolationTable( base );
+  }
   return *this;
 }
 
@@ -42,7 +47,10 @@ InterpolationTable& operator=( const InterpolationTable& base ) {
  */
 InterpolationTable& operator=( InterpolationTable&& base ) {
 
-  new (this) InterpolationTable( std::move( base ) );
+  if ( this != &base ) {
+
+    new (this) InterpolationTable( std::move( base ) );
+  }
   return *this;
 }
 
@@ -64,3 +72,30 @@ InterpolationTable( std::vector< X > x, std::vector< Y > y,
 
   this->generateTables();
 }
+
+private:
+
+/**
+ *  @brief Private intermediate constructor
+ *
+ *  We need this one since std::size( x ) returns 0 if we moved the x vector.
+ */
+InterpolationTable( std::size_t size, std::vector< X >&& x, std::vector< Y >&& y,
+                    std::vector< interpolation::InterpolationType >&& interpolants ) :
+  InterpolationTable( std::move( x ), std::move( y ),
+                      { size > 0 ? size - 1 : 0 }, std::move( interpolants ) ) {}
+
+public :
+
+/**
+ *  @brief Constructor for tabulated data in a single interpolation zone
+ *
+ *  @param x              the x values of the tabulated data
+ *  @param y              the y values of the tabulated data
+ *  @param interpolant    the interpolation type of the data (default lin-lin)
+ */
+InterpolationTable( std::vector< X > x, std::vector< Y > y,
+                    interpolation::InterpolationType interpolant =
+                        interpolation::InterpolationType::LinearLinear ) :
+  InterpolationTable( std::size( x ), std::move( x ), std::move( y ),
+                      { interpolant } ) {}
