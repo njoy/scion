@@ -54,6 +54,30 @@ InterpolationTable& operator=( InterpolationTable&& base ) {
   return *this;
 }
 
+private:
+
+/**
+ *  @brief Constructor
+ *
+ *  @param x              the x values of the tabulated data
+ *  @param y              the y values of the tabulated data
+ *  @param boundaries     the boundaries of the interpolation regions
+ *  @param interpolants   the interpolation types of the interpolation regions
+ */
+InterpolationTable(
+    std::tuple< std::vector< std::size_t >,
+                std::vector< interpolation::InterpolationType > >&& boundaries,
+    std::vector< X >&& x, std::vector< Y >&& y ) :
+  Parent( IntervalDomain( x.front(), x.back() ) ),
+  x_( std::move( x ) ), y_( std::move( y ) ),
+  boundaries_( std::move( std::get< 0 >( boundaries ) ) ),
+  interpolants_( std::move( std::get< 1 >( boundaries ) ) ) {
+
+  this->generateTables();
+}
+
+public:
+
 /**
  *  @brief Constructor
  *
@@ -65,28 +89,10 @@ InterpolationTable& operator=( InterpolationTable&& base ) {
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     std::vector< std::size_t > boundaries,
                     std::vector< interpolation::InterpolationType > interpolants ) :
-  Parent( IntervalDomain( x.size() > 0 ? x.front() : -1.,
-                          x.size() > 0 ? x.back() : +1. ) ),
-  x_( std::move( x ) ), y_( std::move( y ) ),
-  boundaries_( std::move( boundaries ) ),
-  interpolants_( std::move( interpolants ) ) {
-
-  this->generateTables();
-}
-
-private:
-
-/**
- *  @brief Private intermediate constructor
- *
- *  We need this one since std::size( x ) returns 0 if we moved the x vector.
- */
-InterpolationTable( std::size_t size, std::vector< X >&& x, std::vector< Y >&& y,
-                    std::vector< interpolation::InterpolationType >&& interpolants ) :
-  InterpolationTable( std::move( x ), std::move( y ),
-                      { size > 0 ? size - 1 : 0 }, std::move( interpolants ) ) {}
-
-public :
+  InterpolationTable( processBoundaries( x, y,
+                                         std::move( boundaries ),
+                                         std::move( interpolants ) ),
+                      std::move( x ), std::move( y ) ) {}
 
 /**
  *  @brief Constructor for tabulated data in a single interpolation zone
@@ -98,5 +104,5 @@ public :
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     interpolation::InterpolationType interpolant =
                         interpolation::InterpolationType::LinearLinear ) :
-  InterpolationTable( std::size( x ), std::move( x ), std::move( y ),
-                      { interpolant } ) {}
+  InterpolationTable( processBoundaries( x, y, interpolant ),
+                     std::move( x ), std::move( y ) ) {}
