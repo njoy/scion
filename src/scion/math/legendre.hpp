@@ -12,7 +12,7 @@ namespace math {
 
 /** @brief Evaluate a Legendre polynomial of order n
  *
- *  @param[in] n    the degree of the Legendre polynomial
+ *  @param[in] n    the order of the Legendre polynomial
  *  @param[in] x    the value of X
  */
 template < typename X, typename Y = X >
@@ -21,6 +21,7 @@ Y legendre( unsigned int n, const X& x ) {
   if ( ( x < -1 ) || ( x > 1 ) ) {
 
     Log::error( "Legendre polynomials are defined for x values in the [-1,1] interval" );
+    Log::info( "The order of the Legendre polynomial requested: {}", n );
     Log::info( "The value of x requested: {}", x );
     throw std::exception();
   }
