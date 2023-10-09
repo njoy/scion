@@ -24,7 +24,7 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
     Eigen::EigenSolver< Matrix< Y > >
     solver( static_cast< const Derived* >( this )->companionMatrix( a ), false );
 
-    for ( const auto& value : solver.eigenvalues().reshaped() ) {
+    for ( const auto& value : solver.eigenvalues() ) {
 
       if ( isCloseToZero( value.imag() ) ) {
 
