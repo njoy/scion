@@ -38,6 +38,15 @@ SCENARIO( "OpenDomain" ) {
         CHECK( true == chunk.isContained(  1.0 ) );
         CHECK( true == chunk.isInside( max ) );
       } // THEN
+
+
+      THEN( "an IntervalDomain can be compared" ) {
+
+        OpenDomain< double > same;
+
+        CHECK( true == ( chunk == same ) );
+        CHECK( false == ( chunk != same ) );
+      } // THEN
     } // WHEN
   } // GIVEN
 } // SCENARIO

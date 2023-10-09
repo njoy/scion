@@ -9,6 +9,7 @@
 using namespace njoy::scion;
 template < typename X, typename Y = X > using ChebyshevApproximation = math::ChebyshevApproximation< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+template < typename X > using OpenDomain = math::OpenDomain< X >;
 
 SCENARIO( "ChebyshevApproximation" ) {
 
@@ -74,6 +75,21 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK( +0.999999  == Approx( chunk(  0.999999 ) ) );
         CHECK( +0.9999999 == Approx( chunk(  0.9999999 ) ) );
         CHECK( +1.0       == Approx( chunk(  1. ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( -1. ) );
+        CHECK( true == chunk.isInside(  0. ) );
+        CHECK( true == chunk.isInside(  1. ) );
+
+        CHECK( false == chunk.isContained( -1. ) );
+        CHECK( true == chunk.isContained( 0. ) );
+        CHECK( false == chunk.isContained( 1. ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( -1., 1. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 1. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -336,6 +352,21 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK( +0.999999  == Approx( chunk(  0.999999 ) ) );
         CHECK( +0.9999999 == Approx( chunk(  0.9999999 ) ) );
         CHECK( +1.0       == Approx( chunk(  1. ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( -2. ) );
+        CHECK( true == chunk.isInside(  1. ) );
+        CHECK( true == chunk.isInside(  4. ) );
+
+        CHECK( false == chunk.isContained( -2. ) );
+        CHECK( true == chunk.isContained( 1. ) );
+        CHECK( false == chunk.isContained( 4. ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( -2., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {

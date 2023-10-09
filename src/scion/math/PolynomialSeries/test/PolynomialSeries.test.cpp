@@ -9,6 +9,7 @@
 using namespace njoy::scion;
 template < typename X, typename Y = X > using PolynomialSeries = math::PolynomialSeries< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
+template < typename X > using OpenDomain = math::OpenDomain< X >;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
@@ -131,6 +132,21 @@ SCENARIO( "PolynomialSeries" ) {
 
         CHECK( 1 == roots.size() );
         CHECK(  0.0 == Approx( roots[0] ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( -1.0 ) );
+        CHECK( true == chunk.isInside(  0.0 ) );
+        CHECK( true == chunk.isInside(  1.0 ) );
+
+        CHECK( false == chunk.isContained( -1.0 ) );
+        CHECK( true == chunk.isContained(  0.0 ) );
+        CHECK( false == chunk.isContained(  1.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( -1., +1. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( -1., 0. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "a PolynomialSeries can be linearised" ) {

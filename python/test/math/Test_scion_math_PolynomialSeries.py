@@ -7,6 +7,7 @@ import sys
 # local imports
 from scion.math import PolynomialSeries
 from scion.math import IntervalDomain
+from scion.math import OpenDomain
 from scion.linearisation import ToleranceConvergence
 from scion.interpolation import InterpolationType
 
@@ -107,6 +108,19 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             roots = chunk.roots( -8. )
             self.assertEqual( 1, len( roots ) )
             self.assertAlmostEqual( 0.0, roots[0] )
+
+            # verify domain comparison
+            self.assertEqual( True, chunk.is_inside( -1. ) )
+            self.assertEqual( True, chunk.is_inside(  0. ) )
+            self.assertEqual( True, chunk.is_inside(  1. ) )
+
+            self.assertEqual( False, chunk.is_contained( -1. ) )
+            self.assertEqual( True, chunk.is_contained(  0. ) )
+            self.assertEqual( False, chunk.is_contained(  1. ) )
+
+            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -1., 1. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 1. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
 
             # verify linearisation
             convergence = ToleranceConvergence( 0.01 )

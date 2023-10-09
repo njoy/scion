@@ -89,6 +89,16 @@ namespace math {
                               { return domain.isContained( x ); },
                          this->domain() );
     }
+
+    /**
+     *  @brief Check whether or not a domain is equal to the function's domain
+     *
+     *  @param domain   the domain to be tested
+     */
+    bool isSameDomain( const DomainVariant& domain ) const noexcept {
+
+      return this->domain() == domain;
+    }
   };
 
 } // math namespace

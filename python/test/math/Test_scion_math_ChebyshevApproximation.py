@@ -7,6 +7,7 @@ import sys
 # local imports
 from scion.math import ChebyshevApproximation
 from scion.math import IntervalDomain
+from scion.math import OpenDomain
 
 class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
     """Unit test for the ChebyshevApproximation class."""
@@ -66,6 +67,19 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( +0.999999 , chunk(  0.999999 ) )
             self.assertAlmostEqual( +0.9999999, chunk(  0.9999999 ) )
             self.assertAlmostEqual( +1.0      , chunk(  1. ) )
+
+            # verify domain comparison
+            self.assertEqual( True, chunk.is_inside( -1. ) )
+            self.assertEqual( True, chunk.is_inside(  0. ) )
+            self.assertEqual( True, chunk.is_inside(  1. ) )
+
+            self.assertEqual( False, chunk.is_contained( -1. ) )
+            self.assertEqual( True, chunk.is_contained(  0. ) )
+            self.assertEqual( False, chunk.is_contained(  1. ) )
+
+            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -1., 1. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 1. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
 
             # verify arithmetic operators
             small = ChebyshevApproximation( -1, 1, [ 3., 0., 1. ] )
@@ -328,6 +342,19 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( +0.999999 , chunk(  0.999999 ) )
             self.assertAlmostEqual( +0.9999999, chunk(  0.9999999 ) )
             self.assertAlmostEqual( +1.0      , chunk(  1. ) )
+
+            # verify domain comparison
+            self.assertEqual( True, chunk.is_inside( -2. ) )
+            self.assertEqual( True, chunk.is_inside(  1. ) )
+            self.assertEqual( True, chunk.is_inside(  4. ) )
+
+            self.assertEqual( False, chunk.is_contained( -2. ) )
+            self.assertEqual( True, chunk.is_contained( 1. ) )
+            self.assertEqual( False, chunk.is_contained( 4. ) )
+
+            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -2., 4. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
+            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
 
             # verify arithmetic operators
             small = ChebyshevApproximation( -2, 4, [ 3., 0., 1. ] )

@@ -236,6 +236,7 @@ namespace math {
     using Parent::operator();
     using Parent::isInside;
     using Parent::isContained;
+    using Parent::isSameDomain;
   };
 
 } // math namespace

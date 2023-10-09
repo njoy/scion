@@ -18,21 +18,26 @@ class Test_scion_math_OpenDomain( unittest.TestCase ) :
             max = sys.float_info.max
             min = -max
 
-            self.assertEqual( True, chunk.is_inside( x = min ) );
-            self.assertEqual( True, chunk.is_inside( x = -1.0 ) );
-            self.assertEqual( True, chunk.is_inside( x = -0.5 ) );
-            self.assertEqual( True, chunk.is_inside( x =  0.0 ) );
-            self.assertEqual( True, chunk.is_inside( x =  0.5 ) );
-            self.assertEqual( True, chunk.is_inside( x =  1.0 ) );
-            self.assertEqual( True, chunk.is_inside( x = max ) );
+            self.assertEqual( True, chunk.is_inside( x = min ) )
+            self.assertEqual( True, chunk.is_inside( x = -1.0 ) )
+            self.assertEqual( True, chunk.is_inside( x = -0.5 ) )
+            self.assertEqual( True, chunk.is_inside( x =  0.0 ) )
+            self.assertEqual( True, chunk.is_inside( x =  0.5 ) )
+            self.assertEqual( True, chunk.is_inside( x =  1.0 ) )
+            self.assertEqual( True, chunk.is_inside( x = max ) )
 
-            self.assertEqual( True, chunk.is_inside( x = min ) );
-            self.assertEqual( True, chunk.is_contained( x = -1.0 ) );
-            self.assertEqual( True, chunk.is_contained( x = -0.5 ) );
-            self.assertEqual( True, chunk.is_contained( x =  0.0 ) );
-            self.assertEqual( True, chunk.is_contained( x =  0.5 ) );
-            self.assertEqual( True, chunk.is_contained( x =  1.0 ) );
-            self.assertEqual( True, chunk.is_inside( x = max ) );
+            self.assertEqual( True, chunk.is_contained( x = min ) )
+            self.assertEqual( True, chunk.is_contained( x = -1.0 ) )
+            self.assertEqual( True, chunk.is_contained( x = -0.5 ) )
+            self.assertEqual( True, chunk.is_contained( x =  0.0 ) )
+            self.assertEqual( True, chunk.is_contained( x =  0.5 ) )
+            self.assertEqual( True, chunk.is_contained( x =  1.0 ) )
+            self.assertEqual( True, chunk.is_contained( x = max ) )
+
+            same = OpenDomain()
+
+            self.assertEqual( True, chunk == same )
+            self.assertEqual( False, chunk != same )
 
         # the data is given explicitly
         chunk = OpenDomain()

@@ -12,6 +12,7 @@ template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
            typename YContainer = std::vector< Y > >
 using HistogramTable = math::HistogramTable< X, Y, XContainer, YContainer >;
+template < typename X > using OpenDomain = math::OpenDomain< X >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 
@@ -60,6 +61,21 @@ SCENARIO( "HistogramTable" ) {
         CHECK( 4. == Approx( chunk( 1.5 ) ) );
         CHECK( 3. == Approx( chunk( 2.5 ) ) );
         CHECK( 2. == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "a HistogramTable can be linearised" ) {
@@ -130,6 +146,21 @@ SCENARIO( "HistogramTable" ) {
         CHECK( 4. == Approx( chunk( 1.5 ) ) );
         CHECK( 3. == Approx( chunk( 2.5 ) ) );
         CHECK( 2. == Approx( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( 1.0 ) );
+        CHECK( true == chunk.isInside( 2.5 ) );
+        CHECK( true == chunk.isInside( 4.0 ) );
+
+        CHECK( false == chunk.isContained( 1.0 ) );
+        CHECK( true == chunk.isContained( 2.5 ) );
+        CHECK( false == chunk.isContained( 4.0 ) );
+
+        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
+        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "a HistogramTable can be linearised" ) {

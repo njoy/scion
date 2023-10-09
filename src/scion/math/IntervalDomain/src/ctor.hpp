@@ -1,4 +1,9 @@
 /**
+ *  @brief Default constructor (for pybind11 purposes only)
+ */
+IntervalDomain() = default;
+
+/**
  *  @brief Constructor
  *
  *  @param lower   the lower limit of the domain

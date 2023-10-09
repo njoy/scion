@@ -36,13 +36,24 @@ SCENARIO( "IntervalDomain" ) {
         CHECK( true == chunk.isInside(  1.0 ) );
         CHECK( false == chunk.isInside( max ) );
 
-        CHECK( false == chunk.isInside( min ) );
+        CHECK( false == chunk.isContained( min ) );
         CHECK( false == chunk.isContained( -1.0 ) );
         CHECK( true == chunk.isContained( -0.5 ) );
         CHECK( true == chunk.isContained(  0.0 ) );
         CHECK( true == chunk.isContained(  0.5 ) );
         CHECK( false == chunk.isContained(  1.0 ) );
-        CHECK( false == chunk.isInside( max ) );
+        CHECK( false == chunk.isContained( max ) );
+      } // THEN
+
+      THEN( "an IntervalDomain can be compared" ) {
+
+        IntervalDomain< double > same( -1., 1. );
+        IntervalDomain< double > different( 0., 1. );
+
+        CHECK( true == ( chunk == same ) );
+        CHECK( false == ( chunk == different ) );
+        CHECK( false == ( chunk != same ) );
+        CHECK( true == ( chunk != different ) );
       } // THEN
     } // WHEN
   } // GIVEN

@@ -80,6 +80,27 @@ namespace math {
       }
       return false;
     }
+
+    /**
+     *  @brief Comparison operator: equal
+     *
+     *  @param[in] right   the domain on the right hand side
+     */
+    bool operator==( const IntervalDomain& right ) const noexcept {
+
+      return ( ( this->lowerLimit() == right.lowerLimit() ) &&
+               ( this->upperLimit() == right.upperLimit() ) );
+    }
+
+    /**
+     *  @brief Comparison operator: not equal
+     *
+     *  @param[in] right   the domain on the right hand side
+     */
+    bool operator!=( const IntervalDomain& right ) const noexcept {
+
+      return ! this->operator==( right );
+    }
   };
 
 } // math namespace
