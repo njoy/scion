@@ -36,7 +36,7 @@ namespace linearisation {
     X split( const X& xLeft, const X& xRight,
              const Y&,       const Y& ) const {
 
-      return X( 0.5 ) * ( xLeft + xRight );
+      return 0.5 * ( xLeft + xRight );
     }
 
   public:

@@ -31,6 +31,8 @@ add_subdirectory( src/scion/integration/LinearLinear/test )
 add_subdirectory( src/scion/integration/LinearLogarithmic/test )
 add_subdirectory( src/scion/integration/LogarithmicLinear/test )
 add_subdirectory( src/scion/integration/LogarithmicLogarithmic/test )
+add_subdirectory( src/scion/integration/GaussLegendre/2/test )
+add_subdirectory( src/scion/integration/GaussLegendre/7/test )
 
 add_subdirectory( src/scion/interpolation/Histogram/test )
 add_subdirectory( src/scion/interpolation/LinearLinear/test )

@@ -11,7 +11,7 @@ namespace interpolation {
 
   /**
    *  @class
-   *  @brief Base class for interpolator objects
+   *  @brief Base class for interpolator objects for tabulated data
    *
    *  This base class provides the common interface for all interpolator objects.
    */

@@ -39,14 +39,14 @@ namespace integration {
      *  @param[in] yLeft    the left value on the y interval
      *  @param[in] yRight   the right value on the y interval
      */
-    template < typename X, typename Y >
-    Y integrate( const X& xLeft, const X& xRight,
+    template < typename X, typename Y,
+               typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return xLeft * yLeft / ( std::log( yRight / yLeft ) / std::log( xRight / xLeft ) + 1. )
-             * ( std::pow( xRight / xLeft,
-                           std::log( yRight / yLeft ) / std::log( xRight / xLeft ) + 1. )
-                 - 1. );
+      const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
+      return xLeft * yLeft / ( slope + 1. )
+             * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
     }
 
   public:
