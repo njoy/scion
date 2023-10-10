@@ -27,7 +27,7 @@ FetchContent_Declare( Catch2
 
 FetchContent_Declare( pybind11
     GIT_REPOSITORY  https://github.com/pybind/pybind11
-    GIT_TAG         v2.10.1
+    GIT_TAG         v2.10.4
     GIT_SHALLOW     TRUE
     )
 
