@@ -46,16 +46,17 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
 
   auto xIter = std::adjacent_find( x.begin(), x.end() );
   auto bIter = boundaries.begin();
+  auto iIter = interpolants.begin();
   while ( xIter != x.end() ) {
 
     auto index = std::distance( x.begin(), xIter );
     bIter = std::lower_bound( bIter, boundaries.end(), index );
     if ( *bIter != index ) {
 
-      auto iIter = std::next( interpolants.begin(),
-                              std::distance( boundaries.begin(), bIter ) );
-      boundaries.insert( bIter, index );
-      interpolants.insert( iIter, *iIter );
+      iIter = std::next( interpolants.begin(),
+                         std::distance( boundaries.begin(), bIter ) );
+      bIter = boundaries.insert( bIter, index );
+      iIter = interpolants.insert( iIter, *iIter );
     }
     ++xIter;
     if ( std::next( xIter ) == x.end() ) {

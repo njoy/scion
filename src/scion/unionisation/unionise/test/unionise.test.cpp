@@ -20,6 +20,7 @@ SCENARIO( "unionisation of two grids" ) {
     std::vector< double > grid3 = { 1., 2., 2., 3., 4. };
     std::vector< double > grid4 = { 1., 2., 3., 3., 4. };
     std::vector< double > grid5 = { 1., 2., 2., 3., 3., 4. };
+    std::vector< double > grid6 = { 1., 2., 3. };
 
     WHEN( "the grids are unionised" ) {
 
@@ -91,6 +92,49 @@ SCENARIO( "unionisation of two grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 3., WithinRel( grid[4] ) );
         CHECK_THAT( 4., WithinRel( grid[5] ) );
+
+        // different grids with different end points (no duplicate end point)
+        grid = unionisation::unionise( grid1, grid6 );
+
+        CHECK( 5 == grid.size() );
+        CHECK_THAT( 1., WithinRel( grid[0] ) );
+        CHECK_THAT( 2., WithinRel( grid[1] ) );
+        CHECK_THAT( 3., WithinRel( grid[2] ) );
+        CHECK_THAT( 3., WithinRel( grid[3] ) );
+        CHECK_THAT( 4., WithinRel( grid[4] ) );
+
+        // different grids with different end points (no duplicate end point in
+        // other grid)
+        grid = unionisation::unionise( grid6, grid1 );
+
+        CHECK( 5 == grid.size() );
+        CHECK_THAT( 1., WithinRel( grid[0] ) );
+        CHECK_THAT( 2., WithinRel( grid[1] ) );
+        CHECK_THAT( 3., WithinRel( grid[2] ) );
+        CHECK_THAT( 3., WithinRel( grid[3] ) );
+        CHECK_THAT( 4., WithinRel( grid[4] ) );
+
+        // different grids with different end points (duplicate end point in
+        // other grid)
+        grid = unionisation::unionise( grid4, grid6 );
+
+        CHECK( 5 == grid.size() );
+        CHECK_THAT( 1., WithinRel( grid[0] ) );
+        CHECK_THAT( 2., WithinRel( grid[1] ) );
+        CHECK_THAT( 3., WithinRel( grid[2] ) );
+        CHECK_THAT( 3., WithinRel( grid[3] ) );
+        CHECK_THAT( 4., WithinRel( grid[4] ) );
+
+        // different grids with different end points (duplicate end point in
+        // other grid)
+        grid = unionisation::unionise( grid6, grid4 );
+
+        CHECK( 5 == grid.size() );
+        CHECK_THAT( 1., WithinRel( grid[0] ) );
+        CHECK_THAT( 2., WithinRel( grid[1] ) );
+        CHECK_THAT( 3., WithinRel( grid[2] ) );
+        CHECK_THAT( 3., WithinRel( grid[3] ) );
+        CHECK_THAT( 4., WithinRel( grid[4] ) );
       } // THEN
     } // WHEN
   } // GIVEN

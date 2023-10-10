@@ -105,4 +105,4 @@ InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     interpolation::InterpolationType interpolant =
                         interpolation::InterpolationType::LinearLinear ) :
   InterpolationTable( processBoundaries( x, y, interpolant ),
-                     std::move( x ), std::move( y ) ) {}
+                      std::move( x ), std::move( y ) ) {}
