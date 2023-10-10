@@ -7,7 +7,7 @@ import unittest
 from scion.interpolation import loglog
 
 class Test_scion_interpolation_loglog( unittest.TestCase ) :
-    """Unit test for the horner function."""
+    """Unit test for the log-log interpolant."""
 
     def test_interpolation_function( self ) :
 

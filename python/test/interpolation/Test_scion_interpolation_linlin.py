@@ -7,7 +7,7 @@ import unittest
 from scion.interpolation import linlin
 
 class Test_scion_interpolation_linlin( unittest.TestCase ) :
-    """Unit test for the horner function."""
+    """Unit test for the lin-lin interpolant."""
 
     def test_interpolation_function( self ) :
 
