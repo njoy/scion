@@ -1,6 +1,9 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/interpolation/LogarithmicLogarithmic.hpp"
 
 // other includes
@@ -23,9 +26,9 @@ SCENARIO( "LogarithmicLogarithmic" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 2.25 == Approx( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 4.0 == Approx( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1.0 , WithinRel( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.25, WithinRel( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0 , WithinRel( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -41,9 +44,9 @@ SCENARIO( "LogarithmicLogarithmic" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        CHECK( 1.0 == Approx( interpolation::loglog( 1.0, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 2.25 == Approx( interpolation::loglog( 1.5, xLeft, xRight, yLeft, yRight ) ) );
-        CHECK( 4.0 == Approx( interpolation::loglog( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1.0 , WithinRel( interpolation::loglog( 1.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.25, WithinRel( interpolation::loglog( 1.5, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0 , WithinRel( interpolation::loglog( 2.0, xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

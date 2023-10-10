@@ -2,6 +2,7 @@
 #define NJOY_SCION_INTERPOLATION_LINEARLOGARITHMIC
 
 // system includes
+#include <cmath>
 
 // other includes
 #include "scion/interpolation/InterpolatorBase.hpp"

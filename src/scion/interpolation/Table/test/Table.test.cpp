@@ -1,6 +1,9 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/interpolation/Table.hpp"
 
 // other includes
@@ -27,31 +30,31 @@ SCENARIO( "Table" ) {
 
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
-        CHECK( 1. == Approx( chunk.x()[0] ) );
-        CHECK( 2. == Approx( chunk.x()[1] ) );
-        CHECK( 3. == Approx( chunk.x()[2] ) );
-        CHECK( 4. == Approx( chunk.x()[3] ) );
-        CHECK( 4. == Approx( chunk.y()[0] ) );
-        CHECK( 3. == Approx( chunk.y()[1] ) );
-        CHECK( 2. == Approx( chunk.y()[2] ) );
-        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
       } // THEN
 
       THEN( "a Table can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk.evaluate( 1. ) ) );
-        CHECK( 3. == Approx( chunk.evaluate( 2. ) ) );
-        CHECK( 2. == Approx( chunk.evaluate( 3. ) ) );
-        CHECK( 1. == Approx( chunk.evaluate( 4. ) ) );
+        CHECK_THAT( 4., WithinRel( chunk.evaluate( 1. ) ) );
+        CHECK_THAT( 3., WithinRel( chunk.evaluate( 2. ) ) );
+        CHECK_THAT( 2., WithinRel( chunk.evaluate( 3. ) ) );
+        CHECK_THAT( 1., WithinRel( chunk.evaluate( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk.evaluate( 0. ) ) );
-        CHECK( 0. == Approx( chunk.evaluate( 5. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk.evaluate( 0. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk.evaluate( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 3.5 == Approx( chunk.evaluate( 1.5 ) ) );
-        CHECK( 1.5 == Approx( chunk.evaluate( 3.5 ) ) );
+        CHECK_THAT( 3.5, WithinRel( chunk.evaluate( 1.5 ) ) );
+        CHECK_THAT( 1.5, WithinRel( chunk.evaluate( 3.5 ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

@@ -1,6 +1,9 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/math/IntervalDomain.hpp"
 
 // other includes
@@ -22,8 +25,8 @@ SCENARIO( "IntervalDomain" ) {
 
       THEN( "an IntervalDomain can be constructed and members can be tested" ) {
 
-        CHECK( -1.0 == Approx( chunk.lowerLimit() ) );
-        CHECK( +1.0 == Approx( chunk.upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( +1., WithinRel( chunk.upperLimit() ) );
 
         double max = std::numeric_limits<double>::max();
         double min = -max;

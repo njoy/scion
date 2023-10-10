@@ -1,6 +1,9 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/math/LinearLinearTable.hpp"
 
 // other includes
@@ -33,14 +36,14 @@ SCENARIO( "LinearLinearTable" ) {
         CHECK( 4 == chunk.numberPoints() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
-        CHECK( 1. == Approx( chunk.x()[0] ) );
-        CHECK( 2. == Approx( chunk.x()[1] ) );
-        CHECK( 3. == Approx( chunk.x()[2] ) );
-        CHECK( 4. == Approx( chunk.x()[3] ) );
-        CHECK( 4. == Approx( chunk.y()[0] ) );
-        CHECK( 3. == Approx( chunk.y()[1] ) );
-        CHECK( 2. == Approx( chunk.y()[2] ) );
-        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -48,18 +51,19 @@ SCENARIO( "LinearLinearTable" ) {
       THEN( "a LinearLinearTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk( 1. ) ) );
-        CHECK( 3. == Approx( chunk( 2. ) ) );
-        CHECK( 2. == Approx( chunk( 3. ) ) );
-        CHECK( 1. == Approx( chunk( 4. ) ) );
+        CHECK_THAT( 4., WithinRel( chunk( 1. ) ) );
+        CHECK_THAT( 3., WithinRel( chunk( 2. ) ) );
+        CHECK_THAT( 2., WithinRel( chunk( 3. ) ) );
+        CHECK_THAT( 1., WithinRel( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk( 0. ) ) );
-        CHECK( 0. == Approx( chunk( 5. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 0. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
-        CHECK( 1.5 == Approx( chunk( 3.5 ) ) );
+        CHECK_THAT( 3.5, WithinRel( chunk( 1.5 ) ) );
+        CHECK_THAT( 2.5, WithinRel( chunk( 2.5 ) ) );
+        CHECK_THAT( 1.5, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {
@@ -102,14 +106,14 @@ SCENARIO( "LinearLinearTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolation() );
         CHECK( 4 == chunk.x().size() );
         CHECK( 4 == chunk.y().size() );
-        CHECK( 1. == Approx( chunk.x()[0] ) );
-        CHECK( 2. == Approx( chunk.x()[1] ) );
-        CHECK( 3. == Approx( chunk.x()[2] ) );
-        CHECK( 4. == Approx( chunk.x()[3] ) );
-        CHECK( 4. == Approx( chunk.y()[0] ) );
-        CHECK( 3. == Approx( chunk.y()[1] ) );
-        CHECK( 2. == Approx( chunk.y()[2] ) );
-        CHECK( 1. == Approx( chunk.y()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -117,18 +121,18 @@ SCENARIO( "LinearLinearTable" ) {
       THEN( "a LinearLinearTable can be evaluated" ) {
 
         // values of x in the x grid
-        CHECK( 4. == Approx( chunk( 1. ) ) );
-        CHECK( 3. == Approx( chunk( 2. ) ) );
-        CHECK( 2. == Approx( chunk( 3. ) ) );
-        CHECK( 1. == Approx( chunk( 4. ) ) );
+        CHECK_THAT( 4., WithinRel( chunk( 1. ) ) );
+        CHECK_THAT( 3., WithinRel( chunk( 2. ) ) );
+        CHECK_THAT( 2., WithinRel( chunk( 3. ) ) );
+        CHECK_THAT( 1., WithinRel( chunk( 4. ) ) );
 
         // values of x outside the x grid
-        CHECK( 0. == Approx( chunk( 0. ) ) );
-        CHECK( 0. == Approx( chunk( 5. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 0. ) ) );
+        CHECK_THAT( 0., WithinRel( chunk( 5. ) ) );
 
         // values of x inside the x grid
-        CHECK( 3.5 == Approx( chunk( 1.5 ) ) );
-        CHECK( 1.5 == Approx( chunk( 3.5 ) ) );
+        CHECK_THAT( 3.5, WithinRel( chunk( 1.5 ) ) );
+        CHECK_THAT( 1.5, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {

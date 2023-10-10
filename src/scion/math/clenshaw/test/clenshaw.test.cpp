@@ -1,6 +1,9 @@
-#define CATCH_CONFIG_MAIN
+// include Catch2
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_floating_point.hpp>
+using Catch::Matchers::WithinRel;
 
-#include "catch.hpp"
+// what we are testing
 #include "scion/math/clenshaw.hpp"
 
 // other includes
@@ -27,20 +30,20 @@ SCENARIO( "clenshaw" ) {
 
       THEN( "the polynomials can be evaluated" ) {
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 0., 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK(  3. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK(  6. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK( 10. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 1., 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK( -1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK(  2. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
       } // THEN
     } // WHEN
 
@@ -48,20 +51,20 @@ SCENARIO( "clenshaw" ) {
 
       THEN( "the polynomials can be evaluated" ) {
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
-        CHECK(  3. == Approx( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
-        CHECK(  6. == Approx( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
-        CHECK( 10. == Approx( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
-        CHECK( -1. == Approx( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
-        CHECK(  2. == Approx( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -87,35 +90,35 @@ SCENARIO( "clenshaw" ) {
 
       THEN( "the Legendre polynomials can be evaluated" ) {
 
-        CHECK(   1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK(   1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 0., 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK(  3. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK(  6. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK( 10. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 1., 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK( -1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK(  2. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
 
-        CHECK(   1. == Approx( math::clenshawLegendre( order0.rbegin(), order0.rend(), 0. ) ) );
-        CHECK(   1. == Approx( math::clenshawLegendre( order1.rbegin(), order1.rend(), 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshawLegendre( order2.rbegin(), order2.rend(), 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshawLegendre( order3.rbegin(), order3.rend(), 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshawLegendre( order0.rbegin(), order0.rend(), 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshawLegendre( order1.rbegin(), order1.rend(), 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshawLegendre( order2.rbegin(), order2.rend(), 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshawLegendre( order3.rbegin(), order3.rend(), 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawLegendre( order0.rbegin(), order0.rend(), 1. ) ) );
-        CHECK(  3. == Approx( math::clenshawLegendre( order1.rbegin(), order1.rend(), 1. ) ) );
-        CHECK(  6. == Approx( math::clenshawLegendre( order2.rbegin(), order2.rend(), 1. ) ) );
-        CHECK( 10. == Approx( math::clenshawLegendre( order3.rbegin(), order3.rend(), 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawLegendre( order0.rbegin(), order0.rend(), 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshawLegendre( order1.rbegin(), order1.rend(), 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshawLegendre( order2.rbegin(), order2.rend(), 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshawLegendre( order3.rbegin(), order3.rend(), 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawLegendre( order0.rbegin(), order0.rend(), -1. ) ) );
-        CHECK( -1. == Approx( math::clenshawLegendre( order1.rbegin(), order1.rend(), -1. ) ) );
-        CHECK(  2. == Approx( math::clenshawLegendre( order2.rbegin(), order2.rend(), -1. ) ) );
-        CHECK( -2. == Approx( math::clenshawLegendre( order3.rbegin(), order3.rend(), -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawLegendre( order0.rbegin(), order0.rend(), -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshawLegendre( order1.rbegin(), order1.rend(), -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshawLegendre( order2.rbegin(), order2.rend(), -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawLegendre( order3.rbegin(), order3.rend(), -1. ) ) );
       } // THEN
     } // WHEN
 
@@ -123,35 +126,35 @@ SCENARIO( "clenshaw" ) {
 
       THEN( "the Legendre polynomials can be evaluated" ) {
 
-        CHECK(   1. == Approx( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
-        CHECK(   1. == Approx( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
-        CHECK(  3. == Approx( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
-        CHECK(  6. == Approx( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
-        CHECK( 10. == Approx( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
-        CHECK( -1. == Approx( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
-        CHECK(  2. == Approx( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
 
-        CHECK(   1. == Approx( math::clenshawLegendre( order0, 0. ) ) );
-        CHECK(   1. == Approx( math::clenshawLegendre( order1, 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshawLegendre( order2, 0. ) ) );
-        CHECK( -0.5 == Approx( math::clenshawLegendre( order3, 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshawLegendre( order0, 0. ) ) );
+        CHECK_THAT(   1., WithinRel( math::clenshawLegendre( order1, 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshawLegendre( order2, 0. ) ) );
+        CHECK_THAT( -0.5, WithinRel( math::clenshawLegendre( order3, 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawLegendre( order0, 1. ) ) );
-        CHECK(  3. == Approx( math::clenshawLegendre( order1, 1. ) ) );
-        CHECK(  6. == Approx( math::clenshawLegendre( order2, 1. ) ) );
-        CHECK( 10. == Approx( math::clenshawLegendre( order3, 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawLegendre( order0, 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshawLegendre( order1, 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshawLegendre( order2, 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshawLegendre( order3, 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawLegendre( order0, -1. ) ) );
-        CHECK( -1. == Approx( math::clenshawLegendre( order1, -1. ) ) );
-        CHECK(  2. == Approx( math::clenshawLegendre( order2, -1. ) ) );
-        CHECK( -2. == Approx( math::clenshawLegendre( order3, -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawLegendre( order0, -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshawLegendre( order1, -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshawLegendre( order2, -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawLegendre( order3, -1. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -177,35 +180,35 @@ SCENARIO( "clenshaw" ) {
 
       THEN( "the Chebyshev polynomials can be evaluated" ) {
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 0., 0. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 0., 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK(  3. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK(  6. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 1., 1. ) ) );
-        CHECK( 10. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., 1., 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., 1., 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK( -1. == Approx( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK(  2. == Approx( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0.rbegin(), order0.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshaw( order1.rbegin(), order1.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshaw( order2.rbegin(), order2.rend(), a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3.rbegin(), order3.rend(), a, b, 1., -1., -1. ) ) );
 
-        CHECK(   1. == Approx( math::clenshawChebyshev( order0.rbegin(), order0.rend(), 0. ) ) );
-        CHECK(   1. == Approx( math::clenshawChebyshev( order1.rbegin(), order1.rend(), 0. ) ) );
-        CHECK(  -2. == Approx( math::clenshawChebyshev( order2.rbegin(), order2.rend(), 0. ) ) );
-        CHECK(  -2. == Approx( math::clenshawChebyshev( order3.rbegin(), order3.rend(), 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order0.rbegin(), order0.rend(), 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order1.rbegin(), order1.rend(), 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawChebyshev( order2.rbegin(), order2.rend(), 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawChebyshev( order3.rbegin(), order3.rend(), 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawChebyshev( order0.rbegin(), order0.rend(), 1. ) ) );
-        CHECK(  3. == Approx( math::clenshawChebyshev( order1.rbegin(), order1.rend(), 1. ) ) );
-        CHECK(  6. == Approx( math::clenshawChebyshev( order2.rbegin(), order2.rend(), 1. ) ) );
-        CHECK( 10. == Approx( math::clenshawChebyshev( order3.rbegin(), order3.rend(), 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order0.rbegin(), order0.rend(), 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshawChebyshev( order1.rbegin(), order1.rend(), 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshawChebyshev( order2.rbegin(), order2.rend(), 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshawChebyshev( order3.rbegin(), order3.rend(), 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawChebyshev( order0.rbegin(), order0.rend(), -1. ) ) );
-        CHECK( -1. == Approx( math::clenshawChebyshev( order1.rbegin(), order1.rend(), -1. ) ) );
-        CHECK(  2. == Approx( math::clenshawChebyshev( order2.rbegin(), order2.rend(), -1. ) ) );
-        CHECK( -2. == Approx( math::clenshawChebyshev( order3.rbegin(), order3.rend(), -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order0.rbegin(), order0.rend(), -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshawChebyshev( order1.rbegin(), order1.rend(), -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshawChebyshev( order2.rbegin(), order2.rend(), -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawChebyshev( order3.rbegin(), order3.rend(), -1. ) ) );
       } // THEN
     } // WHEN
 
@@ -213,35 +216,35 @@ SCENARIO( "clenshaw" ) {
 
       THEN( "the Chebyshev polynomials can be evaluated" ) {
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
-        CHECK(  1. == Approx( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order1, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order2, a, b, 1., 0., 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3, a, b, 1., 0., 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
-        CHECK(  3. == Approx( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
-        CHECK(  6. == Approx( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
-        CHECK( 10. == Approx( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshaw( order1, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshaw( order2, a, b, 1., 1., 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshaw( order3, a, b, 1., 1., 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
-        CHECK( -1. == Approx( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
-        CHECK(  2. == Approx( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
-        CHECK( -2. == Approx( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshaw( order0, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshaw( order1, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshaw( order2, a, b, 1., -1., -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshaw( order3, a, b, 1., -1., -1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawChebyshev( order0, 0. ) ) );
-        CHECK(  1. == Approx( math::clenshawChebyshev( order1, 0. ) ) );
-        CHECK( -2. == Approx( math::clenshawChebyshev( order2, 0. ) ) );
-        CHECK( -2. == Approx( math::clenshawChebyshev( order3, 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order0, 0. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order1, 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawChebyshev( order2, 0. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawChebyshev( order3, 0. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawChebyshev( order0, 1. ) ) );
-        CHECK(  3. == Approx( math::clenshawChebyshev( order1, 1. ) ) );
-        CHECK(  6. == Approx( math::clenshawChebyshev( order2, 1. ) ) );
-        CHECK( 10. == Approx( math::clenshawChebyshev( order3, 1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order0, 1. ) ) );
+        CHECK_THAT(  3., WithinRel( math::clenshawChebyshev( order1, 1. ) ) );
+        CHECK_THAT(  6., WithinRel( math::clenshawChebyshev( order2, 1. ) ) );
+        CHECK_THAT( 10., WithinRel( math::clenshawChebyshev( order3, 1. ) ) );
 
-        CHECK(  1. == Approx( math::clenshawChebyshev( order0, -1. ) ) );
-        CHECK( -1. == Approx( math::clenshawChebyshev( order1, -1. ) ) );
-        CHECK(  2. == Approx( math::clenshawChebyshev( order2, -1. ) ) );
-        CHECK( -2. == Approx( math::clenshawChebyshev( order3, -1. ) ) );
+        CHECK_THAT(  1., WithinRel( math::clenshawChebyshev( order0, -1. ) ) );
+        CHECK_THAT( -1., WithinRel( math::clenshawChebyshev( order1, -1. ) ) );
+        CHECK_THAT(  2., WithinRel( math::clenshawChebyshev( order2, -1. ) ) );
+        CHECK_THAT( -2., WithinRel( math::clenshawChebyshev( order3, -1. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
