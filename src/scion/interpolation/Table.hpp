@@ -6,7 +6,7 @@
 #include <iterator>
 
 // other includes
-#include "Log.hpp"
+#include "utility/Log.hpp"
 #include "scion/verification/ranges.hpp"
 
 namespace njoy {

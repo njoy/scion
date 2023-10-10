@@ -4,7 +4,7 @@
 // system includes
 
 // other includes
-#include "Log.hpp"
+#include "utility/Log.hpp"
 
 namespace njoy {
 namespace scion {

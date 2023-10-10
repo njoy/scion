@@ -4,6 +4,7 @@
 // system includes
 
 // other includes
+#include "utility/Log.hpp"
 #include "scion/linearisation/grid.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"

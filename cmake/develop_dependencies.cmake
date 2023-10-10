@@ -12,11 +12,12 @@ FetchContent_Declare( eigen
     )
 set( BUILD_TESTING CACHE BOOL OFF )
 
-FetchContent_Declare( Log
-    GIT_REPOSITORY  https://github.com/njoy/Log
-    GIT_TAG         origin/master
+FetchContent_Declare( spdlog
+    GIT_REPOSITORY  https://github.com/gabime/spdlog
+    GIT_TAG         v1.11.0
     GIT_SHALLOW     TRUE
     )
+set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
 
 FetchContent_Declare( catch-adapter
     GIT_REPOSITORY  https://github.com/njoy/catch-adapter
@@ -35,7 +36,7 @@ FetchContent_Declare( pybind11
 
 FetchContent_MakeAvailable(
     eigen
-    Log
+    spdlog
     catch-adapter
     pybind11
     )
