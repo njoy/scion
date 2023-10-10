@@ -98,62 +98,6 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     "is_linearised",
     &Component::isLinearised,
     "Flag indicating whether or not the data is linearised"
-  )
-  .def(
-
-    "__add__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self + right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__sub__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self - right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__mul__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self * right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__truediv__",
-    [] ( const Component& self, const Y& right ) -> decltype(auto)
-       { return self / right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__iadd__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self += right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__isub__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self -= right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__imul__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self *= right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__itruediv__",
-    [] ( Component& self, const Y& right ) -> decltype(auto)
-       { return self /= right; },
-    python::is_operator()
   );
 
   // add standard function definitions

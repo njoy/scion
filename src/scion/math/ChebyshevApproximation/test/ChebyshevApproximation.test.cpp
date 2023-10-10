@@ -102,6 +102,22 @@ SCENARIO( "ChebyshevApproximation" ) {
                                                 std::vector< double >{ 3., 0., 1. } );
         ChebyshevApproximation< double > result( -1., 1., std::vector< double >{ 0. } );
 
+        result = -chunk;
+
+        CHECK( 10 == result.order() );
+        CHECK( 11 == result.coefficients().size() );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( -1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         chunk += 2.;
 
         CHECK( 10 == chunk.order() );
@@ -214,12 +230,44 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = 2. + chunk;
+
+        CHECK( 10 == result.order() );
+        CHECK( 11 == result.coefficients().size() );
+        CHECK_THAT( 2., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( 1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         result = chunk - 2.;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );
         CHECK_THAT( -2., WithinRel( result.coefficients()[0] ) );
         CHECK_THAT(  1., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = 2. - chunk;
+
+        CHECK( 10 == result.order() );
+        CHECK( 11 == result.coefficients().size() );
+        CHECK_THAT(  2., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT( -1., WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[2], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[3], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[4], 1e-12 ) );
@@ -263,6 +311,22 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk * 2.;
+
+        CHECK( 10 == result.order() );
+        CHECK( 11 == result.coefficients().size() );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[0], 1e-12 ) );
+        CHECK_THAT( 2., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[2], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[3], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[4], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[5], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[6], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
+        CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = 2. * chunk;
 
         CHECK( 10 == result.order() );
         CHECK( 11 == result.coefficients().size() );

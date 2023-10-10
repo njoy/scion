@@ -1,4 +1,24 @@
 template < typename BinaryOperation >
+InterpolationTable& operation( const Y& right,
+                               BinaryOperation operation ) {
+
+  // tables need to be linearised for the operation to be performed
+  if ( this->isLinearised() ) {
+
+    std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
+                    [&right, &operation] ( auto&& y )
+                                         { return operation( y, right ); } );
+
+    return *this;
+  }
+  else {
+
+    Log::error( "Cannot perform scalar operation on a table that has not been linearised" );
+    throw std::exception();
+  }
+}
+
+template < typename BinaryOperation >
 InterpolationTable& operation( const InterpolationTable& right,
                                BinaryOperation operation ) {
 

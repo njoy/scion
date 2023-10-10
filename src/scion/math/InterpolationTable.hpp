@@ -141,11 +141,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator+=( const Y& right ) noexcept {
+    InterpolationTable& operator+=( const Y& right ) {
 
-      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
-                      [&right] ( auto&& y ) { return y + right; } );
-      return *this;
+      return this->operation( right, std::plus< Y >() );
     }
 
     /**
@@ -153,9 +151,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator-=( const Y& right ) noexcept {
+    InterpolationTable& operator-=( const Y& right ) {
 
-      return this->operator+=( -right );
+      return this->operation( right, std::minus< Y >() );
     }
 
     /**
@@ -163,11 +161,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator*=( const Y& right ) noexcept {
+    InterpolationTable& operator*=( const Y& right ) {
 
-      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
-                      [&right] ( auto&& y ) { return y * right; } );
-      return *this;
+      return this->operation( right, std::multiplies< Y >() );
     }
 
     /**
@@ -175,17 +171,17 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator/=( const Y& right ) noexcept {
+    InterpolationTable& operator/=( const Y& right ) {
 
-      return this->operator*=( Y( 1. ) / right );
+      return this->operation( Y( 1. ) / right, std::multiplies< Y >() );
     }
 
     /**
-     *  @brief Scalar addition
+     *  @brief InterpolationTable and scalar addition
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator+( const Y& right ) const noexcept {
+    InterpolationTable operator+( const Y& right ) const {
 
       InterpolationTable result = *this;
       result += right;
@@ -193,11 +189,11 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar subtraction
+     *  @brief InterpolationTable and scalar subtraction
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator-( const Y& right ) const noexcept {
+    InterpolationTable operator-( const Y& right ) const {
 
       InterpolationTable result = *this;
       result -= right;
@@ -205,11 +201,11 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar multiplication
+     *  @brief InterpolationTable and scalar multiplication
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator*( const Y& right ) const noexcept {
+    InterpolationTable operator*( const Y& right ) const {
 
       InterpolationTable result = *this;
       result *= right;
@@ -217,14 +213,24 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar division
+     *  @brief InterpolationTable and scalar division
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator/( const Y& right ) const noexcept {
+    InterpolationTable operator/( const Y& right ) const {
 
       InterpolationTable result = *this;
       result /= right;
+      return result;
+    }
+
+    /**
+     *  @brief Unary minus
+     */
+    InterpolationTable operator-() const {
+
+      InterpolationTable result = *this;
+      result *= Y( -1. );
       return result;
     }
 
@@ -249,7 +255,7 @@ namespace math {
     }
 
     /**
-     *  @brief InterpolationTable addition
+     *  @brief InterpolationTable and InterpolationTable addition
      *
      *  @param[in] right    the table
      */
@@ -261,7 +267,7 @@ namespace math {
     }
 
     /**
-     *  @brief InterpolationTable subtraction
+     *  @brief InterpolationTable and InterpolationTable subtraction
      *
      *  @param[in] right    the table
      */
@@ -278,6 +284,47 @@ namespace math {
     using Parent::isContained;
     using Parent::isSameDomain;
   };
+
+  /**
+   *  @brief Scalar and InterpolationTable addition
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  InterpolationTable< X, Y >
+  operator+( const Y& left, const InterpolationTable< X, Y >& right ) {
+
+    return right + left;
+  }
+
+  /**
+   *  @brief Scalar and InterpolationTable subtraction
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  InterpolationTable< X, Y >
+  operator-( const Y& left, const InterpolationTable< X, Y >& right ) {
+
+    auto result = -right;
+    result += left;
+    return result;
+  }
+
+  /**
+   *  @brief Scalar and InterpolationTable multiplication
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  InterpolationTable< X, Y >
+  operator*( const Y& left, const InterpolationTable< X, Y >& right ) {
+
+    return right * left;
+  }
 
 } // math namespace
 } // scion namespace

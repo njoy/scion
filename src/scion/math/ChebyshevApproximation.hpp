@@ -108,38 +108,6 @@ namespace math {
     }
 
     /**
-     *  @brief Inplace series addition
-     *
-     *  There is no domain checking on the two series. It is up to the user to
-     *  verify that the domain of the two series are compatible.
-     *
-     *  @todo add domain check?
-     *
-     *  @param[in] right    the series
-     */
-    ChebyshevApproximation& operator+=( const ChebyshevApproximation& right ) {
-
-      this->series_ += right.series_;
-      return *this;
-    }
-
-    /**
-     *  @brief Inplace series subtraction
-     *
-     *  There is no domain checking on the two series. It is up to the user to
-     *  verify that the domain of the two series are compatible.
-     *
-     *  @todo add domain check?
-     *
-     *  @param[in] right    the series
-     */
-    ChebyshevApproximation& operator-=( const ChebyshevApproximation& right ) {
-
-      this->series_ -= right.series_;
-      return *this;
-    }
-
-    /**
      *  @brief Inplace scalar multiplication
      *
      *  @param[in] right    the scalar
@@ -161,7 +129,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar addition
+     *  @brief Approximation and scalar addition
      *
      *  @param[in] right    the scalar
      */
@@ -173,7 +141,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar subtraction
+     *  @brief Approximation and scalar subtraction
      *
      *  @param[in] right    the scalar
      */
@@ -185,7 +153,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar multiplication
+     *  @brief Approximation and scalar multiplication
      *
      *  @param[in] right    the scalar
      */
@@ -197,7 +165,7 @@ namespace math {
     }
 
     /**
-     *  @brief Scalar division
+     *  @brief Approximation and scalar division
      *
      *  @param[in] right    the scalar
      */
@@ -209,7 +177,49 @@ namespace math {
     }
 
     /**
-     *  @brief Series addition
+     *  @brief Unary minus
+     */
+    ChebyshevApproximation operator-() const {
+
+      ChebyshevApproximation result = *this;
+      result *= Y( -1. );
+      return result;
+    }
+
+    /**
+     *  @brief Inplace approximation addition
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
+     */
+    ChebyshevApproximation& operator+=( const ChebyshevApproximation& right ) {
+
+      this->series_ += right.series_;
+      return *this;
+    }
+
+    /**
+     *  @brief Inplace approximation subtraction
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @param[in] right    the series
+     */
+    ChebyshevApproximation& operator-=( const ChebyshevApproximation& right ) {
+
+      this->series_ -= right.series_;
+      return *this;
+    }
+
+    /**
+     *  @brief Approximation and approximation addition
      *
      *  @param[in] right    the Series
      */
@@ -221,7 +231,7 @@ namespace math {
     }
 
     /**
-     *  @brief Series subtraction
+     *  @brief Approximation and approximation subtraction
      *
      *  @param[in] right    the Series
      */
@@ -238,6 +248,47 @@ namespace math {
     using Parent::isContained;
     using Parent::isSameDomain;
   };
+
+  /**
+   *  @brief Scalar and approximation addition
+   *
+   *  @param[in] left     the scalar
+   *  @param[in] right    the approximation
+   */
+  template < typename X, typename Y = X >
+  ChebyshevApproximation< X, Y >
+  operator+( const Y& left, const ChebyshevApproximation< X, Y >& right ) {
+
+    return right + left;
+  }
+
+  /**
+   *  @brief Scalar and approximation subtraction
+   *
+   *  @param[in] left     the scalar
+   *  @param[in] right    the approximation
+   */
+  template < typename X, typename Y = X >
+  ChebyshevApproximation< X, Y >
+  operator-( const Y& left, const ChebyshevApproximation< X, Y >& right ) {
+
+    auto result = -right;
+    result += left;
+    return result;
+  }
+
+  /**
+   *  @brief Scalar and approximation multiplication
+   *
+   *  @param[in] left     the scalar
+   *  @param[in] right    the approximation
+   */
+  template < typename X, typename Y = X >
+  ChebyshevApproximation< X, Y >
+  operator*( const Y& left, const ChebyshevApproximation< X, Y >& right ) {
+
+    return right * left;
+  }
 
 } // math namespace
 } // scion namespace
