@@ -38,6 +38,5 @@ FetchContent_Declare( pybind11
 FetchContent_MakeAvailable(
     eigen
     spdlog
-    Catch2
     pybind11
     )
