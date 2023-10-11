@@ -59,7 +59,7 @@ endif()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 add_library( scion INTERFACE )
-add_library( njoy::scion ALIAS ACEtk )
+add_library( njoy::scion ALIAS scion )
 target_include_directories( scion
   INTERFACE
     $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>

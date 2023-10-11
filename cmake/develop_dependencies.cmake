@@ -7,10 +7,9 @@ include( FetchContent )
 
 FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
-    GIT_TAG         3.4.0
+    GIT_TAG         d0bfdc1658ca0b4c659fd3702c351d2c2cdc876c # 3.4.1 branch on July 26, 2023
     GIT_SHALLOW     TRUE
     )
-set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( spdlog
     GIT_REPOSITORY  https://github.com/gabime/spdlog
