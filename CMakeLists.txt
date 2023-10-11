@@ -14,6 +14,7 @@ project( scion
   LANGUAGES CXX
 )
 
+include( CTest )
 include( CMakeDependentOption )
 include( GNUInstallDirs )
 
@@ -24,8 +25,16 @@ include( GNUInstallDirs )
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
-option( scion.tests  "Build the scion unit tests"  OFF )
-option( scion.python "Build scion python bindings" ON )
+cmake_dependent_option( 
+  scion.tests
+  "Build the scion unit tests and integrate with ctest" ON
+  "BUILD_TESTING AND NOT ${subproject}" OFF
+)
+cmake_dependent_option( 
+  scion.python
+  "Build scion python bindings" ON
+  "NOT ${subproject}" OFF
+)
 
 ########################################################################
 # Dependencies
@@ -132,3 +141,4 @@ if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
     include( cmake/unit_testing.cmake )
   endif()
 endif()
+
