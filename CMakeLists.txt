@@ -86,6 +86,8 @@ target_link_libraries( scion
 
 if( scion.python )
 
+  FetchContent_MakeAvailable( pybind11 )
+
   pybind11_add_module( scion.python
       python/src/scion.python.cpp
       python/src/interpolation.python.cpp

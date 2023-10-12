@@ -32,6 +32,5 @@ set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
 
 FetchContent_MakeAvailable(
     eigen
-    pybind11
     spdlog
     )
