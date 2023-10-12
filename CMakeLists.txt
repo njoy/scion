@@ -77,7 +77,7 @@ target_include_directories( scion
 target_link_libraries( scion
   INTERFACE
     eigen
-    spdlog::spdlog
+    njoy::tools
 )
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

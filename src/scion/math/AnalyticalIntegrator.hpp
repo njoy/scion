@@ -4,9 +4,9 @@
 // system includes
 
 // other includes
+#include "tools/Log.hpp"
 #include "scion/math/InterpolationTable.hpp"
 #include "scion/integration.hpp"
-#include "utility/Log.hpp"
 
 namespace njoy {
 namespace scion {

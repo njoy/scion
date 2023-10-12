@@ -4,7 +4,7 @@
 // system includes
 
 // other includes
-#include "utility/Log.hpp"
+#include "tools/Log.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"

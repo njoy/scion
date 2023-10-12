@@ -26,6 +26,11 @@ FetchContent_Declare( spdlog
     )
 set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
 
+FetchContent_Declare( tools
+    GIT_REPOSITORY  https://github.com/njoy/tools
+    GIT_TAG         25c9273d05601a9644feea6d7539250bf1d1c0dc # tag: v0.2.0
+    )
+
 #######################################################################
 # Load dependencies
 #######################################################################
@@ -33,4 +38,5 @@ set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
 FetchContent_MakeAvailable(
     eigen
     spdlog
+    tools
     )
