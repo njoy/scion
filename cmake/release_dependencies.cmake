@@ -12,9 +12,8 @@ FetchContent_Declare( Catch2
 
 FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
-    GIT_TAG         3147391d946bb4b6c68edd901f2add6ac1f31f8c # tag: 3.4.0
+    GIT_TAG         d0bfdc1658ca0b4c659fd3702c351d2c2cdc876c # 3.4.1 branch on July 26, 2023
     )
-set( BUILD_TESTING CACHE BOOL OFF )
 
 FetchContent_Declare( pybind11
     GIT_REPOSITORY  https://github.com/pybind/pybind11
@@ -32,8 +31,6 @@ set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
 #######################################################################
 
 FetchContent_MakeAvailable(
-    Catch2
     eigen
-    pybind11
     spdlog
     )

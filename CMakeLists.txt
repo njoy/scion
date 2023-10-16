@@ -1,8 +1,22 @@
 ########################################################################
 # Preamble
 ########################################################################
+
 cmake_minimum_required( VERSION 3.14 )
-project( scion LANGUAGES CXX )
+
+set( subproject OFF )
+if( DEFINED PROJECT_NAME )
+  set( subproject ON )
+endif()
+
+project( scion
+  VERSION 0.1.0
+  LANGUAGES CXX
+)
+
+include( CTest )
+include( CMakeDependentOption )
+include( GNUInstallDirs )
 
 ########################################################################
 # Project-wide setup
@@ -11,18 +25,16 @@ project( scion LANGUAGES CXX )
 set( CMAKE_CXX_STANDARD 17 )
 set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
-option( scion.tests "Build the scion unit tests" OFF )
-option( scion.python "Build scion python bindings" ON )
-option( strict_compile
-    "Treat all warnings as errors." ON
-    )
-
-# Compile flags
-set( common_flags "-Wall" "-Wextra" "-Wpedantic" )
-set( strict_flags "-Werror" )
-set( release_flags "-O3" )
-set( debug_flags "-O0" "-g" )
-
+cmake_dependent_option(
+  scion.tests
+  "Build the scion unit tests and integrate with ctest" ON
+  "BUILD_TESTING AND NOT ${subproject}" OFF
+)
+cmake_dependent_option(
+  scion.python
+  "Build scion python bindings" ON
+  "NOT ${subproject}" OFF
+)
 
 ########################################################################
 # Dependencies
@@ -55,20 +67,26 @@ endif()
 # scion : library
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-include_directories( src/ )
-
 add_library( scion INTERFACE )
-target_include_directories( scion INTERFACE src/ )
+add_library( njoy::scion ALIAS scion )
+target_include_directories( scion
+  INTERFACE
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>
+    $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
+)
 target_link_libraries( scion
-    INTERFACE eigen
-    INTERFACE spdlog::spdlog
-    )
+  INTERFACE
+    eigen
+    spdlog::spdlog
+)
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # scion : python bindings
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 if( scion.python )
+
+  FetchContent_MakeAvailable( pybind11 )
 
   pybind11_add_module( scion.python
       python/src/scion.python.cpp
@@ -110,7 +128,7 @@ if( scion.python )
   target_compile_options( scion.python PRIVATE "-fvisibility=hidden" )
   set_target_properties( scion.python PROPERTIES OUTPUT_NAME scion )
   set_target_properties( scion.python PROPERTIES COMPILE_DEFINITIONS "PYBIND11" )
-  set_target_properties( scion.python PROPERTIES POSITION_INDEPENDENT_CODE ON)
+  set_target_properties( scion.python PROPERTIES POSITION_INDEPENDENT_CODE ON )
 
   message( STATUS "Building scion's python API" )
 
