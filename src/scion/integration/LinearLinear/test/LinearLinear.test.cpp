@@ -26,7 +26,11 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.5, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -42,7 +46,11 @@ SCENARIO( "LinearLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.5, WithinRel( integration::linlin( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinRel( integration::linlin( xLeft, xLeft, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

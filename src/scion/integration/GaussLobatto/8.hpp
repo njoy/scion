@@ -15,8 +15,6 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Lobatto 8-point quadrature rule
-   *
-   *  This quadrature rule integrates polynomials of order 13 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLobatto< 8, X, Y > :

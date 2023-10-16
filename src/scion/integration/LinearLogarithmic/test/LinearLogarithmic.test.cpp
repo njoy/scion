@@ -26,7 +26,11 @@ SCENARIO( "LinearLogarithmic" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.67191487733311, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -42,7 +46,11 @@ SCENARIO( "LinearLogarithmic" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // different x values
         CHECK_THAT( 2.67191487733311, WithinRel( integration::linlog( xLeft, xRight, yLeft, yRight ) ) );
+
+        // equal x values
+        CHECK_THAT( 0., WithinRel( integration::linlog( xLeft, xLeft, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

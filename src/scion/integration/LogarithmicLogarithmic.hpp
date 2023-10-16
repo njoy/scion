@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTERPOLATION_LOGARITHMICLOGARITHMIC
-#define NJOY_SCION_INTERPOLATION_LOGARITHMICLOGARITHMIC
+#ifndef NJOY_SCION_INTEGRATION_LOGARITHMICLOGARITHMIC
+#define NJOY_SCION_INTEGRATION_LOGARITHMICLOGARITHMIC
 
 // system includes
 #include <cmath>
@@ -44,9 +44,16 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
-      const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
-      return xLeft * yLeft / ( slope + 1. )
-             * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
+      if ( xLeft == xRight ) {
+
+        return I( 0. );
+      }
+      else {
+
+        const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
+        return xLeft * yLeft / ( slope + 1. )
+               * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
+      }
     }
 
   public:

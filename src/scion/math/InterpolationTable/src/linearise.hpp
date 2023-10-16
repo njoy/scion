@@ -18,18 +18,11 @@ InterpolationTable linearise( Convergence&& convergence = Convergence() ) const 
 
     auto check = [this] ( const auto& table ) {
 
-      if ( table.x().end() != this->x().end() ) {
-
-        if ( *( table.x().end() ) == table.x().back() ) {
-
-          if ( *( table.y().end() ) != table.y().back() ) {
-
-            return true;
-          }
-        }
-        return false;
-      }
-      return true;
+      return table.x().end() != this->x().end()
+             ? ( *( table.x().end() ) == table.x().back() )
+               ? ( *( table.y().end() ) != table.y().back() ? true : false )
+               : false
+             : true;
     };
 
     for ( const auto& table : this->tables_ ) {

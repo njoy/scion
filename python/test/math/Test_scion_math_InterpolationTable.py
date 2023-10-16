@@ -1372,6 +1372,14 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             chunk = InterpolationTable( x = [ 1., 2., 4., 4. ],
                                         y = [ 4., 3., 1., 4. ] )
 
+        # the last boundary does not point to the last point
+        with self.assertRaises( Exception ) :
+
+            chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
+                                        y = [ 4., 3., 2., 1. ],
+                                        boundaries = [ 2 ],
+                                        interpolants = [ InterpolationType.LinearLinear ] )
+
 if __name__ == '__main__' :
 
     unittest.main()
