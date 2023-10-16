@@ -27,7 +27,6 @@ endfunction()
 #######################################################################
 
 add_subdirectory( src/utility/IteratorView/test )
-add_subdirectory( src/utility/Log/test )
 
 add_subdirectory( src/scion/verification/ranges/test )
 
