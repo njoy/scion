@@ -45,8 +45,12 @@ void wrapGaussLegendreFor( python::module& module, const std::string& name ) {
 void wrapGaussLegendre( python::module& module ) {
 
   // wrap the integration functions we need
-  wrapGaussLegendreFor< 2, double >( module, "GaussLegendre2" );
-  wrapGaussLegendreFor< 7, double >( module, "GaussLegendre7" );
+  wrapGaussLegendreFor<  2, double >( module, "GaussLegendre2" );
+  wrapGaussLegendreFor<  4, double >( module, "GaussLegendre4" );
+  wrapGaussLegendreFor<  6, double >( module, "GaussLegendre6" );
+  wrapGaussLegendreFor<  7, double >( module, "GaussLegendre7" );
+  wrapGaussLegendreFor<  8, double >( module, "GaussLegendre8" );
+  wrapGaussLegendreFor< 10, double >( module, "GaussLegendre10" );
 }
 
 } // namespace integration

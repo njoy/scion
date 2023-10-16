@@ -19,7 +19,17 @@ SCENARIO( "Gauss-Legendre 2-point quadrature rule" ) {
 
       integration::GaussLegendre< 2, double > integrator{};
 
-      THEN( "the integration is performed correctly" ) {
+      THEN( "the integration is performed exactly for an order 0 polynomial" ) {
+
+        // y = f(x) = x + 1
+        auto functor = [] ( double x ) { return 1.; };
+
+        CHECK_THAT( 2., WithinRel( integrator( functor ) ) );
+        CHECK_THAT( 2., WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 2., WithinRel( integrator( functor,  3.,  5. ) ) );
+      } // THEN
+
+      THEN( "the integration is performed exactly for an order 1 polynomial" ) {
 
         // y = f(x) = x + 1
         auto functor = [] ( double x ) { return x + 1.; };
@@ -27,6 +37,26 @@ SCENARIO( "Gauss-Legendre 2-point quadrature rule" ) {
         CHECK_THAT(  2., WithinRel( integrator( functor ) ) );
         CHECK_THAT(  2., WithinRel( integrator( functor, -1.,  1. ) ) );
         CHECK_THAT( 10., WithinRel( integrator( functor,  3.,  5. ) ) );
+      } // THEN
+
+      THEN( "the integration is performed exactly for an order 2 polynomial" ) {
+
+        // y = f(x) = x + 1
+        auto functor = [] ( double x ) { return x * x + 1.; };
+
+        CHECK_THAT(  2.66666666666666, WithinRel( integrator( functor ) ) );
+        CHECK_THAT(  2.66666666666666, WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 34.66666666666666, WithinRel( integrator( functor,  3.,  5. ) ) );
+      } // THEN
+
+      THEN( "the integration is performed exactly for an order 3 polynomial" ) {
+
+        // y = f(x) = x + 1
+        auto functor = [] ( double x ) { return x * x * x + 1.; };
+
+        CHECK_THAT(   2., WithinRel( integrator( functor ) ) );
+        CHECK_THAT(   2., WithinRel( integrator( functor, -1.,  1. ) ) );
+        CHECK_THAT( 138., WithinRel( integrator( functor,  3.,  5. ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

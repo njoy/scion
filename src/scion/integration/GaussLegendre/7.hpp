@@ -15,6 +15,8 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Legendre 7-point quadrature rule
+   *
+   *  This quadrature rule integrates polynomials of order 13 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLegendre< 7, X, Y > :
@@ -41,13 +43,13 @@ namespace integration {
 
       static constexpr const std::array< std::pair< X, double >, 7 > pairs = {
 
-        std::pair< X, double >{ -0.949107912342759, 0.129484966168870 },
-        std::pair< X, double >{ -0.741531185599394, 0.279705391489277 },
-        std::pair< X, double >{ -0.405845151377397, 0.381830050505119 },
-        std::pair< X, double >{  0.000000000000000, 0.417959183673469 },
-        std::pair< X, double >{  0.405845151377397, 0.381830050505119 },
-        std::pair< X, double >{  0.741531185599394, 0.279705391489277 },
-        std::pair< X, double >{  0.949107912342759, 0.129484966168870 } };
+        std::pair< X, double >{ -9.49107912342758486e-1, 1.29484966168870647e-1 },
+        std::pair< X, double >{ -7.41531185599394460e-1, 2.79705391489276589e-1 },
+        std::pair< X, double >{ -4.05845151377397184e-1, 3.81830050505118312e-1 },
+        std::pair< X, double >{  0.00000000000000000e+0, 4.17959183673468959e-1 },
+        std::pair< X, double >{  4.05845151377397184e-1, 3.81830050505118312e-1 },
+        std::pair< X, double >{  7.41531185599394460e-1, 2.79705391489276589e-1 },
+        std::pair< X, double >{  9.49107912342758486e-1, 1.29484966168870647e-1 } };
       return pairs;
     }
 

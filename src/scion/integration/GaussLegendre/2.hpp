@@ -15,6 +15,8 @@ namespace integration {
   /**
    *  @class
    *  @brief The Gauss-Legendre 2-point quadrature rule
+   *
+   *  This quadrature rule integrates polynomials of order 3 or less exactly.
    */
   template< typename X, typename Y >
   class GaussLegendre< 2, X, Y > :
@@ -41,8 +43,8 @@ namespace integration {
 
       static constexpr const std::array< std::pair< X, double >, 2 > pairs = {
 
-        std::pair< X, double >{ -0.577350269189626, 1.000000000000000 },
-        std::pair< X, double >{  0.577350269189626, 1.000000000000000 } };
+        std::pair< X, double >{ -5.77350269189625731e-1, 1.00000000000000000e+0 },
+        std::pair< X, double >{  5.77350269189625731e-1, 1.00000000000000000e+0 } };
       return pairs;
     }
 
