@@ -16,7 +16,7 @@ namespace integration {
    *  @brief Base class for Gauss quadrature rules
    *
    *  This base class provides the common interface for Gauss quadrature rules
-   *  such as the Gauss-Legendre, Gauss-Lobatto and Curtis-Clenshaw rules.
+   *  such as the Gauss-Legendre and Gauss-Lobatto rules.
    */
   template < typename Derived, typename X, typename Y = X >
   class GaussQuadratureBase {

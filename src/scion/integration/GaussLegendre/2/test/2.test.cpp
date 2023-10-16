@@ -21,7 +21,7 @@ SCENARIO( "Gauss-Legendre 2-point quadrature rule" ) {
 
       THEN( "the integration is performed exactly for an order 0 polynomial" ) {
 
-        // y = f(x) = x + 1
+        // y = f(x) = 1
         auto functor = [] ( double x ) { return 1.; };
 
         CHECK_THAT( 2., WithinRel( integrator( functor ) ) );
@@ -41,7 +41,7 @@ SCENARIO( "Gauss-Legendre 2-point quadrature rule" ) {
 
       THEN( "the integration is performed exactly for an order 2 polynomial" ) {
 
-        // y = f(x) = x + 1
+        // y = f(x) = x**2 + 1
         auto functor = [] ( double x ) { return x * x + 1.; };
 
         CHECK_THAT(  2.66666666666666, WithinRel( integrator( functor ) ) );
@@ -51,7 +51,7 @@ SCENARIO( "Gauss-Legendre 2-point quadrature rule" ) {
 
       THEN( "the integration is performed exactly for an order 3 polynomial" ) {
 
-        // y = f(x) = x + 1
+        // y = f(x) = x**3 + 1
         auto functor = [] ( double x ) { return x * x * x + 1.; };
 
         CHECK_THAT(   2., WithinRel( integrator( functor ) ) );

@@ -7,7 +7,7 @@ import unittest
 from scion.integration import GaussLegendre10
 
 class Test_scion_integration_GaussLegendre10( unittest.TestCase ) :
-    """Unit test for the GaussLegendre10 interpolant."""
+    """Unit test for the GaussLegendre10 integrator."""
 
     def test_integration( self ) :
 
