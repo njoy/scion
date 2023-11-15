@@ -25,7 +25,7 @@ InterpolationTable& operation( const InterpolationTable& right,
   // tables need to be linearised for the operation to be performed
   if ( this->isLinearised() && right.isLinearised() ) {
 
-    // if they are already on the same grid just sum the y values
+    // if they are already on the same grid just perform the operation
     if ( this->x() == right.x() ) {
 
       std::transform( this->y().begin(), this->y().end(), right.y().begin(),
