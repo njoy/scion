@@ -31,7 +31,7 @@ std::vector< X > roots( const Y& a = Y( 0. ) ) const {
 
       if ( isCloseToZero( value.imag() ) ) {
 
-        roots.emplace_back( derivative( value.real() ) != X( 0. )
+        roots.emplace_back( !isCloseToZero( derivative( value.real() ) )
                             ? newton( value.real(), functor, derivative )
                             : value.real() );
       }

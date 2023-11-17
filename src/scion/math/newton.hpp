@@ -35,11 +35,15 @@ X newton( X estimate, Functor&& functor, Derivative&& derivative,
           int iterations = 5 ) noexcept {
 
   X root = estimate - functor( estimate ) / derivative( estimate );
-  while ( ( ! isClose( root, estimate ) ) || ( iterations != 0 ) ) {
+  while ( ! isClose( root, estimate ) ) {
 
     std::swap( estimate, root );
     root = estimate - functor( estimate ) / derivative( estimate );
     --iterations;
+    if ( iterations == 0 ) {
+
+      break;
+    }
   }
   return root;
 }
