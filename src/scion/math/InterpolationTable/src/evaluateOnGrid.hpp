@@ -3,6 +3,10 @@ std::vector< Y > evaluateOnGrid( const std::vector< X >& x ) const {
   std::vector< Y > y( x.size(), Y( 0. ) );
 
   auto xIter = std::lower_bound( x.begin(), x.end(), this->x().front() );
+  if ( *std::next( xIter ) == this->x().front() ) {
+
+    ++xIter;
+  }
   auto yIter = std::next( y.begin(), std::distance( x.begin(), xIter ) );
 
   auto xTable = this->x().begin();

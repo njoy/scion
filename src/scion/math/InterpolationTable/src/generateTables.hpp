@@ -4,8 +4,6 @@ void generateTables() {
 
   auto xStart = this->x().begin();
   auto yStart = this->y().begin();
-  auto xEnd = xStart;
-  auto yEnd = yStart;
   std::size_t nr = this->boundaries().size();
   bool linearised = true;
   for ( std::size_t i = 0; i < nr; ++i ) {
