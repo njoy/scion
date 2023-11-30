@@ -89,7 +89,7 @@ SCENARIO( "InterpolationTable" ) {
         InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
         InterpolationTable< double > same( { 1., 4. }, { 0., 3. } );
         InterpolationTable< double > threshold( { 2., 4. }, { 0., 2. } );
-        InterpolationTable< double > nonzerothreshold( { 2., 4. }, { 1., 2. } );
+        InterpolationTable< double > nonzerothreshold( { 2., 4. }, { 1., 3. } );
         InterpolationTable< double > small( { 1., 3. }, { 0., 2. } );
 
         chunk += 2.;
@@ -492,6 +492,54 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = chunk + nonzerothreshold;
+
+        CHECK( 5 == result.numberPoints() );
+        CHECK( 2 == result.numberRegions() );
+        CHECK( 5 == result.x().size() );
+        CHECK( 5 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( result.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( result.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( result.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( result.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[2] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[3] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[4] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 4 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - nonzerothreshold;
+
+        CHECK( 5 == result.numberPoints() );
+        CHECK( 2 == result.numberRegions() );
+        CHECK( 5 == result.x().size() );
+        CHECK( 5 == result.y().size() );
+        CHECK( 2 == result.boundaries().size() );
+        CHECK( 2 == result.interpolants().size() );
+        CHECK_THAT(  1., WithinRel( result.x()[0] ) );
+        CHECK_THAT(  2., WithinRel( result.x()[1] ) );
+        CHECK_THAT(  2., WithinRel( result.x()[2] ) );
+        CHECK_THAT(  3., WithinRel( result.x()[3] ) );
+        CHECK_THAT(  4., WithinRel( result.x()[4] ) );
+        CHECK_THAT(  4., WithinRel( result.y()[0] ) );
+        CHECK_THAT(  3., WithinRel( result.y()[1] ) );
+        CHECK_THAT(  2., WithinRel( result.y()[2] ) );
+        CHECK_THAT(  0., WithinRel( result.y()[3] ) );
+        CHECK_THAT( -2., WithinRel( result.y()[4] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 4 == result.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         // this will add a second point at the lower end point
         result = chunk + small;
 
@@ -539,12 +587,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        // the threshold table starts with a non-zero value
-        CHECK_THROWS( chunk += nonzerothreshold );
-        CHECK_THROWS( chunk -= nonzerothreshold );
-        CHECK_THROWS( result = chunk + nonzerothreshold );
-        CHECK_THROWS( result = chunk - nonzerothreshold );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -687,7 +729,7 @@ SCENARIO( "InterpolationTable" ) {
         InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
         InterpolationTable< double > same( { 1., 4. }, { 0., 3. } );
         InterpolationTable< double > threshold( { 2., 4. }, { 0., 2. } );
-        InterpolationTable< double > nonzerothreshold( { 2., 4. }, { 1., 2. } );
+        InterpolationTable< double > nonzerothreshold( { 3., 4. }, { 1., 2. } );
         InterpolationTable< double > small( { 1., 3. }, { 0., 2. } );
 
         chunk += 2.;
@@ -1130,6 +1172,58 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
+        result = chunk + nonzerothreshold;
+
+        CHECK( 6 == result.x().size() );
+        CHECK( 6 == result.y().size() );
+        CHECK( 3 == result.boundaries().size() );
+        CHECK( 3 == result.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( result.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( result.x()[3] ) );
+        CHECK_THAT( 3., WithinRel( result.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( result.x()[5] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( result.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( result.y()[3] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[4] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[5] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 3 == result.boundaries()[1] );
+        CHECK( 5 == result.boundaries()[2] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk - nonzerothreshold;
+
+        CHECK( 6 == result.x().size() );
+        CHECK( 6 == result.y().size() );
+        CHECK( 3 == result.boundaries().size() );
+        CHECK( 3 == result.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( result.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( result.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( result.x()[3] ) );
+        CHECK_THAT( 3., WithinRel( result.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( result.x()[5] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( result.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( result.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( result.y()[3] ) );
+        CHECK_THAT( 2., WithinRel( result.y()[4] ) );
+        CHECK_THAT( 0., WithinRel( result.y()[5] ) );
+        CHECK( 1 == result.boundaries()[0] );
+        CHECK( 3 == result.boundaries()[1] );
+        CHECK( 5 == result.boundaries()[2] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
+        CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
         // this will add a second point at the lower end point
         result = chunk + small;
 
@@ -1183,12 +1277,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
-
-        // the threshold table starts with a non-zero value
-        CHECK_THROWS( chunk += nonzerothreshold );
-        CHECK_THROWS( chunk -= nonzerothreshold );
-        CHECK_THROWS( result = chunk + nonzerothreshold );
-        CHECK_THROWS( result = chunk - nonzerothreshold );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -1562,6 +1650,17 @@ SCENARIO( "InterpolationTable" ) {
 
       std::vector< double > x = { 1., 2., 2., 2., 3., 4. };
       std::vector< double > y = { 4., 3., 3., 3., 2., 1. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the x grid has a jump at the beginning" ) {
+
+      std::vector< double > x = { 1., 1., 3., 4. };
+      std::vector< double > y = { 4., 3., 1., 4. };
 
       THEN( "an exception is thrown" ) {
 
