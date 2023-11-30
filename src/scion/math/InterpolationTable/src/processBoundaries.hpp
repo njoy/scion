@@ -45,6 +45,12 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
   }
 
   auto xIter = std::adjacent_find( x.begin(), x.end() );
+  if ( xIter == x.begin() ) {
+
+    Log::error( "A jump in the x grid cannot occur at the beginning of the x grid" );
+    throw std::exception();
+  }
+
   auto bIter = boundaries.begin();
   auto iIter = interpolants.begin();
   while ( xIter != x.end() ) {
