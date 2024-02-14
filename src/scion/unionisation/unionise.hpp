@@ -13,13 +13,9 @@ namespace unionisation {
   /**
    *  @brief Unionise two grids and preserve duplicate points that appear in each
    *
-   *  If the grids do not have the same end point, a duplicate point is inserted
-   *  into the grid corresponding to the lowest end point (unless that is
-   *  already a duplicate point).
-   *
-   *  No special treatment is performed when the grids do not have the same
-   *  starting point. We assume that the tabulated value at the higher starting
-   *  point will be zero (we can enforce this behaviour when reading the data).
+   *  If the grids do not have the same begin and/or end point, a duplicate point
+   *  is inserted into the grid corresponding to the highest begining and/or
+   *  lowest end point (unless those is already a duplicate point).
    *
    *  @param first        the first grid (assumed to be sorted)
    *  @param second       the second grid (assumed to be sorted)
@@ -34,6 +30,17 @@ namespace unionisation {
                                second.begin(), second.end(),
                                grid.begin() );
     grid.erase( end, grid.end() );
+
+    // special case: the begin points are not the same
+    if ( first.front() != second.front() ) {
+
+      X x = first.front() < second.front() ? second.front() : first.front();
+      auto iter = std::lower_bound( grid.begin(), grid.end(), x );
+      if ( *std::next( iter ) != x ) {
+
+        grid.insert( iter, x );
+      }
+    }
 
     // special case: the end points are not the same
     if ( first.back() != second.back() ) {

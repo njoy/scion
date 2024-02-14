@@ -94,7 +94,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify arithmetic operators
             same = InterpolationTable( [ 1., 4. ], [ 0., 3. ] )
             threshold = InterpolationTable( [ 2., 4. ], [ 0., 2. ] )
-            nonzerothreshold = InterpolationTable( [ 2., 4. ], [ 1., 2. ] )
+            nonzerothreshold = InterpolationTable( [ 2., 4. ], [ 1., 3. ] )
             small = InterpolationTable( [ 1., 3. ], [ 0., 2. ] )
 
             result = -chunk
@@ -313,7 +313,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, result.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
 
-            chunk += same;
+            chunk += same
             self.assertEqual( 4, chunk.number_points )
             self.assertEqual( 1, chunk.number_regions )
             self.assertEqual( 4, len( chunk.x ) )
@@ -331,7 +331,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, chunk.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
 
-            chunk -= same;
+            chunk -= same
             self.assertEqual( 4, chunk.number_points )
             self.assertEqual( 1, chunk.number_regions )
             self.assertEqual( 4, len( chunk.x ) )
@@ -349,7 +349,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, chunk.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
 
-            result = chunk + same;
+            result = chunk + same
             self.assertEqual( 4, result.number_points )
             self.assertEqual( 1, result.number_regions )
             self.assertEqual( 4, len( result.x ) )
@@ -367,7 +367,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, result.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
 
-            result = chunk - same;
+            result = chunk - same
             self.assertEqual( 4, result.number_points )
             self.assertEqual( 1, result.number_regions )
             self.assertEqual( 4, len( result.x ) )
@@ -385,7 +385,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, result.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
 
-            chunk += threshold;
+            chunk += threshold
             self.assertEqual( 4, chunk.number_points )
             self.assertEqual( 1, chunk.number_regions )
             self.assertEqual( 4, len( chunk.x ) )
@@ -403,7 +403,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, chunk.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
 
-            chunk -= threshold;
+            chunk -= threshold
             self.assertEqual( 4, chunk.number_points )
             self.assertEqual( 1, chunk.number_regions )
             self.assertEqual( 4, len( chunk.x ) )
@@ -421,7 +421,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, chunk.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
 
-            result = chunk + threshold;
+            result = chunk + threshold
             self.assertEqual( 4, result.number_points )
             self.assertEqual( 1, result.number_regions )
             self.assertEqual( 4, len( result.x ) )
@@ -439,7 +439,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, result.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
 
-            result = chunk - threshold;
+            result = chunk - threshold
             self.assertEqual( 4, result.number_points )
             self.assertEqual( 1, result.number_regions )
             self.assertEqual( 4, len( result.x ) )
@@ -457,8 +457,92 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 3, result.boundaries[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
 
+            chunk += nonzerothreshold
+            self.assertEqual( 5, chunk.number_points )
+            self.assertEqual( 2, chunk.number_regions )
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1. , chunk.x[0] )
+            self.assertAlmostEqual( 2. , chunk.x[1] )
+            self.assertAlmostEqual( 2. , chunk.x[2] )
+            self.assertAlmostEqual( 3. , chunk.x[3] )
+            self.assertAlmostEqual( 4. , chunk.x[4] )
+            self.assertAlmostEqual( 4.0, chunk.y[0] )
+            self.assertAlmostEqual( 3.0, chunk.y[1] )
+            self.assertAlmostEqual( 4.0, chunk.y[2] )
+            self.assertAlmostEqual( 4.0, chunk.y[3] )
+            self.assertAlmostEqual( 4.0, chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+
+            chunk -= nonzerothreshold
+            self.assertEqual( 4, chunk.number_points )
+            self.assertEqual( 1, chunk.number_regions )
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 1, len( chunk.boundaries ) )
+            self.assertEqual( 1, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1. , chunk.x[0] )
+            self.assertAlmostEqual( 2. , chunk.x[1] )
+            self.assertAlmostEqual( 3. , chunk.x[2] )
+            self.assertAlmostEqual( 4. , chunk.x[3] )
+            self.assertAlmostEqual( 4.0, chunk.y[0] )
+            self.assertAlmostEqual( 3.0, chunk.y[1] )
+            self.assertAlmostEqual( 2.0, chunk.y[2] )
+            self.assertAlmostEqual( 1.0, chunk.y[3] )
+            self.assertEqual( 3, chunk.boundaries[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+
+            result = chunk + nonzerothreshold
+            self.assertEqual( 5, result.number_points )
+            self.assertEqual( 2, result.number_regions )
+            self.assertEqual( 5, len( result.x ) )
+            self.assertEqual( 5, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual( 1. , result.x[0] )
+            self.assertAlmostEqual( 2. , result.x[1] )
+            self.assertAlmostEqual( 2. , result.x[2] )
+            self.assertAlmostEqual( 3. , result.x[3] )
+            self.assertAlmostEqual( 4. , result.x[4] )
+            self.assertAlmostEqual( 4.0, result.y[0] )
+            self.assertAlmostEqual( 3.0, result.y[1] )
+            self.assertAlmostEqual( 4.0, result.y[2] )
+            self.assertAlmostEqual( 4.0, result.y[3] )
+            self.assertAlmostEqual( 4.0, result.y[4] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 4, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
+
+            result = chunk - nonzerothreshold
+            self.assertEqual( 5, result.number_points )
+            self.assertEqual( 2, result.number_regions )
+            self.assertEqual( 5, len( result.x ) )
+            self.assertEqual( 5, len( result.y ) )
+            self.assertEqual( 2, len( result.boundaries ) )
+            self.assertEqual( 2, len( result.interpolants ) )
+            self.assertAlmostEqual(  1. , result.x[0] )
+            self.assertAlmostEqual(  2. , result.x[1] )
+            self.assertAlmostEqual(  2. , result.x[2] )
+            self.assertAlmostEqual(  3. , result.x[3] )
+            self.assertAlmostEqual(  4. , result.x[4] )
+            self.assertAlmostEqual(  4., result.y[0] )
+            self.assertAlmostEqual(  3., result.y[1] )
+            self.assertAlmostEqual(  2., result.y[2] )
+            self.assertAlmostEqual(  0., result.y[3] )
+            self.assertAlmostEqual( -2., result.y[4] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 4, result.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
+
             # this will add a second point at the lower end point
-            result = chunk + small;
+            result = chunk + small
             self.assertEqual( 5, result.number_points )
             self.assertEqual( 2, result.number_regions )
             self.assertEqual( 5, len( result.x ) )
@@ -480,7 +564,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
 
             # this will add a second point at the lower end point
-            result = chunk - small;
+            result = chunk - small
             self.assertEqual( 5, result.number_points )
             self.assertEqual( 2, result.number_regions )
             self.assertEqual( 5, len( result.x ) )
@@ -500,12 +584,6 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( 2, result.boundaries[0] )
             self.assertEqual( 4, result.boundaries[1] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
-
-            # the threshold table starts with a non-zero value
-            with self.assertRaises( Exception ) : chunk += nonzerothreshold
-            with self.assertRaises( Exception ) : chunk -= nonzerothreshold
-            with self.assertRaises( Exception ) : result = chunk + nonzerothreshold
-            with self.assertRaises( Exception ) : result = chunk - nonzerothreshold
 
         def verify_chunk2( self, chunk ) :
 
@@ -592,7 +670,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify arithmetic operators
             same = InterpolationTable( [ 1., 4. ], [ 0., 3. ] )
             threshold = InterpolationTable( [ 2., 4. ], [ 0., 2. ] )
-            nonzerothreshold = InterpolationTable( [ 2., 4. ], [ 1., 2. ] )
+            nonzerothreshold = InterpolationTable( [ 3., 4. ], [ 1., 2. ] )
             small = InterpolationTable( [ 1., 3. ], [ 0., 2. ] )
 
             result = -chunk
@@ -835,7 +913,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
 
-            chunk += same;
+            chunk += same
             self.assertEqual( 5, len( chunk.x ) )
             self.assertEqual( 5, len( chunk.y ) )
             self.assertEqual( 2, len( chunk.boundaries ) )
@@ -855,7 +933,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
 
-            chunk -= same;
+            chunk -= same
             self.assertEqual( 5, len( chunk.x ) )
             self.assertEqual( 5, len( chunk.y ) )
             self.assertEqual( 2, len( chunk.boundaries ) )
@@ -875,7 +953,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
 
-            result = chunk + same;
+            result = chunk + same
             self.assertEqual( 5, len( result.x ) )
             self.assertEqual( 5, len( result.y ) )
             self.assertEqual( 2, len( result.boundaries ) )
@@ -895,7 +973,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
 
-            result = chunk - same;
+            result = chunk - same
             self.assertEqual( 5, len( result.x ) )
             self.assertEqual( 5, len( result.y ) )
             self.assertEqual( 2, len( result.boundaries ) )
@@ -915,7 +993,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
 
-            chunk += threshold;
+            chunk += threshold
             self.assertEqual( 5, len( chunk.x ) )
             self.assertEqual( 5, len( chunk.y ) )
             self.assertEqual( 2, len( chunk.boundaries ) )
@@ -935,7 +1013,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
 
-            chunk -= threshold;
+            chunk -= threshold
             self.assertEqual( 5, len( chunk.x ) )
             self.assertEqual( 5, len( chunk.y ) )
             self.assertEqual( 2, len( chunk.boundaries ) )
@@ -955,7 +1033,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
 
-            result = chunk + threshold;
+            result = chunk + threshold
             self.assertEqual( 5, len( result.x ) )
             self.assertEqual( 5, len( result.y ) )
             self.assertEqual( 2, len( result.boundaries ) )
@@ -975,7 +1053,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
 
-            result = chunk - threshold;
+            result = chunk - threshold
             self.assertEqual( 5, len( result.x ) )
             self.assertEqual( 5, len( result.y ) )
             self.assertEqual( 2, len( result.boundaries ) )
@@ -995,8 +1073,100 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
 
+            chunk += nonzerothreshold
+            self.assertEqual( 6, len( chunk.x ) )
+            self.assertEqual( 6, len( chunk.y ) )
+            self.assertEqual( 3, len( chunk.boundaries ) )
+            self.assertEqual( 3, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 3., chunk.x[4] )
+            self.assertAlmostEqual( 4., chunk.x[5] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertAlmostEqual( 4., chunk.y[4] )
+            self.assertAlmostEqual( 4., chunk.y[5] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 3, chunk.boundaries[1] )
+            self.assertEqual( 5, chunk.boundaries[2] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[2] )
+
+            chunk -= nonzerothreshold
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertAlmostEqual( 2., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+
+            result = chunk + nonzerothreshold
+            self.assertEqual( 6, len( result.x ) )
+            self.assertEqual( 6, len( result.y ) )
+            self.assertEqual( 3, len( result.boundaries ) )
+            self.assertEqual( 3, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 2., result.x[2] )
+            self.assertAlmostEqual( 3., result.x[3] )
+            self.assertAlmostEqual( 3., result.x[4] )
+            self.assertAlmostEqual( 4., result.x[5] )
+            self.assertAlmostEqual( 4., result.y[0] )
+            self.assertAlmostEqual( 3., result.y[1] )
+            self.assertAlmostEqual( 4., result.y[2] )
+            self.assertAlmostEqual( 3., result.y[3] )
+            self.assertAlmostEqual( 4., result.y[4] )
+            self.assertAlmostEqual( 4., result.y[5] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 3, result.boundaries[1] )
+            self.assertEqual( 5, result.boundaries[2] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[2] )
+
+            result = chunk - nonzerothreshold
+            self.assertEqual( 6, len( result.x ) )
+            self.assertEqual( 6, len( result.y ) )
+            self.assertEqual( 3, len( result.boundaries ) )
+            self.assertEqual( 3, len( result.interpolants ) )
+            self.assertAlmostEqual( 1., result.x[0] )
+            self.assertAlmostEqual( 2., result.x[1] )
+            self.assertAlmostEqual( 2., result.x[2] )
+            self.assertAlmostEqual( 3., result.x[3] )
+            self.assertAlmostEqual( 3., result.x[4] )
+            self.assertAlmostEqual( 4., result.x[5] )
+            self.assertAlmostEqual( 4., result.y[0] )
+            self.assertAlmostEqual( 3., result.y[1] )
+            self.assertAlmostEqual( 4., result.y[2] )
+            self.assertAlmostEqual( 3., result.y[3] )
+            self.assertAlmostEqual( 2., result.y[4] )
+            self.assertAlmostEqual( 0., result.y[5] )
+            self.assertEqual( 1, result.boundaries[0] )
+            self.assertEqual( 3, result.boundaries[1] )
+            self.assertEqual( 5, result.boundaries[2] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
+            self.assertEqual( InterpolationType.LinearLinear, result.interpolants[2] )
+
             # this will add a second point at the lower end point
-            result = chunk + small;
+            result = chunk + small
             self.assertEqual( 6, len( result.x ) )
             self.assertEqual( 6, len( result.y ) )
             self.assertEqual( 3, len( result.boundaries ) )
@@ -1021,7 +1191,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[2] )
 
             # this will add a second point at the lower end point
-            result = chunk - small;
+            result = chunk - small
             self.assertEqual( 6, len( result.x ) )
             self.assertEqual( 6, len( result.y ) )
             self.assertEqual( 3, len( result.boundaries ) )
@@ -1044,12 +1214,6 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[1] )
             self.assertEqual( InterpolationType.LinearLinear, result.interpolants[2] )
-
-            # the threshold table starts with a non-zero value
-            with self.assertRaises( Exception ) : chunk += nonzerothreshold
-            with self.assertRaises( Exception ) : chunk -= nonzerothreshold
-            with self.assertRaises( Exception ) : result = chunk + nonzerothreshold
-            with self.assertRaises( Exception ) : result = chunk - nonzerothreshold
 
         def verify_chunk3( self, chunk ) :
 
@@ -1365,6 +1529,12 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
             chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4. ],
                                         y = [ 4., 3., 3., 3., 2., 1. ] )
+
+        # the x grid has a jump at the beginning
+        with self.assertRaises( Exception ) :
+
+            chunk = InterpolationTable( x = [ 1., 1., 3., 4. ],
+                                        y = [ 4., 3., 1., 4. ] )
 
         # the x grid has a jump at the end
         with self.assertRaises( Exception ) :
