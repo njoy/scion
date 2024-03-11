@@ -33,30 +33,27 @@ InterpolationTable& operation( const InterpolationTable& right,
     }
     else {
 
-      // check for threshold tables
-      if ( this->x().front() != right.x().front() ) {
-
-        Y ystart = this->x().front() < right.x().front() ? right.y().front()
-                                                         : this->y().front();
-
-        if ( Y( 0. ) != ystart ) {
-
-          X xstart = this->x().front() < right.x().front() ? right.x().front()
-                                                           : this->x().front();
-
-          Log::error( "The threshold table's first y value is not zero" );
-          Log::info( "Found x = {}", xstart );
-          Log::info( "Found y = {}", ystart );
-          throw std::exception();
-        }
-      }
-
       // unionise and evaluate on the new grid
       std::vector< X > x = unionisation::unionise( this->x(), right.x() );
       std::vector< Y > y = this->evaluateOnGrid( x );
       std::vector< Y > temp = right.evaluateOnGrid( x );
       std::transform( y.begin(), y.end(), temp.begin(), y.begin(), operation );
 
+      // check for threshold jump with the same y value
+      if ( this->x().front() != right.x().front() ) {
+
+        X value = this->x().front() < right.x().front() ? right.x().front()
+                                                        : this->x().front();
+        auto xIter = std::lower_bound( x.begin(), x.end(), value );
+        auto yIter = std::next( y.begin(), std::distance( x.begin(), xIter ) );
+        if ( *std::next( yIter ) == *yIter ) {
+
+          x.erase( xIter );
+          y.erase( yIter );
+        }
+      }
+
+      // replace this with a new table
       *this = InterpolationTable( std::move( x ), std::move( y ) );
     }
 
