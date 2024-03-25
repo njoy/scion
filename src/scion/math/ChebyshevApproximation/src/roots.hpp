@@ -8,5 +8,8 @@
  */
 std::vector< X > roots( const Y& a = Y( 0. ) ) const {
 
-  return this->series_.roots( a );
+  auto roots = this->series_.roots( a );
+  std::transform( roots.begin(), roots.end(), roots.begin(),
+                  [this] ( auto&& x ) { return this->invert( x ); } );
+  return roots;
 }
