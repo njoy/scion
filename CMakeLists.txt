@@ -33,7 +33,7 @@ cmake_dependent_option(
 cmake_dependent_option(
   scion.python
   "Build scion python bindings" ON
-  "NOT ${subproject}" OFF
+  "NOT ${subproject} OR DEFINED require.scion.python " OFF
 )
 
 ########################################################################
@@ -134,7 +134,9 @@ if( scion.python )
 
   list( APPEND SCION_PYTHONPATH ${CMAKE_CURRENT_BINARY_DIR} )
 
-  include( cmake/unit_testing_python.cmake )
+  if( scion.tests )
+    include( cmake/unit_testing_python.cmake )
+  endif()
 
 endif()
 
