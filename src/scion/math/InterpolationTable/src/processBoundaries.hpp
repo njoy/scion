@@ -1,3 +1,27 @@
+/**
+ *  @brief Verify and correct boundaries and interpolants
+ *
+ *  This function does a lot, so here's an overview of what it does. First of all, it verifies
+ *  the following things:
+ *    - There are at least 2 values in the x and y grid
+ *    - The x and y grid have the same size
+ *    - The number of boundaries and interpolants are the same
+ *    - The last boundary index is equal to the index of the last x value
+ *    - The x grid is sorted
+ *    - There is no jump at the beginning or end of the x grid
+ *    - The x values appear only a maximum of two times in the grid
+ *
+ *  Next, this function will look for every jump in the x grid and check if the jump corresponds
+ *  to a change in interpolation region (meaning that the index of the first x value in the jump
+ *  is in the boundaries). If that is not the case, an additional interpolation region wil be
+ *  inserted. This ensures that none of the interpolation regions will contain a jump in their
+ *  local x grid.
+ *
+ *  In some cases, the boundary values can point to the second point of a jump. While this is not
+ *  an error (we will never interpolate on a jump), we need the boundaries to point to the first
+ *  point in the jump instead of the second one. When this is encountered, the boundary value is
+ *  adjusted.
+ */
 static std::tuple< std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
 processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
@@ -59,10 +83,17 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
     bIter = std::lower_bound( bIter, boundaries.end(), index );
     if ( *bIter != index ) {
 
-      iIter = std::next( interpolants.begin(),
-                         std::distance( boundaries.begin(), bIter ) );
-      bIter = boundaries.insert( bIter, index );
-      iIter = interpolants.insert( iIter, *iIter );
+      if ( *bIter == index + 1 ) {
+
+        *bIter -= 1;
+      }
+      else {
+
+        iIter = std::next( interpolants.begin(),
+                           std::distance( boundaries.begin(), bIter ) );
+        bIter = boundaries.insert( bIter, index );
+        iIter = interpolants.insert( iIter, *iIter );
+      }
     }
     ++xIter;
     if ( std::next( xIter ) == x.end() ) {
