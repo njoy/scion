@@ -20,7 +20,12 @@
  *  In some cases, the boundary values can point to the second point of a jump. While this is not
  *  an error (we will never interpolate on a jump), we need the boundaries to point to the first
  *  point in the jump instead of the second one. When this is encountered, the boundary value is
- *  adjusted.
+ *  adjusted. This change is made silently as it does not constitute an error on the user side.
+ *
+ *  A jump at the end of the x grid is also not allowed. If a jump is detected at the end of the
+ *  x grid, and if the last y value is zero, then the last point is just removed. A warning is
+ *  issued if this happens to be the case. If the last y value is any other value, an error is
+ *  raised.
  */
 static std::tuple< std::vector< double >,
                    std::vector< double >,
