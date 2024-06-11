@@ -65,13 +65,14 @@ private:
  *  @param interpolants   the interpolation types of the interpolation regions
  */
 InterpolationTable(
-    std::tuple< std::vector< std::size_t >,
-                std::vector< interpolation::InterpolationType > >&& boundaries,
-    std::vector< X >&& x, std::vector< Y >&& y ) :
-  Parent( IntervalDomain( x.front(), x.back() ) ),
-  x_( std::move( x ) ), y_( std::move( y ) ),
-  boundaries_( std::move( std::get< 0 >( boundaries ) ) ),
-  interpolants_( std::move( std::get< 1 >( boundaries ) ) ) {
+    std::tuple< std::vector< double >,
+                std::vector< double >,
+                std::vector< std::size_t >,
+                std::vector< interpolation::InterpolationType > >&& data ) :
+  Parent( IntervalDomain( std::get< 0 >( data ).front(), std::get< 0 >( data ).back() ) ),
+  x_( std::move( std::get< 0 >( data ) ) ), y_( std::move( std::get< 1 >( data ) ) ),
+  boundaries_( std::move( std::get< 2 >( data ) ) ),
+  interpolants_( std::move( std::get< 3 >( data ) ) ) {
 
   this->generateTables();
 }
@@ -89,10 +90,9 @@ public:
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     std::vector< std::size_t > boundaries,
                     std::vector< interpolation::InterpolationType > interpolants ) :
-  InterpolationTable( processBoundaries( x, y,
+  InterpolationTable( processBoundaries( std::move( x ), std::move( y ),
                                          std::move( boundaries ),
-                                         std::move( interpolants ) ),
-                      std::move( x ), std::move( y ) ) {}
+                                         std::move( interpolants ) ) ) {}
 
 /**
  *  @brief Constructor for tabulated data in a single interpolation zone
@@ -104,5 +104,4 @@ InterpolationTable( std::vector< X > x, std::vector< Y > y,
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     interpolation::InterpolationType interpolant =
                         interpolation::InterpolationType::LinearLinear ) :
-  InterpolationTable( processBoundaries( x, y, interpolant ),
-                      std::move( x ), std::move( y ) ) {}
+  InterpolationTable( processBoundaries( std::move( x ), std::move( y ), interpolant ) ) {}

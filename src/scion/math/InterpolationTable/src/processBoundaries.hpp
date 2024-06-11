@@ -22,9 +22,11 @@
  *  point in the jump instead of the second one. When this is encountered, the boundary value is
  *  adjusted.
  */
-static std::tuple< std::vector< std::size_t >,
+static std::tuple< std::vector< double >,
+                   std::vector< double >,
+                   std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
-processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
+processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
                    std::vector< std::size_t >&& boundaries,
                    std::vector< interpolation::InterpolationType >&& interpolants  ) {
 
@@ -98,8 +100,20 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
     ++xIter;
     if ( std::next( xIter ) == x.end() ) {
 
-      Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
-      throw std::exception();
+      auto yIter = std::prev( y.end() );
+      if ( ( *std::prev( yIter ) != Y() ) && ( *yIter == Y() ) ) {
+
+        x.pop_back();
+        y.pop_back();
+        boundaries.back() = x.size() - 1;
+
+        Log::warning( "A trailing zero value at the end of the x grid was removed" );
+      }
+      else {
+
+        Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
+        throw std::exception();
+      }
     }
     if ( *std::next( xIter ) == *xIter ) {
 
@@ -110,15 +124,18 @@ processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
     xIter = std::adjacent_find( xIter, x.end() );
   }
 
-  return { std::move( boundaries ), std::move( interpolants ) };
+  return { std::move( x ), std::move( y ),
+           std::move( boundaries ), std::move( interpolants ) };
 }
 
-static std::tuple< std::vector< std::size_t >,
+static std::tuple< std::vector< double >,
+                   std::vector< double >,
+                   std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
-processBoundaries( const std::vector< X >& x, const std::vector< Y >& y,
+processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
                    interpolation::InterpolationType interpolant ) {
 
-  return processBoundaries( x, y,
+  return processBoundaries( std::move( x ), std::move( y ),
                             { x.size() > 0 ? x.size() - 1 : 0 },
                             { interpolant } );
 }
