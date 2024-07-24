@@ -7,6 +7,7 @@
 // other includes
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/matrix.hpp"
+#include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/SeriesBase.hpp"
 
 namespace njoy {

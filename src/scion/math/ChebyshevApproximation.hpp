@@ -5,7 +5,7 @@
 #include <vector>
 
 // other includes
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/ChebyshevSeries.hpp"
 
 namespace njoy {

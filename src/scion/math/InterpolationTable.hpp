@@ -11,7 +11,7 @@
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/unionisation/unionise.hpp"
 #include "scion/math/newton.hpp"
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
 #include "scion/math/LinearLogTable.hpp"

@@ -8,7 +8,6 @@
 
 // other includes
 #include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/math/FunctionBase.hpp"
 
 // namespace aliases
 namespace python = pybind11;
