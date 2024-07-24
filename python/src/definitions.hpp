@@ -194,14 +194,14 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
     "coefficients",
     [] ( const Component& self ) -> decltype(auto)
        { return self.coefficients(); },
-    "The Legendre coefficients"
+    "The coefficients of the series expansion"
   )
   .def_property_readonly(
 
     "order",
     [] ( const Component& self ) -> decltype(auto)
        { return self.order(); },
-    "The Legendre order"
+    "The order of the series expansion"
   )
   .def(
 
