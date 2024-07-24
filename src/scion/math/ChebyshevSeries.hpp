@@ -48,7 +48,7 @@ namespace math {
 
     /* friend declarations */
     friend class SeriesBase< ChebyshevSeries< X, Y >, X, Y >;
-    friend class FunctionBase< ChebyshevSeries< X, Y >, X, Y >;
+    friend class OneDimensionalFunctionBase< ChebyshevSeries< X, Y >, X, Y >;
 
     /* type aliases */
     using Parent = SeriesBase< ChebyshevSeries< X, Y >, X, Y >;

@@ -26,10 +26,10 @@ namespace math {
    *  as the polynomial series, Legendre series and Chebyshev series.
    */
   template < typename Derived, typename X, typename Y = X >
-  class SeriesBase : public FunctionBase< Derived, X, Y > {
+  class SeriesBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< Derived, X, Y >;
+    using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
 
   public:
 

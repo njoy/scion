@@ -40,7 +40,7 @@ namespace math {
 
     /* friend declarations */
     friend class SeriesBase< PolynomialSeries< X, Y >, X, Y >;
-    friend class FunctionBase< PolynomialSeries< X, Y >, X, Y >;
+    friend class OneDimensionalFunctionBase< PolynomialSeries< X, Y >, X, Y >;
 
     /* type aliases */
     using Parent = SeriesBase< PolynomialSeries< X, Y >, X, Y >;

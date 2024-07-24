@@ -40,10 +40,11 @@ namespace math {
    *  equals 0.
    */
   template < typename X, typename Y = X >
-  class ChebyshevApproximation : public FunctionBase< ChebyshevApproximation< X, Y >, X, Y > {
+  class ChebyshevApproximation : 
+      public OneDimensionalFunctionBase< ChebyshevApproximation< X, Y >, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< ChebyshevApproximation< X, Y >, X, Y >;
+    using Parent = OneDimensionalFunctionBase< ChebyshevApproximation< X, Y >, X, Y >;
 
     /* fields */
     X lower_;

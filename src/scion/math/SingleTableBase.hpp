@@ -27,10 +27,10 @@ namespace math {
              typename X, typename Y = X,
              typename XContainer = std::vector< X >,
              typename YContainer = std::vector< Y > >
-  class SingleTableBase : public FunctionBase< Derived, X, Y > {
+  class SingleTableBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< Derived, X, Y >;
+    using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
 
   public:
 

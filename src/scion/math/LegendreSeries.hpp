@@ -54,7 +54,7 @@ namespace math {
 
     /* friend declarations */
     friend class SeriesBase< LegendreSeries< X, Y >, X, Y >;
-    friend class FunctionBase< LegendreSeries< X, Y >, X, Y >;
+    friend class OneDimensionalFunctionBase< LegendreSeries< X, Y >, X, Y >;
 
     /* type aliases */
     using Parent = SeriesBase< LegendreSeries< X, Y >, X, Y >;
