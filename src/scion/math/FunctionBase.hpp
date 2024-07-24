@@ -14,12 +14,12 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Base class for function objects
+   *  @brief Base class for function objects modelling y = f(x)
    *
    *  This base class provides the common interface for all function objects.
    *  This includes domain testing and function evaluation.
    */
-  template < typename Derived, typename X, typename Y = X >
+  template < typename Derived, typename X, typename Y >
   class FunctionBase {
 
   public:
@@ -37,7 +37,14 @@ namespace math {
   protected:
 
     /* constructor */
-    #include "scion/math/FunctionBase/src/ctor.hpp"
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param domain   the domain of the function
+     */
+    FunctionBase( DomainVariant domain ) :
+      domain_( std::move( domain ) ) {}
 
   public:
 
