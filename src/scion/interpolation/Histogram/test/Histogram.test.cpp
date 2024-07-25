@@ -15,7 +15,7 @@ SCENARIO( "Histogram" ) {
 
   GIVEN( "Histogram interpolation object" ) {
 
-    WHEN( "interpolating an interval" ) {
+    WHEN( "interpolating an x,y interval" ) {
 
       interpolation::Histogram interpolator{};
 
@@ -29,6 +29,29 @@ SCENARIO( "Histogram" ) {
         CHECK_THAT( 1., WithinRel( interpolator( 1.0, xLeft, xRight, yLeft, yRight ) ) );
         CHECK_THAT( 1., WithinRel( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
         CHECK_THAT( 1., WithinRel( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "interpolating an x,f(y) interval" ) {
+
+      interpolation::Histogram interpolator{};
+
+      THEN( "the interpolation is performed correctly" ) {
+
+        double xLeft = 1.0;
+        double xRight = 2.0;
+        auto fLeft = [] ( double y ) { return y; };
+        auto fRight = [] ( double y ) { return - y; };
+
+        CHECK_THAT(  0.0, WithinRel( interpolator( 1.0,  0.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  0.0, WithinRel( interpolator( 1.5,  0.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  0.0, WithinRel( interpolator( 2.0,  0.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  1.0, WithinRel( interpolator( 1.0,  1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  1.0, WithinRel( interpolator( 1.5,  1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  1.0, WithinRel( interpolator( 2.0,  1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT( -1.0, WithinRel( interpolator( 1.0, -1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT( -1.0, WithinRel( interpolator( 1.5, -1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT( -1.0, WithinRel( interpolator( 2.0, -1.0, xLeft, xRight, fLeft, fRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -47,6 +70,27 @@ SCENARIO( "Histogram" ) {
         CHECK_THAT( 1., WithinRel( interpolation::histogram( 1.0, xLeft, xRight, yLeft, yRight ) ) );
         CHECK_THAT( 1., WithinRel( interpolation::histogram( 1.5, xLeft, xRight, yLeft, yRight ) ) );
         CHECK_THAT( 1., WithinRel( interpolation::histogram( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "interpolating an x,y interval" ) {
+
+      THEN( "the interpolation is performed correctly" ) {
+
+        double xLeft = 1.0;
+        double xRight = 2.0;
+        auto fLeft = [] ( double y ) { return y; };
+        auto fRight = [] ( double y ) { return - y; };
+
+        CHECK_THAT(  0.0, WithinRel( interpolation::histogram( 1.0,  0.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  0.0, WithinRel( interpolation::histogram( 1.5,  0.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  0.0, WithinRel( interpolation::histogram( 2.0,  0.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  1.0, WithinRel( interpolation::histogram( 1.0,  1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  1.0, WithinRel( interpolation::histogram( 1.5,  1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT(  1.0, WithinRel( interpolation::histogram( 2.0,  1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT( -1.0, WithinRel( interpolation::histogram( 1.0, -1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT( -1.0, WithinRel( interpolation::histogram( 1.5, -1.0, xLeft, xRight, fLeft, fRight ) ) );
+        CHECK_THAT( -1.0, WithinRel( interpolation::histogram( 2.0, -1.0, xLeft, xRight, fLeft, fRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
