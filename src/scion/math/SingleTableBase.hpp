@@ -18,13 +18,13 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Base class for tabulated data using a single interpolation region
+   *  @brief Base class for x,y tabulated data using a single interpolation region
    *
    *  This base class provides the common interface for single region
    *  interpolation data such as the LinearLinearTable, LogLogTable, etc.
    */
   template < typename Derived, typename Interpolator,
-             typename X, typename Y = X,
+             typename X, typename Y,
              typename XContainer = std::vector< X >,
              typename YContainer = std::vector< Y > >
   class SingleTableBase : public OneDimensionalFunctionBase< Derived, X, Y > {
