@@ -16,7 +16,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Tabulated x,f(y) data with linear-linear interpolation (f(y) is linear in x)
+   *  @brief Tabulated x,f(y) data with histogram interpolation (f(y) is constant in x)
    *
    *  The HistogramTableFunction is templatised on the actual x, y and z types, the function
    *  type F and the container type used for the x values and the functions. This allows us to

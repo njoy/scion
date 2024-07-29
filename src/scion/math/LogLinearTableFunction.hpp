@@ -16,7 +16,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Tabulated x,f(y) data with log-log interpolation (ln(f(y)) is linear in ln(x))
+   *  @brief Tabulated x,f(y) data with log-linear interpolation (ln(f(y)) is linear in x)
    *
    *  The LogLinearTableFunction is templatised on the actual x, y and z types, the function
    *  type F and the container type used for the x values and the functions. This allows us to
