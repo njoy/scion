@@ -180,7 +180,7 @@ SCENARIO( "HistogramTableFunction" ) {
 
   GIVEN( "invalid data for a HistogramTable object" ) {
 
-    WHEN( "there are not enough values in the x or y grid" ) {
+    WHEN( "there are not enough values in the x or f(y) grid" ) {
 
       std::vector< double > xempty = {};
       std::vector< double > xone = { 1. };
@@ -196,7 +196,7 @@ SCENARIO( "HistogramTableFunction" ) {
       } // THEN
     } // WHEN
 
-    WHEN( "the x and y grid do not have the same number of points" ) {
+    WHEN( "the x and f(y) grid do not have the same number of points" ) {
 
       std::vector< double > x = { 1., 2., 3., 4. };
       std::vector< InterpolationTable< double > > f = {
