@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_INTERPOLATIONTABLEFUNCTION
 
 // system includes
+#include <variant>
 #include <vector>
 
 // other includes
