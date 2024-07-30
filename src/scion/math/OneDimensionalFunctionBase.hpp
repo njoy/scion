@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_MATH_FUNCTIONBASE
-#define NJOY_SCION_MATH_FUNCTIONBASE
+#ifndef NJOY_SCION_MATH_ONEDIMENSIONALFUNCTIONBASE
+#define NJOY_SCION_MATH_ONEDIMENSIONALFUNCTIONBASE
 
 // system includes
 #include <variant>
@@ -14,13 +14,13 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Base class for function objects
+   *  @brief Base class for one dimensional function objects modelling y = f(x)
    *
-   *  This base class provides the common interface for all function objects.
-   *  This includes domain testing and function evaluation.
+   *  This base class provides the common interface for all one dimensional 
+   *  function objects. This includes domain testing and function evaluation.
    */
-  template < typename Derived, typename X, typename Y = X >
-  class FunctionBase {
+  template < typename Derived, typename X, typename Y >
+  class OneDimensionalFunctionBase {
 
   public:
 
@@ -37,7 +37,14 @@ namespace math {
   protected:
 
     /* constructor */
-    #include "scion/math/FunctionBase/src/ctor.hpp"
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param domain   the domain of the function
+     */
+    OneDimensionalFunctionBase( DomainVariant domain ) :
+      domain_( std::move( domain ) ) {}
 
   public:
 

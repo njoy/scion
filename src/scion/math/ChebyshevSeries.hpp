@@ -6,6 +6,7 @@
 // other includes
 #include "scion/math/clenshaw.hpp"
 #include "scion/math/matrix.hpp"
+#include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/SeriesBase.hpp"
 
 namespace njoy {
@@ -48,7 +49,7 @@ namespace math {
 
     /* friend declarations */
     friend class SeriesBase< ChebyshevSeries< X, Y >, X, Y >;
-    friend class FunctionBase< ChebyshevSeries< X, Y >, X, Y >;
+    friend class OneDimensionalFunctionBase< ChebyshevSeries< X, Y >, X, Y >;
 
     /* type aliases */
     using Parent = SeriesBase< ChebyshevSeries< X, Y >, X, Y >;

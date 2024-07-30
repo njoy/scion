@@ -8,7 +8,6 @@
 
 // other includes
 #include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/math/FunctionBase.hpp"
 
 // namespace aliases
 namespace python = pybind11;
@@ -73,7 +72,7 @@ template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardFunctionDefinitions( PythonClass& component ) {
 
   using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
-  using DomainVariant = typename njoy::scion::math::FunctionBase< X, Y >::DomainVariant;
+  using DomainVariant = typename Component::DomainVariant;
 
   // note: for is_same_domain to bind properly, all possible variant members
   //       must have a default constructor
