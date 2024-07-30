@@ -3,9 +3,8 @@
  *
  *  @param[in] table    the table to be copied
  */
-InterpolationTable( const InterpolationTable& table ) :
-  Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
-  x_( table.x_ ), y_( table.y_ ),
+InterpolationTableFunction( const InterpolationTableFunction& table ) :
+  x_( table.x_ ), f_( table.f_ ),
   boundaries_( table.boundaries_ ),
   interpolants_( table.interpolants_ ) {
 
@@ -17,9 +16,8 @@ InterpolationTable( const InterpolationTable& table ) :
  *
  *  @param[in] table    the table to be moved
  */
-InterpolationTable( InterpolationTable&& table ) :
-  Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
-  x_( std::move( table.x_ ) ), y_( std::move( table.y_ ) ),
+InterpolationTableFunction( InterpolationTableFunction&& table ) :
+  x_( std::move( table.x_ ) ), f_( std::move( table.f_ ) ),
   boundaries_( std::move( table.boundaries_ ) ),
   interpolants_( std::move( table.interpolants_ ) ) {
 
@@ -31,11 +29,11 @@ InterpolationTable( InterpolationTable&& table ) :
  *
  *  @param[in] table    the continuous energy table to be copied
  */
-InterpolationTable& operator=( const InterpolationTable& base ) {
+InterpolationTableFunction& operator=( const InterpolationTableFunction& base ) {
 
   if ( this != &base ) {
 
-    new (this) InterpolationTable( base );
+    new (this) InterpolationTableFunction( base );
   }
   return *this;
 }
@@ -45,11 +43,11 @@ InterpolationTable& operator=( const InterpolationTable& base ) {
  *
  *  @param[in] table    the continuous energy table to be moved
  */
-InterpolationTable& operator=( InterpolationTable&& base ) {
+InterpolationTableFunction& operator=( InterpolationTableFunction&& base ) {
 
   if ( this != &base ) {
 
-    new (this) InterpolationTable( std::move( base ) );
+    new (this) InterpolationTableFunction( std::move( base ) );
   }
   return *this;
 }
@@ -64,13 +62,12 @@ private:
  *  @param boundaries     the boundaries of the interpolation regions
  *  @param interpolants   the interpolation types of the interpolation regions
  */
-InterpolationTable(
+InterpolationTableFunction(
     std::tuple< std::vector< X >,
-                std::vector< Y >,
+                std::vector< F >,
                 std::vector< std::size_t >,
                 std::vector< interpolation::InterpolationType > >&& data ) :
-  Parent( IntervalDomain( std::get< 0 >( data ).front(), std::get< 0 >( data ).back() ) ),
-  x_( std::move( std::get< 0 >( data ) ) ), y_( std::move( std::get< 1 >( data ) ) ),
+  x_( std::move( std::get< 0 >( data ) ) ), f_( std::move( std::get< 1 >( data ) ) ),
   boundaries_( std::move( std::get< 2 >( data ) ) ),
   interpolants_( std::move( std::get< 3 >( data ) ) ) {
 
@@ -87,12 +84,12 @@ public:
  *  @param boundaries     the boundaries of the interpolation regions
  *  @param interpolants   the interpolation types of the interpolation regions
  */
-InterpolationTable( std::vector< X > x, std::vector< Y > y,
-                    std::vector< std::size_t > boundaries,
-                    std::vector< interpolation::InterpolationType > interpolants ) :
-  InterpolationTable( processBoundaries( std::move( x ), std::move( y ),
-                                         std::move( boundaries ),
-                                         std::move( interpolants ) ) ) {}
+InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
+                            std::vector< std::size_t > boundaries,
+                            std::vector< interpolation::InterpolationType > interpolants ) :
+  InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ),
+                                                 std::move( boundaries ),
+                                                 std::move( interpolants ) ) ) {}
 
 /**
  *  @brief Constructor for tabulated data in a single interpolation zone
@@ -101,7 +98,7 @@ InterpolationTable( std::vector< X > x, std::vector< Y > y,
  *  @param y              the y values of the tabulated data
  *  @param interpolant    the interpolation type of the data (default lin-lin)
  */
-InterpolationTable( std::vector< X > x, std::vector< Y > y,
-                    interpolation::InterpolationType interpolant =
-                        interpolation::InterpolationType::LinearLinear ) :
-  InterpolationTable( processBoundaries( std::move( x ), std::move( y ), interpolant ) ) {}
+InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
+                            interpolation::InterpolationType interpolant =
+                                interpolation::InterpolationType::LinearLinear ) :
+  InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ), interpolant ) ) {}
