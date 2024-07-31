@@ -25,6 +25,9 @@ namespace math {
   public:
 
     /* type aliases */
+
+    using XType = X;
+    using YType = Y;
     using DomainVariant = std::variant< IntervalDomain< X >, OpenDomain< X > >;
 
   private:

@@ -34,7 +34,10 @@ namespace math {
   public:
 
     /* type aliases */
-    using DomainVariant = typename Parent::DomainVariant;
+
+    using typename Parent::XType;
+    using typename Parent::YType;
+    using typename Parent::DomainVariant;
 
   private:
 
@@ -48,6 +51,7 @@ namespace math {
   protected:
 
     /* constructor */
+
     #include "scion/math/SeriesBase/src/ctor.hpp"
 
   public:

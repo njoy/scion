@@ -14,11 +14,10 @@ using Catch::Matchers::WithinRel;
 using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
-template < typename X, typename Y = X, typename Z = X,
-           typename F = InterpolationTable< X >,
+template < typename X, typename F = InterpolationTable< X >,
            typename XContainer = std::vector< X >,
            typename FContainer = std::vector< F > >
-using HistogramTableFunction = math::HistogramTableFunction< X, Y, Z, F, XContainer, FContainer >;
+using HistogramTableFunction = math::HistogramTableFunction< X, F, XContainer, FContainer >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "HistogramTableFunction" ) {
@@ -115,8 +114,8 @@ SCENARIO( "HistogramTableFunction" ) {
       XView x = njoy::utility::make_view( xvalues );
       FView f = njoy::utility::make_view( fvalues );
 
-      HistogramTableFunction< double, double, double, InterpolationTable< double >,
-                                 XView, FView > chunk( std::move( x ), std::move( f ) );
+      HistogramTableFunction< double, InterpolationTable< double >,
+                              XView, FView > chunk( std::move( x ), std::move( f ) );
 
       THEN( "a HistogramTable can be constructed and members can be tested" ) {
 
