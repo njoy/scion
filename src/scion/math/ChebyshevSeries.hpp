@@ -44,7 +44,7 @@ namespace math {
    *  The derivative  and primitive function is defined over the same domain as
    *  the original function.
    */
-  template < typename X, typename Y = X >
+  template < typename X, typename Y >
   class ChebyshevSeries : public SeriesBase< ChebyshevSeries< X, Y >, X, Y > {
 
     /* friend declarations */

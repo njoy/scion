@@ -39,8 +39,8 @@ namespace math {
    *  The integral function is defined so that the integral function for x = left
    *  equals 0.
    */
-  template < typename X, typename Y = X >
-  class ChebyshevApproximation : 
+  template < typename X, typename Y >
+  class ChebyshevApproximation :
       public OneDimensionalFunctionBase< ChebyshevApproximation< X, Y >, X, Y > {
 
     /* type aliases */

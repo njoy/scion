@@ -25,7 +25,7 @@ namespace math {
    *  @class
    *  @brief Tabulated data with one or more interpolation types
    */
-  template < typename X, typename F, typename Y = X, typename Z = X >
+  template < typename X, typename F, typename Y, typename Z >
   class InterpolationTableFunction :
       public TwoDimensionalFunctionBase< InterpolationTableFunction< X, F, Y, Z >, X, Y, Z > {
 

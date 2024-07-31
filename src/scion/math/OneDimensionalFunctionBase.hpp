@@ -16,7 +16,7 @@ namespace math {
    *  @class
    *  @brief Base class for one dimensional function objects modelling y = f(x)
    *
-   *  This base class provides the common interface for all one dimensional 
+   *  This base class provides the common interface for all one dimensional
    *  function objects. This includes domain testing and function evaluation.
    */
   template < typename Derived, typename X, typename Y >
