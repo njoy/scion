@@ -25,9 +25,9 @@ InterpolationTableFunction( InterpolationTableFunction&& table ) :
 }
 
 /**
- *  @brief Copy assignment using a continuous energy table
+ *  @brief Copy assignment using a table
  *
- *  @param[in] table    the continuous energy table to be copied
+ *  @param[in] table    the table to be copied
  */
 InterpolationTableFunction& operator=( const InterpolationTableFunction& base ) {
 
@@ -39,9 +39,9 @@ InterpolationTableFunction& operator=( const InterpolationTableFunction& base ) 
 }
 
 /**
- *  @brief Move assignment using a continuous energy table
+ *  @brief Move assignment using a table
  *
- *  @param[in] table    the continuous energy table to be moved
+ *  @param[in] table    the table to be moved
  */
 InterpolationTableFunction& operator=( InterpolationTableFunction&& base ) {
 
@@ -55,12 +55,7 @@ InterpolationTableFunction& operator=( InterpolationTableFunction&& base ) {
 private:
 
 /**
- *  @brief Constructor
- *
- *  @param x              the x values of the tabulated data
- *  @param y              the y values of the tabulated data
- *  @param boundaries     the boundaries of the interpolation regions
- *  @param interpolants   the interpolation types of the interpolation regions
+ *  @brief Private constructor
  */
 InterpolationTableFunction(
     std::tuple< std::vector< X >,
@@ -80,7 +75,7 @@ public:
  *  @brief Constructor
  *
  *  @param x              the x values of the tabulated data
- *  @param y              the y values of the tabulated data
+ *  @param f              the f(y) functions of the tabulated data
  *  @param boundaries     the boundaries of the interpolation regions
  *  @param interpolants   the interpolation types of the interpolation regions
  */
@@ -95,7 +90,7 @@ InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
  *  @brief Constructor for tabulated data in a single interpolation zone
  *
  *  @param x              the x values of the tabulated data
- *  @param y              the y values of the tabulated data
+ *  @param f              the f(y) functions of the tabulated data
  *  @param interpolant    the interpolation type of the data (default lin-lin)
  */
 InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
