@@ -64,6 +64,17 @@ bool isUnique( const Range& range ) {
   return range.end() == std::adjacent_find( range.begin(), range.end() );
 }
 
+/** @brief Verify if a range consists of the same element
+ *
+ *  @param[in] range    the range
+ */
+template < typename Range >
+bool isAllSameElement( const Range& range ) {
+
+  return range.end() == std::adjacent_find( range.begin(), range.end(),
+                                            std::not_equal_to{} );
+}
+
 } // math namespace
 } // scion namespace
 } // njoy namespace
