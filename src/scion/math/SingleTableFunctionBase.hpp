@@ -18,13 +18,16 @@ namespace math {
    *  @brief Base class for x,f(y) tabulated data using a single interpolation region
    */
   template < typename Derived, typename Interpolator,
-             typename X, typename Y, typename Z, typename F,
+             typename X, typename F,
              typename XContainer = std::vector< X >,
              typename FContainer = std::vector< F > >
-  class SingleTableFunctionBase : public TwoDimensionalFunctionBase< Derived, X, Y, Z > {
+  class SingleTableFunctionBase :
+      public TwoDimensionalFunctionBase< Derived, X, typename F::XType, typename F::YType > {
 
     /* type aliases */
-    using Parent = TwoDimensionalFunctionBase< Derived, X, Y, Z >;
+    using Parent = TwoDimensionalFunctionBase< Derived, X, typename F::XType, typename F::YType >;
+    using Y = typename Parent::YType;
+    using Z = typename Parent::ZType;
 
     /* fields */
     Interpolator interpolator_;

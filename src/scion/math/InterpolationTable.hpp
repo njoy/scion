@@ -29,7 +29,7 @@ namespace math {
    *  @class
    *  @brief Tabulated data with one or more interpolation types
    */
-  template < typename X, typename Y = X >
+  template < typename X, typename Y >
   class InterpolationTable :
       public OneDimensionalFunctionBase< InterpolationTable< X, Y >, X, Y > {
 
@@ -76,7 +76,14 @@ namespace math {
 
   public:
 
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
+    using typename Parent::DomainVariant;
+
     /* constructor */
+
     #include "scion/math/InterpolationTable/src/ctor.hpp"
 
     /* methods */

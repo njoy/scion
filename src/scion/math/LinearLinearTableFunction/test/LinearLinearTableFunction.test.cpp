@@ -14,11 +14,10 @@ using Catch::Matchers::WithinRel;
 using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
-template < typename X, typename Y = X, typename Z = X,
-           typename F = InterpolationTable< X >,
+template < typename X, typename F = InterpolationTable< X >,
            typename XContainer = std::vector< X >,
            typename FContainer = std::vector< F > >
-using LinearLinearTableFunction = math::LinearLinearTableFunction< X, Y, Z, F, XContainer, FContainer >;
+using LinearLinearTableFunction = math::LinearLinearTableFunction< X, F, XContainer, FContainer >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "LinearLinearTableFunction" ) {
@@ -115,7 +114,7 @@ SCENARIO( "LinearLinearTableFunction" ) {
       XView x = njoy::utility::make_view( xvalues );
       FView f = njoy::utility::make_view( fvalues );
 
-      LinearLinearTableFunction< double, double, double, InterpolationTable< double >,
+      LinearLinearTableFunction< double, InterpolationTable< double >,
                                  XView, FView > chunk( std::move( x ), std::move( f ) );
 
       THEN( "a LinearLinearTable can be constructed and members can be tested" ) {

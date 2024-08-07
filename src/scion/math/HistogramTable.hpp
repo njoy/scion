@@ -56,7 +56,14 @@ namespace math {
 
   public:
 
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
+    using typename Parent::DomainVariant;
+
     /* constructor */
+
     #include "scion/math/HistogramTable/src/ctor.hpp"
 
     /* methods */

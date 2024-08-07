@@ -16,8 +16,8 @@ template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
 template < typename X, typename Y = X >
 using LegendreSeries = math::LegendreSeries< X, Y >;
-template < typename X, typename F, typename Y = X, typename Z = X >
-using InterpolationTableFunction = math::InterpolationTableFunction< X, F, Y, Z >;
+template < typename X, typename F >
+using InterpolationTableFunction = math::InterpolationTableFunction< X, F >;
 using InterpolationType = interpolation::InterpolationType;
 
 using Table2D = InterpolationTableFunction< double, InterpolationTable< double > >;

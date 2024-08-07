@@ -18,7 +18,7 @@ void generateTables() {
       case interpolation::InterpolationType::LinearLinear : {
 
         tables.emplace_back(
-          LinearLinearTableFunction< X, Y, Z, F, XContainer, FContainer >(
+          LinearLinearTableFunction< X, F, XContainer, FContainer >(
             XContainer( xStart, xEnd ),
             FContainer( fStart, fEnd ) ) );
         break;
@@ -27,7 +27,7 @@ void generateTables() {
 
         linearised = false;
         tables.emplace_back(
-          HistogramTableFunction< X, Y, Z, F, XContainer, FContainer >(
+          HistogramTableFunction< X, F, XContainer, FContainer >(
             XContainer( xStart, xEnd ),
             FContainer( fStart, fEnd ) ) );
         break;
@@ -36,7 +36,7 @@ void generateTables() {
 
         linearised = false;
         tables.emplace_back(
-          LinearLogTableFunction< X, Y, Z, F, XContainer, FContainer >(
+          LinearLogTableFunction< X, F, XContainer, FContainer >(
             XContainer( xStart, xEnd ),
             FContainer( fStart, fEnd ) ) );
         break;
@@ -45,7 +45,7 @@ void generateTables() {
 
         linearised = false;
         tables.emplace_back(
-          LogLinearTableFunction< X, Y, Z, F, XContainer, FContainer >(
+          LogLinearTableFunction< X, F, XContainer, FContainer >(
             XContainer( xStart, xEnd ),
             FContainer( fStart, fEnd ) ) );
         break;
@@ -54,7 +54,7 @@ void generateTables() {
 
         linearised = false;
         tables.emplace_back(
-          LogLogTableFunction< X, Y, Z, F, XContainer, FContainer >(
+          LogLogTableFunction< X, F, XContainer, FContainer >(
             XContainer( xStart, xEnd ),
             FContainer( fStart, fEnd ) ) );
         break;

@@ -22,22 +22,22 @@ namespace math {
    *  type F and the container type used for the x values and the functions. This allows us to
    *  use something like utility::IteratorView instead of std::vector.
    */
-  template < typename X, typename Y, typename Z, typename F,
+  template < typename X, typename F,
              typename XContainer = std::vector< X >,
              typename FContainer = std::vector< F > >
   class LogLogTableFunction :
-    public SingleTableFunctionBase< LogLogTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                                    interpolation::LogarithmicLogarithmic, X, Y, Z, F,
+    public SingleTableFunctionBase< LogLogTableFunction< X, F, XContainer, FContainer >,
+                                    interpolation::LogarithmicLogarithmic, X, F,
                                     XContainer, FContainer > {
 
     /* friend declarations */
-    friend class SingleTableFunctionBase< LogLogTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                                          interpolation::LogarithmicLogarithmic, X, Y, Z, F,
+    friend class SingleTableFunctionBase< LogLogTableFunction< X, F, XContainer, FContainer >,
+                                          interpolation::LogarithmicLogarithmic, X, F,
                                           XContainer, FContainer >;
 
     /* type aliases */
-    using Parent = SingleTableFunctionBase< LogLogTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                                            interpolation::LogarithmicLogarithmic, X, Y, Z, F,
+    using Parent = SingleTableFunctionBase< LogLogTableFunction< X, F, XContainer, FContainer >,
+                                            interpolation::LogarithmicLogarithmic, X, F,
                                             XContainer, FContainer >;
 
     /* fields */

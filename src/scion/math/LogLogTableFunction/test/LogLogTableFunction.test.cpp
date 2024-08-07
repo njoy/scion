@@ -14,11 +14,10 @@ using Catch::Matchers::WithinRel;
 using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
-template < typename X, typename Y = X, typename Z = X,
-           typename F = InterpolationTable< X >,
+template < typename X, typename F = InterpolationTable< X >,
            typename XContainer = std::vector< X >,
            typename FContainer = std::vector< F > >
-using LogLogTableFunction = math::LogLogTableFunction< X, Y, Z, F, XContainer, FContainer >;
+using LogLogTableFunction = math::LogLogTableFunction< X, F, XContainer, FContainer >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "LogLogTableFunction" ) {
@@ -115,8 +114,8 @@ SCENARIO( "LogLogTableFunction" ) {
       XView x = njoy::utility::make_view( xvalues );
       FView f = njoy::utility::make_view( fvalues );
 
-      LogLogTableFunction< double, double, double, InterpolationTable< double >,
-                                 XView, FView > chunk( std::move( x ), std::move( f ) );
+      LogLogTableFunction< double, InterpolationTable< double >,
+                           XView, FView > chunk( std::move( x ), std::move( f ) );
 
       THEN( "a LogLogTable can be constructed and members can be tested" ) {
 
