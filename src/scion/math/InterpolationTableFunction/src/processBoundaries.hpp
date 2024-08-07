@@ -3,8 +3,8 @@
  *
  *  This function does a lot, so here's an overview of what it does. First of all, it verifies
  *  the following things:
- *    - There are at least 2 values in the x and y grid
- *    - The x and y grid have the same size
+ *    - There are at least 2 values in the x and f(y) grid
+ *    - The x and f(y) grid have the same size
  *    - The number of boundaries and interpolants are the same
  *    - The last boundary index is equal to the index of the last x value
  *    - The x grid is sorted
@@ -22,34 +22,31 @@
  *  point in the jump instead of the second one. When this is encountered, the boundary value is
  *  adjusted. This change is made silently as it does not constitute an error on the user side.
  *
- *  A jump at the end of the x grid is also not allowed. If a jump is detected at the end of the
- *  x grid, and if the last y value is zero, then the last point is just removed. A warning is
- *  issued if this happens to be the case. If the last y value is any other value, an error is
- *  raised.
+ *  A jump at the end of the x grid is also not allowed.
  */
-static std::tuple< std::vector< X >,
-                   std::vector< Y >,
+static std::tuple< std::vector< double >,
+                   std::vector< F >,
                    std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
-processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
+processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
                    std::vector< std::size_t >&& boundaries,
                    std::vector< interpolation::InterpolationType >&& interpolants  ) {
 
   if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
-       ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
+       ( ! verification::isAtLeastOfSize( f, 2 ) ) ) {
 
-    Log::error( "Insufficient x or y values defined for tabulated data "
+    Log::error( "Insufficient x values or f(y) functions defined for tabulated data "
                 "(at least 2 points are required)" );
     Log::info( "x.size(): {}", x.size() );
-    Log::info( "y.size(): {}", y.size() );
+    Log::info( "f.size(): {}", f.size() );
     throw std::exception();
   }
 
-  if ( ! verification::isSameSize( x, y ) ) {
+  if ( ! verification::isSameSize( x, f ) ) {
 
-    Log::error( "Inconsistent number of x and y values for tabulated data" );
+    Log::error( "Inconsistent number of x values and f(y) functions for tabulated data" );
     Log::info( "x.size(): {}", x.size() );
-    Log::info( "y.size(): {}", y.size() );
+    Log::info( "f.size(): {}", f.size() );
     throw std::exception();
   }
 
@@ -105,20 +102,8 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
     ++xIter;
     if ( std::next( xIter ) == x.end() ) {
 
-      auto yIter = std::prev( y.end() );
-      if ( ( *std::prev( yIter ) != Y() ) && ( *yIter == Y() ) ) {
-
-        x.pop_back();
-        y.pop_back();
-        boundaries.back() = x.size() - 1;
-
-        Log::warning( "A trailing zero value at the end of the x grid was removed" );
-      }
-      else {
-
-        Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
-        throw std::exception();
-      }
+      Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
+      throw std::exception();
     }
     if ( *std::next( xIter ) == *xIter ) {
 
@@ -129,18 +114,18 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
     xIter = std::adjacent_find( xIter, x.end() );
   }
 
-  return { std::move( x ), std::move( y ),
+  return { std::move( x ), std::move( f ),
            std::move( boundaries ), std::move( interpolants ) };
 }
 
 static std::tuple< std::vector< X >,
-                   std::vector< Y >,
+                   std::vector< F >,
                    std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
-processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
+processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
                    interpolation::InterpolationType interpolant ) {
 
-  return processBoundaries( std::move( x ), std::move( y ),
+  return processBoundaries( std::move( x ), std::move( f ),
                             { x.size() > 0 ? x.size() - 1 : 0 },
                             { interpolant } );
 }

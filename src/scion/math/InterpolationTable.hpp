@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_INTERPOLATIONTABLE
 
 // system includes
+#include <variant>
 #include <vector>
 
 // other includes
@@ -29,7 +30,7 @@ namespace math {
    *  @brief Tabulated data with one or more interpolation types
    */
   template < typename X, typename Y = X >
-  class InterpolationTable : 
+  class InterpolationTable :
       public OneDimensionalFunctionBase< InterpolationTable< X, Y >, X, Y > {
 
     /* friend declarations */

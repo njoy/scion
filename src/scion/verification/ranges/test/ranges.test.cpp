@@ -20,6 +20,7 @@ SCENARIO( "verification ranges" ) {
     std::vector< double > unsorted = { 3., 2., 1. };
     std::vector< double > unique = { 1., 2., 3. };
     std::vector< double > notunique = { 1., 2., 2., 3. };
+    std::vector< double > same = { 1., 1., 1., 1. };
 
     WHEN( "the verification functions are called" ) {
 
@@ -47,6 +48,9 @@ SCENARIO( "verification ranges" ) {
         CHECK( true == verification::isUnique( size1 ) );
         CHECK( true == verification::isUnique( unique ) );
         CHECK( false == verification::isUnique( notunique ) );
+
+        CHECK( false == verification::isAllSameElement( unique ) );
+        CHECK( true == verification::isAllSameElement( same ) );
       } // THEN
     } // WHEN
   } // GIVEN
