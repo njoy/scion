@@ -473,7 +473,8 @@ SCENARIO( "PolynomialSeries" ) {
 
       THEN( "an exception is thrown" ) {
 
-        CHECK_THROWS( PolynomialSeries< double >( {} ) );
+        std::vector< double > empty = {};
+        CHECK_THROWS( PolynomialSeries< double >( empty ) );
       } // THEN
     } // WHEN
   } // GIVEN

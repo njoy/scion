@@ -458,7 +458,8 @@ SCENARIO( "LegendreSeries" ) {
 
       THEN( "an exception is thrown" ) {
 
-        CHECK_THROWS( LegendreSeries< double >( {} ) );
+        std::vector< double > empty = {};
+        CHECK_THROWS( LegendreSeries< double >( empty ) );
       } // THEN
     } // WHEN
   } // GIVEN
