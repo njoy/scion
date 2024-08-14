@@ -5,6 +5,7 @@ std::vector< Y > evaluateOnGrid( const std::vector< X >& x ) const {
   auto xIter = std::lower_bound( x.begin(), x.end(), this->x().front() );
   if ( *std::next( xIter ) == this->x().front() ) {
 
+    // move to the next x value in case of a jump
     ++xIter;
   }
   auto yIter = std::next( y.begin(), std::distance( x.begin(), xIter ) );

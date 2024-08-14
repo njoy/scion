@@ -14,8 +14,8 @@ namespace unionisation {
    *  @brief Unionise two grids and preserve duplicate points that appear in each
    *
    *  If the grids do not have the same begin and/or end point, a duplicate point
-   *  is inserted into the grid corresponding to the highest begining and/or
-   *  lowest end point (unless those is already a duplicate point).
+   *  is inserted into the grid corresponding to the highest beginning and/or
+   *  lowest end point (unless those are already a duplicate point).
    *
    *  @param first        the first grid (assumed to be sorted)
    *  @param second       the second grid (assumed to be sorted)
