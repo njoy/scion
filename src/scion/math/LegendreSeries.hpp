@@ -92,7 +92,7 @@ namespace math {
      */
     void normalise() noexcept {
 
-      this->coefficients()[0] = 0.5;
+      this->coefficients()[0] = Y( 0.5 );
     }
 
     using Parent::coefficients;
