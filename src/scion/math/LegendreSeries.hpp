@@ -92,10 +92,17 @@ namespace math {
      */
     void normalise() noexcept {
 
-      this->coefficients()[0] = Y( 0.5 );
+      Parent::coefficients()[0] = Y( 0.5 );
     }
 
-    using Parent::coefficients;
+    /**
+     *  @brief Return the series coefficients
+     */
+    const std::vector< Y >& coefficients() const noexcept {
+
+      return Parent::coefficients();
+    }
+
     using Parent::order;
     using Parent::roots;
     using Parent::derivative;

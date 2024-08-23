@@ -70,7 +70,14 @@ namespace math {
 
     /* methods */
 
-    using Parent::coefficients;
+    /**
+     *  @brief Return the series coefficients
+     */
+    const std::vector< Y >& coefficients() const noexcept {
+
+      return Parent::coefficients();
+    }
+
     using Parent::order;
     using Parent::roots;
     using Parent::derivative;
