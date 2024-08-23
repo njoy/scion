@@ -84,6 +84,17 @@ namespace math {
 
     /* methods */
 
+    /**
+     *  @brief Normalise the LegendreSeries
+     *
+     *  This function sets the order 0 coefficient equal to 0.5 so that
+     *  the integral of the series over [-1,1] is 1.
+     */
+    void normalise() noexcept {
+
+      this->coefficients()[0] = 0.5;
+    }
+
     using Parent::coefficients;
     using Parent::order;
     using Parent::roots;

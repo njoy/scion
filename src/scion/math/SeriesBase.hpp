@@ -54,12 +54,20 @@ namespace math {
 
     #include "scion/math/SeriesBase/src/ctor.hpp"
 
+    /**
+     *  @brief Return the series coefficients
+     */
+    std::vector< Y >& coefficients() noexcept {
+
+      return this->coefficients_;
+    }
+
   public:
 
     /* methods */
 
     /**
-     *  @brief Return the Legendre coefficients
+     *  @brief Return the series coefficients
      */
     const std::vector< Y >& coefficients() const noexcept {
 
@@ -67,7 +75,7 @@ namespace math {
     }
 
     /**
-     *  @brief Return the Legendre order
+     *  @brief Return the series order
      */
     unsigned int order() const noexcept {
 
