@@ -54,14 +54,6 @@ namespace math {
 
     #include "scion/math/SeriesBase/src/ctor.hpp"
 
-    /**
-     *  @brief Return the series coefficients
-     */
-    std::vector< Y >& coefficients() noexcept {
-
-      return this->coefficients_;
-    }
-
   public:
 
     /* methods */

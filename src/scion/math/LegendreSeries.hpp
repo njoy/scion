@@ -84,25 +84,7 @@ namespace math {
 
     /* methods */
 
-    /**
-     *  @brief Normalise the LegendreSeries
-     *
-     *  This function sets the order 0 coefficient equal to 0.5 so that
-     *  the integral of the series over [-1,1] is 1.
-     */
-    void normalise() noexcept {
-
-      Parent::coefficients()[0] = Y( 0.5 );
-    }
-
-    /**
-     *  @brief Return the series coefficients
-     */
-    const std::vector< Y >& coefficients() const noexcept {
-
-      return Parent::coefficients();
-    }
-
+    using Parent::coefficients;
     using Parent::order;
     using Parent::roots;
     using Parent::derivative;

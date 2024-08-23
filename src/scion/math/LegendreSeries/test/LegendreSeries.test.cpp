@@ -105,22 +105,6 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  0.057142857142857, WithinRel( primitive.coefficients()[4] ) );
       } // THEN
 
-      THEN( "the LegendreSeries can be normalised" ) {
-
-        LegendreSeries< double > copy = chunk;
-        copy.normalise();
-
-        CHECK( 3 == copy.order() );
-        CHECK( 4 == copy.coefficients().size() );
-        CHECK_THAT(   0.5             , WithinRel( copy.coefficients()[0] ) );
-        CHECK_THAT(  14.6             , WithinRel( copy.coefficients()[1] ) );
-        CHECK_THAT(  -4.66666666666666, WithinRel( copy.coefficients()[2] ) );
-        CHECK_THAT(   0.4             , WithinRel( copy.coefficients()[3] ) );
-
-        LegendreSeries< double > primitive = copy.primitive( -1. );
-        CHECK_THAT( 1., WithinRel( primitive( 1. ) ) );
-      }
-
       THEN( "roots can be calculated" ) {
 
         std::vector< double > roots = chunk.roots();
