@@ -6,11 +6,10 @@
 // other includes
 #include "tools/Log.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
-#include "scion/interpolation/Table.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/verification/ranges.hpp"
 
 namespace njoy {
@@ -19,21 +18,19 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Base class for tabulated data using a single interpolation region
+   *  @brief Base class for x,y tabulated data using a single interpolation region
    *
    *  This base class provides the common interface for single region
    *  interpolation data such as the LinearLinearTable, LogLogTable, etc.
    */
   template < typename Derived, typename Interpolator,
-             typename X, typename Y = X,
+             typename X, typename Y,
              typename XContainer = std::vector< X >,
              typename YContainer = std::vector< Y > >
-  class SingleTableBase : public FunctionBase< Derived, X, Y > {
+  class SingleTableBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
     /* type aliases */
-    using Parent = FunctionBase< Derived, X, Y >;
-    using Table = interpolation::Table< Interpolator,
-                                        XContainer, YContainer >;
+    using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
 
   public:
 
@@ -43,10 +40,20 @@ namespace math {
   private:
 
     /* fields */
-    Table table_;
+    Interpolator interpolator_;
+    XContainer x_;
+    YContainer y_;
 
     /* auxiliary function */
     #include "scion/math/SingleTableBase/src/verifyTable.hpp"
+
+    /**
+     *  @brief Return the panel interpolator
+     */
+    const Interpolator& interpolator() const noexcept {
+
+      return this->interpolator_;
+    }
 
   protected:
 
@@ -70,7 +77,7 @@ namespace math {
      */
     const XContainer& x() const noexcept {
 
-      return this->table_.x();
+      return this->x_;
     }
 
     /**
@@ -78,7 +85,7 @@ namespace math {
      */
     const YContainer& y() const noexcept {
 
-      return this->table_.y();
+      return this->y_;
     }
 
     /**
@@ -89,16 +96,7 @@ namespace math {
       return this->x().size();
     }
 
-    /**
-     *  @brief Evaluate the function for a value of x
-     *
-     *  @param x   the value to be evaluated
-     */
-    Y evaluate( const X& x ) const {
-
-      return this->table_.evaluate( x );
-    }
-
+    #include "scion/math/SingleTableBase/src/evaluate.hpp"
     #include "scion/math/SingleTableBase/src/linearise.hpp"
 
     using Parent::domain;

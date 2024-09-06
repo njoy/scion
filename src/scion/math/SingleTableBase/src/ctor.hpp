@@ -1,14 +1,11 @@
 private:
 
 /**
- *  @brief Private intermediate constructor
+ *  @brief Private constructor
  */
-SingleTableBase( Table&& table ) :
-  Parent( IntervalDomain( table.x().front(), table.x().back() ) ),
-  table_( std::move( table ) ) {
-
-  verifyTable( this->table_.x(), this->table_.y() );
-}
+SingleTableBase( IntervalDomain< X >&& domain, XContainer&& x, YContainer&& y ) :
+  Parent( std::move( domain ) ), interpolator_(), 
+  x_( std::move( x ) ), y_( std::move( y ) ) {}
 
 protected:
 
@@ -19,4 +16,6 @@ protected:
  *  @param y   the y values of the tabulated data
  */
 SingleTableBase( XContainer x, YContainer y ) :
-  SingleTableBase( Table( std::move( x ), std::move( y ) ) ) {}
+  SingleTableBase( verifyTableAndRetrieveDomain( x, y ),
+                   std::move( x ), std::move( y ) ) {}
+

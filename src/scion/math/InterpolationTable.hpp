@@ -11,7 +11,7 @@
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/unionisation/unionise.hpp"
 #include "scion/math/newton.hpp"
-#include "scion/math/FunctionBase.hpp"
+#include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
 #include "scion/math/LinearLogTable.hpp"
@@ -29,13 +29,14 @@ namespace math {
    *  @brief Tabulated data with one or more interpolation types
    */
   template < typename X, typename Y = X >
-  class InterpolationTable : public FunctionBase< InterpolationTable< X, Y >, X, Y > {
+  class InterpolationTable : 
+      public OneDimensionalFunctionBase< InterpolationTable< X, Y >, X, Y > {
 
     /* friend declarations */
-    friend class FunctionBase< InterpolationTable< X, Y >, X, Y >;
+    friend class OneDimensionalFunctionBase< InterpolationTable< X, Y >, X, Y >;
 
     /* type aliases */
-    using Parent = FunctionBase< InterpolationTable< X, Y >, X, Y >;
+    using Parent = OneDimensionalFunctionBase< InterpolationTable< X, Y >, X, Y >;
     using XIterator = typename std::vector< X >::const_iterator;
     using YIterator = typename std::vector< Y >::const_iterator;
     using XContainer = njoy::utility::IteratorView< XIterator >;

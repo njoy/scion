@@ -1,36 +1,35 @@
-static IntervalDomain< X >
-verifyTableAndRetrieveDomain( const XContainer& x, const YContainer& y ) {
+static void verifyTable( const XContainer& x, const FContainer& f ) {
 
   if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
-       ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
+       ( ! verification::isAtLeastOfSize( f, 2 ) ) ) {
 
-    Log::error( "Insufficient x or y values defined for x,y tabulated data "
+    Log::error( "Insufficient x or f values defined for x,f(y) tabulated data "
                 "with a single interpolation type (at least 2 points are "
                 "required)" );
     Log::info( "x.size(): {}", x.size() );
-    Log::info( "y.size(): {}", y.size() );
+    Log::info( "f.size(): {}", f.size() );
     throw std::exception();
   }
 
-  if ( ! verification::isSameSize( x, y ) ) {
+  if ( ! verification::isSameSize( x, f ) ) {
 
-    Log::error( "Inconsistent number of x and y values for x,y tabulated data "
+    Log::error( "Inconsistent number of x and f values for x,f(y) tabulated data "
                 "with a single interpolation type" );
     Log::info( "x.size(): {}", x.size() );
-    Log::info( "y.size(): {}", y.size() );
+    Log::info( "f.size(): {}", f.size() );
     throw std::exception();
   }
 
   if ( ! verification::isSorted( x ) ) {
 
     Log::error( "The x values do not appear to be in ascending order for "
-                "x,y tabulated data with a single interpolation type" );
+                "x,f(y) tabulated data with a single interpolation type" );
     throw std::exception();
   }
 
   if ( ! verification::isUnique( x ) ) {
 
-    Log::error( "The x values do not appear to be unique for x,y tabulated values "
+    Log::error( "The x values do not appear to be unique for x,f(y) tabulated values "
                 "with a single interpolation type" );
 
     auto iter = std::adjacent_find( x.begin(), x.end() );
@@ -41,6 +40,4 @@ verifyTableAndRetrieveDomain( const XContainer& x, const YContainer& y ) {
     }
     throw std::exception();
   }
-
-  return IntervalDomain( x.front(), x.back() );
 }
