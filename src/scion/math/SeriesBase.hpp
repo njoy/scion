@@ -59,7 +59,7 @@ namespace math {
     /* methods */
 
     /**
-     *  @brief Return the Legendre coefficients
+     *  @brief Return the series coefficients
      */
     const std::vector< Y >& coefficients() const noexcept {
 
@@ -67,7 +67,7 @@ namespace math {
     }
 
     /**
-     *  @brief Return the Legendre order
+     *  @brief Return the series order
      */
     unsigned int order() const noexcept {
 

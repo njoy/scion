@@ -135,7 +135,7 @@ SCENARIO( "LegendreSeries" ) {
         CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
-      THEN( "a PolynomialSeries can be linearised" ) {
+      THEN( "a LegendreSeries can be linearised" ) {
 
         ToleranceConvergence< double > convergence( 0.01 );
         InterpolationTable< double > linear = chunk.linearise( convergence );
