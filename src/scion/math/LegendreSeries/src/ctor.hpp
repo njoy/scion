@@ -1,4 +1,9 @@
 /**
+ *  @brief Default constructor (for pybind11 purposes only)
+ */
+LegendreSeries() = default;
+
+/**
  *  @brief Constructor
  *
  *  @param coefficients   the coefficients of the Legendre series (from

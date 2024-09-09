@@ -458,7 +458,8 @@ SCENARIO( "ChebyshevSeries" ) {
 
       THEN( "an exception is thrown" ) {
 
-        CHECK_THROWS( ChebyshevSeries< double >( {} ) );
+        std::vector< double > empty = {};
+        CHECK_THROWS( ChebyshevSeries< double >( empty ) );
       } // THEN
     } // WHEN
   } // GIVEN

@@ -1,4 +1,9 @@
 /**
+ *  @brief Default constructor (for pybind11 purposes only)
+ */
+PolynomialSeries() = default;
+
+/**
  *  @brief Constructor
  *
  *  @param domain         the domain of the polynomial series

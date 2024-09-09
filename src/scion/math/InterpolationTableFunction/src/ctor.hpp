@@ -1,4 +1,9 @@
 /**
+ *  @brief Default constructor (for pybind11 purposes only)
+ */
+InterpolationTableFunction() = default;
+
+/**
  *  @brief Copy constructor
  *
  *  @param[in] table    the table to be copied

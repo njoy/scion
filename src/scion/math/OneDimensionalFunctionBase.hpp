@@ -42,6 +42,11 @@ namespace math {
     /* constructor */
 
     /**
+     *  @brief Default constructor (for pybind11 purposes only)
+     */
+    OneDimensionalFunctionBase() = default;
+
+    /**
      *  @brief Constructor
      *
      *  @param domain   the domain of the function
@@ -54,10 +59,8 @@ namespace math {
     /* methods */
 
     /**
-     *  @brief Check whether or not a value is inside the domain (including
-     *         boundaries)
-     *
-     *  @param x   the value to be tested
+     *  @brief Return the domain of the function (either an open or interval
+     *         domain)
      */
     const DomainVariant& domain() const noexcept {
 
