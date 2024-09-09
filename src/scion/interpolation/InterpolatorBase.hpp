@@ -57,7 +57,7 @@ namespace interpolation {
      *
      *  As such, this does not do unit-base interpolation.
      *
-     *  Since we can reuse the operator() on this base class so the derived class
+     *  Since we can reuse the operator() on this base class, the derived class
      *  does not need to implement this particular interpolation operation.
      *
      *  @param[in] x        the value of x
