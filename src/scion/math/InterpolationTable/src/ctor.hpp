@@ -65,8 +65,8 @@ private:
  *  @param interpolants   the interpolation types of the interpolation regions
  */
 InterpolationTable(
-    std::tuple< std::vector< double >,
-                std::vector< double >,
+    std::tuple< std::vector< X >,
+                std::vector< Y >,
                 std::vector< std::size_t >,
                 std::vector< interpolation::InterpolationType > >&& data ) :
   Parent( IntervalDomain( std::get< 0 >( data ).front(), std::get< 0 >( data ).back() ) ),
