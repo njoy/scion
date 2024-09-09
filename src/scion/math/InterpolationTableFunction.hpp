@@ -25,25 +25,30 @@ namespace math {
    *  @class
    *  @brief Tabulated data with one or more interpolation types
    */
-  template < typename X, typename F, typename Y = X, typename Z = X >
+  template < typename X, typename F >
   class InterpolationTableFunction :
-      public TwoDimensionalFunctionBase< InterpolationTableFunction< X, F, Y, Z >, X, Y, Z > {
+      public TwoDimensionalFunctionBase< InterpolationTableFunction< X, F >,
+                                         X, typename F::XType, typename F::YType > {
 
     /* friend declarations */
-    friend class TwoDimensionalFunctionBase< InterpolationTableFunction< X, F, Y, Z >, X, Y, Z >;
+    friend class TwoDimensionalFunctionBase< InterpolationTableFunction< X, F >,
+                                             X, typename F::XType, typename F::YType >;
 
     /* type aliases */
-    using Parent = TwoDimensionalFunctionBase< InterpolationTableFunction< X, F, Y, Z >, X, Y, Z >;
+    using Parent = TwoDimensionalFunctionBase< InterpolationTableFunction< X, F >, X,
+                                               typename F::XType, typename F::YType >;
+    using Y = typename Parent::YType;
+    using Z = typename Parent::ZType;
     using XIterator = typename std::vector< X >::const_iterator;
     using FIterator = typename std::vector< F >::const_iterator;
     using XContainer = njoy::utility::IteratorView< XIterator >;
     using FContainer = njoy::utility::IteratorView< FIterator >;
     using TableVariant = std::variant<
-                             LinearLinearTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                             HistogramTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                             LinearLogTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                             LogLinearTableFunction< X, Y, Z, F, XContainer, FContainer >,
-                             LogLogTableFunction< X, Y, Z, F, XContainer, FContainer > >;
+                             LinearLinearTableFunction< X, F, XContainer, FContainer >,
+                             HistogramTableFunction< X, F, XContainer, FContainer >,
+                             LinearLogTableFunction< X, F, XContainer, FContainer >,
+                             LogLinearTableFunction< X, F, XContainer, FContainer >,
+                             LogLogTableFunction< X, F, XContainer, FContainer > >;
 
     /* fields */
     std::vector< X > x_;
@@ -69,7 +74,14 @@ namespace math {
 
   public:
 
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
+    using typename Parent::ZType;
+
     /* constructor */
+
     #include "scion/math/InterpolationTableFunction/src/ctor.hpp"
 
     /* methods */

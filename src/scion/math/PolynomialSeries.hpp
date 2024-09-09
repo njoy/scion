@@ -36,7 +36,7 @@ namespace math {
    *  The derivative and primitive function is defined over the same domain as
    *  the original series.
    */
-  template < typename X, typename Y = X >
+  template < typename X, typename Y >
   class PolynomialSeries : public SeriesBase< PolynomialSeries< X, Y >, X, Y > {
 
     /* friend declarations */
@@ -59,9 +59,13 @@ namespace math {
   public:
 
     /* type aliases */
-    using DomainVariant = typename Parent::DomainVariant;
+
+    using typename Parent::XType;
+    using typename Parent::YType;
+    using typename Parent::DomainVariant;
 
     /* constructor */
+
     #include "scion/math/PolynomialSeries/src/ctor.hpp"
 
     /* methods */

@@ -13,13 +13,19 @@ namespace math {
    *  @class
    *  @brief Base class for two dimensional function objects modelling y = f(x,y)
    *
-   *  This base class provides the common interface for all two dimensional 
+   *  This base class provides the common interface for all two dimensional
    *  function objects. This includes function evaluation.
    */
   template < typename Derived, typename X, typename Y, typename Z >
   class TwoDimensionalFunctionBase {
 
   public:
+
+    /* type aliases */
+
+    using XType = X;
+    using YType = Y;
+    using ZType = Z;
 
     /* methods */
 
