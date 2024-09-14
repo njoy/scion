@@ -1,3 +1,9 @@
+LogLogTable( const LogLogTable& ) = default;
+LogLogTable( LogLogTable&& ) = default;
+
+LogLogTable& operator=( const LogLogTable& ) = default;
+LogLogTable& operator=( LogLogTable&& ) = default;
+
 /**
  *  @brief Constructor
  *

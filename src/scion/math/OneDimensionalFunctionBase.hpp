@@ -54,6 +54,12 @@ namespace math {
     OneDimensionalFunctionBase( DomainVariant domain ) :
       domain_( std::move( domain ) ) {}
 
+    OneDimensionalFunctionBase( const OneDimensionalFunctionBase& ) = default;
+    OneDimensionalFunctionBase( OneDimensionalFunctionBase&& ) = default;
+
+    OneDimensionalFunctionBase& operator=( const OneDimensionalFunctionBase& ) = default;
+    OneDimensionalFunctionBase& operator=( OneDimensionalFunctionBase&& ) = default;
+
   public:
 
     /* methods */

@@ -1,3 +1,9 @@
+HistogramTable( const HistogramTable& ) = default;
+HistogramTable( HistogramTable&& ) = default;
+
+HistogramTable& operator=( const HistogramTable& ) = default;
+HistogramTable& operator=( HistogramTable&& ) = default;
+
 /**
  *  @brief Constructor
  *
