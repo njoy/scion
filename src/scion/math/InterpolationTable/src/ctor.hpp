@@ -65,7 +65,7 @@ InterpolationTable& operator=( InterpolationTable&& base ) {
     this->y_ = std::move( base.y_ );
     this->boundaries_ = std::move( base.boundaries_ );
     this->interpolants_ = std::move( base.interpolants_ );
-    this->linearised_ = std::move( base.linearised_ );
+    this->linearised_ = base.linearised_;
     this->generateTables();
   }
   return *this;
