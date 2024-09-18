@@ -85,6 +85,191 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
       } // THEN
 
+      THEN( "an InterpolationTableFunction can be copy and move constructed" ) {
+
+        Table2D copy( chunk );
+        CHECK( 4 == copy.numberPoints() );
+        CHECK( 1 == copy.numberRegions() );
+        CHECK( 4 == copy.x().size() );
+        CHECK( 4 == copy.f().size() );
+        CHECK( 1 == copy.boundaries().size() );
+        CHECK( 1 == copy.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( copy.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( copy.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( copy.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( copy.x()[3] ) );
+        CHECK( 2 == copy.f()[0].x().size() );
+        CHECK( 2 == copy.f()[0].y().size() );
+        CHECK( 3 == copy.f()[1].x().size() );
+        CHECK( 3 == copy.f()[1].y().size() );
+        CHECK( 3 == copy.f()[2].x().size() );
+        CHECK( 3 == copy.f()[2].y().size() );
+        CHECK( 2 == copy.f()[3].x().size() );
+        CHECK( 2 == copy.f()[3].y().size() );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( copy.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( copy.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( copy.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( copy.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( copy.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( copy.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( copy.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( copy.f()[3].y()[1] ) );
+        CHECK( 3 == copy.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
+
+        Table2D move( std::move( copy ) );
+        CHECK( 4 == move.numberPoints() );
+        CHECK( 1 == move.numberRegions() );
+        CHECK( 4 == move.x().size() );
+        CHECK( 4 == move.f().size() );
+        CHECK( 1 == move.boundaries().size() );
+        CHECK( 1 == move.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( move.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( move.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( move.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( move.x()[3] ) );
+        CHECK( 2 == move.f()[0].x().size() );
+        CHECK( 2 == move.f()[0].y().size() );
+        CHECK( 3 == move.f()[1].x().size() );
+        CHECK( 3 == move.f()[1].y().size() );
+        CHECK( 3 == move.f()[2].x().size() );
+        CHECK( 3 == move.f()[2].y().size() );
+        CHECK( 2 == move.f()[3].x().size() );
+        CHECK( 2 == move.f()[3].y().size() );
+        CHECK_THAT( -1.  , WithinRel( move.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( move.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( move.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( move.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( move.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( move.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( move.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( move.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( move.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( move.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( move.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( move.f()[3].y()[1] ) );
+        CHECK( 3 == move.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
+      } // THEN
+
+      THEN( "an InterpolationTableFunction can be copy and move assigned" ) {
+
+        const std::vector< double > x = { 0., 1. };
+        const std::vector< InterpolationTable< double > > f = {
+
+          { { -1., +1. }, { 0.5, 0.5 } },
+          { { -1., +1. }, { 0.1, 0.9 } }
+        };
+
+        Table2D copy( x, f );
+        copy = chunk;
+
+        CHECK( 4 == copy.numberPoints() );
+        CHECK( 1 == copy.numberRegions() );
+        CHECK( 4 == copy.x().size() );
+        CHECK( 4 == copy.f().size() );
+        CHECK( 1 == copy.boundaries().size() );
+        CHECK( 1 == copy.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( copy.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( copy.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( copy.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( copy.x()[3] ) );
+        CHECK( 2 == copy.f()[0].x().size() );
+        CHECK( 2 == copy.f()[0].y().size() );
+        CHECK( 3 == copy.f()[1].x().size() );
+        CHECK( 3 == copy.f()[1].y().size() );
+        CHECK( 3 == copy.f()[2].x().size() );
+        CHECK( 3 == copy.f()[2].y().size() );
+        CHECK( 2 == copy.f()[3].x().size() );
+        CHECK( 2 == copy.f()[3].y().size() );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( copy.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( copy.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( copy.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( copy.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( copy.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( copy.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( copy.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( copy.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( copy.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( copy.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( copy.f()[3].y()[1] ) );
+        CHECK( 3 == copy.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
+
+        Table2D move( x, f );
+        move = std::move( copy );
+
+        CHECK( 4 == move.numberPoints() );
+        CHECK( 1 == move.numberRegions() );
+        CHECK( 4 == move.x().size() );
+        CHECK( 4 == move.f().size() );
+        CHECK( 1 == move.boundaries().size() );
+        CHECK( 1 == move.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( move.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( move.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( move.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( move.x()[3] ) );
+        CHECK( 2 == move.f()[0].x().size() );
+        CHECK( 2 == move.f()[0].y().size() );
+        CHECK( 3 == move.f()[1].x().size() );
+        CHECK( 3 == move.f()[1].y().size() );
+        CHECK( 3 == move.f()[2].x().size() );
+        CHECK( 3 == move.f()[2].y().size() );
+        CHECK( 2 == move.f()[3].x().size() );
+        CHECK( 2 == move.f()[3].y().size() );
+        CHECK_THAT( -1.  , WithinRel( move.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( move.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( move.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( move.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( move.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( move.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( move.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( move.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( move.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( move.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( move.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( move.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( move.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( move.f()[3].y()[1] ) );
+        CHECK( 3 == move.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
+      } // THEN
+
       THEN( "an InterpolationTableFunction can be evaluated" ) {
 
         // values of x in the x grid

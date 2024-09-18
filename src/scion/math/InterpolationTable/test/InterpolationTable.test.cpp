@@ -51,6 +51,96 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
+      THEN( "an InterpolationTable can be copy and move constructed" ) {
+
+        InterpolationTable< double > copy( chunk );
+        CHECK( 4 == copy.numberPoints() );
+        CHECK( 1 == copy.numberRegions() );
+        CHECK( 4 == copy.x().size() );
+        CHECK( 4 == copy.y().size() );
+        CHECK( 1 == copy.boundaries().size() );
+        CHECK( 1 == copy.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( copy.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( copy.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( copy.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( copy.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( copy.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( copy.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( copy.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( copy.y()[3] ) );
+        CHECK( 3 == copy.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
+        CHECK( true == copy.isLinearised() );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+
+        InterpolationTable< double > move( std::move( copy ) );
+        CHECK( 4 == move.numberPoints() );
+        CHECK( 1 == move.numberRegions() );
+        CHECK( 4 == move.x().size() );
+        CHECK( 4 == move.y().size() );
+        CHECK( 1 == move.boundaries().size() );
+        CHECK( 1 == move.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( move.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( move.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( move.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( move.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( move.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( move.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( move.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( move.y()[3] ) );
+        CHECK( 3 == move.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
+        CHECK( true == move.isLinearised() );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+      } // THEN
+
+      THEN( "an InterpolationTable can be copy and move assigned" ) {
+
+        InterpolationTable< double > copy( { 1., 4. }, { 0., 0. } );
+        copy = chunk;
+
+        CHECK( 4 == copy.numberPoints() );
+        CHECK( 1 == copy.numberRegions() );
+        CHECK( 4 == copy.x().size() );
+        CHECK( 4 == copy.y().size() );
+        CHECK( 1 == copy.boundaries().size() );
+        CHECK( 1 == copy.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( copy.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( copy.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( copy.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( copy.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( copy.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( copy.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( copy.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( copy.y()[3] ) );
+        CHECK( 3 == copy.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
+        CHECK( true == copy.isLinearised() );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+
+        InterpolationTable< double > move( { 1., 4. }, { 0., 0. } );
+        move = std::move( copy );
+
+        CHECK( 4 == move.numberPoints() );
+        CHECK( 1 == move.numberRegions() );
+        CHECK( 4 == move.x().size() );
+        CHECK( 4 == move.y().size() );
+        CHECK( 1 == move.boundaries().size() );
+        CHECK( 1 == move.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( move.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( move.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( move.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( move.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( move.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( move.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( move.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( move.y()[3] ) );
+        CHECK( 3 == move.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
+        CHECK( true == move.isLinearised() );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+      } // THEN
+
       THEN( "an InterpolationTable can be evaluated" ) {
 
         // values of x in the x grid
