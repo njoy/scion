@@ -3,6 +3,12 @@
  */
 IntervalDomain() = default;
 
+IntervalDomain( const IntervalDomain& ) = default;
+IntervalDomain( IntervalDomain&& ) = default;
+
+IntervalDomain& operator=( const IntervalDomain& ) = default;
+IntervalDomain& operator=( IntervalDomain&& ) = default;
+
 /**
  *  @brief Constructor
  *
