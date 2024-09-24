@@ -29,6 +29,12 @@ namespace math {
     /* constructor */
     OpenDomain() = default;
 
+    OpenDomain( const OpenDomain& ) = default;
+    OpenDomain( OpenDomain&& ) = default;
+
+    OpenDomain& operator=( const OpenDomain& ) = default;
+    OpenDomain& operator=( OpenDomain&& ) = default;
+
     /* methods */
 
     /**

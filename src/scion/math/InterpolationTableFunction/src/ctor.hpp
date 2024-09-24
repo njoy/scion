@@ -38,7 +38,12 @@ InterpolationTableFunction& operator=( const InterpolationTableFunction& base ) 
 
   if ( this != &base ) {
 
-    new (this) InterpolationTableFunction( base );
+    Parent::operator=( base );
+    this->x_ = base.x_;
+    this->f_ = base.f_;
+    this->boundaries_ = base.boundaries_;
+    this->interpolants_ = base.interpolants_;
+    this->generateTables();
   }
   return *this;
 }
@@ -52,7 +57,12 @@ InterpolationTableFunction& operator=( InterpolationTableFunction&& base ) {
 
   if ( this != &base ) {
 
-    new (this) InterpolationTableFunction( std::move( base ) );
+    Parent::operator=( base );
+    this->x_ = std::move( base.x_ );
+    this->f_ = std::move( base.f_ );
+    this->boundaries_ = std::move( base.boundaries_ );
+    this->interpolants_ = std::move( base.interpolants_ );
+    this->generateTables();
   }
   return *this;
 }

@@ -1,3 +1,9 @@
+LinearLinearTableFunction( const LinearLinearTableFunction& ) = default;
+LinearLinearTableFunction( LinearLinearTableFunction&& ) = default;
+
+LinearLinearTableFunction& operator=( const LinearLinearTableFunction& ) = default;
+LinearLinearTableFunction& operator=( LinearLinearTableFunction&& ) = default;
+
 /**
  *  @brief Constructor
  *

@@ -1,3 +1,9 @@
+LogLinearTable( const LogLinearTable& ) = default;
+LogLinearTable( LogLinearTable&& ) = default;
+
+LogLinearTable& operator=( const LogLinearTable& ) = default;
+LogLinearTable& operator=( LogLinearTable&& ) = default;
+
 /**
  *  @brief Constructor
  *
