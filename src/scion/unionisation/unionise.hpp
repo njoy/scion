@@ -25,6 +25,7 @@ namespace unionisation {
   unionise( const std::vector< X >& first, const std::vector< X >& second ) {
 
     // merge the two grids - keeping a maximum of 2 duplicates
+    // std::back_inserter is slightly less performant it would seem
     std::vector< X > grid( first.size() + second.size() );
     auto end = std::set_union( first.begin(), first.end(),
                                second.begin(), second.end(),
