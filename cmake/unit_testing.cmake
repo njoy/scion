@@ -2,7 +2,6 @@
 # Setup
 #######################################################################
 
-message( STATUS "Adding scion unit testing" )
 enable_testing()
 
 FetchContent_MakeAvailable( Catch2 )
@@ -12,6 +11,7 @@ function( add_cpp_test name source )
   set( test_name "scion.${name}.test" )
   add_executable( ${test_name} ${source} )
   add_test( NAME ${test_name} COMMAND ${test_name} )
+  set_target_properties( ${test_name} PROPERTIES COMPILE_DEFINITIONS "PYBIND11" )
   target_link_libraries( ${test_name} PRIVATE scion )
   target_link_libraries( ${test_name} PRIVATE Catch2::Catch2WithMain )
 
@@ -25,6 +25,8 @@ endfunction()
 #######################################################################
 # Unit testing directories
 #######################################################################
+
+message( STATUS "Adding scion C++ unit testing" )
 
 add_subdirectory( src/utility/IteratorView/test )
 

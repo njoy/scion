@@ -1,13 +1,10 @@
-cmake_minimum_required( VERSION 3.14 )
+cmake_minimum_required( VERSION 3.27 )
+list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/.cmake)
 include( FetchContent )
 
-#######################################################################
-# Declare project dependencies
-#######################################################################
-
-FetchContent_Declare( Catch2
-    GIT_REPOSITORY  https://github.com/catchorg/Catch2
-    GIT_TAG         3f0283de7a9c43200033da996ff9093be3ac84dc # tag: v3.3.2
+FetchContent_Declare( tools
+    GIT_REPOSITORY  ../../njoy/tools
+    GIT_TAG         392164c044dea641b7a42dc1a2e89da464289770  # tag: v0.4.0
     )
 
 FetchContent_Declare( eigen
@@ -15,28 +12,31 @@ FetchContent_Declare( eigen
     GIT_TAG         d0bfdc1658ca0b4c659fd3702c351d2c2cdc876c # 3.4.1 branch on July 26, 2023
     )
 
-FetchContent_Declare( pybind11
-    GIT_REPOSITORY  https://github.com/pybind/pybind11
-    GIT_TAG         5b0a6fc2017fcc176545afe3e09c9f9885283242 # tag: v2.10.4
-    )
-
-FetchContent_Declare( spdlog
-    GIT_REPOSITORY  https://github.com/gabime/spdlog
-    GIT_TAG         ad0e89cbfb4d0c1ce4d097e134eb7be67baebb36 # tag: v1.11.0
-    )
-set( SPDLOG_BUILD_PIC CACHE INTERNAL BOOL ON )
-
-FetchContent_Declare( tools
-    GIT_REPOSITORY  https://github.com/njoy/tools
-    GIT_TAG         25c9273d05601a9644feea6d7539250bf1d1c0dc # tag: v0.2.0
-    )
-
 #######################################################################
 # Load dependencies
 #######################################################################
 
+if(scion.python)
+  FetchContent_Declare( pybind11
+      GIT_REPOSITORY  ../../pybind/pybind11
+      GIT_TAG         5b0a6fc2017fcc176545afe3e09c9f9885283242 # tag: v2.10.4
+      )
+  FetchContent_MakeAvailable(
+    pybind11
+    )
+endif()
+
+if(scion.tests)
+  FetchContent_Declare( Catch2
+      GIT_REPOSITORY  ../../catchorg/Catch2
+      GIT_TAG         3f0283de7a9c43200033da996ff9093be3ac84dc # tag: v3.3.2
+      )
+  FetchContent_MakeAvailable(
+      Catch2
+    )
+endif()
+
 FetchContent_MakeAvailable(
-    eigen
-    spdlog
     tools
+    eigen
     )
