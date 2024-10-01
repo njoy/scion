@@ -14,7 +14,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Analytical integration of data over a number of successive
+   *  @brief Analytical integration of tabulated data over a number of successive
    *         integration intervals
    */
   template < typename X >
@@ -53,6 +53,8 @@ namespace math {
     }
 
     #include "scion/math/AnalyticalIntegrator/src/call.hpp"
+    #include "scion/math/AnalyticalIntegrator/src/zerothMoment.hpp"
+    #include "scion/math/AnalyticalIntegrator/src/firstMoment.hpp"
   };
 
 } // math namespace

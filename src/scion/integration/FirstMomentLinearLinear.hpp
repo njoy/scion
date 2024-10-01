@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_LINEARLINEAR
-#define NJOY_SCION_INTEGRATION_LINEARLINEAR
+#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLINEAR
+#define NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLINEAR
 
 // system includes
 
@@ -40,7 +40,7 @@ namespace integration {
       auto slope = ( yRight - yLeft ) / delta / 3.;
       auto constant = 0.5 * ( xRight * yLeft - xLeft * yRight ) / delta;
       return xRight * xRight * ( slope * xRight + constant )
-             - xLeft * xLeft * ( slope * yLeft + constant );
+             - xLeft * xLeft * ( slope * xLeft + constant );
     }
 
   public:
