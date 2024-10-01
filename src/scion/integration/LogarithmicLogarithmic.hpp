@@ -44,16 +44,9 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
-      if ( xLeft == xRight ) {
-
-        return I( 0. );
-      }
-      else {
-
-        const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
-        return xLeft * yLeft / ( slope + 1. )
-               * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
-      }
+      const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
+      return xLeft * yLeft / ( slope + 1. )
+             * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
     }
 
   public:
