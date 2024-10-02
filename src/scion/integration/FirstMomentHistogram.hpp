@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLINEAR
-#define NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLINEAR
+#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTHISTOGRAM
+#define NJOY_SCION_INTEGRATION_FIRSTMOMENTHISTOGRAM
 
 // system includes
 
@@ -12,19 +12,19 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief First raw moment of a linear-linear panel (y is linear in x)
+   *  @brief First raw moment of a histogram panel (y is constant in x)
    *
    *  The first raw moment or mean is defined as the integral of x * f(x)
    */
-  class FirstMomentLinearLinear : public IntegratorBase< FirstMomentLinearLinear > {
+  class FirstMomentHistogram : public IntegratorBase< FirstMomentHistogram > {
 
     /* friend declarations */
-    friend class IntegratorBase< FirstMomentLinearLinear >;
+    friend class IntegratorBase< FirstMomentHistogram >;
 
     /* interface implementation functions */
 
     /**
-     *  @brief Perform first raw moment integration of a linear-linear panel (y is linear in x)
+     *  @brief Perform first raw moment integration of a histogram panel (y is constant in x)
      *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
@@ -34,13 +34,9 @@ namespace integration {
     template < typename X, typename Y,
                typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I integrate( const X& xLeft, const X& xRight,
-                 const Y& yLeft, const Y& yRight ) const noexcept {
+                 const Y& yLeft, const Y& ) const noexcept {
 
-      auto delta = ( xRight - xLeft );
-      auto slope = ( yRight - yLeft ) / delta / 3.;
-      auto constant = 0.5 * ( xRight * yLeft - xLeft * yRight ) / delta;
-      return xRight * xRight * ( slope * xRight + constant )
-             - xLeft * xLeft * ( slope * xLeft + constant );
+      return 0.5 * yLeft * ( xRight - xLeft ) * ( xRight + xLeft );
     }
 
   public:
@@ -49,7 +45,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr FirstMomentLinearLinear firstMomentLinLin;
+  static constexpr FirstMomentHistogram firstMomentHistogram;
 
 } // integration namespace
 } // scion namespace
