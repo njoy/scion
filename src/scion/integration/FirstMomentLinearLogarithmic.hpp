@@ -2,6 +2,7 @@
 #define NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLOGARITHMIC
 
 // system includes
+#include <cmath>
 
 // other includes
 #include "scion/integration/IntegratorBase.hpp"
