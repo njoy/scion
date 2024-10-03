@@ -4,20 +4,22 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/FirstMomentLinearLinear.hpp"
+#include "scion/integration/FirstMomentLinearLogarithmic.hpp"
+#include "scion/integration.hpp"
 
 // other includes
-
+#include <iostream>
+#include <iomanip>
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "FirstMomentLinearLinear" ) {
+SCENARIO( "FirstMomentLinearLogarithmic" ) {
 
-  GIVEN( "FirstMomentLinearLinear integration object" ) {
+  GIVEN( "FirstMomentLinearLogarithmic integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::FirstMomentLinearLinear integrator{};
+      integration::FirstMomentLinearLogarithmic integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -30,7 +32,10 @@ SCENARIO( "FirstMomentLinearLinear" ) {
         CHECK_THAT( 1.5, WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
-        CHECK_THAT( 4.0, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+        // this value was calculated using Wolfram Alpha using this command:
+        // "integrate x ( 1 + 3 / ln(2) * ln(x) ) dx between 1 and 2"
+        // it was verified using Gauss-Legendre 64 quadrature as well
+        CHECK_THAT( 4.2539361579999, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -47,10 +52,13 @@ SCENARIO( "FirstMomentLinearLinear" ) {
         double yRight = 4.0;
 
         // both y values are the same
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentLinLin( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5, WithinRel( integration::firstMomentLinLog( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
-        CHECK_THAT( 4.0, WithinRel( integration::firstMomentLinLin( xLeft, xRight, yLeft, yRight ) ) );
+        // this value was calculated using Wolfram Alpha using this command:
+        // "integrate x ( 1 + 3 / ln(2) * ln(x) ) dx between 1 and 2"
+        // it was verified using Gauss-Legendre 64 quadrature as well
+        CHECK_THAT( 4.2539361579999, WithinRel( integration::firstMomentLinLog( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

@@ -1,0 +1,1 @@
+add_cpp_test( integration.FirstMomentLinearLogarithmic FirstMomentLinearLogarithmic.test.cpp )
