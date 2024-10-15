@@ -63,15 +63,19 @@ void generateTables() {
       }
     }
 
-    std::swap( xStart, xEnd );
-    std::swap( yStart, yEnd );
-    if ( *xStart > *std::prev( xStart ) ) {
+    // don't do this for the last region: valgrind will yell at you
+    if ( xEnd != this->x().end() ) {
 
-      --xStart;
-      --yStart;
+      std::swap( xStart, xEnd );
+      std::swap( yStart, yEnd );
+      if ( *xStart > *std::prev( xStart ) ) {
+
+        --xStart;
+        --yStart;
+      }
     }
   }
 
   this->linearised_ = linearised;
-  this->tables_ = tables;
+  this->tables_ = std::move( tables );
 }
