@@ -66,14 +66,18 @@ void generateTables() {
       }
     }
 
-    std::swap( xStart, xEnd );
-    std::swap( fStart, fEnd );
-    if ( *xStart > *std::prev( xStart ) ) {
+    // don't do this for the last region: valgrind will yell at you
+    if ( xEnd != this->x().end() ) {
 
-      --xStart;
-      --fStart;
+      std::swap( xStart, xEnd );
+      std::swap( fStart, fEnd );
+      if ( *xStart > *std::prev( xStart ) ) {
+
+        --xStart;
+        --fStart;
+      }
     }
   }
 
-  this->tables_ = tables;
+  this->tables_ = std::move( tables );
 }

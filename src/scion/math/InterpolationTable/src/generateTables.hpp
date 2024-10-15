@@ -63,7 +63,8 @@ void generateTables() {
       }
     }
 
-    if ( i != nr - 1 ) {
+    // don't do this for the last region: valgrind will yell at you
+    if ( xEnd != this->x().end() ) {
 
       std::swap( xStart, xEnd );
       std::swap( yStart, yEnd );

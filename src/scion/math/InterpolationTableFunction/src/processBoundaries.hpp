@@ -105,11 +105,17 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
       Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
       throw std::exception();
     }
-    if ( *std::next( xIter ) == *xIter ) {
 
-      Log::error( "An x value can only be repeated a maximum of two times" );
-      Log::info( "x = {} is present at least three times", *xIter );
-      throw std::exception();
+    // make sure we do not go beyond the end of the x grid: valgrind will yell at you
+    auto next = std::next( xIter );
+    if ( next < x.end() ) {
+
+      if ( *std::next( xIter ) == *xIter ) {
+
+        Log::error( "An x value can only be repeated a maximum of two times" );
+        Log::info( "x = {} is present at least three times", *xIter );
+        throw std::exception();
+      }
     }
     xIter = std::adjacent_find( xIter, x.end() );
   }
