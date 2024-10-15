@@ -110,6 +110,7 @@ if( scion.python )
       ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/PolynomialSeries.python.cpp
       ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/AnalyticalIntegrator.python.cpp
       )
+  add_library( njoy::scion.python ALIAS scion.python )
 
   target_link_libraries( scion.python PRIVATE scion )
   target_include_directories( scion.python PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/python/src )
