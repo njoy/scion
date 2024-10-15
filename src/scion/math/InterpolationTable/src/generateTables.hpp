@@ -63,15 +63,18 @@ void generateTables() {
       }
     }
 
-    std::swap( xStart, xEnd );
-    std::swap( yStart, yEnd );
-    if ( *xStart > *std::prev( xStart ) ) {
+    if ( i != nr - 1 ) {
 
-      --xStart;
-      --yStart;
+      std::swap( xStart, xEnd );
+      std::swap( yStart, yEnd );
+      if ( *xStart > *std::prev( xStart ) ) {
+
+        --xStart;
+        --yStart;
+      }
     }
   }
 
   this->linearised_ = linearised;
-  this->tables_ = tables;
+  this->tables_ = std::move( tables );
 }
