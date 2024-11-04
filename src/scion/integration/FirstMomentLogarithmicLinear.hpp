@@ -22,7 +22,8 @@ namespace integration {
    *    int x exp(x) = ( x - 1 ) exp(x)
    *
    *  Since y is linear in ln(x), the function to be integrated is:
-   *    y = y1 exp(a (x - x1)) with a = ln(y2/y1) / (x2 - x1)
+   *    y = y1 x exp(a (x - x1)) with a = ln(y2/y1) / (x2 - x1)
+   *      = y1 exp(-ax1) x exp(ax) with a = ln(y2/y1) / (x2 - x1)
    *
    *  The integral over the panel is then given by:
    *    int[x1,x2] y dx = int[x1,x2] y1 exp(-ax1) x exp(ax) dx
