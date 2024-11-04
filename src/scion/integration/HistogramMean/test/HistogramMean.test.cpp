@@ -4,20 +4,20 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/FirstMomentHistogram.hpp"
+#include "scion/integration/HistogramMean.hpp"
 
 // other includes
 
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "FirstMomentHistogram" ) {
+SCENARIO( "HistogramMean" ) {
 
-  GIVEN( "FirstMomentHistogram integration object" ) {
+  GIVEN( "HistogramMean integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::FirstMomentHistogram integrator{};
+      integration::HistogramMean integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -47,10 +47,10 @@ SCENARIO( "FirstMomentHistogram" ) {
         double yRight = 4.0;
 
         // both y values are the same
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentHistogram( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5, WithinRel( integration::histogramMean( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentHistogram( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 1.5, WithinRel( integration::histogramMean( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
