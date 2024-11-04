@@ -54,7 +54,7 @@ namespace math {
 
     #include "scion/math/AnalyticalIntegrator/src/call.hpp"
     #include "scion/math/AnalyticalIntegrator/src/zerothMoment.hpp"
-    #include "scion/math/AnalyticalIntegrator/src/firstMoment.hpp"
+    #include "scion/math/AnalyticalIntegrator/src/mean.hpp"
   };
 
 } // math namespace

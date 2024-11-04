@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLINEAR
-#define NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLINEAR
+#ifndef NJOY_SCION_INTEGRATION_LINEARLINEARMEAN
+#define NJOY_SCION_INTEGRATION_LINEARLINEARMEAN
 
 // system includes
 
@@ -12,14 +12,14 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief First raw moment of a linear-linear panel (y is linear in x)
+   *  @brief Mean of a linear-linear panel (y is linear in x)
    *
-   *  The first raw moment or mean is defined as the integral of x * f(x)
+   *  The mean or first raw moment is defined as the integral of x * f(x)
    */
-  class FirstMomentLinearLinear : public IntegratorBase< FirstMomentLinearLinear > {
+  class LinearLinearMean : public IntegratorBase< LinearLinearMean > {
 
     /* friend declarations */
-    friend class IntegratorBase< FirstMomentLinearLinear >;
+    friend class IntegratorBase< LinearLinearMean >;
 
     /* interface implementation functions */
 
@@ -49,7 +49,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr FirstMomentLinearLinear firstMomentLinLin;
+  static constexpr LinearLinearMean linLinMean;
 
 } // integration namespace
 } // scion namespace

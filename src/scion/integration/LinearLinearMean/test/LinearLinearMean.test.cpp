@@ -4,20 +4,20 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/FirstMomentLinearLinear.hpp"
+#include "scion/integration/LinearLinearMean.hpp"
 
 // other includes
 
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "FirstMomentLinearLinear" ) {
+SCENARIO( "LinearLinearMean" ) {
 
-  GIVEN( "FirstMomentLinearLinear integration object" ) {
+  GIVEN( "LinearLinearMean integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::FirstMomentLinearLinear integrator{};
+      integration::LinearLinearMean integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -47,10 +47,10 @@ SCENARIO( "FirstMomentLinearLinear" ) {
         double yRight = 4.0;
 
         // both y values are the same
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentLinLin( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5, WithinRel( integration::linLinMean( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
-        CHECK_THAT( 4.0, WithinRel( integration::firstMomentLinLin( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0, WithinRel( integration::linLinMean( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
