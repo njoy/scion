@@ -36,6 +36,7 @@ add_subdirectory( src/scion/unionisation/unionise/test )
 
 add_subdirectory( src/scion/integration/Histogram/test )
 add_subdirectory( src/scion/integration/HistogramMean/test )
+add_subdirectory( src/scion/integration/HistogramVariance/test )
 add_subdirectory( src/scion/integration/LinearLinear/test )
 add_subdirectory( src/scion/integration/LinearLogarithmic/test )
 add_subdirectory( src/scion/integration/LogarithmicLinear/test )
