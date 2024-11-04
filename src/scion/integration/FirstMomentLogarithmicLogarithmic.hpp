@@ -14,18 +14,22 @@ namespace integration {
   /**
    *  @class
    *  @brief First raw moment of a logarithmic-logarithmic panel (ln(y) is linear in ln(x))
-   *
-   *  The first raw moment or mean is defined as the integral of x * f(x)
+   * 
+   *  The moment of order n for a function f(x) is defined as the integral of x**n * f(x)
    *
    *  Since ln(y) is linear in ln(x), the function to be integrated is:
-   *    y = y1 x exp(a ln(x/x1)) with a = ln(y2/y1) / ln(x2/x1)
-   *      = ( y1 / x1**a ) x**(a+1)
+   *    y = y1 x**n exp(a ln(x/x1)) with a = ln(y2/y1) / ln(x2/x1)
+   *      = ( y1 / x1**a ) x**(a+n)
    *
    *  The integral over the panel is then given by:
-   *    int[x1,x2] y dx = int[x1,x2] ( y1 / x1**a ) x**(a+1) dx
+   *    int[x1,x2] y dx = int[x1,x2] ( y1 / x1**a ) x**(a+n) dx
    *  which simplifies to (using the primitive):
-   *    int[x1,x2] y dx = ( y1 / x1**a ) ( x2**(a+2) - x1**(a+2) ) / (a+2)
-   *                    = ( y1 x1**2 ) ( (x2/x1)**(a+2) - 1 ) / (a+2)
+   *    int[x1,x2] y dx = ( y1 / x1**a ) ( x2**(a+n+1) - x1**(a+n+1) ) / (a+n+1)
+   *                    = ( y1 x1**(n+1) ) ( (x2/x1)**(a+n+1) - 1 ) / (a+n+1)
+   * 
+   *  The first raw moment or mean is defined as the integral of x * f(x) and is thus
+   *  calculated as:
+   *    int[x1,x2] y dx = ( y1 x1**2 ) ( (x2/x1)**(a+2) - 1 ) / (a+2)
    */
   class FirstMomentLogarithmicLogarithmic : public IntegratorBase< FirstMomentLogarithmicLogarithmic > {
 

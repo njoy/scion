@@ -14,15 +14,21 @@ namespace integration {
   /**
    *  @class
    *  @brief Logarithmic-logarithmic integration (ln(y) is linear in ln(x))
+   * 
+   *  The moment of order n for a function f(x) is defined as the integral of x**n * f(x)
    *
-   *  Since ln(y) is linear in ln(x), the panel is interpolated as:
-   *    y = exp(a ln(x/x1) + ln(y1)) with a = ln(y2/y1) / ln(x2/x1)
-   *      = y1 (x/x1)^a
+   *  Since ln(y) is linear in ln(x), the function to be integrated is:
+   *    y = y1 x**n exp(a ln(x/x1)) with a = ln(y2/y1) / ln(x2/x1)
+   *      = ( y1 / x1**a ) x**(a+n)
    *
    *  The integral over the panel is then given by:
-   *    int[x1,x2] y dx = y1 int[x1,x2] (x/x1)^a
-   *  which simplifies to:
-   *    int[x1,x2] y dx = x1 y1 / (a + 1) ((x2/x1)^(a+1) - 1)
+   *    int[x1,x2] y dx = int[x1,x2] ( y1 / x1**a ) x**(a+n) dx
+   *  which simplifies to (using the primitive):
+   *    int[x1,x2] y dx = ( y1 / x1**a ) ( x2**(a+n+1) - x1**(a+n+1) ) / (a+n+1)
+   *                    = ( y1 x1**(n+1) ) ( (x2/x1)**(a+n+1) - 1 ) / (a+n+1)
+   * 
+   *  The integral of f(x) is thus calculated as:
+   *    int[x1,x2] y dx = ( y1 x1 ) ( (x2/x1)**(a+1) - 1 ) / (a+1)
    */
   class LogarithmicLogarithmic : public IntegratorBase< LogarithmicLogarithmic > {
 
@@ -45,7 +51,7 @@ namespace integration {
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
       const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
-      return xLeft * yLeft / ( slope + 1. )
+      return yLeft * xLeft / ( slope + 1. )
              * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
     }
 
