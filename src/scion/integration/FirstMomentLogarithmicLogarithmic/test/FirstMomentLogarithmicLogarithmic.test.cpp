@@ -33,7 +33,7 @@ SCENARIO( "FirstMomentLogarithmicLogarithmic" ) {
 
         // the y values are different
         // this value was calculated using Wolfram Alpha using this command:
-        // "integrate x exp( ln(4) (x-1) ) dx between 1 and 2"
+        // "integrate x exp( ln(4)/ln(2) ln(x) ) dx between 1 and 2"
         // it was verified using Gauss-Legendre 64 quadrature as well
         CHECK_THAT( 3.75, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
@@ -56,7 +56,7 @@ SCENARIO( "FirstMomentLogarithmicLogarithmic" ) {
 
         // the y values are different
         // this value was calculated using Wolfram Alpha using this command:
-        // "integrate x exp( ln(4) (x-1) ) dx between 1 and 2"
+        // "integrate x exp( ln(4)/ln(2) ln(x) ) dx between 1 and 2"
         // it was verified using Gauss-Legendre 64 quadrature as well
         CHECK_THAT( 3.75, WithinRel( integration::firstMomentLogLog( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
