@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLOGARITHMIC
-#define NJOY_SCION_INTEGRATION_FIRSTMOMENTLINEARLOGARITHMIC
+#ifndef NJOY_SCION_INTEGRATION_LINEARLOGARITHMICMEAN
+#define NJOY_SCION_INTEGRATION_LINEARLOGARITHMICMEAN
 
 // system includes
 #include <cmath>
@@ -32,10 +32,10 @@ namespace integration {
    *  which simplifies to (using the primitive):
    *    int[x1,x2] y dx = a / 2 (x2**2 (ln(x2/x1) - 1 / 2) + x1**2 / 2) + y1 (x2**2 - x1**2) / 2
    */
-  class FirstMomentLinearLogarithmic : public IntegratorBase< FirstMomentLinearLogarithmic > {
+  class LinearLogarithmicMean : public IntegratorBase< LinearLogarithmicMean > {
 
     /* friend declarations */
-    friend class IntegratorBase< FirstMomentLinearLogarithmic >;
+    friend class IntegratorBase< LinearLogarithmicMean >;
 
     /* interface implementation functions */
 
@@ -63,7 +63,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr FirstMomentLinearLogarithmic firstMomentLinLog;
+  static constexpr LinearLogarithmicMean linLogMean;
 
 } // integration namespace
 } // scion namespace

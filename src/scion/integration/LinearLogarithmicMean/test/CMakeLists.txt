@@ -1,1 +1,1 @@
-add_cpp_test( integration.FirstMomentLinearLogarithmic FirstMomentLinearLogarithmic.test.cpp )
+add_cpp_test( integration.LinearLogarithmicMean LinearLogarithmicMean.test.cpp )
