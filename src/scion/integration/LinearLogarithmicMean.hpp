@@ -13,11 +13,11 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief First raw moment of a linear-logarithmic panel (y is linear in ln(x))
+   *  @brief Mean of a linear-logarithmic panel (y is linear in ln(x))
    *
-   *  The first raw moment or mean is defined as the integral of x * f(x)
+   *  The mean or first raw moment is defined as the integral of x * f(x)
    *
-   *  The first raw moment of a panel is calculated analytically using the following
+   *  The mean of a panel is calculated analytically using the following
    *  primitive function:
    *    int x ln(x) = x**2 / 2 ( ln(x) - 1 / 2 )
    *

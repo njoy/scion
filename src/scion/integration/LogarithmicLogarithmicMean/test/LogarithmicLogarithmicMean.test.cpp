@@ -4,7 +4,7 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/FirstMomentLogarithmicLogarithmic.hpp"
+#include "scion/integration/LogarithmicLogarithmicMean.hpp"
 #include "scion/integration.hpp"
 
 // other includes
@@ -13,13 +13,13 @@ using Catch::Matchers::WithinRel;
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "FirstMomentLogarithmicLogarithmic" ) {
+SCENARIO( "LogarithmicLogarithmicMean" ) {
 
-  GIVEN( "FirstMomentLogarithmicLogarithmic integration object" ) {
+  GIVEN( "LogarithmicLogarithmicMean integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::FirstMomentLogarithmicLogarithmic integrator{};
+      integration::LogarithmicLogarithmicMean integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -52,13 +52,13 @@ SCENARIO( "FirstMomentLogarithmicLogarithmic" ) {
         double yRight = 4.0;
 
         // both y values are the same
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentLogLog( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5, WithinRel( integration::logLogMean( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
         // this value was calculated using Wolfram Alpha using this command:
         // "integrate x exp( ln(4)/ln(2) ln(x) ) dx between 1 and 2"
         // it was verified using Gauss-Legendre 64 quadrature as well
-        CHECK_THAT( 3.75, WithinRel( integration::firstMomentLogLog( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 3.75, WithinRel( integration::logLogMean( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

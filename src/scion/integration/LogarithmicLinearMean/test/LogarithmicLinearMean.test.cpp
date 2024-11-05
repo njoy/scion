@@ -4,7 +4,7 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/FirstMomentLogarithmicLinear.hpp"
+#include "scion/integration/LogarithmicLinearMean.hpp"
 #include "scion/integration.hpp"
 
 // other includes
@@ -13,13 +13,13 @@ using Catch::Matchers::WithinRel;
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "FirstMomentLogarithmicLinear" ) {
+SCENARIO( "LogarithmicLinearMean" ) {
 
-  GIVEN( "FirstMomentLogarithmicLinear integration object" ) {
+  GIVEN( "LogarithmicLinearMean integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::FirstMomentLogarithmicLinear integrator{};
+      integration::LogarithmicLinearMean integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -56,7 +56,7 @@ SCENARIO( "FirstMomentLogarithmicLinear" ) {
         // this value was calculated using Wolfram Alpha using this command:
         // "integrate x exp( ln(4) (x-1) ) dx between 1 and 2"
         // it was verified using Gauss-Legendre 64 quadrature as well
-        CHECK_THAT( 3.48840590735717, WithinRel( integration::firstMomentLogLin( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 3.48840590735717, WithinRel( integration::logLinMean( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

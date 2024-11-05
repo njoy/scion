@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTLOGARITHMICLINEAR
-#define NJOY_SCION_INTEGRATION_FIRSTMOMENTLOGARITHMICLINEAR
+#ifndef NJOY_SCION_INTEGRATION_LOGARITHMICLINEARMEAN
+#define NJOY_SCION_INTEGRATION_LOGARITHMICLINEARMEAN
 
 // system includes
 #include <cmath>
@@ -13,11 +13,11 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief First raw moment of a logarithmic-linear panel (ln(y) is linear in x)
+   *  @brief Mean of a logarithmic-linear panel (ln(y) is linear in x)
    *
-   *  The first raw moment or mean is defined as the integral of x * f(x)
+   *  The mean or first raw moment is defined as the integral of x * f(x)
    *
-   *  The first raw moment of a panel is calculated analytically using the following
+   *  The mean of a panel is calculated analytically using the following
    *  primitive function:
    *    int x exp(x) = ( x - 1 ) exp(x)
    *
@@ -34,10 +34,10 @@ namespace integration {
    *    int[x1,x2] y dx = ( y1 / a**2 ) exp(-ax1) ( ( ax2 - 1 ) exp( ax2 ) - ( ax1 - 1 ) exp( ax1 ) )
    *                    = ( y1 / a**2 ) ( ( ax2 - 1 ) exp( a ( x2 - x1 ) ) - ( ax1 - 1 ) )
    */
-  class FirstMomentLogarithmicLinear : public IntegratorBase< FirstMomentLogarithmicLinear > {
+  class LogarithmicLinearMean : public IntegratorBase< LogarithmicLinearMean > {
 
     /* friend declarations */
-    friend class IntegratorBase< FirstMomentLogarithmicLinear >;
+    friend class IntegratorBase< LogarithmicLinearMean >;
 
     /* interface implementation functions */
 
@@ -66,7 +66,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr FirstMomentLogarithmicLinear firstMomentLogLin;
+  static constexpr LogarithmicLinearMean logLinMean;
 
 } // integration namespace
 } // scion namespace
