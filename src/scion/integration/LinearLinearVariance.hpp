@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_HISTOGRAMVARIANCE
-#define NJOY_SCION_INTEGRATION_HISTOGRAMVARIANCE
+#ifndef NJOY_SCION_INTEGRATION_LINEARLINEARVARIANCE
+#define NJOY_SCION_INTEGRATION_LINEARLINEARVARIANCE
 
 // system includes
 
@@ -12,16 +12,16 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief Variance of a histogram panel (y is constant in x)
+   *  @brief Variance of a linear-linear panel (y is linear in x)
    *
    *  The variance or second central moment is defined as the integral 
    *  of (x-mu)**2 * f(x) with mu the mean value of x.
    */
   template < typename X >
-  class HistogramVariance : public IntegratorBase< HistogramVariance< X > > {
+  class LinearLinearVariance : public IntegratorBase< LinearLinearVariance< X > > {
 
     /* friend declarations */
-    friend class IntegratorBase< HistogramVariance< X > >;
+    friend class IntegratorBase< LinearLinearVariance< X > >;
 
     /* fields */
     X mean_;
@@ -29,7 +29,7 @@ namespace integration {
     /* interface implementation functions */
 
     /**
-     *  @brief Perform first raw moment integration of a histogram panel (y is constant in x)
+     *  @brief Perform first raw moment integration of a linear-linear panel (y is linear in x)
      *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
@@ -40,11 +40,18 @@ namespace integration {
                typename I = decltype( std::declval< X >() * std::declval< X >() * 
                                       std::declval< X >() * std::declval< Y >() ) >
     I integrate( const X& xLeft, const X& xRight,
-                 const Y& yLeft, const Y& ) const noexcept {
+                 const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return yLeft * ( ( xRight * xRight * xRight - xLeft * xLeft * xLeft ) / 3. 
-                       - this->mean_ * ( xRight * xRight - xLeft * xLeft )
-                       + this->mean_ * this->mean_ * ( xRight - xLeft ) );
+      auto delta = ( xRight - xLeft );
+      auto slope = ( yRight - yLeft ) / delta;
+      auto constant = ( xRight * yLeft - xLeft * yRight ) / delta;
+
+      auto a = slope / 4.;
+      auto b = ( constant - 2. * slope * this->mean_ ) / 3.;
+      auto c = ( slope * this->mean_ - 2. * constant ) * this->mean_ / 2.;
+      auto d = constant * this->mean_ * this->mean_ ;
+      return   ( ( ( a * xRight + b ) * xRight + c ) * xRight + d ) * xRight
+             - ( ( ( a * xLeft + b ) * xLeft + c ) * xLeft + d ) * xLeft;
     }
 
   public:
@@ -54,11 +61,11 @@ namespace integration {
      *
      *  @param[in] mean    the mean x value
      */
-    HistogramVariance( X mean ) noexcept : mean_( std::move( mean ) ) {}
+    LinearLinearVariance( X mean ) noexcept : mean_( std::move( mean ) ) {}
 
     /* interface implementation functions */
 
-    using IntegratorBase< HistogramVariance< X > >::operator();
+    using IntegratorBase< LinearLinearVariance< X > >::operator();
   };
 
 } // integration namespace

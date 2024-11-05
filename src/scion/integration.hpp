@@ -4,6 +4,7 @@
 #include "scion/integration/HistogramVariance.hpp"
 #include "scion/integration/LinearLinear.hpp"
 #include "scion/integration/LinearLinearMean.hpp"
+#include "scion/integration/LinearLinearVariance.hpp"
 #include "scion/integration/LinearLogarithmic.hpp"
 #include "scion/integration/LogarithmicLinear.hpp"
 #include "scion/integration/LogarithmicLogarithmic.hpp"
