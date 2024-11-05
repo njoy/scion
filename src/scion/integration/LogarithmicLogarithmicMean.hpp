@@ -61,7 +61,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr LogarithmicLogarithmicMean firstMomentLogLog;
+  static constexpr LogarithmicLogarithmicMean logLogMean;
 
 } // integration namespace
 } // scion namespace
