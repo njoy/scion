@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_FIRSTMOMENTHISTOGRAM
-#define NJOY_SCION_INTEGRATION_FIRSTMOMENTHISTOGRAM
+#ifndef NJOY_SCION_INTEGRATION_HISTOGRAMMEAN
+#define NJOY_SCION_INTEGRATION_HISTOGRAMMEAN
 
 // system includes
 
@@ -12,14 +12,14 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief First raw moment of a histogram panel (y is constant in x)
+   *  @brief Mean of a histogram panel (y is constant in x)
    *
-   *  The first raw moment or mean is defined as the integral of x * f(x)
+   *  The mean or first raw moment is defined as the integral of x * f(x)
    */
-  class FirstMomentHistogram : public IntegratorBase< FirstMomentHistogram > {
+  class HistogramMean : public IntegratorBase< HistogramMean > {
 
     /* friend declarations */
-    friend class IntegratorBase< FirstMomentHistogram >;
+    friend class IntegratorBase< HistogramMean >;
 
     /* interface implementation functions */
 
@@ -45,7 +45,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr FirstMomentHistogram firstMomentHistogram;
+  static constexpr HistogramMean histogramMean;
 
 } // integration namespace
 } // scion namespace

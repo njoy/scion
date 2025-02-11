@@ -4,20 +4,20 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/integration/FirstMomentHistogram.hpp"
+#include "scion/integration/LinearLinearMean.hpp"
 
 // other includes
 
 // convenience typedefs
 using namespace njoy::scion;
 
-SCENARIO( "FirstMomentHistogram" ) {
+SCENARIO( "LinearLinearMean" ) {
 
-  GIVEN( "FirstMomentHistogram integration object" ) {
+  GIVEN( "LinearLinearMean integration object" ) {
 
     WHEN( "integrating an interval" ) {
 
-      integration::FirstMomentHistogram integrator{};
+      integration::LinearLinearMean integrator{};
 
       THEN( "the integration is performed correctly" ) {
 
@@ -30,7 +30,7 @@ SCENARIO( "FirstMomentHistogram" ) {
         CHECK_THAT( 1.5, WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
-        CHECK_THAT( 1.5, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -47,10 +47,10 @@ SCENARIO( "FirstMomentHistogram" ) {
         double yRight = 4.0;
 
         // both y values are the same
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentHistogram( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5, WithinRel( integration::linLinMean( xLeft, xRight, yLeft, yLeft ) ) );
 
         // the y values are different
-        CHECK_THAT( 1.5, WithinRel( integration::firstMomentHistogram( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 4.0, WithinRel( integration::linLinMean( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

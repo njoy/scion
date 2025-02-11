@@ -81,7 +81,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
         CHECK_THAT( 2.5, WithinRel( result[1] ) );
         CHECK_THAT( 1.5, WithinRel( result[2] ) );
 
-        result = integrator.firstMoment( table );
+        result = integrator.mean( table );
 
         CHECK( 3 == result.size() );
         CHECK_THAT( 5. + 1./6., WithinRel( result[0] ) );
@@ -110,7 +110,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
         CHECK_THAT( 3., WithinRel( result[0] ) );
         CHECK_THAT( 2., WithinRel( result[1] ) );
 
-        result = integrator.firstMoment( table );
+        result = integrator.mean( table );
 
         CHECK( 2 == result.size() );
         CHECK_THAT( 5. + 11./12., WithinRel( result[0] ) );
@@ -144,7 +144,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
         CHECK_THAT( 2.5, WithinRel( result[3] ) );
         CHECK_THAT( 1.5, WithinRel( result[4] ) );
 
-        result = integrator.firstMoment( table );
+        result = integrator.mean( table );
 
         CHECK( 5 == result.size() );
         CHECK_THAT( 0.0       , WithinRel( result[0] ) );
@@ -181,7 +181,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
         CHECK_THAT( 0.0, WithinRel( result[3] ) );
         CHECK_THAT( 0.0, WithinRel( result[4] ) );
 
-        result = integrator.firstMoment( table );
+        result = integrator.mean( table );
 
         CHECK( 5 == result.size() );
         CHECK_THAT( 5. + 1./6., WithinRel( result[0] ) );
@@ -222,7 +222,7 @@ SCENARIO( "AnalyticalIntegrator" ) {
         CHECK_THAT( 2.5, WithinRel( result[5] ) );
         CHECK_THAT( 1.5, WithinRel( result[6] ) );
 
-        result = integrator.firstMoment( table );
+        result = integrator.mean( table );
 
         CHECK( 7 == result.size() );
         CHECK_THAT( 5.144 / 6., WithinRel( result[0] ) );
