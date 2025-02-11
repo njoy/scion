@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_LOGARITHMICLOGARITHMIC
-#define NJOY_SCION_INTEGRATION_LOGARITHMICLOGARITHMIC
+#ifndef NJOY_SCION_INTEGRATION_LOGARITHMICLOGARITHMICMEAN
+#define NJOY_SCION_INTEGRATION_LOGARITHMICLOGARITHMICMEAN
 
 // system includes
 #include <cmath>
@@ -13,7 +13,7 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief Logarithmic-logarithmic integration (ln(y) is linear in ln(x))
+   *  @brief Mean of a logarithmic-logarithmic panel (ln(y) is linear in ln(x))
    * 
    *  The moment of order n for a function f(x) is defined as the integral of x**n * f(x)
    *
@@ -27,18 +27,19 @@ namespace integration {
    *    int[x1,x2] y dx = ( y1 / x1**a ) ( x2**(a+n+1) - x1**(a+n+1) ) / (a+n+1)
    *                    = ( y1 x1**(n+1) ) ( (x2/x1)**(a+n+1) - 1 ) / (a+n+1)
    * 
-   *  The integral of f(x) is thus calculated as:
-   *    int[x1,x2] y dx = ( y1 x1 ) ( (x2/x1)**(a+1) - 1 ) / (a+1)
+   *  The mean or first raw moment is defined as the integral of x * f(x) and is thus
+   *  calculated as:
+   *    int[x1,x2] y dx = ( y1 x1**2 ) ( (x2/x1)**(a+2) - 1 ) / (a+2)
    */
-  class LogarithmicLogarithmic : public IntegratorBase< LogarithmicLogarithmic > {
+  class LogarithmicLogarithmicMean : public IntegratorBase< LogarithmicLogarithmicMean > {
 
     /* friend declarations */
-    friend class IntegratorBase< LogarithmicLogarithmic >;
+    friend class IntegratorBase< LogarithmicLogarithmicMean >;
 
     /* interface implementation functions */
 
     /**
-     *  @brief Perform logarithmic-logarithmic integration (ln(y) is linear in ln(x))
+     *  @brief Perform first raw moment integration of a linear-logarithmic panel (y is linear in ln(x))
      *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
@@ -46,13 +47,12 @@ namespace integration {
      *  @param[in] yRight   the right value on the y interval
      */
     template < typename X, typename Y,
-               typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+               typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
-      const auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
-      return yLeft * xLeft / ( slope + 1. )
-             * ( std::pow( xRight / xLeft, slope + 1. ) - 1. );
+      auto slope = std::log( yRight / yLeft ) / std::log( xRight / xLeft );
+      return yLeft * xLeft * xLeft * ( std::pow( xRight / xLeft, slope + 2. ) - 1. ) / ( slope + 2. );
     }
 
   public:
@@ -61,7 +61,7 @@ namespace integration {
   };
 
   // integration function
-  static constexpr LogarithmicLogarithmic loglog;
+  static constexpr LogarithmicLogarithmicMean logLogMean;
 
 } // integration namespace
 } // scion namespace

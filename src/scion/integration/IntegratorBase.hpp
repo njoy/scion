@@ -36,7 +36,14 @@ namespace integration {
     I operator()( const X& xLeft, const X& xRight,
                   const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return static_cast< const Derived* >( this )->integrate( xLeft, xRight, yLeft, yRight );
+      if ( xLeft == xRight ) {
+
+        return I( 0. );
+      }
+      else {
+
+        return static_cast< const Derived* >( this )->integrate( xLeft, xRight, yLeft, yRight );
+      }
     }
   };
 

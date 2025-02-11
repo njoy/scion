@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_HISTOGRAM
-#define NJOY_SCION_INTEGRATION_HISTOGRAM
+#ifndef NJOY_SCION_INTEGRATION_HISTOGRAMMEAN
+#define NJOY_SCION_INTEGRATION_HISTOGRAMMEAN
 
 // system includes
 
@@ -12,17 +12,19 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief Histogram integration (y is constant in x)
+   *  @brief Mean of a histogram panel (y is constant in x)
+   *
+   *  The mean or first raw moment is defined as the integral of x * f(x)
    */
-  class Histogram : public IntegratorBase< Histogram > {
+  class HistogramMean : public IntegratorBase< HistogramMean > {
 
     /* friend declarations */
-    friend class IntegratorBase< Histogram >;
+    friend class IntegratorBase< HistogramMean >;
 
     /* interface implementation functions */
 
     /**
-     *  @brief Perform histogram integration (y is constant in x)
+     *  @brief Perform first raw moment integration of a histogram panel (y is constant in x)
      *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
@@ -30,11 +32,11 @@ namespace integration {
      *  @param[in] yRight   the right value on the y interval
      */
     template < typename X, typename Y,
-               typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+               typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& ) const noexcept {
 
-      return yLeft * ( xRight - xLeft );
+      return 0.5 * yLeft * ( xRight - xLeft ) * ( xRight + xLeft );
     }
 
   public:
@@ -43,9 +45,9 @@ namespace integration {
   };
 
   // integration function
-  static constexpr Histogram histogram;
+  static constexpr HistogramMean histogramMean;
 
-} // interpolation namespace
+} // integration namespace
 } // scion namespace
 } // njoy namespace
 

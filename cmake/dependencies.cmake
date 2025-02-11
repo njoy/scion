@@ -11,6 +11,8 @@ FetchContent_Declare( eigen
     GIT_REPOSITORY  https://gitlab.com/libeigen/eigen.git
     GIT_TAG         d0bfdc1658ca0b4c659fd3702c351d2c2cdc876c # 3.4.1 branch on July 26, 2023
     )
+# the next line prevents eigen from populating the .cmake/packages folder
+set( CMAKE_EXPORT_NO_PACKAGE_REGISTRY ON )
 
 #######################################################################
 # Load dependencies
