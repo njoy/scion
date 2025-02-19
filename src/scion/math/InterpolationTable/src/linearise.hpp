@@ -1,5 +1,5 @@
 /**
- *  @brief Linearise the table and return a LinearLinearTable
+ *  @brief Linearise the table and return a new InterpolationTable
  *
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */
