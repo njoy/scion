@@ -23,7 +23,7 @@ trigger_ci_downstream:
 
   variables:
     MERGE_TYPE: $CI_PIPELINE_SOURCE
-    PROJECT_ROOT_NAME: "NDItk"
+    PROJECT_ROOT_NAME: "scion"
 
 check:
   stage: check_ok
