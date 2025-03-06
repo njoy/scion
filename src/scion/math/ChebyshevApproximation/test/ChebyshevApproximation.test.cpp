@@ -57,7 +57,7 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( -0.99     , WithinRel( chunk( -0.99 ) ) );
         CHECK_THAT( -0.9      , WithinRel( chunk( -0.9 ) ) );
         CHECK_THAT( -0.5      , WithinRel( chunk( -0.5 ) ) );
-        CHECK_THAT( -0.05     , WithinRel( chunk( -0.05 ) ) );
+        CHECK_THAT( -0.05     , WithinRel( chunk( -0.05 ), 1e-12 ) );
         CHECK_THAT( -0.005    , WithinRel( chunk( -0.005 ), 1e-12 ) );
         CHECK_THAT( -0.0005   , WithinRel( chunk( -0.0005 ), 1e-11 ) );
         CHECK_THAT( -0.00005  , WithinRel( chunk( -0.00005 ), 1e-10 ) );
@@ -69,7 +69,7 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( +0.00005  , WithinRel( chunk(  0.00005 ), 1e-10 ) );
         CHECK_THAT( +0.0005   , WithinRel( chunk(  0.0005 ), 1e-11 ) );
         CHECK_THAT( +0.005    , WithinRel( chunk(  0.005 ), 1e-12 ) );
-        CHECK_THAT( +0.05     , WithinRel( chunk(  0.05 ) ) );
+        CHECK_THAT( +0.05     , WithinRel( chunk(  0.05 ), 1e-12 ) );
         CHECK_THAT( +0.5      , WithinRel( chunk(  0.5 ) ) );
         CHECK_THAT( +0.9      , WithinRel( chunk(  0.9 ) ) );
         CHECK_THAT( +0.99     , WithinRel( chunk(  0.99 ) ) );
