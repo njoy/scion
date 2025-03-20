@@ -6,7 +6,7 @@ Derived derivative() const {
   const unsigned int order = this->order();
   if ( 0 == order ) {
 
-    return Derived( { Y( 0. ) } );
+    return Derived( SeriesBase( this->domain(), { Y( 0. ) } ) );
   }
   else {
 
