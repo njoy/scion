@@ -11,7 +11,7 @@ PolynomialSeries() = default;
  *                        (from lowest to highest order coefficient)
  */
 PolynomialSeries( DomainVariant domain, std::vector< Y > coefficients ) :
-  Parent( IntervalDomain( -1., 1. ), std::move( coefficients ) ) {}
+  Parent( std::move( domain ), std::move( coefficients ) ) {}
 
 /**
  *  @brief Constructor
