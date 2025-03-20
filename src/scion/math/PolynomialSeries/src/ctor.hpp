@@ -1,3 +1,12 @@
+private:
+
+/**
+ *  @brief Private constructor
+ */
+PolynomialSeries( Parent series ) : Parent( std::move( series ) ) {}
+
+public:
+
 /**
  *  @brief Default constructor (for pybind11 purposes only)
  */

@@ -1,3 +1,12 @@
+private:
+
+/**
+ *  @brief Private constructor
+ */
+ChebyshevSeries( Parent series ) : Parent( std::move( series ) ) {}
+
+public:
+
 /**
  *  @brief Default constructor (for pybind11 purposes only)
  */
