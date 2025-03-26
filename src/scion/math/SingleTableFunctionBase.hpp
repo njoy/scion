@@ -17,8 +17,7 @@ namespace math {
    *  @class
    *  @brief Base class for x,f(y) tabulated data using a single interpolation region
    */
-  template < typename Derived, typename Interpolator,
-             typename X, typename F,
+  template < typename Derived, typename X, typename F,
              typename XContainer = std::vector< X >,
              typename FContainer = std::vector< F > >
   class SingleTableFunctionBase :
@@ -30,20 +29,11 @@ namespace math {
     using Z = typename Parent::ZType;
 
     /* fields */
-    Interpolator interpolator_;
     XContainer x_;
     FContainer f_;
 
     /* auxiliary function */
     #include "scion/math/SingleTableFunctionBase/src/verifyTable.hpp"
-
-    /**
-     *  @brief Return the panel interpolator
-     */
-    const Interpolator& interpolator() const noexcept {
-
-      return this->interpolator_;
-    }
 
   protected:
 

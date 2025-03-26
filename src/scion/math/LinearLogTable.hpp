@@ -26,18 +26,15 @@ namespace math {
              typename YContainer = std::vector< Y > >
   class LinearLogTable :
     public SingleTableBase< LinearLogTable< X, Y, XContainer, YContainer >,
-                            interpolation::LinearLogarithmic, X, Y,
-                            XContainer, YContainer > {
+                            X, Y, XContainer, YContainer > {
 
     /* friend declarations */
     friend class SingleTableBase< LinearLogTable< X, Y, XContainer, YContainer >,
-                                  interpolation::LinearLogarithmic, X, Y,
-                                  XContainer, YContainer >;
+                                  X, Y, XContainer, YContainer >;
 
     /* type aliases */
     using Parent = SingleTableBase< LinearLogTable< X, Y, XContainer, YContainer >,
-                                    interpolation::LinearLogarithmic, X, Y,
-                                    XContainer, YContainer >;
+                                    X, Y, XContainer, YContainer >;
 
     /* fields */
 
@@ -51,6 +48,22 @@ namespace math {
     static constexpr interpolation::InterpolationType type() noexcept {
 
       return interpolation::InterpolationType::LinearLog;
+    }
+
+    /**
+     *  @brief Interpolate
+     *
+     *  @param[in] x        the value of x
+     *  @param[in] xLeft    the left value on the x interval
+     *  @param[in] xRight   the right value on the x interval
+     *  @param[in] yLeft    the left value on the y interval
+     *  @param[in] yRight   the right value on the y interval
+     */
+    static constexpr Y interpolate( const X& x,
+                                    const X& xLeft, const X& xRight,
+                                    const Y& yLeft, const Y& yRight ) noexcept {
+
+      return interpolation::linlog( x, xLeft, xRight, yLeft, yRight );
     }
 
   public:

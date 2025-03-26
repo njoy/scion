@@ -23,8 +23,7 @@ namespace math {
    *  This base class provides the common interface for single region
    *  interpolation data such as the LinearLinearTable, LogLogTable, etc.
    */
-  template < typename Derived, typename Interpolator,
-             typename X, typename Y,
+  template < typename Derived, typename X, typename Y,
              typename XContainer = std::vector< X >,
              typename YContainer = std::vector< Y > >
   class SingleTableBase : public OneDimensionalFunctionBase< Derived, X, Y > {
@@ -43,20 +42,11 @@ namespace math {
   private:
 
     /* fields */
-    Interpolator interpolator_;
     XContainer x_;
     YContainer y_;
 
     /* auxiliary function */
     #include "scion/math/SingleTableBase/src/verifyTable.hpp"
-
-    /**
-     *  @brief Return the panel interpolator
-     */
-    const Interpolator& interpolator() const noexcept {
-
-      return this->interpolator_;
-    }
 
   protected:
 

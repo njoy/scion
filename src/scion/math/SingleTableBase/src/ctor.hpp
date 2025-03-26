@@ -4,7 +4,7 @@ private:
  *  @brief Private constructor
  */
 SingleTableBase( IntervalDomain< X >&& domain, XContainer&& x, YContainer&& y ) :
-  Parent( std::move( domain ) ), interpolator_(),
+  Parent( std::move( domain ) ),
   x_( std::move( x ) ), y_( std::move( y ) ) {}
 
 protected:
