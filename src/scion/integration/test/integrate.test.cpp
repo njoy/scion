@@ -26,28 +26,24 @@ SCENARIO( "integrate" ) {
       THEN( "the integration is performed correctly using iterators" ) {
 
         // over the entire table
-        auto xbegin = x.begin();
-        auto ybegin = y.begin();
-        CHECK_THAT( 12.0, WithinRel( integration::integrate( xbegin, x.end(), ybegin, y.end(),
-                                                             integrator ) ) );
+        auto xbegin = x.begin() + 1;
+        auto ybegin = y.begin() + 1;
+        CHECK_THAT( 12.0, WithinRel( integration::integrate( xbegin, x.end(), ybegin, integrator ) ) );
 
         // over the first 2 panels of the table
-        xbegin = x.begin();
-        ybegin = y.begin();
-        CHECK_THAT(  8.0, WithinRel( integration::integrate( xbegin, xbegin + 3, ybegin, y.end(),
-                                                             integrator ) ) );
-
-        // over the middle 2 panels of the table
         xbegin = x.begin() + 1;
         ybegin = y.begin() + 1;
-        CHECK_THAT(  6.0, WithinRel( integration::integrate( xbegin, xbegin + 3, ybegin, y.end(),
-                                                             integrator ) ) );
+        CHECK_THAT(  8.0, WithinRel( integration::integrate( xbegin, xbegin + 2, ybegin, integrator ) ) );
 
-        // over the last 2 panels of the table
+        // over the middle 2 panels of the table
         xbegin = x.begin() + 2;
         ybegin = y.begin() + 2;
-        CHECK_THAT(  4.0, WithinRel( integration::integrate( xbegin, x.end(), ybegin, y.end(),
-                                                             integrator ) ) );
+        CHECK_THAT(  6.0, WithinRel( integration::integrate( xbegin, xbegin + 2, ybegin, integrator ) ) );
+
+        // over the last 2 panels of the table
+        xbegin = x.begin() + 3;
+        ybegin = y.begin() + 3;
+        CHECK_THAT(  4.0, WithinRel( integration::integrate( xbegin, x.end(), ybegin, integrator ) ) );
       } // THEN
 
       THEN( "the integration is performed correctly using ranges" ) {
