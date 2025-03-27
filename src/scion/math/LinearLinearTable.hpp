@@ -7,6 +7,7 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
+#include "scion/integration/LinearLinear.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
@@ -67,6 +68,14 @@ namespace math {
       return interpolation::linlin( x, xLeft, xRight, yLeft, yRight );
     }
 
+    /**
+     *  @brief The integrator for a lin-lin panel
+     */
+    static constexpr const auto& integrator() noexcept {
+
+      return integration::linlin;
+    }
+
   public:
 
     /* constructor */
@@ -96,6 +105,7 @@ namespace math {
 
     using Parent::domain;
     using Parent::operator();
+    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;

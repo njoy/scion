@@ -7,6 +7,7 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LogarithmicLinear.hpp"
+#include "scion/integration/LogarithmicLinear.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
 namespace njoy {
@@ -66,6 +67,14 @@ namespace math {
       return interpolation::loglin( x, xLeft, xRight, yLeft, yRight );
     }
 
+    /**
+     *  @brief The integrator for a log-lin panel
+     */
+    static constexpr const auto& integrator() noexcept {
+
+      return integration::loglin;
+    }
+
   public:
 
     /* constructor */
@@ -80,6 +89,7 @@ namespace math {
     using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
+    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;

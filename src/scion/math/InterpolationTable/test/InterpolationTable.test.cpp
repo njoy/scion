@@ -159,6 +159,11 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.5, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
+      THEN( "an InterpolationTable can be integrated" ) {
+
+        CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
+      } // THEN
+
       THEN( "the domain can be tested" ) {
 
         CHECK( true == chunk.isInside( 1.0 ) );
@@ -823,6 +828,11 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
         CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
         CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
+      } // THEN
+
+      THEN( "an InterpolationTable can be integrated" ) {
+
+        CHECK_THAT( 9.5, WithinRel( chunk.integrate() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -1525,6 +1535,11 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.46416306545103, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
+      THEN( "an InterpolationTable can be integrated" ) {
+
+        CHECK_THAT( 7.44236295915864, WithinRel( chunk.integrate() ) );
+      } // THEN
+
       THEN( "the domain can be tested" ) {
 
         CHECK( true == chunk.isInside( 1.0 ) );
@@ -1685,6 +1700,11 @@ SCENARIO( "InterpolationTable" ) {
         // values of x inside the x grid (lin-log piece)
         CHECK_THAT( 3.44966028678679, WithinRel( chunk( 2.5 ) ) );
         CHECK_THAT( 2.46416306545103, WithinRel( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "an InterpolationTable can be integrated" ) {
+
+        CHECK_THAT( 9.44236295915864, WithinRel( chunk.integrate() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

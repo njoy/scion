@@ -9,6 +9,7 @@
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
+#include "scion/integration/integrate.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/verification/ranges.hpp"
 
@@ -97,6 +98,8 @@ namespace math {
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
+
+    #include "scion/math/SingleTableBase/src/integrate.hpp"
   };
 
 } // math namespace

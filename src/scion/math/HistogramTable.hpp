@@ -7,6 +7,7 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/Histogram.hpp"
+#include "scion/integration/Histogram.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
@@ -67,6 +68,14 @@ namespace math {
       return interpolation::histogram( x, xLeft, xRight, yLeft, yRight );
     }
 
+    /**
+     *  @brief The integrator for a histogram panel
+     */
+    static constexpr const auto& integrator() noexcept {
+
+      return integration::histogram;
+    }
+
   public:
 
     /* type aliases */
@@ -90,6 +99,7 @@ namespace math {
 
     using Parent::domain;
     using Parent::operator();
+    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
