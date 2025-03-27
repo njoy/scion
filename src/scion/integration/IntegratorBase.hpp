@@ -34,7 +34,7 @@ namespace integration {
     template < typename X, typename Y,
                typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I operator()( const X& xLeft, const X& xRight,
-                  const Y& yLeft, const Y& yRight ) const noexcept {
+                  const Y& yLeft, const Y& yRight ) const {
 
       if ( xLeft == xRight ) {
 

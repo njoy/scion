@@ -26,6 +26,8 @@ namespace integration {
     /**
      *  @brief Perform linear-linear integration (y is linear in x)
      *
+     *  These is no possibility for a singularity to occur.
+     *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
      *  @param[in] yLeft    the left value on the y interval

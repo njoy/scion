@@ -40,6 +40,8 @@ namespace integration {
     /**
      *  @brief Perform logarithmic-linear integration (ln(y) is linear in x)
      *
+     *  There is the potential of a singularity when the two y values are the same.
+     *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
      *  @param[in] yLeft    the left value on the y interval
