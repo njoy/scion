@@ -68,7 +68,18 @@ SCENARIO( "LinearLinearTable" ) {
 
       THEN( "a LinearLinearTable can be integrated" ) {
 
+        // ( 4 + 1 ) * 3 / 2 = 7.5
         CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
+      } // THEN
+
+      THEN( "the first raw moment of a LinearLinearTable can be calculated" ) {
+
+        // f(x) = 5 - x
+        // x f(x) = 5 x - x^2
+        // primitive = 5 x^2 / 2 - x^3 / 3
+        // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
+        //          = 75 / 2 -  63 / 3 = 37.5 - 21
+        CHECK_THAT( 16.5, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {
@@ -142,7 +153,18 @@ SCENARIO( "LinearLinearTable" ) {
 
       THEN( "a LinearLinearTable can be integrated" ) {
 
+        // ( 4 + 1 ) * 3 / 2 = 7.5
         CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
+      } // THEN
+
+      THEN( "the first raw moment of a LinearLinearTable can be calculated" ) {
+
+        // f(x) = 5 - x
+        // x f(x) = 5 x - x^2
+        // primitive = 5 x^2 / 2 - x^3 / 3
+        // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
+        //          = 75 / 2 -  63 / 3 = 37.5 - 21
+        CHECK_THAT( 16.5, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {
