@@ -6,6 +6,11 @@ using Catch::Matchers::WithinRel;
 // what we are testing
 #include "scion/math/LogLogTable.hpp"
 
+// includes for test result generation
+// #include <iostream>
+// #include <iomanip>
+// #include "scion/integration/GaussLegendre/64.hpp"
+
 // other includes
 #include "utility/IteratorView.hpp"
 
@@ -68,7 +73,25 @@ SCENARIO( "LogLogTable" ) {
 
       THEN( "a LogLogTable can be integrated" ) {
 
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. )
+        //                                     + integrator( chunk, 3.,  4. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.integrate() << std::endl;
         CHECK_THAT( 10.3092587344326, WithinRel( chunk.integrate() ) );
+      } // THEN
+
+      THEN( "the first raw moment of a LogLinearTable can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // auto functor = [&chunk] ( auto&& x ) { return x * chunk( x ); };
+        // std::cout << std::setprecision(15) << integrator( functor, 1.,  2. )
+        //                                     + integrator( functor, 2.,  3. )
+        //                                     + integrator( functor, 3.,  4. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
+        CHECK_THAT( 23.545310328628, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a LogLogTable can be linearised" ) {
@@ -195,7 +218,25 @@ SCENARIO( "LogLogTable" ) {
 
       THEN( "a LogLogTable can be integrated" ) {
 
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. )
+        //                                     + integrator( chunk, 3.,  4. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.integrate() << std::endl;
         CHECK_THAT( 10.3092587344326, WithinRel( chunk.integrate() ) );
+      } // THEN
+
+      THEN( "the first raw moment of a LogLinearTable can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // auto functor = [&chunk] ( auto&& x ) { return x * chunk( x ); };
+        // std::cout << std::setprecision(15) << integrator( functor, 1.,  2. )
+        //                                     + integrator( functor, 2.,  3. )
+        //                                     + integrator( functor, 3.,  4. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
+        CHECK_THAT( 23.545310328628, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a LogLogTable can be linearised" ) {
