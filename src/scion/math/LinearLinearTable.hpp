@@ -68,14 +68,6 @@ namespace math {
       return interpolation::linlin( x, xLeft, xRight, yLeft, yRight );
     }
 
-    /**
-     *  @brief The integrator for a lin-lin panel
-     */
-    static constexpr const auto& integrator() noexcept {
-
-      return integration::linlin;
-    }
-
   public:
 
     /* constructor */
@@ -105,10 +97,18 @@ namespace math {
 
     using Parent::domain;
     using Parent::operator();
-    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
+
+    /**
+     *  @brief Calculate the integral of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate() const {
+
+      return Parent::integrate( integration::linlin );
+    }
   };
 
 } // math namespace

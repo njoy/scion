@@ -99,10 +99,18 @@ namespace math {
 
     using Parent::domain;
     using Parent::operator();
-    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
+
+    /**
+     *  @brief Calculate the integral of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate() const {
+
+      return Parent::integrate( integration::histogram );
+    }
   };
 
 } // math namespace

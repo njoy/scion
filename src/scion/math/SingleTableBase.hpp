@@ -99,7 +99,14 @@ namespace math {
     using Parent::isContained;
     using Parent::isSameDomain;
 
-    #include "scion/math/SingleTableBase/src/integrate.hpp"
+    /**
+     *  @brief Apply an analytical integrator over each panel in the table
+     */
+    template < typename Integrator >
+    auto integrate( const Integrator& integrator ) const {
+
+      return integration::integrate( this->x(), this->y(), integrator );
+    }
   };
 
 } // math namespace

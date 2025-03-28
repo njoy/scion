@@ -67,14 +67,6 @@ namespace math {
       return interpolation::loglog( x, xLeft, xRight, yLeft, yRight );
     }
 
-    /**
-     *  @brief The integrator for a log-log panel
-     */
-    static constexpr const auto& integrator() noexcept {
-
-      return integration::loglog;
-    }
-
   public:
 
     /* constructor */
@@ -89,10 +81,18 @@ namespace math {
     using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
-    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
+
+    /**
+     *  @brief Calculate the integral of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate() const {
+
+      return Parent::integrate( integration::loglog );
+    }
   };
 
 } // math namespace

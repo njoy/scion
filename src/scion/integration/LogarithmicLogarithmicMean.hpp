@@ -61,6 +61,7 @@ namespace integration {
         Log::error( "Possible singularity since slope close to -2, contact a developer" );
         throw std::exception();
       }
+
       return yLeft * xLeft * xLeft * ( std::pow( xRight / xLeft, slope + 2. ) - 1. ) / ( slope + 2. );
     }
 
