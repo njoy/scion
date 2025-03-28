@@ -69,14 +69,6 @@ namespace math {
       return interpolation::histogram( x, xLeft, xRight, yLeft, yRight );
     }
 
-    /**
-     *  @brief The integrator for a histogram panel
-     */
-    static constexpr const auto& integrator() noexcept {
-
-      return integration::histogram;
-    }
-
   public:
 
     /* type aliases */
