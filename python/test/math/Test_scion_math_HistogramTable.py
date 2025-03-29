@@ -46,6 +46,10 @@ class Test_scion_math_HistogramTable( unittest.TestCase ) :
             self.assertAlmostEqual( 3., chunk( x = 2.5 ) )
             self.assertAlmostEqual( 2., chunk( x = 3.5 ) )
 
+            # verify integration
+            self.assertAlmostEqual(  9. , chunk.integral )
+            self.assertAlmostEqual( 20.5, chunk.mean )
+
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
             self.assertEqual( True, chunk.is_inside( 2.5 ) )

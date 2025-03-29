@@ -51,6 +51,10 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 2.5, chunk( x = 2.5 ) )
             self.assertAlmostEqual( 1.5, chunk( x = 3.5 ) )
 
+            # verify integration
+            self.assertAlmostEqual(  7.5, chunk.integral )
+            self.assertAlmostEqual( 16.5, chunk.mean )
+
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
             self.assertEqual( True, chunk.is_inside( 2.5 ) )
@@ -622,6 +626,10 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 3.5, chunk( x = 1.5 ) )
             self.assertAlmostEqual( 3.5, chunk( x = 2.5 ) )
             self.assertAlmostEqual( 2.5, chunk( x = 3.5 ) )
+
+            # verify integration
+            self.assertAlmostEqual(  9.5, chunk.integral )
+            self.assertAlmostEqual( 22.5, chunk.mean )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -1255,6 +1263,10 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 2.44966028678679, chunk( x = 2.5 ) )
             self.assertAlmostEqual( 1.46416306545103, chunk( x = 3.5 ) )
 
+            # verify integration
+            self.assertAlmostEqual(  7.44236295915864, chunk.integral )
+            self.assertAlmostEqual( 16.332650114006  , chunk.mean )
+
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
             self.assertEqual( True, chunk.is_inside( 2.5 ) )
@@ -1381,6 +1393,10 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify evaluation - values of x inside the x grid (lin-lin piece)
             self.assertAlmostEqual( 3.44966028678679, chunk( x = 2.5 ) )
             self.assertAlmostEqual( 2.46416306545103, chunk( x = 3.5 ) )
+
+            # verify integration
+            self.assertAlmostEqual(  9.44236295915864, chunk.integral )
+            self.assertAlmostEqual( 22.332650114006  , chunk.mean )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )

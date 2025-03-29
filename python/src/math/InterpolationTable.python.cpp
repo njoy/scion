@@ -102,6 +102,7 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
 
   // add standard function definitions
   addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardIntegrationDefinitions< Component, X, Y >( component );
   addStandardOperatorDefinitions< Component, X, Y >( component );
 }
 

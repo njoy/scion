@@ -143,6 +143,33 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
 }
 
 /**
+ *  @brief Add standard integration related definitions
+ *
+ *  This adds the following standard functions:
+ *    integral
+ *    mean
+ *
+ *  @param[in] component   the function to which the definitions have to be added
+ */
+template < typename Component, typename X, typename Y, typename PythonClass >
+void addStandardIntegrationDefinitions( PythonClass& component ) {
+
+  component
+  .def_property_readonly(
+
+    "integral",
+    [] ( const Component& self ) { return self.integral(); },
+    "The integral (zeroth order moment) of the table over its domain"
+  )
+  .def_property_readonly(
+
+    "mean",
+    [] ( const Component& self ) { return self.mean(); },
+    "The mean (first order raw moment) of the table over its domain"
+  );
+}
+
+/**
  *  @brief Add standard series expansion definitions
  *
  *  This adds the following standard functions:
@@ -285,6 +312,7 @@ void addStandardSingleInterpolationTableDefinitions( PythonClass& component ) {
 
   // add standard function definitions
   addStandardFunctionDefinitions< Component, X, Y >( component );
+  addStandardIntegrationDefinitions< Component, X, Y >( component );
 }
 
 /**
