@@ -78,8 +78,8 @@ SCENARIO( "LogLinearTable" ) {
         // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. )
         //                                     + integrator( chunk, 2.,  3. )
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
-        // std::cout << std::setprecision(15) << chunk.integrate() << std::endl;
-        CHECK_THAT( 7.3850580000476, WithinRel( chunk.integrate() ) );
+        // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
+        CHECK_THAT( 7.3850580000476, WithinRel( chunk.integral() ) );
       } // THEN
 
       THEN( "the first raw moment of a LogLinearTable can be calculated" ) {
@@ -217,8 +217,8 @@ SCENARIO( "LogLinearTable" ) {
         // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. )
         //                                     + integrator( chunk, 2.,  3. )
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
-        // std::cout << std::setprecision(15) << chunk.integrate() << std::endl;
-        CHECK_THAT( 7.385058000047600, WithinRel( chunk.integrate() ) );
+        // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
+        CHECK_THAT( 7.385058000047600, WithinRel( chunk.integral() ) );
       } // THEN
 
       THEN( "the first raw moment of a LogLinearTable can be calculated" ) {

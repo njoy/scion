@@ -69,7 +69,7 @@ SCENARIO( "HistogramTable" ) {
       THEN( "a HistogramTable can be integrated" ) {
 
         // 4 + 3 + 2 = 9
-        CHECK_THAT( 9., WithinRel( chunk.integrate() ) );
+        CHECK_THAT( 9., WithinRel( chunk.integral() ) );
       } // THEN
 
       THEN( "the first raw moment of a HistogramTable can be calculated" ) {
@@ -166,7 +166,7 @@ SCENARIO( "HistogramTable" ) {
       THEN( "a HistogramTable can be integrated" ) {
 
         // 4 + 3 + 2 = 9
-        CHECK_THAT( 9., WithinRel( chunk.integrate() ) );
+        CHECK_THAT( 9., WithinRel( chunk.integral() ) );
       } // THEN
 
       THEN( "the mean value of a HistogramTable can be calculated" ) {

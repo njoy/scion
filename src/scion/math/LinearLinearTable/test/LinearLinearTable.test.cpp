@@ -69,7 +69,7 @@ SCENARIO( "LinearLinearTable" ) {
       THEN( "a LinearLinearTable can be integrated" ) {
 
         // ( 4 + 1 ) * 3 / 2 = 7.5
-        CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
+        CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
       } // THEN
 
       THEN( "the first raw moment of a LinearLinearTable can be calculated" ) {
@@ -154,7 +154,7 @@ SCENARIO( "LinearLinearTable" ) {
       THEN( "a LinearLinearTable can be integrated" ) {
 
         // ( 4 + 1 ) * 3 / 2 = 7.5
-        CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
+        CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
       } // THEN
 
       THEN( "the first raw moment of a LinearLinearTable can be calculated" ) {

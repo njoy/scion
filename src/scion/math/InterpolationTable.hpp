@@ -296,9 +296,9 @@ namespace math {
      *  @brief Calculate the integral (zeroth order moment) of the table over its domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integrate() const {
+    I integral() const {
 
-      auto integrate = [] ( auto&& region ) { return region.integrate(); };
+      auto integrate = [] ( auto&& region ) { return region.integral(); };
       return this->summation( integrate );
     }
 

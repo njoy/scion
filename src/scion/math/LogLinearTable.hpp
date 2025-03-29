@@ -90,7 +90,7 @@ namespace math {
      *  @brief Calculate the integral (zeroth order moment) of the table over its domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integrate() const {
+    I integral() const {
 
       return Parent::integrate( integration::loglin );
     }
