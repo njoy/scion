@@ -54,6 +54,8 @@ namespace math {
     #include "scion/math/PolynomialSeries/src/evaluate.hpp"
     #include "scion/math/PolynomialSeries/src/calculateDerivative.hpp"
     #include "scion/math/PolynomialSeries/src/calculatePrimitive.hpp"
+    #include "scion/math/PolynomialSeries/src/calculateIntegral.hpp"
+    #include "scion/math/PolynomialSeries/src/calculateMean.hpp"
     #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
   public:
@@ -75,6 +77,8 @@ namespace math {
     using Parent::roots;
     using Parent::derivative;
     using Parent::primitive;
+    using Parent::integral;
+    using Parent::mean;
     using Parent::linearise;
     using Parent::operator+;
     using Parent::operator-;

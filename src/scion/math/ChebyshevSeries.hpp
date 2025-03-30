@@ -62,6 +62,8 @@ namespace math {
     #include "scion/math/ChebyshevSeries/src/evaluate.hpp"
     #include "scion/math/ChebyshevSeries/src/calculateDerivative.hpp"
     #include "scion/math/ChebyshevSeries/src/calculatePrimitive.hpp"
+    #include "scion/math/ChebyshevSeries/src/calculateIntegral.hpp"
+    #include "scion/math/ChebyshevSeries/src/calculateMean.hpp"
     #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:
@@ -83,6 +85,8 @@ namespace math {
     using Parent::roots;
     using Parent::derivative;
     using Parent::primitive;
+    using Parent::integral;
+    using Parent::mean;
     using Parent::linearise;
     using Parent::operator+;
     using Parent::operator-;

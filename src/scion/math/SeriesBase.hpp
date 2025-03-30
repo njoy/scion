@@ -80,6 +80,24 @@ namespace math {
     #include "scion/math/SeriesBase/src/linearise.hpp"
 
     /**
+     *  @brief Calculate the integral (zeroth order moment) of the series over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integral() const {
+
+      return static_cast< const Derived* >( this )->calculateIntegral();
+    }
+
+    /**
+     *  @brief Calculate the mean (first order raw moment) of the series over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
+    I mean() const {
+
+      return static_cast< const Derived* >( this )->calculateMean();
+    }
+
+    /**
      *  @brief Inplace scalar addition
      *
      *  @param[in] right    the scalar

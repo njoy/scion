@@ -68,6 +68,8 @@ namespace math {
     #include "scion/math/LegendreSeries/src/evaluate.hpp"
     #include "scion/math/LegendreSeries/src/calculateDerivative.hpp"
     #include "scion/math/LegendreSeries/src/calculatePrimitive.hpp"
+    #include "scion/math/LegendreSeries/src/calculateIntegral.hpp"
+    #include "scion/math/LegendreSeries/src/calculateMean.hpp"
     #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
   public:
@@ -89,6 +91,8 @@ namespace math {
     using Parent::roots;
     using Parent::derivative;
     using Parent::primitive;
+    using Parent::integral;
+    using Parent::mean;
     using Parent::linearise;
     using Parent::operator+;
     using Parent::operator-;
