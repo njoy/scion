@@ -63,6 +63,7 @@ void wrapChebyshevSeriesFor( python::module& module, const std::string& name ) {
 
   // add standard function definitions
   addStandardSeriesDefinitions< Component, X, Y >( component );
+  addStandardIntegrationDefinitions< Component, X, Y >( component );
 }
 
 void wrapChebyshevSeries( python::module& module ) {
