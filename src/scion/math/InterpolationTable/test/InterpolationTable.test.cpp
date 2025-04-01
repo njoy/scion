@@ -1665,7 +1665,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == linear.isLinearised() );
       } // THEN
 
-      THEN( "arithmetic operations can be performed" ) {
+      THEN( "some arithmetic operations can be performed" ) {
 
         InterpolationTable< double > result( { 1., 4. }, { 0., 0. } );
 
