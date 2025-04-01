@@ -1,6 +1,6 @@
 template < typename BinaryOperation >
-InterpolationTable& operation( const Y& right,
-                               BinaryOperation operation ) {
+InterpolationTable&
+operationForLinearisedOnly( const Y& right, BinaryOperation operation ) {
 
   // tables need to be linearised for the operation to be performed
   if ( this->isLinearised() ) {
@@ -18,9 +18,20 @@ InterpolationTable& operation( const Y& right,
   }
 }
 
+template < typename S, typename BinaryOperation >
+InterpolationTable&
+operation( const S& right, BinaryOperation operation ) {
+
+  std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
+                  [&right, &operation] ( auto&& y )
+                                       { return operation( y, right ); } );
+
+  return *this;
+}
+
 template < typename BinaryOperation >
-InterpolationTable& operation( const InterpolationTable& right,
-                               BinaryOperation operation ) {
+InterpolationTable&
+operation( const InterpolationTable& right, BinaryOperation operation ) {
 
   // tables need to be linearised for the operation to be performed
   if ( this->isLinearised() && right.isLinearised() ) {
