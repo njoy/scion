@@ -5,6 +5,7 @@
 #include <cmath>
 
 // other includes
+#include "scion/math/compare.hpp"
 #include "scion/integration/IntegratorBase.hpp"
 
 namespace njoy {
@@ -52,8 +53,16 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return yLeft * ( xRight - xLeft ) / std::log( yRight / yLeft )
-             * ( yRight / yLeft - 1. );
+      const auto constant = std::log( yRight / yLeft );
+      if ( math::isCloseToZero( constant ) ) {
+
+        return yLeft * ( xRight - xLeft );
+      }
+      else {
+
+        return yLeft * ( xRight - xLeft ) / std::log( yRight / yLeft )
+               * ( yRight / yLeft - 1. );
+      }
     }
 
   public:
