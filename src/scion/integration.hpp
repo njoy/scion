@@ -11,5 +11,6 @@
 #include "scion/integration/LogarithmicLinearMean.hpp"
 #include "scion/integration/LogarithmicLogarithmic.hpp"
 #include "scion/integration/LogarithmicLogarithmicMean.hpp"
+#include "scion/integration/integrate.hpp"
 #include "scion/integration/GaussLegendre.hpp"
 #include "scion/integration/GaussLobatto.hpp"

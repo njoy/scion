@@ -25,7 +25,7 @@ Z evaluate( const X& x, const Y& y ) const {
     auto fIter = this->f().begin();
     std::advance( fIter, std::distance( this->x().begin(), xIter ) );
 
-    return this->interpolator()( x, y, *std::prev( xIter ), *xIter,
-                                       *std::prev( fIter ), *fIter );
+    return static_cast< const Derived* >( this )->interpolate( x, y, *std::prev( xIter ), *xIter,
+                                                               *std::prev( fIter ), *fIter );
   }
 }

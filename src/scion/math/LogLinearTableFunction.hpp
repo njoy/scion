@@ -27,18 +27,15 @@ namespace math {
              typename FContainer = std::vector< F > >
   class LogLinearTableFunction :
     public SingleTableFunctionBase< LogLinearTableFunction< X, F, XContainer, FContainer >,
-                                    interpolation::LogarithmicLinear, X, F,
-                                    XContainer, FContainer > {
+                                    X, F, XContainer, FContainer > {
 
     /* friend declarations */
     friend class SingleTableFunctionBase< LogLinearTableFunction< X, F, XContainer, FContainer >,
-                                          interpolation::LogarithmicLinear, X, F,
-                                          XContainer, FContainer >;
+                                          X, F, XContainer, FContainer >;
 
     /* type aliases */
     using Parent = SingleTableFunctionBase< LogLinearTableFunction< X, F, XContainer, FContainer >,
-                                            interpolation::LogarithmicLinear, X, F,
-                                            XContainer, FContainer >;
+                                            X, F, XContainer, FContainer >;
 
     /* fields */
 
@@ -52,6 +49,25 @@ namespace math {
     static constexpr interpolation::InterpolationType type() noexcept {
 
       return interpolation::InterpolationType::LogLinear;
+    }
+
+    /**
+     *  @brief Interpolate
+     *
+     *  @param[in] x        the value of x
+     *  @param[in] y        the value of y
+     *  @param[in] xLeft    the left value on the x interval
+     *  @param[in] xRight   the right value on the x interval
+     *  @param[in] fLeft    the left function on the y axis
+     *  @param[in] fRight   the right function on the y axis
+     */
+    template < typename Y, typename FLeft, typename FRight = FLeft,
+               typename Z = decltype( std::declval< FLeft >()( std::declval< Y >() ) ) >
+    static constexpr Z interpolate( const X& x, const Y& y,
+                                    const X& xLeft, const X& xRight,
+                                    const FLeft& fLeft, const FRight& fRight ) noexcept {
+
+      return interpolation::loglin( x, y, xLeft, xRight, fLeft, fRight );
     }
 
   public:

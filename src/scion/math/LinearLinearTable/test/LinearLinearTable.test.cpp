@@ -66,6 +66,11 @@ SCENARIO( "LinearLinearTable" ) {
         CHECK_THAT( 1.5, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
+      THEN( "a LinearLinearTable can be integrated" ) {
+
+        CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
+      } // THEN
+
       THEN( "a LinearLinearTable can be linearised" ) {
 
         auto linear = chunk.linearise();
@@ -133,6 +138,11 @@ SCENARIO( "LinearLinearTable" ) {
         // values of x inside the x grid
         CHECK_THAT( 3.5, WithinRel( chunk( 1.5 ) ) );
         CHECK_THAT( 1.5, WithinRel( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "a LinearLinearTable can be integrated" ) {
+
+        CHECK_THAT( 7.5, WithinRel( chunk.integrate() ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {

@@ -40,6 +40,10 @@ namespace integration {
     /**
      *  @brief Perform linear-logarithmic integration (y is linear in ln(x))
      *
+     *  There is the potential of a singularity when the two x values are the same. In
+     *  practical applications this will never happen since the operator() takes care of
+     *  checking for this exact possibility (when the x values are the same, the integral is 0).
+     *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
      *  @param[in] yLeft    the left value on the y interval

@@ -66,6 +66,11 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 1.46416306545103, WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
+      THEN( "a LinearLogTable can be integrated" ) {
+
+        CHECK_THAT( 7.385058000047600, WithinRel( chunk.integrate() ) );
+      } // THEN
+
       THEN( "a LinearLogTable can be linearised" ) {
 
         auto linear = chunk.linearise();
@@ -188,6 +193,11 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 3.41503749927884, WithinRel( chunk( 1.5 ) ) );
         CHECK_THAT( 2.44966028678679, WithinRel( chunk( 2.5 ) ) );
         CHECK_THAT( 1.46416306545103, WithinRel( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "a LinearLogTable can be integrated" ) {
+
+        CHECK_THAT( 7.385058000047600, WithinRel( chunk.integrate() ) );
       } // THEN
 
       THEN( "a LinearLogTable can be linearised" ) {

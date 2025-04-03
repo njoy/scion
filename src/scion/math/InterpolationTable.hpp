@@ -290,6 +290,28 @@ namespace math {
 
     using Parent::domain;
     using Parent::operator();
+
+    /**
+     *  @brief Integrate the function over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate() const {
+
+      auto integrate = [] ( auto&& region ) { return region.integrate(); };
+
+      auto iter = this->tables().begin();
+      auto result = std::visit( integrate, *iter );
+      ++iter;
+
+      while ( iter != this->tables().end() ) {
+
+        result += std::visit( integrate, *iter );
+        ++iter;
+      }
+
+      return result;
+    }
+
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;

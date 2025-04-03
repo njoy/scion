@@ -66,6 +66,11 @@ SCENARIO( "HistogramTable" ) {
         CHECK_THAT( 2., WithinRel( chunk( 3.5 ) ) );
       } // THEN
 
+      THEN( "a HistogramTable can be integrated" ) {
+
+        CHECK_THAT( 9., WithinRel( chunk.integrate() ) );
+      } // THEN
+
       THEN( "the domain can be tested" ) {
 
         CHECK( true == chunk.isInside( 1.0 ) );
@@ -149,6 +154,11 @@ SCENARIO( "HistogramTable" ) {
         CHECK_THAT( 4., WithinRel( chunk( 1.5 ) ) );
         CHECK_THAT( 3., WithinRel( chunk( 2.5 ) ) );
         CHECK_THAT( 2., WithinRel( chunk( 3.5 ) ) );
+      } // THEN
+
+      THEN( "a HistogramTable can be integrated" ) {
+
+        CHECK_THAT( 9., WithinRel( chunk.integrate() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

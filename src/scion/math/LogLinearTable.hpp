@@ -7,6 +7,7 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LogarithmicLinear.hpp"
+#include "scion/integration/LogarithmicLinear.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
 namespace njoy {
@@ -26,18 +27,15 @@ namespace math {
              typename YContainer = std::vector< Y > >
   class LogLinearTable :
     public SingleTableBase< LogLinearTable< X, Y, XContainer, YContainer >,
-                            interpolation::LogarithmicLinear, X, Y,
-                            XContainer, YContainer > {
+                            X, Y, XContainer, YContainer > {
 
     /* friend declarations */
     friend class SingleTableBase< LogLinearTable< X, Y, XContainer, YContainer >,
-                                  interpolation::LogarithmicLinear, X, Y,
-                                  XContainer, YContainer >;
+                                  X, Y, XContainer, YContainer >;
 
     /* type aliases */
     using Parent = SingleTableBase< LogLinearTable< X, Y, XContainer, YContainer >,
-                                    interpolation::LogarithmicLinear, X, Y,
-                                    XContainer, YContainer >;
+                                    X, Y, XContainer, YContainer >;
 
     /* fields */
 
@@ -53,6 +51,22 @@ namespace math {
       return interpolation::InterpolationType::LogLinear;
     }
 
+    /**
+     *  @brief Interpolate
+     *
+     *  @param[in] x        the value of x
+     *  @param[in] xLeft    the left value on the x interval
+     *  @param[in] xRight   the right value on the x interval
+     *  @param[in] yLeft    the left value on the y interval
+     *  @param[in] yRight   the right value on the y interval
+     */
+    static constexpr Y interpolate( const X& x,
+                                    const X& xLeft, const X& xRight,
+                                    const Y& yLeft, const Y& yRight ) noexcept {
+
+      return interpolation::loglin( x, xLeft, xRight, yLeft, yRight );
+    }
+
   public:
 
     /* constructor */
@@ -64,12 +78,21 @@ namespace math {
     using Parent::x;
     using Parent::y;
     using Parent::numberPoints;
-    using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
+    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
+
+    /**
+     *  @brief Calculate the integral of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    I integrate() const {
+
+      return Parent::integrate( integration::loglin );
+    }
   };
 
 } // math namespace
