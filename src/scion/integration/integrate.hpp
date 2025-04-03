@@ -46,8 +46,8 @@ namespace integration {
                   const Integrator& integrator ) {
 
     // the iterators point to the end of the first interval
-    auto xbegin = x.begin() + 1;
-    auto ybegin = y.begin() + 1;
+    auto xbegin = std::begin( x ) + 1;
+    auto ybegin = std::begin( y ) + 1;
     return integrate( xbegin, x.end(), ybegin, integrator );
   }
 
