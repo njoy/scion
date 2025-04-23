@@ -187,19 +187,19 @@ void addStandardOperatorDefinitions( PythonClass& component ) {
   .def( -python::self )
   .def( python::self + Y() )
   .def( python::self - Y() )
-  .def( python::self * Y() )
-  .def( python::self / Y() )
+  .def( python::self * double() )
+  .def( python::self / double() )
   .def( python::self + python::self )
   .def( python::self - python::self )
   .def( python::self += Y() )
   .def( python::self -= Y() )
-  .def( python::self *= Y() )
-  .def( python::self /= Y() )
+  .def( python::self *= double() )
+  .def( python::self /= double() )
   .def( python::self += python::self )
   .def( python::self -= python::self )
   .def( Y() + python::self )
   .def( Y() - python::self )
-  .def( Y() * python::self );
+  .def( double() * python::self );
 }
 
 /**

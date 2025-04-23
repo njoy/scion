@@ -154,7 +154,7 @@ namespace math {
      */
     InterpolationTable& operator+=( const Y& right ) {
 
-      return this->operation( right, std::plus< Y >() );
+      return this->operationForLinearisedOnly( right, std::plus< Y >() );
     }
 
     /**
@@ -164,7 +164,7 @@ namespace math {
      */
     InterpolationTable& operator-=( const Y& right ) {
 
-      return this->operation( right, std::minus< Y >() );
+      return this->operationForLinearisedOnly( right, std::minus< Y >() );
     }
 
     /**
@@ -172,7 +172,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator*=( const Y& right ) {
+    template < typename S >
+    InterpolationTable& operator*=( const S& right ) {
 
       return this->operation( right, std::multiplies< Y >() );
     }
@@ -182,9 +183,10 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable& operator/=( const Y& right ) {
+    template < typename S >
+    InterpolationTable& operator/=( const S& right ) {
 
-      return this->operation( Y( 1. ) / right, std::multiplies< Y >() );
+      return this->operation( right, std::divides< Y >() );
     }
 
     /**
@@ -216,7 +218,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator*( const Y& right ) const {
+    template < typename S >
+    InterpolationTable operator*( const S& right ) const {
 
       InterpolationTable result = *this;
       result *= right;
@@ -228,7 +231,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    InterpolationTable operator/( const Y& right ) const {
+    template < typename S >
+    InterpolationTable operator/( const S& right ) const {
 
       InterpolationTable result = *this;
       result /= right;
@@ -355,9 +359,9 @@ namespace math {
    *  @param[in] left    the scalar
    *  @param[in] right     the series
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X >
   InterpolationTable< X, Y >
-  operator*( const Y& left, const InterpolationTable< X, Y >& right ) {
+  operator*( const S& left, const InterpolationTable< X, Y >& right ) {
 
     return right * left;
   }
