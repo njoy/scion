@@ -31,6 +31,9 @@ SCENARIO( "LogarithmicLinear" ) {
 
         // equal x values
         CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
+
+        // equal y values
+        CHECK_THAT( 1., WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -51,6 +54,9 @@ SCENARIO( "LogarithmicLinear" ) {
 
         // equal x values
         CHECK_THAT( 0., WithinRel( integration::loglin( xLeft, xLeft, yLeft, yRight ) ) );
+
+        // equal y values
+        CHECK_THAT( 1., WithinRel( integration::loglin( xLeft, xRight, yLeft, yLeft ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
