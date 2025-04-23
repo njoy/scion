@@ -90,6 +90,10 @@ namespace math {
 
     /**
      *  @brief Calculate the mean (first order raw moment) of the series over its domain
+     *
+     *  Note: a series expansion does not have to be normalised, so this will only
+     *        return the mean (i.e. the expected value of x) if the series expansion
+     *        is normalised.
      */
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I mean() const {
