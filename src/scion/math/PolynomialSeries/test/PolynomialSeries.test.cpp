@@ -8,6 +8,11 @@ using Catch::Matchers::WithinRel;
 
 // other includes
 
+// includes for test result generation
+// #include <iostream>
+// #include <iomanip>
+// #include "scion/integration/GaussLegendre/64.hpp"
+
 // convenience typedefs
 using namespace njoy::scion;
 template < typename X, typename Y = X > using PolynomialSeries = math::PolynomialSeries< X, Y >;
@@ -22,7 +27,7 @@ using ToleranceConvergence = linearisation::ToleranceConvergence< X, Y >;
 
 SCENARIO( "PolynomialSeries" ) {
 
-  GIVEN( "Legendre coefficients for an expansion" ) {
+  GIVEN( "coefficients for an expansion" ) {
 
     WHEN( "the data is given explicitly" ) {
 
@@ -52,6 +57,27 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK_THAT(  -8.0, WithinRel( chunk(  0. ) ) );
         CHECK_THAT(   0.0, WithinRel( chunk(  1. ) ) );
         CHECK_THAT( -30.0, WithinRel( chunk( -1. ) ) );
+      } // THEN
+
+      THEN( "a PolynomialSeries can be integrated" ) {
+
+        // the polynomial series is the same as the one in the Legendre series test
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, -1.,  1. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
+        CHECK_THAT( -62./3., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the first raw moment of a PolynomialSeries can be calculated" ) {
+
+        // the polynomial series is the same as the one in the Legendre series test
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // auto functor = [&chunk] ( auto&& x ) { return x * chunk( x ); };
+        // std::cout << std::setprecision(15) << integrator( functor, -1.,  1. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
+        CHECK_THAT( 146./15., WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a PolynomialSeries can be differentiated" ) {

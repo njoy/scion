@@ -8,6 +8,7 @@
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLogarithmic.hpp"
 #include "scion/integration/LinearLogarithmic.hpp"
+#include "scion/integration/LinearLogarithmicMean.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
 namespace njoy {
@@ -86,12 +87,21 @@ namespace math {
     using Parent::isSameDomain;
 
     /**
-     *  @brief Calculate the integral of the table over its domain
+     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integrate() const {
+    I integral() const {
 
       return Parent::integrate( integration::linlog );
+    }
+
+    /**
+     *  @brief Calculate the mean (first order raw moment) of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
+    I mean() const {
+
+      return Parent::integrate( integration::linLogMean );
     }
   };
 

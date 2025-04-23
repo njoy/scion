@@ -45,6 +45,10 @@ class Test_scion_math_LinearLinearTable( unittest.TestCase ) :
             self.assertAlmostEqual( 3.5, chunk( x = 1.5 ) )
             self.assertAlmostEqual( 1.5, chunk( x = 3.5 ) )
 
+            # verify integration
+            self.assertAlmostEqual(  7.5, chunk.integral )
+            self.assertAlmostEqual( 16.5, chunk.mean )
+
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
             self.assertEqual( True, chunk.is_inside( 2.5 ) )

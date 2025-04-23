@@ -62,6 +62,7 @@ namespace math {
     #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
     #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
+    #include "scion/math/InterpolationTable/src/summation.hpp"
 
     /**
      *  @brief Return the interpolation tables
@@ -292,24 +293,27 @@ namespace math {
     using Parent::operator();
 
     /**
-     *  @brief Integrate the function over its domain
+     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integrate() const {
+    I integral() const {
 
-      auto integrate = [] ( auto&& region ) { return region.integrate(); };
+      auto integrate = [] ( auto&& region ) { return region.integral(); };
+      return this->summation( integrate );
+    }
 
-      auto iter = this->tables().begin();
-      auto result = std::visit( integrate, *iter );
-      ++iter;
+    /**
+     *  @brief Calculate the mean (first order raw moment) of the table over its domain
+     *
+     *  Note: an interpolation table does not have to be normalised, so this will only
+     *        return the mean (i.e. the expected value of x) if the interpolation table
+     *        is normalised.
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
+    I mean() const {
 
-      while ( iter != this->tables().end() ) {
-
-        result += std::visit( integrate, *iter );
-        ++iter;
-      }
-
-      return result;
+      auto integrate = [] ( auto&& region ) { return region.mean(); };
+      return this->summation( integrate );
     }
 
     using Parent::isInside;

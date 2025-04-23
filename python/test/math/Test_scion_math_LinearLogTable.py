@@ -46,6 +46,10 @@ class Test_scion_math_LinearLogTable( unittest.TestCase ) :
             self.assertAlmostEqual( 2.44966028678679, chunk( x = 2.5 ) )
             self.assertAlmostEqual( 1.46416306545103, chunk( x = 3.5 ) )
 
+            # verify integration
+            self.assertAlmostEqual( 7.3850580000476, chunk.integral )
+            self.assertAlmostEqual( 16.248004728006, chunk.mean )
+
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
             self.assertEqual( True, chunk.is_inside( 2.5 ) )

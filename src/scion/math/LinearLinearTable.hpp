@@ -8,6 +8,7 @@
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
 #include "scion/integration/LinearLinear.hpp"
+#include "scion/integration/LinearLinearMean.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
@@ -102,12 +103,21 @@ namespace math {
     using Parent::isSameDomain;
 
     /**
-     *  @brief Calculate the integral of the table over its domain
+     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integrate() const {
+    I integral() const {
 
       return Parent::integrate( integration::linlin );
+    }
+
+    /**
+     *  @brief Calculate the mean (first order raw moment) of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
+    I mean() const {
+
+      return Parent::integrate( integration::linLinMean );
     }
   };
 

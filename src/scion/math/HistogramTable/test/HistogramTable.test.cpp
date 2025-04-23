@@ -68,7 +68,14 @@ SCENARIO( "HistogramTable" ) {
 
       THEN( "a HistogramTable can be integrated" ) {
 
-        CHECK_THAT( 9., WithinRel( chunk.integrate() ) );
+        // 4 + 3 + 2 = 9
+        CHECK_THAT( 9., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the first raw moment of a HistogramTable can be calculated" ) {
+
+        // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
+        CHECK_THAT( 20.5, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -158,7 +165,14 @@ SCENARIO( "HistogramTable" ) {
 
       THEN( "a HistogramTable can be integrated" ) {
 
-        CHECK_THAT( 9., WithinRel( chunk.integrate() ) );
+        // 4 + 3 + 2 = 9
+        CHECK_THAT( 9., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the mean value of a HistogramTable can be calculated" ) {
+
+        // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
+        CHECK_THAT( 20.5, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

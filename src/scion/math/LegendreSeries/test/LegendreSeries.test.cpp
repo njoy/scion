@@ -9,6 +9,11 @@ using Catch::Matchers::WithinAbs;
 
 // other includes
 
+// includes for test result generation
+// #include <iostream>
+// #include <iomanip>
+// #include "scion/integration/GaussLegendre/64.hpp"
+
 // convenience typedefs
 using namespace njoy::scion;
 template < typename X, typename Y = X > using LegendreSeries = math::LegendreSeries< X, Y >;
@@ -53,6 +58,24 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -8., WithinRel( chunk(  0. ) ) );
         CHECK_THAT(   0., WithinAbs( chunk(  1. ), 1e-12 ) );
         CHECK_THAT( -30., WithinRel( chunk( -1. ) ) );
+      } // THEN
+
+      THEN( "an LegendreSeries can be integrated" ) {
+
+        // generate test result using the primitive
+        // std::cout << std::setprecision(15) << chunk.primitive( -1. )( +1. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
+        CHECK_THAT( -62./3., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the first raw moment of an LegendreSeries can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // auto functor = [&chunk] ( auto&& x ) { return x * chunk( x ); };
+        // std::cout << std::setprecision(15) << integrator( functor, -1.,  1. ) << std::endl;
+        // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
+        CHECK_THAT( 146./15., WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a LegendreSeries can be differentiated" ) {

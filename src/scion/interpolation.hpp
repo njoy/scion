@@ -5,4 +5,3 @@
 #include "scion/interpolation/LinearLogarithmic.hpp"
 #include "scion/interpolation/LogarithmicLinear.hpp"
 #include "scion/interpolation/LogarithmicLogarithmic.hpp"
-
