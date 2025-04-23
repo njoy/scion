@@ -55,7 +55,7 @@ SCENARIO( "LogarithmicLinear" ) {
         // equal x values
         CHECK_THAT( 0., WithinRel( integration::loglin( xLeft, xLeft, yLeft, yRight ) ) );
 
-        // equal x values
+        // equal y values
         CHECK_THAT( 1., WithinRel( integration::loglin( xLeft, xRight, yLeft, yLeft ) ) );
       } // THEN
     } // WHEN
