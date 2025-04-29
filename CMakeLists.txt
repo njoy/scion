@@ -27,8 +27,8 @@ set( CMAKE_CXX_STANDARD_REQUIRED YES )
 
 cmake_dependent_option(
   scion.tests
-    "Build the scion unit tests and integrate with ctest" ON
-    "BUILD_TESTING AND NOT ${subproject}" OFF
+  "Build the scion unit tests and integrate with ctest" ON
+  "BUILD_TESTING AND NOT ${subproject}" OFF
 )
 
 cmake_dependent_option(
@@ -74,59 +74,8 @@ target_link_libraries( scion
 # scion : python bindings
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if( scion.python )
-
-  pybind11_add_module( scion.python
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/scion.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/interpolation.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/interpolation/interpolation.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/interpolation/InterpolationType.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/integration.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/integration/integration.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/integration/GaussLegendre.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/integration/GaussLobatto.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/linearisation.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/linearisation/MidpointSplit.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/linearisation/ToleranceConvergence.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/linearisation/Lineariser.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/clenshaw.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/compare.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/horner.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/newton.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/chebyshev.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/legendre.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/IntervalDomain.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/OpenDomain.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/LinearLinearTable.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/HistogramTable.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/LogLogTable.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/LogLinearTable.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/LinearLogTable.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/InterpolationTable.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/ChebyshevSeries.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/ChebyshevApproximation.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/LegendreSeries.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/PolynomialSeries.python.cpp
-      ${CMAKE_CURRENT_SOURCE_DIR}/python/src/math/AnalyticalIntegrator.python.cpp
-      )
-  add_library( njoy::scion.python ALIAS scion.python )
-
-  target_link_libraries( scion.python PRIVATE scion )
-  target_include_directories( scion.python PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/python/src )
-  target_compile_options( scion.python PRIVATE -fvisibility=hidden )
-  set_target_properties( scion.python PROPERTIES OUTPUT_NAME scion )
-  set_target_properties( scion.python PROPERTIES COMPILE_DEFINITIONS "PYBIND11" )
-  set_target_properties( scion.python PROPERTIES POSITION_INDEPENDENT_CODE ON )
-
-  message( STATUS "Building scion's python API" )
-
-  set( scion_PYTHONPATH "${CMAKE_CURRENT_BINARY_DIR}" )
-
-  if( scion.tests )
-    include( cmake/unit_testing_python.cmake )
-  endif()
-
+if (scion.python)
+  add_subdirectory(python)
 endif()
 
 if( scion.tests )
@@ -181,4 +130,14 @@ if(scion.installation)
       set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/LICENSE")
       include(CPack)
     endif()
+endif()
+
+########################################################################
+# Windows-specific setup
+########################################################################
+
+# enable Edit and Continue in Visual Studio (for debugging)
+if(MSVC)
+  target_compile_options(${PROJECT_NAME}  INTERFACE "/ZI")
+  target_link_options(${PROJECT_NAME} INTERFACE "/INCREMENTAL")
 endif()

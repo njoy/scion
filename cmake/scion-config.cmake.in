@@ -1,5 +1,9 @@
 include(CMakeFindDependencyMacro)
 
+if (NOT TARGET eigen)
+    find_dependency(eigen)
+endif()
+
 if (NOT TARGET njoy::tools)
     find_dependency(tools)
 endif()
