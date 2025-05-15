@@ -122,8 +122,7 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
     }
 
     // make sure we do not go beyond the end of the x grid: valgrind will yell at you
-    auto next = std::next( xIter );
-    if ( next < x.end() ) {
+    if ( ( xIter != x.end() ) && ( std::next( xIter ) < x.end() ) ) {
 
       if ( *std::next( xIter ) == *xIter ) {
 
