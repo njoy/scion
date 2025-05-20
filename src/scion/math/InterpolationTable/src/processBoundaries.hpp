@@ -111,6 +111,7 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
         x.pop_back();
         y.pop_back();
         boundaries.back() = x.size() - 1;
+        xIter = std::prev( x.end() );
 
         Log::warning( "A trailing zero value at the end of the x grid was removed" );
       }
