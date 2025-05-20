@@ -111,6 +111,7 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
         x.pop_back();
         y.pop_back();
         boundaries.back() = x.size() - 1;
+        xIter = x.end();
 
         Log::warning( "A trailing zero value at the end of the x grid was removed" );
       }
@@ -122,7 +123,8 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
     }
 
     // make sure we do not go beyond the end of the x grid: valgrind will yell at you
-    if ( ( xIter != x.end() ) && ( std::next( xIter ) < x.end() ) ) {
+    auto next = std::next( xIter );
+    if ( next < x.end() ) {
 
       if ( *std::next( xIter ) == *xIter ) {
 
