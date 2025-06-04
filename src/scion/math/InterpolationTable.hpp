@@ -293,6 +293,36 @@ namespace math {
       return result;
     }
 
+    /**
+     *  @brief Comparison operator: equal
+     *
+     *  @param[in] right   the table on the right hand side
+     */
+    bool operator==( const InterpolationTable& right ) const noexcept {
+
+      if ( this != &right ) {
+
+        return this->interpolants() == right.interpolants() &&
+               this->boundaries() == right.boundaries() &&
+               this->x() == right.x() &&
+               this->y() == right.y();
+      }
+      else {
+
+        return true;
+      }
+    }
+
+    /**
+     *  @brief Comparison operator: not equal
+     *
+     *  @param[in] right   the table on the right hand side
+     */
+    bool operator!=( const InterpolationTable& right ) const noexcept {
+
+      return ! this->operator==( right );
+    }
+
     using Parent::domain;
     using Parent::operator();
 
