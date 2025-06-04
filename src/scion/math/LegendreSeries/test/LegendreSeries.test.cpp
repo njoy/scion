@@ -475,6 +475,27 @@ SCENARIO( "LegendreSeries" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "comparison operators" ) {
+
+    WHEN( "two instances of LegendreSeries are given" ) {
+
+      LegendreSeries< double > left( { 1., 2., 3. } );
+      LegendreSeries< double > equal( { 1., 2., 3. } );
+      LegendreSeries< double > different( { 1., 0., 3. } );
+
+      THEN( "they can be compared" ) {
+
+        CHECK( true == ( left == left ) );
+        CHECK( true == ( left == equal ) );
+        CHECK( false == ( left == different ) );
+
+        CHECK( false == ( left != left ) );
+        CHECK( false == ( left != equal ) );
+        CHECK( true == ( left != different ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "invalid data" ) {
 
     WHEN( "the coefficient vector is empty" ) {
