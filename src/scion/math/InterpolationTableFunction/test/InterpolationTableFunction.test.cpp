@@ -356,6 +356,55 @@ SCENARIO( "InterpolationTableFunction" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "comparison operators" ) {
+
+    WHEN( "two instances of InterpolationTable are given" ) {
+
+      Legendre2D left( { 1., 2., 3., 4. }, 
+                       { { { 0.5 } },
+                         { { 0.5, 0.01 } },
+                         { { 0.5, 0.1 } },
+                         { { 0.5, 0.4 } } } );
+      Legendre2D equal( { 1., 2., 3., 4. }, 
+                        { { { 0.5 } },
+                          { { 0.5, 0.01 } },
+                          { { 0.5, 0.1 } },
+                          { { 0.5, 0.4 } } } );
+      Legendre2D different1( { 1., 2., 4. }, 
+                             { { { 0.5 } },
+                               { { 0.5, 0.01 } },
+                               { { 0.5, 0.4 } } } );
+      Legendre2D different2( { 1., 2., 3., 4. }, 
+                             { { { 0.5 } },
+                               { { 0.5, 0.01 } },
+                               { { 0.5, 0.1 } },
+                               { { 0.5, 0.4 } } },
+                             InterpolationType::LogLog );
+      Legendre2D different3( { 1., 2., 3., 4. }, 
+                             { { { 0.5 } },
+                               { { 0.5, 0.01 } },
+                               { { 0.5, 0.1 } },
+                               { { 0.5, 0.4 } } },
+                             { 2, 3 },
+                             { InterpolationType::LinearLinear, InterpolationType::LogLog } );
+
+      THEN( "they can be compared" ) {
+
+        CHECK( true == ( left == left ) );
+        CHECK( true == ( left == equal ) );
+        CHECK( false == ( left == different1 ) );
+        CHECK( false == ( left == different2 ) );
+        CHECK( false == ( left == different3 ) );
+
+        CHECK( false == ( left != left ) );
+        CHECK( false == ( left != equal ) );
+        CHECK( true == ( left != different1 ) );
+        CHECK( true == ( left != different2 ) );
+        CHECK( true == ( left != different3 ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "invalid data for an InterpolationTableFunction object" ) {
 
     WHEN( "there are not enough values in the x or f(y) grid" ) {
