@@ -302,7 +302,8 @@ namespace math {
 
       if ( this != &right ) {
 
-        return this->interpolants() == right.interpolants() &&
+        return this->domain() == right.domain() &&
+               this->interpolants() == right.interpolants() &&
                this->boundaries() == right.boundaries() &&
                this->x() == right.x() &&
                this->y() == right.y();

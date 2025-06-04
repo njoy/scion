@@ -285,7 +285,8 @@ namespace math {
 
       if ( this != &right ) {
 
-        return this->coefficients() == right.coefficients();
+        return this->domain() == right.domain() &&
+               this->coefficients() == right.coefficients();
       }
       else {
 
