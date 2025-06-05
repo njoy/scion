@@ -143,17 +143,10 @@ namespace math {
      */
     bool operator==( const InterpolationTableFunction& right ) const noexcept {
 
-      if ( this != &right ) {
-
-        return this->interpolants() == right.interpolants() &&
-               this->boundaries() == right.boundaries() &&
-               this->x() == right.x() &&
-               this->f() == right.f();
-      }
-      else {
-
-        return true;
-      }
+      return this->interpolants() == right.interpolants() &&
+             this->boundaries() == right.boundaries() &&
+             this->x() == right.x() &&
+             this->f() == right.f();
     }
 
     /**

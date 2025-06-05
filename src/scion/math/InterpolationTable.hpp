@@ -300,18 +300,11 @@ namespace math {
      */
     bool operator==( const InterpolationTable& right ) const noexcept {
 
-      if ( this != &right ) {
-
-        return this->domain() == right.domain() &&
-               this->interpolants() == right.interpolants() &&
-               this->boundaries() == right.boundaries() &&
-               this->x() == right.x() &&
-               this->y() == right.y();
-      }
-      else {
-
-        return true;
-      }
+      return this->domain() == right.domain() &&
+             this->interpolants() == right.interpolants() &&
+             this->boundaries() == right.boundaries() &&
+             this->x() == right.x() &&
+             this->y() == right.y();
     }
 
     /**

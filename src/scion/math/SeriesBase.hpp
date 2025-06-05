@@ -283,15 +283,8 @@ namespace math {
      */
     bool operator==( const Derived& right ) const noexcept {
 
-      if ( this != &right ) {
-
-        return this->domain() == right.domain() &&
-               this->coefficients() == right.coefficients();
-      }
-      else {
-
-        return true;
-      }
+      return this->domain() == right.domain() &&
+             this->coefficients() == right.coefficients();
     }
 
     /**
