@@ -358,29 +358,29 @@ SCENARIO( "InterpolationTableFunction" ) {
 
   GIVEN( "comparison operators" ) {
 
-    WHEN( "two instances of InterpolationTable are given" ) {
+    WHEN( "two instances of InterpolationTableFunction are given" ) {
 
-      Legendre2D left( { 1., 2., 3., 4. }, 
+      Legendre2D left( { 1., 2., 3., 4. },
                        { { { 0.5 } },
                          { { 0.5, 0.01 } },
                          { { 0.5, 0.1 } },
                          { { 0.5, 0.4 } } } );
-      Legendre2D equal( { 1., 2., 3., 4. }, 
+      Legendre2D equal( { 1., 2., 3., 4. },
                         { { { 0.5 } },
                           { { 0.5, 0.01 } },
                           { { 0.5, 0.1 } },
                           { { 0.5, 0.4 } } } );
-      Legendre2D different1( { 1., 2., 4. }, 
+      Legendre2D different1( { 1., 2., 4. },
                              { { { 0.5 } },
                                { { 0.5, 0.01 } },
                                { { 0.5, 0.4 } } } );
-      Legendre2D different2( { 1., 2., 3., 4. }, 
+      Legendre2D different2( { 1., 2., 3., 4. },
                              { { { 0.5 } },
                                { { 0.5, 0.01 } },
                                { { 0.5, 0.1 } },
                                { { 0.5, 0.4 } } },
                              InterpolationType::LogLog );
-      Legendre2D different3( { 1., 2., 3., 4. }, 
+      Legendre2D different3( { 1., 2., 3., 4. },
                              { { { 0.5 } },
                                { { 0.5, 0.01 } },
                                { { 0.5, 0.1 } },
