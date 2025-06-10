@@ -67,6 +67,7 @@ class ChebyshevApproximation:
     The integral function is defined so that the integral function for x = left
     equals 0.
     """
+    __hash__: typing.ClassVar[None] = None
     @typing.overload
     def __add__(self, arg0: float) -> ChebyshevApproximation:
         ...
@@ -81,6 +82,8 @@ class ChebyshevApproximation:
             self   the function
             x      the value to be evaluated
         """
+    def __eq__(self, arg0: ChebyshevApproximation) -> bool:
+        ...
     @typing.overload
     def __iadd__(self, arg0: float) -> ChebyshevApproximation:
         ...
@@ -121,6 +124,8 @@ class ChebyshevApproximation:
     def __itruediv__(self, arg0: float) -> ChebyshevApproximation:
         ...
     def __mul__(self, arg0: float) -> ChebyshevApproximation:
+        ...
+    def __ne__(self, arg0: ChebyshevApproximation) -> bool:
         ...
     def __neg__(self) -> ChebyshevApproximation:
         ...
@@ -243,6 +248,7 @@ class ChebyshevSeries:
     The derivative  and primitive function is defined over the same domain as
     the original function.
     """
+    __hash__: typing.ClassVar[None] = None
     @typing.overload
     def __add__(self, arg0: float) -> ChebyshevSeries:
         ...
@@ -257,6 +263,8 @@ class ChebyshevSeries:
             self   the function
             x      the value to be evaluated
         """
+    def __eq__(self, arg0: ChebyshevSeries) -> bool:
+        ...
     @typing.overload
     def __iadd__(self, arg0: float) -> ChebyshevSeries:
         ...
@@ -283,6 +291,8 @@ class ChebyshevSeries:
     def __itruediv__(self, arg0: float) -> ChebyshevSeries:
         ...
     def __mul__(self, arg0: float) -> ChebyshevSeries:
+        ...
+    def __ne__(self, arg0: ChebyshevSeries) -> bool:
         ...
     def __neg__(self) -> ChebyshevSeries:
         ...
@@ -476,6 +486,7 @@ class InterpolationTable:
     """
     Tabulated data with one or more interpolation types
     """
+    __hash__: typing.ClassVar[None] = None
     @typing.overload
     def __add__(self, arg0: float) -> InterpolationTable:
         ...
@@ -490,6 +501,8 @@ class InterpolationTable:
             self   the function
             x      the value to be evaluated
         """
+    def __eq__(self, arg0: InterpolationTable) -> bool:
+        ...
     @typing.overload
     def __iadd__(self, arg0: float) -> InterpolationTable:
         ...
@@ -530,6 +543,8 @@ class InterpolationTable:
     def __itruediv__(self, arg0: float) -> InterpolationTable:
         ...
     def __mul__(self, arg0: float) -> InterpolationTable:
+        ...
+    def __ne__(self, arg0: InterpolationTable) -> bool:
         ...
     def __neg__(self) -> InterpolationTable:
         ...
@@ -709,6 +724,7 @@ class LegendreSeries:
     The derivative and primitive function is defined over the same domain as
     the original function.
     """
+    __hash__: typing.ClassVar[None] = None
     @typing.overload
     def __add__(self, arg0: float) -> LegendreSeries:
         ...
@@ -723,6 +739,8 @@ class LegendreSeries:
             self   the function
             x      the value to be evaluated
         """
+    def __eq__(self, arg0: LegendreSeries) -> bool:
+        ...
     @typing.overload
     def __iadd__(self, arg0: float) -> LegendreSeries:
         ...
@@ -749,6 +767,8 @@ class LegendreSeries:
     def __itruediv__(self, arg0: float) -> LegendreSeries:
         ...
     def __mul__(self, arg0: float) -> LegendreSeries:
+        ...
+    def __ne__(self, arg0: LegendreSeries) -> bool:
         ...
     def __neg__(self) -> LegendreSeries:
         ...
@@ -1253,6 +1273,7 @@ class PolynomialSeries:
     The derivative and primitive function is defined over the same domain as
     the original series.
     """
+    __hash__: typing.ClassVar[None] = None
     @typing.overload
     def __add__(self, arg0: float) -> PolynomialSeries:
         ...
@@ -1267,6 +1288,8 @@ class PolynomialSeries:
             self   the function
             x      the value to be evaluated
         """
+    def __eq__(self, arg0: PolynomialSeries) -> bool:
+        ...
     @typing.overload
     def __iadd__(self, arg0: float) -> PolynomialSeries:
         ...
@@ -1306,6 +1329,8 @@ class PolynomialSeries:
     def __itruediv__(self, arg0: float) -> PolynomialSeries:
         ...
     def __mul__(self, arg0: float) -> PolynomialSeries:
+        ...
+    def __ne__(self, arg0: PolynomialSeries) -> bool:
         ...
     def __neg__(self) -> PolynomialSeries:
         ...
