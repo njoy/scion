@@ -102,6 +102,8 @@ namespace math {
     using Parent::operator-=;
     using Parent::operator*=;
     using Parent::operator/=;
+    using Parent::operator==;
+    using Parent::operator!=;
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

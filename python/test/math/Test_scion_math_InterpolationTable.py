@@ -1871,6 +1871,28 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
                                         boundaries = [ 2 ],
                                         interpolants = [ InterpolationType.LinearLinear ] )
 
+    def test_comparison( self ) :
+
+        left = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ] )
+        equal = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ] )
+        different1 = InterpolationTable( [ 1., 2., 3. ], [ 1., 0., 3. ] )
+        different2 = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ], InterpolationType.LogLog )
+        different3 = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ], 
+                                         [ 1, 2 ], 
+                                         [ InterpolationType.LinearLinear, InterpolationType.LogLog ] )
+
+        self.assertEqual( True, left == left )
+        self.assertEqual( True, left == equal )
+        self.assertEqual( False, left == different1 )
+        self.assertEqual( False, left == different2 )
+        self.assertEqual( False, left == different3 )
+
+        self.assertEqual( False, left != left )
+        self.assertEqual( False, left != equal )
+        self.assertEqual( True, left != different1 )
+        self.assertEqual( True, left != different2 )
+        self.assertEqual( True, left != different3 )
+
 if __name__ == '__main__' :
 
     unittest.main()
