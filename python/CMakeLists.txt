@@ -1,5 +1,6 @@
 if(scion.python)
 
+    find_package( Python3 REQUIRED )
     pybind11_add_module( scion.python
         ${CMAKE_CURRENT_SOURCE_DIR}/src/scion.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/interpolation.python.cpp
