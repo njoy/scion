@@ -13,6 +13,34 @@
 namespace python = pybind11;
 
 /**
+ *  @brief Add equal and not equal 
+ *
+ *  This adds the following standard functions:
+ *    __eq__, __ne__
+ *
+ *  @param[in] component   the component to which the definitions have to be added
+ */
+template < typename Component, typename PythonClass >
+void addStandardEqualDefinitions( PythonClass& component ) {
+
+  component
+  .def(
+
+    "__eq__",
+    [] ( const Component& self, const Component& right )
+       { return self == right; },
+    python::is_operator()
+  )
+  .def(
+
+    "__ne__",
+    [] ( const Component& self, const Component& right )
+       { return self != right; },
+    python::is_operator()
+  );
+}
+
+/**
  *  @brief Add standard domain definitions
  *
  *  This adds the following standard functions:
@@ -43,21 +71,10 @@ void addStandardDomainDefinitions( PythonClass& component ) {
     "Arguments:\n"
     "    self   the domain\n"
     "    x      the value to be tested"
-  )
-  .def(
-
-    "__eq__",
-    [] ( const Component& self, const Component& right )
-       { return self == right; },
-    python::is_operator()
-  )
-  .def(
-
-    "__ne__",
-    [] ( const Component& self, const Component& right )
-       { return self != right; },
-    python::is_operator()
   );
+
+  // add __eq__ and __ne__
+  addStandardEqualDefinitions< Component >( component );
 }
 
 /**
@@ -267,6 +284,7 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
   // add standard function and operator definitions
   addStandardFunctionDefinitions< Component, X, Y >( component );
   addStandardOperatorDefinitions< Component, X, Y >( component );
+  addStandardEqualDefinitions< Component >( component );
 }
 
 /**

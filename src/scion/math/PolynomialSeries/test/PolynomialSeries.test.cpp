@@ -493,6 +493,27 @@ SCENARIO( "PolynomialSeries" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "comparison operators" ) {
+
+    WHEN( "two instances of PolynomialSeries are given" ) {
+
+      PolynomialSeries< double > left( { 1., 2., 3. } );
+      PolynomialSeries< double > equal( { 1., 2., 3. } );
+      PolynomialSeries< double > different( { 1., 0., 3. } );
+
+      THEN( "they can be compared" ) {
+
+        CHECK( true == ( left == left ) );
+        CHECK( true == ( left == equal ) );
+        CHECK( false == ( left == different ) );
+
+        CHECK( false == ( left != left ) );
+        CHECK( false == ( left != equal ) );
+        CHECK( true == ( left != different ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "invalid data" ) {
 
     WHEN( "the coefficient vector is empty" ) {

@@ -34,7 +34,7 @@ SCENARIO( "ChebyshevSeries" ) {
 
       // the 3rd order Chebyshev series was designed to have 3 real roots: 1, 2 and 4
       // the 3rd order polynomial series equivalent to this is the same as the
-      // one in the PolynomialSeries example
+      // one in the ChebyshevSeries example
 
       std::vector< double > coefficients = { -23./2., 59./4., -7./2., 1./4. };
 
@@ -70,7 +70,7 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK_THAT( -62./3., WithinRel( chunk.integral() ) );
       } // THEN
 
-      THEN( "the first raw moment of a PolynomialSeries can be calculated" ) {
+      THEN( "the first raw moment of a ChebyshevSeries can be calculated" ) {
 
         // the Chebyshev series is the same as the one in the Legendre series test
         // generate test result using Gauss-Legendre quadrature
@@ -161,7 +161,7 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK_THAT(  0.03125           , WithinRel( primitive.coefficients()[4] ) );
       } // THEN
 
-      THEN( "a PolynomialSeries can be linearised" ) {
+      THEN( "a ChebyshevSeries can be linearised" ) {
 
         ToleranceConvergence< double > convergence( 0.01 );
         InterpolationTable< double > linear = chunk.linearise( convergence );
@@ -474,6 +474,27 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK_THAT(   0.25, WithinRel( result.coefficients()[3] ) );
         CHECK_THAT(  -1.00, WithinRel( result.coefficients()[4] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "comparison operators" ) {
+
+    WHEN( "two instances of ChebyshevSeries are given" ) {
+
+      ChebyshevSeries< double > left( { 1., 2., 3. } );
+      ChebyshevSeries< double > equal( { 1., 2., 3. } );
+      ChebyshevSeries< double > different( { 1., 0., 3. } );
+
+      THEN( "they can be compared" ) {
+
+        CHECK( true == ( left == left ) );
+        CHECK( true == ( left == equal ) );
+        CHECK( false == ( left == different ) );
+
+        CHECK( false == ( left != left ) );
+        CHECK( false == ( left != equal ) );
+        CHECK( true == ( left != different ) );
       } // THEN
     } // WHEN
   } // GIVEN

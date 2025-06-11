@@ -2233,6 +2233,35 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "comparison operators" ) {
+
+    WHEN( "two instances of InterpolationTable are given" ) {
+
+      InterpolationTable< double > left( { 1., 2., 3. }, { 1., 2., 3. } );
+      InterpolationTable< double > equal( { 1., 2., 3. }, { 1., 2., 3. } );
+      InterpolationTable< double > different1( { 1., 2., 3. }, { 1., 0., 3. } );
+      InterpolationTable< double > different2( { 1., 2., 3. }, { 1., 2., 3. }, InterpolationType::LogLog );
+      InterpolationTable< double > different3( { 1., 2., 3. }, { 1., 2., 3. }, 
+                                               { 1, 2 }, 
+                                               { InterpolationType::LinearLinear, InterpolationType::LogLog } );
+
+      THEN( "they can be compared" ) {
+
+        CHECK( true == ( left == left ) );
+        CHECK( true == ( left == equal ) );
+        CHECK( false == ( left == different1 ) );
+        CHECK( false == ( left == different2 ) );
+        CHECK( false == ( left == different3 ) );
+
+        CHECK( false == ( left != left ) );
+        CHECK( false == ( left != equal ) );
+        CHECK( true == ( left != different1 ) );
+        CHECK( true == ( left != different2 ) );
+        CHECK( true == ( left != different3 ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "invalid data for an InterpolationTable object" ) {
 
     WHEN( "there are not enough values in the x or y grid" ) {

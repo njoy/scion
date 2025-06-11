@@ -135,6 +135,29 @@ namespace math {
     }
 
     using Parent::operator();
+
+    /**
+     *  @brief Comparison operator: equal
+     *
+     *  @param[in] right   the table on the right hand side
+     */
+    bool operator==( const InterpolationTableFunction& right ) const noexcept {
+
+      return this->interpolants() == right.interpolants() &&
+             this->boundaries() == right.boundaries() &&
+             this->x() == right.x() &&
+             this->f() == right.f();
+    }
+
+    /**
+     *  @brief Comparison operator: not equal
+     *
+     *  @param[in] right   the table on the right hand side
+     */
+    bool operator!=( const InterpolationTableFunction& right ) const noexcept {
+
+      return ! this->operator==( right );
+    }
   };
 
 } // math namespace

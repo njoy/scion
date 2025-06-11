@@ -375,6 +375,20 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
 
         verify_chunk( self, chunk )
 
+    def test_comparison( self ) :
+
+        left = LegendreSeries( [ 1., 2., 3. ] )
+        equal = LegendreSeries( [ 1., 2., 3. ] )
+        different = LegendreSeries( [ 1., 0., 3. ] )
+
+        self.assertEqual( True, left == left )
+        self.assertEqual( True, left == equal )
+        self.assertEqual( False, left == different )
+
+        self.assertEqual( False, left != left )
+        self.assertEqual( False, left != equal )
+        self.assertEqual( True, left != different )
+
     def test_failures( self ) :
 
         print( '\n' )

@@ -250,6 +250,27 @@ namespace math {
       return result;
     }
 
+    /**
+     *  @brief Comparison operator: equal
+     *
+     *  @param[in] right   the series on the right hand side
+     */
+    bool operator==( const ChebyshevApproximation& right ) const noexcept {
+
+      return this->domain() == right.domain() &&
+             this->coefficients() == right.coefficients();
+    }
+
+    /**
+     *  @brief Comparison operator: not equal
+     *
+     *  @param[in] right   the series on the right hand side
+     */
+    bool operator!=( const ChebyshevApproximation& right ) const noexcept {
+
+      return ! this->operator==( right );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
