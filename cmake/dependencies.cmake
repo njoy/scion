@@ -4,7 +4,7 @@ include( shacl_FetchContent )
 
 shacl_FetchContent_Declare( tools
     GIT_REPOSITORY  ../../njoy/tools
-    GIT_TAG         e228aea1c2a9c5398e3aca740d804332e56aa761  # tag: v0.4.3
+    GIT_TAG         22bae7709d012914f32c99c0fb7aab06f49c5f62  # tag: v0.4.3
     )
 
 shacl_FetchContent_Declare( eigen
