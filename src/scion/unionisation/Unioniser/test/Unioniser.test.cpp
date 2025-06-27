@@ -40,6 +40,7 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 4., WithinRel( grid[3] ) );
 
         // different grids with a few common points but no jumps
+        unioniser.clear();
         unioniser.addGrid( grid1 );
         unioniser.addGrid( grid2 );
         grid = unioniser.unionise();
@@ -54,6 +55,7 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 4. , WithinRel( grid[6] ) );
 
         // different grids with a few common points and jumps in the first one
+        unioniser.clear();
         unioniser.addGrid( grid3 );
         unioniser.addGrid( grid1 );
         grid = unioniser.unionise();
@@ -66,6 +68,7 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
         // different grids with a few common points and jumps in the second one
+        unioniser.clear();
         unioniser.addGrid( grid1 );
         unioniser.addGrid( grid3 );
         grid = unioniser.unionise();
@@ -79,6 +82,7 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with a few common points and jumps in the both but
         // those jumps are not the same
+        unioniser.clear();
         unioniser.addGrid( grid3 );
         unioniser.addGrid( grid4 );
         grid = unioniser.unionise();
@@ -93,6 +97,7 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with a few common points and jumps in both and
         // some jumps are the same
+        unioniser.clear();
         unioniser.addGrid( grid4 );
         unioniser.addGrid( grid5 );
         grid = unioniser.unionise();
@@ -106,6 +111,7 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 4., WithinRel( grid[5] ) );
 
         // different grids with different end points (no duplicate end point)
+        unioniser.clear();
         unioniser.addGrid( grid1 );
         unioniser.addGrid( grid6 );
         grid = unioniser.unionise();
@@ -119,6 +125,7 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with different end points (no duplicate end point in
         // other grid)
+        unioniser.clear();
         unioniser.addGrid( grid6 );
         unioniser.addGrid( grid1 );
         grid = unioniser.unionise();
@@ -132,6 +139,7 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with different end points (duplicate end point in
         // other grid)
+        unioniser.clear();
         unioniser.addGrid( grid4 );
         unioniser.addGrid( grid6 );
         grid = unioniser.unionise();
@@ -145,6 +153,7 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with different end points (duplicate end point in
         // other grid)
+        unioniser.clear();
         unioniser.addGrid( grid6 );
         unioniser.addGrid( grid4 );
         grid = unioniser.unionise();
