@@ -58,7 +58,6 @@ namespace math {
     bool linearised_;
 
     /* auxiliary function */
-    #include "scion/math/InterpolationTable/src/evaluateOnGrid.hpp"
     #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
     #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
