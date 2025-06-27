@@ -32,7 +32,6 @@ add_subdirectory( src/utility/IteratorView/test )
 
 add_subdirectory( src/scion/verification/ranges/test )
 
-add_subdirectory( src/scion/unionisation/unionise/test )
 add_subdirectory( src/scion/unionisation/Unioniser/test )
 
 add_subdirectory( src/scion/integration/Histogram/test )
