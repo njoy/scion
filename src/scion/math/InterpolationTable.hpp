@@ -10,7 +10,7 @@
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/unionisation/unionise.hpp"
+#include "scion/unionisation/Unioniser.hpp"
 #include "scion/math/newton.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
