@@ -45,9 +45,10 @@ operation( const InterpolationTable& right, BinaryOperation operation ) {
     else {
 
       // unionise and evaluate on the new grid
-      std::vector< X > x = unionisation::unionise( this->x(), right.x() );
-      std::vector< Y > y = this->evaluateOnGrid( x );
-      std::vector< Y > temp = right.evaluateOnGrid( x );
+      unionisation::Unioniser unioniser( this->x(), right.x() );
+      std::vector< X > x = unioniser.unionise();
+      std::vector< Y > y = unioniser.evaluate( this->x(), this->y() );
+      std::vector< Y > temp = unioniser.evaluate( right.x(), right.y() );
       std::transform( y.begin(), y.end(), temp.begin(), y.begin(), operation );
 
       // check for threshold jump with the same y value
