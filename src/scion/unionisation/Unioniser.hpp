@@ -32,6 +32,18 @@ namespace unionisation {
     /* auxiliary function */
 
     /**
+     *  @brief Sort the underlying grids as a function of size
+     */
+    void sort() {
+
+      // sort the grids as a function of size
+      std::sort( this->grids_.begin(), this->grids_.end(),
+                 [] ( auto&& left, auto&& right )
+                    { return std::distance( left.first, left.second ) <
+                             std::distance( right.first, right.second ); } );
+    }
+
+    /**
      *  @brief Unionise two grids and preserve duplicate points that appear in each
      *
      *  If the grids do not have the same begin and/or end point, a duplicate point
@@ -95,7 +107,13 @@ namespace unionisation {
      */
     void addGrid( const XContainer& grid ) {
 
-      this->grids_.emplace_back( grid.begin(), grid.end() );
+      auto size = std::distance( grid.begin(), grid.end() );
+      this->grids_.insert(
+          std::lower_bound( this->grids_.begin(), this->grids_.end(),
+                            size,
+                            [] ( auto&& pair, auto&& size )
+                               { return std::distance( pair.first, pair.second ) < size; } ),
+          std::make_pair( grid.begin(), grid.end() ) );
     }
 
     /**
@@ -103,21 +121,14 @@ namespace unionisation {
      */
     const std::vector< X >& unionise() {
 
-      // sort the grids as a function of size
-      std::sort( this->grids_.begin(), this->grids_.end(),
-                 [] ( auto&& left, auto&& right )
-                    { return std::distance( left.first, left.second ) <
-                             std::distance( right.first, right.second ); } );
-
       // generate a first union grid
-      this->union_ = apply_set_union( this->grids_[0].first, this->grids_[0].second,
-                                      this->grids_[1].first, this->grids_[1].second );
-      this->grids_.erase( this->grids_.begin(), this->grids_.begin() + 1 );
+      this->union_ = std::vector< X >( this->grids_.front().first, this->grids_.front().second );
+      this->grids_.erase( this->grids_.begin() );
 
       // iterate over the remaining grids
       while ( this->grids_.size() > 0 ) {
 
-        this->union_ = apply_set_union( this->grids_[0].first, this->grids_[0].second,
+        this->union_ = apply_set_union( this->grids_.front().first, this->grids_.front().second ,
                                         this->union_.begin(), this->union_.end() );
         this->grids_.erase( this->grids_.begin() );
       }
