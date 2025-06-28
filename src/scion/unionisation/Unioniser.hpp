@@ -8,7 +8,12 @@
 
 // other includes
 #include "tools/Log.hpp"
+#include "scion/interpolation/InterpolationType.hpp"
+#include "scion/interpolation/Histogram.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
+#include "scion/interpolation/LogarithmicLinear.hpp"
+#include "scion/interpolation/LinearLogarithmic.hpp"
+#include "scion/interpolation/LogarithmicLogarithmic.hpp"
 
 namespace njoy {
 namespace scion {
@@ -19,7 +24,7 @@ namespace unionisation {
    *  @brief A generic unionisation object
    *
    *  This class allows us to generate a union grid based on a given set of
-   *  x grids, and then reevaluate existing tabulated data on the final grid.
+   *  grids, and then reevaluate existing tabulated data on the final grid.
    */
   template < typename XContainer,
              typename XIter = typename XContainer::const_iterator >
@@ -153,12 +158,12 @@ namespace unionisation {
      *
      *  A grid is only compatible with the unionised grid if all points in the
      *  the grid are present in the unionised grid. If the grid has duplicate points,
-     *  those points must have duplicated in the unionised grid. If the start and/or end
+     *  those points must have duplicates in the unionised grid. If the start and/or end
      *  point of the grid and the unionised grid are not the same, then those points
      *  must have duplicates in the unionised grid. This function can be used
      *  prior to calling the evaluate() function to ensure that the contraints for
      *  that function are met (putting this test in the generate() function would
-     *  cause too much overhead there so we decided against that).
+     *  cause too much overhead in that function so we decided against that).
      *
      *  @param[in] grid   the grid to be verified
      */
@@ -232,15 +237,18 @@ namespace unionisation {
      *  would introduce too much overhead that might not be necessary (e.g.
      *  when the user is actually paying attention to what they are doing).
      *
-     *  This function also assumes that the tabulated values can be interpolated
-     *  linearly.
-     *
-     *  @param[in] x   the x grid of the table
-     *  @param[in] y   the y grid of the table
+     *  @param[in] x              the x grid of the table
+     *  @param[in] y              the y grid of the table
+     *  @param[in] boundaries     the boundaries of the interpolation regions
+     *  @param[in] interpolants   the interpolation types of the interpolation regions
      */
-    template < typename YContainer = XContainer,
+    template < typename BContainer,
+               typename IContainer,
+               typename YContainer = XContainer,
                typename Y = typename std::decay< typename YContainer::value_type >::type >
-    std::vector< Y > evaluate( const XContainer& x, const YContainer& y ) const {
+    std::vector< Y > evaluate( const XContainer& x, const YContainer& y,
+                               const BContainer& boundaries,
+                               const IContainer& interpolants ) const {
 
       std::vector< Y > result( this->grid().size(), Y( 0. ) );
 
@@ -254,30 +262,100 @@ namespace unionisation {
 
       auto xTable = x.begin();
       auto yTable = y.begin();
+      auto bTable = boundaries.begin();
+      auto iTable = interpolants.begin();
 
+      std::size_t current = 0;
       for ( ; xIter != this->grid().end(); ++xIter ) {
 
         if ( *xIter < *xTable ) {
 
-          //! @todo extend this to any interpolation type?
-          *yIter = interpolation::linlin( *xIter, *std::prev( xTable ), *xTable,
-                                                  *std::prev( yTable ), *yTable );
+          switch ( *iTable ) {
+
+            case interpolation::InterpolationType::Histogram : {
+
+              *yIter = interpolation::histogram( *xIter, *std::prev( xTable ), *xTable,
+                                                         *std::prev( yTable ), *yTable );
+              break;
+            }
+            case interpolation::InterpolationType::LinearLinear : {
+
+              *yIter = interpolation::linlin( *xIter, *std::prev( xTable ), *xTable,
+                                                      *std::prev( yTable ), *yTable );
+              break;
+            }
+            case interpolation::InterpolationType::LogLinear : {
+
+              *yIter = interpolation::loglin( *xIter, *std::prev( xTable ), *xTable,
+                                                      *std::prev( yTable ), *yTable );
+              break;
+            }
+            case interpolation::InterpolationType::LinearLog : {
+
+              *yIter = interpolation::linlog( *xIter, *std::prev( xTable ), *xTable,
+                                                      *std::prev( yTable ), *yTable );
+              break;
+            }
+            case interpolation::InterpolationType::LogLog : {
+
+              *yIter = interpolation::loglog( *xIter, *std::prev( xTable ), *xTable,
+                                                      *std::prev( yTable ), *yTable );
+              break;
+            }
+            default : {
+
+              Log::error( "Unreachable code" );
+              throw std::exception();
+            }
+          }
         }
         else {
 
           *yIter = *yTable;
           ++xTable;
           ++yTable;
+          ++current;
 
           if ( x.end() == xTable ) {
 
             break;
+          }
+
+          if ( current > *bTable ) {
+
+            ++bTable;
+            ++iTable;
           }
         }
         ++yIter;
       }
 
       return result;
+    }
+
+    /**
+     *  @brief Evaluate a set of tabulated values on the unionised grid
+     *
+     *  This function assumes that all values in the x grid of the table
+     *  are contained in the unionised grid and that all necessary jumps are
+     *  present. This assumption is NOT verified in this function since it
+     *  would introduce too much overhead that might not be necessary (e.g.
+     *  when the user is actually paying attention to what they are doing).
+     *
+     *  @param[in] x              the x grid of the table
+     *  @param[in] y              the y grid of the table
+     *  @param[in] interpolant    the interpolation type of the table (default lin-lin)
+     */
+    template < typename YContainer = XContainer,
+               typename Y = typename std::decay< typename YContainer::value_type >::type >
+    std::vector< Y > evaluate( const XContainer& x, const YContainer& y,
+                               interpolation::InterpolationType interpolant =
+                                 interpolation::InterpolationType::LinearLinear ) const {
+
+      return evaluate(
+               x, y,
+               std::vector< std::size_t >{ static_cast< std::size_t >( std::distance( x.begin(), x.end() ) ) },
+               std::vector< interpolation::InterpolationType >{ interpolant } );
     }
 
     /**
