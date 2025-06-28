@@ -152,31 +152,85 @@ namespace unionisation {
      *  @brief Return whether or not a grid is compatible with the unionised grid
      *
      *  A grid is only compatible with the unionised grid if all points in the
-     *  the grid are present in the unionised grid. This function can be used
+     *  the grid are present in the unionised grid. If the grid has duplicate points,
+     *  those points must have duplicated in the unionised grid. If the start and/or end
+     *  point of the grid and the unionised grid are not the same, then those points
+     *  must have duplicates in the unionised grid. This function can be used
      *  prior to calling the evaluate() function to ensure that the contraints for
      *  that function are met (putting this test in the generate() function would
-     *  cause too much overhead there).
+     *  cause too much overhead there so we decided against that).
      *
      *  @param[in] grid   the grid to be verified
      */
     bool isComptatible( const XContainer& grid ) const {
 
+      // check if all values are in the unionised grid
       auto find = [this] ( auto&& value ) {
 
         return std::binary_search( this->grid().begin(), this->grid().end(), value );
       };
 
-      return std::all_of( grid.begin(), grid.end(), find );
+      if ( std::all_of( grid.begin(), grid.end(), find ) ) {
+
+        // check if all jumps in the grid are in the unionised grid
+        auto iter = std::adjacent_find( grid.begin(), grid.end() );
+        while ( iter != grid.end() ) {
+
+          // the element is present at least once in the unionised grid
+          // (checked with std::all_of) so lower bound always points to
+          // the value we are looking for. lower_bound can never return
+          // end() for the same reason.
+          auto lower = std::lower_bound( this->grid().begin(), this->grid().end(), *iter );
+          auto upper = std::upper_bound( lower, this->grid().end(), *iter );
+          if ( 1 >= std::distance( lower, upper ) ) {
+
+            return false;
+          }
+
+          // find the next duplicate
+          iter = std::adjacent_find( std::upper_bound( iter, grid.end(), *iter ), grid.end() );
+        }
+
+        // check front value in the grid
+        iter = std::lower_bound( this->grid().begin(), this->grid().end(), grid.front() );
+        if ( iter != this->grid().begin() ) {
+
+          // check for jump
+          auto upper = std::upper_bound( iter, this->grid().end(), grid.front() );
+          if ( 1 >= std::distance( iter, upper ) ) {
+
+            return false;
+          }
+        }
+
+        // check back value in the grid
+        iter = std::lower_bound( this->grid().begin(), this->grid().end(), grid.back() );
+        if ( iter != std::prev( this->grid().end() ) ) {
+
+          // check for jump
+          auto upper = std::upper_bound( iter, this->grid().end(), grid.back() );
+          if ( 1 >= std::distance( iter, upper ) ) {
+
+            return false;
+          }
+        }
+
+        return true;
+      }
+      else {
+
+        return false;
+      }
     }
 
     /**
      *  @brief Evaluate a set of tabulated values on the unionised grid
      *
      *  This function assumes that all values in the x grid of the table
-     *  are contained in the unionised grid. This assumption is NOT verified
-     *  in this function since it would introduce too much overhead that might
-     *  not be necessary (e.g. when the user is actually paying attention to what
-     *  they are doing).
+     *  are contained in the unionised grid and that all necessary jumps are
+     *  present. This assumption is NOT verified in this function since it
+     *  would introduce too much overhead that might not be necessary (e.g.
+     *  when the user is actually paying attention to what they are doing).
      *
      *  This function also assumes that the tabulated values can be interpolated
      *  linearly.
