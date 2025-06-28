@@ -17,6 +17,9 @@ namespace unionisation {
   /**
    *  @class
    *  @brief A generic unionisation object
+   *
+   *  This class allows us to generate a union grid based on a given set of
+   *  x grids, and then reevaluate existing tabulated data on the final grid.
    */
   template < typename XContainer,
              typename XIter = typename XContainer::const_iterator >
@@ -57,7 +60,7 @@ namespace unionisation {
     apply_set_union( const XIter& first1, const XIter& last1,
                      const XIter& first2, const XIter& last2 ) {
 
-      // merge the two grids - keeping a maximum of 2 duplicates
+      // merge the two grids
       // std::back_inserter is slightly less performant it would seem
       std::vector< X > grid( std::distance( first1, last1 ) +
                              std::distance( first2, last2 ) );
