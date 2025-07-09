@@ -13,7 +13,7 @@ operationForLinearisedOnly( const Y& right, BinaryOperation operation ) {
   }
   else {
 
-    Log::error( "Cannot perform scalar operation on a table that has not been linearised" );
+    Log::error( "Cannot perform addition and subtraction of scalars on a table that has not been linearised" );
     throw std::exception();
   }
 }

@@ -396,14 +396,14 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
-        y = unioniser.evaluate( grid1, values1 );
+        y = unioniser.evaluate( grid4, values4 );
 
         CHECK( 5 == y.size() );
         CHECK_THAT( 4., WithinRel( y[0] ) );
         CHECK_THAT( 3., WithinRel( y[1] ) );
         CHECK_THAT( 2., WithinRel( y[2] ) );
-        CHECK_THAT( 2., WithinRel( y[3] ) );
-        CHECK_THAT( 1., WithinRel( y[4] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 2., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid6, values6 );
 
@@ -438,14 +438,14 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
-        y = unioniser.evaluate( grid1, values1 );
+        y = unioniser.evaluate( grid4, values4 );
 
         CHECK( 5 == y.size() );
         CHECK_THAT( 4., WithinRel( y[0] ) );
         CHECK_THAT( 3., WithinRel( y[1] ) );
         CHECK_THAT( 2., WithinRel( y[2] ) );
-        CHECK_THAT( 2., WithinRel( y[3] ) );
-        CHECK_THAT( 1., WithinRel( y[4] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 2., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid6, values6 );
 
@@ -539,6 +539,9 @@ SCENARIO( "unionisation grids" ) {
         CHECK( true  == unioniser.isComptatible( grid4 ) );
         CHECK( true  == unioniser.isComptatible( grid5 ) );
         CHECK( true  == unioniser.isComptatible( grid6 ) );
+        CHECK( true  == unioniser.isComptatible( grid7 ) );
+        CHECK( true  == unioniser.isComptatible( grid8 ) );
+        CHECK( false == unioniser.isComptatible( grid9 ) );
 
         y = unioniser.evaluate( grid1, values1 );
 
