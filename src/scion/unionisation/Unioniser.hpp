@@ -360,6 +360,53 @@ namespace unionisation {
     }
 
     /**
+     *  @brief Update the boundaries and interpolants
+     *
+     *  @param[in] x              the x grid of the table
+     *  @param[in] boundaries     the boundaries of the interpolation regions
+     *  @param[in] interpolants   the interpolation types of the interpolation regions
+     */
+    template < typename BContainer, typename IContainer >
+    std::pair< std::vector< std::size_t >, std::vector< interpolation::InterpolationType > >
+    updateBoundariesAndInterpolants( const XContainer& x,
+                                     const BContainer& boundaries,
+                                     const IContainer& interpolants ) const {
+
+      std::vector< std::size_t > newboundaries;
+      std::vector< interpolation::InterpolationType > newinterpolants( interpolants.begin(), interpolants.end() );
+      if ( x.front() != this->grid().front() ) {
+
+        if ( newinterpolants.front() != interpolation::InterpolationType::LinearLinear ) {
+
+          auto iter = std::lower_bound( this->grid().begin(), this->grid().end(), x.front() );
+          newboundaries.push_back( std::distance( this->grid().begin(), iter ) );
+          newinterpolants.insert( newinterpolants.begin(), interpolation::InterpolationType::LinearLinear );
+        }
+      }
+
+      for ( const auto& index : boundaries ) {
+
+        auto iter = std::lower_bound( this->grid().begin(), this->grid().end(), x[index] );
+        newboundaries.push_back( std::distance( this->grid().begin(), iter ) );
+      }
+
+      if ( newboundaries.back() != this->grid().size() - 1 ) {
+
+        if ( newinterpolants.back() != interpolation::InterpolationType::LinearLinear ) {
+
+          newboundaries.push_back( this->grid().size() - 1 );
+          newinterpolants.push_back( interpolation::InterpolationType::LinearLinear );
+        }
+        else {
+
+          newboundaries.back() = this->grid().size() - 1;
+        }
+      }
+
+      return std::make_pair( std::move( newboundaries ), std::move( newinterpolants ) );
+    }
+
+    /**
      *  @brief Clear all objects in the unioniser
      */
     void clear() {
