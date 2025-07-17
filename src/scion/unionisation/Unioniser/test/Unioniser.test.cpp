@@ -10,6 +10,7 @@ using Catch::Matchers::WithinRel;
 
 // convenience typedefs
 using namespace njoy::scion;
+using namespace njoy::scion::interpolation;
 
 SCENARIO( "unionisation grids" ) {
 
@@ -32,14 +33,35 @@ SCENARIO( "unionisation grids" ) {
     std::vector< double > values5 = { 4., 3., 4., 3., 4., 3. };
     std::vector< double > values6 = { 4., 3., 2. };
     std::vector< double > values7 = { 4., 3., 2. };
-    std::vector< double > values8 = { 4., 3., 2. };
+    std::vector< double > values8 = { 4., 3. };
     std::vector< double > values9 = { 4., 3., 2. };
+
+    std::vector< std::size_t > boundaries1 = { 2, 3 };
+    std::vector< std::size_t > boundaries2 = { 6 };
+    std::vector< std::size_t > boundaries3 = { 1, 4 };
+    std::vector< std::size_t > boundaries4 = { 2, 4 };
+    std::vector< std::size_t > boundaries5 = { 1, 3, 5 };
+    std::vector< std::size_t > boundaries6 = { 2 };
+    std::vector< std::size_t > boundaries7 = { 2 };
+    std::vector< std::size_t > boundaries8 = { 1 };
+    std::vector< std::size_t > boundaries9 = { 2 };
+
+    std::vector< InterpolationType > interpolants1 = { InterpolationType::Histogram, InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants2 = { InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants3 = { InterpolationType::LinearLinear, InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants4 = { InterpolationType::LinearLinear, InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants5 = { InterpolationType::LinearLinear, InterpolationType::Histogram, InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants6 = { InterpolationType::Histogram };
+    std::vector< InterpolationType > interpolants7 = { InterpolationType::Histogram };
+    std::vector< InterpolationType > interpolants8 = { InterpolationType::Histogram };
+    std::vector< InterpolationType > interpolants9 = { InterpolationType::LinearLinear };
 
     unionisation::Unioniser< std::vector< double > > unioniser;
 
     WHEN( "the grids are unionised" ) {
 
-      THEN( "the right grid is returned and tables can be reevaluated" ) {
+      THEN( "the right grid is returned, tables can be reevaluated and updated "
+            "boundaries and interpolants can be retrieved" ) {
 
         // same grid => no change
         unioniser.addGrid( grid1 );
@@ -62,7 +84,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
-        std::vector< double > y = unioniser.evaluate( grid1, values1 );
+        std::vector< double > y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 4 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 1., WithinRel( y[3] ) );
+
+        y = unioniser.evaluate( grid1, values1 ); // this assumes lin-lin across the grid
 
         CHECK( 4 == y.size() );
         CHECK_THAT( 4., WithinRel( y[0] ) );
@@ -95,7 +125,18 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
-        y = unioniser.evaluate( grid1, values1 );
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 7 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 4. , WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 2. , WithinRel( y[4] ) );
+        CHECK_THAT( 1.5, WithinRel( y[5] ) );
+        CHECK_THAT( 1. , WithinRel( y[6] ) );
+
+        y = unioniser.evaluate( grid1, values1 ); // this assumes lin-lin across the grid
 
         CHECK( 7 == y.size() );
         CHECK_THAT( 4. , WithinRel( y[0] ) );
@@ -106,7 +147,18 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 1.5, WithinRel( y[5] ) );
         CHECK_THAT( 1. , WithinRel( y[6] ) );
 
-        y = unioniser.evaluate( grid2, values2 );
+        y = unioniser.evaluate( grid2, values2, boundaries2, interpolants2 );
+
+        CHECK( 7 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 2.5, WithinRel( y[3] ) );
+        CHECK_THAT( 2. , WithinRel( y[4] ) );
+        CHECK_THAT( 1.5, WithinRel( y[5] ) );
+        CHECK_THAT( 1. , WithinRel( y[6] ) );
+
+        y = unioniser.evaluate( grid2, values2 ); // this assumes lin-lin across the grid, so same as above
 
         CHECK( 7 == y.size() );
         CHECK_THAT( 4. , WithinRel( y[0] ) );
@@ -140,6 +192,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 3., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
+        CHECK_THAT( 1., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid1, values1 );
 
         CHECK( 5 == y.size() );
@@ -148,6 +209,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( y[2] ) );
         CHECK_THAT( 2., WithinRel( y[3] ) );
         CHECK_THAT( 1., WithinRel( y[4] ) );
+
+        y = unioniser.evaluate( grid3, values3, boundaries3, interpolants3 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 4., WithinRel( y[2] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 2., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid3, values3 );
 
@@ -181,6 +251,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 3., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
+        CHECK_THAT( 1., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid1, values1 );
 
         CHECK( 5 == y.size() );
@@ -189,6 +268,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( y[2] ) );
         CHECK_THAT( 2., WithinRel( y[3] ) );
         CHECK_THAT( 1., WithinRel( y[4] ) );
+
+        y = unioniser.evaluate( grid3, values3, boundaries3, interpolants3 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 4., WithinRel( y[2] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 2., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid3, values3 );
 
@@ -224,6 +312,16 @@ SCENARIO( "unionisation grids" ) {
         CHECK( true  == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid3, values3, boundaries3, interpolants3 );
+
+        CHECK( 6 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 4., WithinRel( y[2] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 3., WithinRel( y[4] ) );
+        CHECK_THAT( 2., WithinRel( y[5] ) );
+
         y = unioniser.evaluate( grid3, values3 );
 
         CHECK( 6 == y.size() );
@@ -231,6 +329,16 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( y[1] ) );
         CHECK_THAT( 4., WithinRel( y[2] ) );
         CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 3., WithinRel( y[4] ) );
+        CHECK_THAT( 2., WithinRel( y[5] ) );
+
+        y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
+
+        CHECK( 6 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 3., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
         CHECK_THAT( 3., WithinRel( y[4] ) );
         CHECK_THAT( 2., WithinRel( y[5] ) );
 
@@ -269,6 +377,16 @@ SCENARIO( "unionisation grids" ) {
         CHECK( true  == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
+
+        CHECK( 6 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 3., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
+        CHECK_THAT( 3., WithinRel( y[4] ) );
+        CHECK_THAT( 2., WithinRel( y[5] ) );
+
         y = unioniser.evaluate( grid4, values4 );
 
         CHECK( 6 == y.size() );
@@ -278,6 +396,16 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2., WithinRel( y[3] ) );
         CHECK_THAT( 3., WithinRel( y[4] ) );
         CHECK_THAT( 2., WithinRel( y[5] ) );
+
+        y = unioniser.evaluate( grid5, values5, boundaries5, interpolants5 );
+
+        CHECK( 6 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 4., WithinRel( y[2] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 4., WithinRel( y[4] ) );
+        CHECK_THAT( 3., WithinRel( y[5] ) );
 
         y = unioniser.evaluate( grid5, values5 );
 
@@ -312,6 +440,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
+        CHECK_THAT( 1., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid1, values1 );
 
         CHECK( 5 == y.size() );
@@ -320,6 +457,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2., WithinRel( y[2] ) );
         CHECK_THAT( 2., WithinRel( y[3] ) );
         CHECK_THAT( 1., WithinRel( y[4] ) );
+
+        y = unioniser.evaluate( grid6, values6, boundaries6, interpolants6 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 0., WithinRel( y[3] ) );
+        CHECK_THAT( 0., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid6, values6 );
 
@@ -354,6 +500,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
+        CHECK_THAT( 1., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid1, values1 );
 
         CHECK( 5 == y.size() );
@@ -363,6 +518,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2., WithinRel( y[3] ) );
         CHECK_THAT( 1., WithinRel( y[4] ) );
 
+        y = unioniser.evaluate( grid6, values6, boundaries6, interpolants6 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 0., WithinRel( y[3] ) );
+        CHECK_THAT( 0., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid6, values6 );
 
         CHECK( 5 == y.size() );
@@ -396,6 +560,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 2., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid4, values4 );
 
         CHECK( 5 == y.size() );
@@ -404,6 +577,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2., WithinRel( y[2] ) );
         CHECK_THAT( 3., WithinRel( y[3] ) );
         CHECK_THAT( 2., WithinRel( y[4] ) );
+
+        y = unioniser.evaluate( grid6, values6, boundaries6, interpolants6 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 0., WithinRel( y[3] ) );
+        CHECK_THAT( 0., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid6, values6 );
 
@@ -438,6 +620,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 3., WithinRel( y[3] ) );
+        CHECK_THAT( 2., WithinRel( y[4] ) );
+
         y = unioniser.evaluate( grid4, values4 );
 
         CHECK( 5 == y.size() );
@@ -446,6 +637,15 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2., WithinRel( y[2] ) );
         CHECK_THAT( 3., WithinRel( y[3] ) );
         CHECK_THAT( 2., WithinRel( y[4] ) );
+
+        y = unioniser.evaluate( grid6, values6, boundaries6, interpolants6 );
+
+        CHECK( 5 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 0., WithinRel( y[3] ) );
+        CHECK_THAT( 0., WithinRel( y[4] ) );
 
         y = unioniser.evaluate( grid6, values6 );
 
@@ -483,6 +683,19 @@ SCENARIO( "unionisation grids" ) {
         CHECK( false == unioniser.isComptatible( grid8 ) );
         CHECK( true  == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 4. , WithinRel( y[1] ) );
+        CHECK_THAT( 4. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 3. , WithinRel( y[4] ) );
+        CHECK_THAT( 2. , WithinRel( y[5] ) );
+        CHECK_THAT( 1.5, WithinRel( y[6] ) );
+        CHECK_THAT( 1.5, WithinRel( y[7] ) );
+        CHECK_THAT( 1. , WithinRel( y[8] ) );
+
         y = unioniser.evaluate( grid1, values1 );
 
         CHECK( 9 == y.size() );
@@ -495,6 +708,19 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 1.5, WithinRel( y[6] ) );
         CHECK_THAT( 1.5, WithinRel( y[7] ) );
         CHECK_THAT( 1. , WithinRel( y[8] ) );
+
+        y = unioniser.evaluate( grid9, values9, boundaries9, interpolants9 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 0. , WithinRel( y[0] ) );
+        CHECK_THAT( 0. , WithinRel( y[1] ) );
+        CHECK_THAT( 4. , WithinRel( y[2] ) );
+        CHECK_THAT( 3.5, WithinRel( y[3] ) );
+        CHECK_THAT( 3. , WithinRel( y[4] ) );
+        CHECK_THAT( 2.5, WithinRel( y[5] ) );
+        CHECK_THAT( 2. , WithinRel( y[6] ) );
+        CHECK_THAT( 0. , WithinRel( y[7] ) );
+        CHECK_THAT( 0. , WithinRel( y[8] ) );
 
         y = unioniser.evaluate( grid9, values9 );
 
@@ -509,8 +735,7 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 0. , WithinRel( y[7] ) );
         CHECK_THAT( 0. , WithinRel( y[8] ) );
 
-        // different grids with different end points (duplicate end point in
-        // other grid)
+        // multiple grids at once
         unioniser.clear();
         unioniser.addGrid( grid1 );
         unioniser.addGrid( grid2 );
@@ -543,7 +768,43 @@ SCENARIO( "unionisation grids" ) {
         CHECK( true  == unioniser.isComptatible( grid8 ) );
         CHECK( false == unioniser.isComptatible( grid9 ) );
 
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 4. , WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 3. , WithinRel( y[4] ) );
+        CHECK_THAT( 2. , WithinRel( y[5] ) );
+        CHECK_THAT( 2. , WithinRel( y[6] ) );
+        CHECK_THAT( 1.5, WithinRel( y[7] ) );
+        CHECK_THAT( 1. , WithinRel( y[8] ) );
+
         y = unioniser.evaluate( grid1, values1 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 2.5, WithinRel( y[4] ) );
+        CHECK_THAT( 2. , WithinRel( y[5] ) );
+        CHECK_THAT( 2. , WithinRel( y[6] ) );
+        CHECK_THAT( 1.5, WithinRel( y[7] ) );
+        CHECK_THAT( 1. , WithinRel( y[8] ) );
+
+        std::pair< std::vector< std::size_t >, std::vector< InterpolationType> >
+        pair = unioniser.updateBoundariesAndInterpolants( grid1, boundaries1, interpolants1 );
+
+        CHECK( 2 == pair.first.size() );
+        CHECK( 2 == pair.second.size() );
+        CHECK( 5 == pair.first[0] );
+        CHECK( 8 == pair.first[1] );
+        CHECK( InterpolationType::Histogram == pair.second[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[1] );
+
+        y = unioniser.evaluate( grid2, values2, boundaries2, interpolants2 );
 
         CHECK( 9 == y.size() );
         CHECK_THAT( 4. , WithinRel( y[0] ) );
@@ -569,6 +830,26 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 1.5, WithinRel( y[7] ) );
         CHECK_THAT( 1. , WithinRel( y[8] ) );
 
+        pair = unioniser.updateBoundariesAndInterpolants( grid2, boundaries2, interpolants2 );
+
+        CHECK( 1 == pair.first.size() );
+        CHECK( 1 == pair.second.size() );
+        CHECK( 8 == pair.first[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+
+        y = unioniser.evaluate( grid3, values3, boundaries3, interpolants3 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 4. , WithinRel( y[3] ) );
+        CHECK_THAT( 3.5, WithinRel( y[4] ) );
+        CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 3. , WithinRel( y[6] ) );
+        CHECK_THAT( 2.5, WithinRel( y[7] ) );
+        CHECK_THAT( 2. , WithinRel( y[8] ) );
+
         y = unioniser.evaluate( grid3, values3 );
 
         CHECK( 9 == y.size() );
@@ -578,6 +859,28 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 4. , WithinRel( y[3] ) );
         CHECK_THAT( 3.5, WithinRel( y[4] ) );
         CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 3. , WithinRel( y[6] ) );
+        CHECK_THAT( 2.5, WithinRel( y[7] ) );
+        CHECK_THAT( 2. , WithinRel( y[8] ) );
+
+        pair = unioniser.updateBoundariesAndInterpolants( grid3, boundaries3, interpolants3 );
+
+        CHECK( 2 == pair.first.size() );
+        CHECK( 2 == pair.second.size() );
+        CHECK( 2 == pair.first[0] );
+        CHECK( 8 == pair.first[1] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[1] );
+
+        y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 2.5, WithinRel( y[4] ) );
+        CHECK_THAT( 2. , WithinRel( y[5] ) );
         CHECK_THAT( 3. , WithinRel( y[6] ) );
         CHECK_THAT( 2.5, WithinRel( y[7] ) );
         CHECK_THAT( 2. , WithinRel( y[8] ) );
@@ -595,6 +898,28 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2.5, WithinRel( y[7] ) );
         CHECK_THAT( 2. , WithinRel( y[8] ) );
 
+        pair = unioniser.updateBoundariesAndInterpolants( grid4, boundaries4, interpolants4 );
+
+        CHECK( 2 == pair.first.size() );
+        CHECK( 2 == pair.second.size() );
+        CHECK( 5 == pair.first[0] );
+        CHECK( 8 == pair.first[1] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[1] );
+
+        y = unioniser.evaluate( grid5, values5, boundaries5, interpolants5 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 4. , WithinRel( y[3] ) );
+        CHECK_THAT( 4. , WithinRel( y[4] ) );
+        CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 4. , WithinRel( y[6] ) );
+        CHECK_THAT( 3.5, WithinRel( y[7] ) );
+        CHECK_THAT( 3. , WithinRel( y[8] ) );
+
         y = unioniser.evaluate( grid5, values5 );
 
         CHECK( 9 == y.size() );
@@ -607,6 +932,30 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 4. , WithinRel( y[6] ) );
         CHECK_THAT( 3.5, WithinRel( y[7] ) );
         CHECK_THAT( 3. , WithinRel( y[8] ) );
+
+        pair = unioniser.updateBoundariesAndInterpolants( grid5, boundaries5, interpolants5 );
+
+        CHECK( 3 == pair.first.size() );
+        CHECK( 3 == pair.second.size() );
+        CHECK( 2 == pair.first[0] );
+        CHECK( 5 == pair.first[1] );
+        CHECK( 8 == pair.first[2] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+        CHECK( InterpolationType::Histogram == pair.second[1] );
+        CHECK( InterpolationType::LinearLinear == pair.second[2] );
+
+        y = unioniser.evaluate( grid6, values6, boundaries6, interpolants6 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 4. , WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 3. , WithinRel( y[4] ) );
+        CHECK_THAT( 2. , WithinRel( y[5] ) );
+        CHECK_THAT( 0. , WithinRel( y[6] ) );
+        CHECK_THAT( 0. , WithinRel( y[7] ) );
+        CHECK_THAT( 0. , WithinRel( y[8] ) );
 
         y = unioniser.evaluate( grid6, values6 );
 
@@ -621,6 +970,28 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 0. , WithinRel( y[7] ) );
         CHECK_THAT( 0. , WithinRel( y[8] ) );
 
+        pair = unioniser.updateBoundariesAndInterpolants( grid6, boundaries6, interpolants6 );
+
+        CHECK( 2 == pair.first.size() );
+        CHECK( 2 == pair.second.size() );
+        CHECK( 5 == pair.first[0] );
+        CHECK( 8 == pair.first[1] );
+        CHECK( InterpolationType::Histogram == pair.second[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[1] );
+
+        y = unioniser.evaluate( grid7, values7, boundaries7, interpolants7 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 0. , WithinRel( y[0] ) );
+        CHECK_THAT( 0. , WithinRel( y[1] ) );
+        CHECK_THAT( 0. , WithinRel( y[2] ) );
+        CHECK_THAT( 4. , WithinRel( y[3] ) );
+        CHECK_THAT( 4., WithinRel( y[4] ) );
+        CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 3. , WithinRel( y[6] ) );
+        CHECK_THAT( 3. , WithinRel( y[7] ) );
+        CHECK_THAT( 2. , WithinRel( y[8] ) );
+
         y = unioniser.evaluate( grid7, values7 );
 
         CHECK( 9 == y.size() );
@@ -634,6 +1005,28 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 2.5, WithinRel( y[7] ) );
         CHECK_THAT( 2. , WithinRel( y[8] ) );
 
+        pair = unioniser.updateBoundariesAndInterpolants( grid7, boundaries7, interpolants7 );
+
+        CHECK( 2 == pair.first.size() );
+        CHECK( 2 == pair.second.size() );
+        CHECK( 2 == pair.first[0] );
+        CHECK( 8 == pair.first[1] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+        CHECK( InterpolationType::Histogram == pair.second[1] );
+
+        y = unioniser.evaluate( grid8, values8, boundaries8, interpolants8 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 0. , WithinRel( y[0] ) );
+        CHECK_THAT( 0. , WithinRel( y[1] ) );
+        CHECK_THAT( 0. , WithinRel( y[2] ) );
+        CHECK_THAT( 4. , WithinRel( y[3] ) );
+        CHECK_THAT( 4. , WithinRel( y[4] ) );
+        CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 0. , WithinRel( y[6] ) );
+        CHECK_THAT( 0. , WithinRel( y[7] ) );
+        CHECK_THAT( 0. , WithinRel( y[8] ) );
+
         y = unioniser.evaluate( grid8, values8 );
 
         CHECK( 9 == y.size() );
@@ -646,6 +1039,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 0. , WithinRel( y[6] ) );
         CHECK_THAT( 0. , WithinRel( y[7] ) );
         CHECK_THAT( 0. , WithinRel( y[8] ) );
+
+        pair = unioniser.updateBoundariesAndInterpolants( grid8, boundaries8, interpolants8 );
+
+        CHECK( 3 == pair.first.size() );
+        CHECK( 3 == pair.second.size() );
+        CHECK( 2 == pair.first[0] );
+        CHECK( 5 == pair.first[1] );
+        CHECK( 8 == pair.first[2] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+        CHECK( InterpolationType::Histogram == pair.second[1] );
+        CHECK( InterpolationType::LinearLinear == pair.second[2] );
       } // THEN
     } // WHEN
   } // GIVEN
