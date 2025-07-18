@@ -130,9 +130,17 @@ namespace unionisation {
     const std::vector< X >& unionise() {
 
       // generate a first union grid
-      this->union_ = apply_set_union( this->grids_[0].first, this->grids_[0].second,
-                                      this->grids_[1].first, this->grids_[1].second );
-      this->grids_.erase( this->grids_.begin(), this->grids_.begin() + 2 );
+      if ( this->grids_.size() > 1 ) {
+
+        this->union_ = apply_set_union( this->grids_[0].first, this->grids_[0].second,
+                                        this->grids_[1].first, this->grids_[1].second );
+        this->grids_.erase( this->grids_.begin(), this->grids_.begin() + 2 );
+      }
+      else if ( this->grids_.size() == 1 ) {
+
+        this->union_ = std::vector< X >{ this->grids_[0].first, this->grids_[0].second };
+        this->grids_.erase( this->grids_.begin() );
+      }
 
       // iterate over the remaining grids
       while ( this->grids_.size() > 0 ) {
