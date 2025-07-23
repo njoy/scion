@@ -9,7 +9,7 @@
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
-#include "scion/integration/integrate.hpp"
+#include "scion/integration/integral.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/verification/ranges.hpp"
 
@@ -105,7 +105,7 @@ namespace math {
     template < typename Integrator >
     auto integrate( const Integrator& integrator ) const {
 
-      return integration::integrate( this->x(), this->y(), integrator );
+      return integration::integral( this->x(), this->y(), integrator );
     }
   };
 

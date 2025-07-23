@@ -1,1 +1,1 @@
-add_cpp_test( integration.integrate integrate.test.cpp )
+add_cpp_test( integration.integral integral.test.cpp )

@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_INTEGRATION_INTEGRATE
-#define NJOY_SCION_INTEGRATION_INTEGRATE
+#ifndef NJOY_SCION_INTEGRATION_INTEGRAL
+#define NJOY_SCION_INTEGRATION_INTEGRAL
 
 // system includes
 
@@ -19,8 +19,8 @@ namespace integration {
    *  @param[in]     integrator   the integrator to be applied
    */
   template< typename XIterator, typename YIterator, typename Integrator >
-  auto integrate( XIterator& xbegin, const XIterator& xend,
-                  YIterator& ybegin, const Integrator& integrator ) {
+  auto integral( XIterator& xbegin, const XIterator& xend,
+                 YIterator& ybegin, const Integrator& integrator ) {
 
     auto result = integrator( *xbegin, *xbegin, *ybegin, *ybegin );
     while ( xbegin != xend ) {
@@ -42,13 +42,13 @@ namespace integration {
    *  @param[in]     integrator   the integrator to be applied
    */
   template< typename XRange, typename YRange, typename Integrator >
-  auto integrate( const XRange& x, const YRange& y,
-                  const Integrator& integrator ) {
+  auto integral( const XRange& x, const YRange& y,
+                 const Integrator& integrator ) {
 
     // the iterators point to the end of the first interval
     auto xbegin = std::begin( x ) + 1;
     auto ybegin = std::begin( y ) + 1;
-    return integrate( xbegin, x.end(), ybegin, integrator );
+    return integral( xbegin, x.end(), ybegin, integrator );
   }
 
 } // integration namespace
