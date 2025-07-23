@@ -82,6 +82,24 @@ SCENARIO( "LogLogTable" ) {
         CHECK_THAT( 10.3092587344326, WithinRel( chunk.integral() ) );
       } // THEN
 
+      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. )
+        //                                     + integrator( chunk, 3.,  4. ) << std::endl;
+        auto cumulative = chunk.cumulativeIntegral( 0. );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT(  0.              , WithinRel( cumulative[0] ) );
+        CHECK_THAT(  4.42430954207085, WithinRel( cumulative[1] ) );
+        CHECK_THAT(  7.86678413825171, WithinRel( cumulative[2] ) );
+        CHECK_THAT( 10.3092587344326 , WithinRel( cumulative[3] ) );
+      } // THEN
+
       THEN( "the first raw moment of a LogLinearTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
@@ -225,6 +243,24 @@ SCENARIO( "LogLogTable" ) {
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
         CHECK_THAT( 10.3092587344326, WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. )
+        //                                     + integrator( chunk, 3.,  4. ) << std::endl;
+        auto cumulative = chunk.cumulativeIntegral( 0. );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT(  0.              , WithinRel( cumulative[0] ) );
+        CHECK_THAT(  4.42430954207085, WithinRel( cumulative[1] ) );
+        CHECK_THAT(  7.86678413825171, WithinRel( cumulative[2] ) );
+        CHECK_THAT( 10.3092587344326 , WithinRel( cumulative[3] ) );
       } // THEN
 
       THEN( "the first raw moment of a LogLinearTable can be calculated" ) {

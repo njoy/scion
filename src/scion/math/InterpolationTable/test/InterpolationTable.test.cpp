@@ -170,6 +170,16 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
       } // THEN
 
+      THEN( "the cumulative integral of an InterpolationTable can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegral();
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 6. , WithinRel( cumulative[2] ) );
+        CHECK_THAT( 7.5, WithinRel( cumulative[3] ) );
+      } // THEN
+
       THEN( "the first raw moment of an InterpolationTable can be calculated" ) {
 
         // f(x) = 5 - x
@@ -850,6 +860,17 @@ SCENARIO( "InterpolationTable" ) {
 
         // ( 4 + 3 ) / 2 + ( 4 + 2 ) * 2 / 2 = 9.5
         CHECK_THAT( 9.5, WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral of an InterpolationTable can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegral();
+        CHECK( 5 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 3.5, WithinRel( cumulative[2] ) );
+        CHECK_THAT( 7. , WithinRel( cumulative[3] ) );
+        CHECK_THAT( 9.5, WithinRel( cumulative[4] ) );
       } // THEN
 
       THEN( "the first raw moment of an InterpolationTable can be calculated" ) {
@@ -1581,6 +1602,24 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 7.44236295915864, WithinRel( chunk.integral() ) );
       } // THEN
 
+      THEN( "the cumulative integral of an InterpolationTable can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. )
+        //                                     + integrator( chunk, 3.,  4. ) << std::endl;
+        auto cumulative = chunk.cumulativeIntegral();
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0.              , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[1] ) );
+        CHECK_THAT( 5.96630346237643, WithinRel( cumulative[2] ) );
+        CHECK_THAT( 7.44236295915864, WithinRel( cumulative[3] ) );
+      } // THEN
+
       THEN( "the first raw moment of an InterpolationTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
@@ -1896,6 +1935,25 @@ SCENARIO( "InterpolationTable" ) {
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
         CHECK_THAT( 9.44236295915864, WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral of an InterpolationTable can be calculated" ) {
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. ) << ' '
+        //                                    << integrator( chunk, 1.,  2. )
+        //                                     + integrator( chunk, 2.,  3. )
+        //                                     + integrator( chunk, 3.,  4. ) << std::endl;
+        auto cumulative = chunk.cumulativeIntegral();
+        CHECK( 5 == cumulative.size() );
+        CHECK_THAT( 0.              , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[1] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[2] ) );
+        CHECK_THAT( 6.96630346237643, WithinRel( cumulative[3] ) );
+        CHECK_THAT( 9.44236295915864, WithinRel( cumulative[4] ) );
       } // THEN
 
       THEN( "the first raw moment of an InterpolationTable can be calculated" ) {
@@ -2241,8 +2299,8 @@ SCENARIO( "InterpolationTable" ) {
       InterpolationTable< double > equal( { 1., 2., 3. }, { 1., 2., 3. } );
       InterpolationTable< double > different1( { 1., 2., 3. }, { 1., 0., 3. } );
       InterpolationTable< double > different2( { 1., 2., 3. }, { 1., 2., 3. }, InterpolationType::LogLog );
-      InterpolationTable< double > different3( { 1., 2., 3. }, { 1., 2., 3. }, 
-                                               { 1, 2 }, 
+      InterpolationTable< double > different3( { 1., 2., 3. }, { 1., 2., 3. },
+                                               { 1, 2 },
                                                { InterpolationType::LinearLinear, InterpolationType::LogLog } );
 
       THEN( "they can be compared" ) {

@@ -363,7 +363,7 @@ namespace math {
 
           result.insert( result.end(), integrals.begin(), std::prev( integrals.end() ) );
         }
-        first = result.back();
+        first = integrals.back();
       }
 
       return result;

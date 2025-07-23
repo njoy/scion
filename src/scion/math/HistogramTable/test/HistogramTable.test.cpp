@@ -72,6 +72,16 @@ SCENARIO( "HistogramTable" ) {
         CHECK_THAT( 9., WithinRel( chunk.integral() ) );
       } // THEN
 
+      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegral( 0. );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0., WithinRel( cumulative[0] ) );
+        CHECK_THAT( 4., WithinRel( cumulative[1] ) );
+        CHECK_THAT( 7., WithinRel( cumulative[2] ) );
+        CHECK_THAT( 9., WithinRel( cumulative[3] ) );
+      } // THEN
+
       THEN( "the first raw moment of a HistogramTable can be calculated" ) {
 
         // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
@@ -167,6 +177,16 @@ SCENARIO( "HistogramTable" ) {
 
         // 4 + 3 + 2 = 9
         CHECK_THAT( 9., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegral( 0. );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0., WithinRel( cumulative[0] ) );
+        CHECK_THAT( 4., WithinRel( cumulative[1] ) );
+        CHECK_THAT( 7., WithinRel( cumulative[2] ) );
+        CHECK_THAT( 9., WithinRel( cumulative[3] ) );
       } // THEN
 
       THEN( "the mean value of a HistogramTable can be calculated" ) {

@@ -72,6 +72,16 @@ SCENARIO( "LinearLinearTable" ) {
         CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
       } // THEN
 
+      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegral( 0. );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 6. , WithinRel( cumulative[2] ) );
+        CHECK_THAT( 7.5, WithinRel( cumulative[3] ) );
+      } // THEN
+
       THEN( "the first raw moment of a LinearLinearTable can be calculated" ) {
 
         // f(x) = 5 - x
@@ -155,6 +165,16 @@ SCENARIO( "LinearLinearTable" ) {
 
         // ( 4 + 1 ) * 3 / 2 = 7.5
         CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegral( 0. );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 6. , WithinRel( cumulative[2] ) );
+        CHECK_THAT( 7.5, WithinRel( cumulative[3] ) );
       } // THEN
 
       THEN( "the first raw moment of a LinearLinearTable can be calculated" ) {
