@@ -96,6 +96,17 @@ namespace math {
     }
 
     /**
+     *  @brief Calculate the cumulative integral of the table over its domain
+     *
+     *  @param[in] first   the first value of the cumulative integral
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    std::vector< I > cumulativeIntegral( const I& first ) const {
+
+      return Parent::cumulativeIntegral( first, integration::loglog );
+    }
+
+    /**
      *  @brief Calculate the mean (first order raw moment) of the table over its domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
