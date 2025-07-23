@@ -10,6 +10,7 @@
 #include "scion/linearisation/MidpointSplit.hpp"
 #include "scion/linearisation/Lineariser.hpp"
 #include "scion/integration/integral.hpp"
+#include "scion/integration/cumulativeIntegral.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/verification/ranges.hpp"
 
@@ -100,12 +101,28 @@ namespace math {
     using Parent::isSameDomain;
 
     /**
-     *  @brief Apply an analytical integrator over each panel in the table
+     *  @brief Calculate the integral by applying an analytical integrator
+     *         over each panel in the table
+     *
+     *  @param[in] integrator   the integrator to be applied
      */
     template < typename Integrator >
-    auto integrate( const Integrator& integrator ) const {
+    auto integral( const Integrator& integrator ) const {
 
       return integration::integral( this->x(), this->y(), integrator );
+    }
+
+    /**
+     *  @brief Calculate the cumulative integral by applying an analytical integrator
+     *         over each panel in the table
+     *
+     *  @param[in] first        the first value of the cumulative integral
+     *  @param[in] integrator   the integrator to be applied
+     */
+    template < typename I, typename Integrator >
+    auto cumulativeIntegral( const I& first, const Integrator& integrator ) const {
+
+      return integration::cumulativeIntegral( first, this->x(), this->y(), integrator );
     }
   };
 

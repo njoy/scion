@@ -11,7 +11,7 @@ namespace scion {
 namespace integration {
 
   /**
-   *  @brief Calculate the result of applying an analytical integrator
+   *  @brief Calculate the cumulative integral by applying an analytical integrator
    *         on tabulated x and y values
    *
    *  @param[in]     first        the first value of the cumulative integral
@@ -21,7 +21,8 @@ namespace integration {
    *  @param[in]     integrator   the integrator to be applied
    */
   template< typename I, typename XIterator, typename YIterator, typename Integrator >
-  std::vector< I > cumulativeIntegral( I first, XIterator& xbegin, const XIterator& xend,
+  std::vector< I > cumulativeIntegral( const I& first,
+                                       XIterator& xbegin, const XIterator& xend,
                                        YIterator& ybegin, const Integrator& integrator ) {
 
     std::vector< I > result( std::distance( xbegin, xend ) + 1 );
@@ -42,7 +43,7 @@ namespace integration {
   }
 
   /**
-   *  @brief Calculate the result of applying an analytical integrator
+   *  @brief Calculate the cumulative integral by applying an analytical integrator
    *         on tabulated x and y values
    *
    *  @param[in]     first        the first value of the cumulative integral
@@ -51,7 +52,8 @@ namespace integration {
    *  @param[in]     integrator   the integrator to be applied
    */
   template< typename I, typename XRange, typename YRange, typename Integrator >
-  std::vector< I > cumulativeIntegral( I first, const XRange& x, const YRange& y,
+  std::vector< I > cumulativeIntegral( const I& first,
+                                       const XRange& x, const YRange& y,
                                        const Integrator& integrator ) {
 
     // the iterators point to the end of the first interval

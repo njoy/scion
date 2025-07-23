@@ -81,7 +81,6 @@ namespace math {
     using Parent::numberPoints;
     using Parent::domain;
     using Parent::operator();
-    using Parent::integrate;
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
@@ -92,7 +91,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I integral() const {
 
-      return Parent::integrate( integration::loglin );
+      return Parent::integral( integration::loglin );
     }
 
     /**
@@ -101,7 +100,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I mean() const {
 
-      return Parent::integrate( integration::logLinMean );
+      return Parent::integral( integration::logLinMean );
     }
   };
 

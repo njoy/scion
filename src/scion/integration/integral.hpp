@@ -10,7 +10,7 @@ namespace scion {
 namespace integration {
 
   /**
-   *  @brief Calculate the result of applying an analytical integrator
+   *  @brief Calculate the integral by applying an analytical integrator
    *         on tabulated x and y values
    *
    *  @param[in,out] xbegin       the interator to the upper x value of the current interval
@@ -34,7 +34,7 @@ namespace integration {
   }
 
   /**
-   *  @brief Calculate the result of applying an analytical integrator
+   *  @brief Calculate the integral by applying an analytical integrator
    *         on tabulated x and y values
    *
    *  @param[in,out] x            the range of x values

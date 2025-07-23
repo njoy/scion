@@ -108,7 +108,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I integral() const {
 
-      return Parent::integrate( integration::linlin );
+      return Parent::integral( integration::linlin );
     }
 
     /**
@@ -117,7 +117,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I mean() const {
 
-      return Parent::integrate( integration::linLinMean );
+      return Parent::integral( integration::linLinMean );
     }
   };
 
