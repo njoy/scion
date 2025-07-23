@@ -10,7 +10,7 @@
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
-#include "scion/unionisation/unionise.hpp"
+#include "scion/unionisation/Unioniser.hpp"
 #include "scion/math/newton.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
@@ -58,7 +58,6 @@ namespace math {
     bool linearised_;
 
     /* auxiliary function */
-    #include "scion/math/InterpolationTable/src/evaluateOnGrid.hpp"
     #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
     #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
