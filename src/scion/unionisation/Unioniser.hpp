@@ -382,6 +382,9 @@ namespace unionisation {
 
       std::vector< std::size_t > newboundaries;
       std::vector< interpolation::InterpolationType > newinterpolants( interpolants.begin(), interpolants.end() );
+
+      // if necessay: add a lin-lin region in front if the old grid did not start at
+      // the same values as the new grid
       if ( x.front() != this->grid().front() ) {
 
         if ( newinterpolants.front() != interpolation::InterpolationType::LinearLinear ) {
@@ -398,6 +401,8 @@ namespace unionisation {
         newboundaries.push_back( std::distance( this->grid().begin(), iter ) );
       }
 
+      // if necessay: add a lin-lin region at the end if the old grid did not end at
+      // the same values as the new grid
       if ( newboundaries.back() != this->grid().size() - 1 ) {
 
         if ( newinterpolants.back() != interpolation::InterpolationType::LinearLinear ) {
