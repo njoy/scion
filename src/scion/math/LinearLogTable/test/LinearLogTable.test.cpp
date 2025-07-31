@@ -82,7 +82,7 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 7.3850580000476, WithinRel( chunk.integral() ) );
       } // THEN
 
-      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+      THEN( "the cumulative integral of a LinearLogTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
         // integration::GaussLegendre< 64, double > integrator{};
@@ -247,7 +247,7 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 7.3850580000476, WithinRel( chunk.integral() ) );
       } // THEN
 
-      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+      THEN( "the cumulative integral of a LinearLogTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
         // integration::GaussLegendre< 64, double > integrator{};

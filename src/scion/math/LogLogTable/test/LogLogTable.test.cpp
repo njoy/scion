@@ -82,7 +82,7 @@ SCENARIO( "LogLogTable" ) {
         CHECK_THAT( 10.3092587344326, WithinRel( chunk.integral() ) );
       } // THEN
 
-      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+      THEN( "the cumulative integral of a LogLogTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
         // integration::GaussLegendre< 64, double > integrator{};
@@ -100,7 +100,7 @@ SCENARIO( "LogLogTable" ) {
         CHECK_THAT( 10.3092587344326 , WithinRel( cumulative[3] ) );
       } // THEN
 
-      THEN( "the first raw moment of a LogLinearTable can be calculated" ) {
+      THEN( "the first raw moment of a LogLogTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
         // integration::GaussLegendre< 64, double > integrator{};
@@ -245,7 +245,7 @@ SCENARIO( "LogLogTable" ) {
         CHECK_THAT( 10.3092587344326, WithinRel( chunk.integral() ) );
       } // THEN
 
-      THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
+      THEN( "the cumulative integral of a LogLogTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
         // integration::GaussLegendre< 64, double > integrator{};
@@ -263,7 +263,7 @@ SCENARIO( "LogLogTable" ) {
         CHECK_THAT( 10.3092587344326 , WithinRel( cumulative[3] ) );
       } // THEN
 
-      THEN( "the first raw moment of a LogLinearTable can be calculated" ) {
+      THEN( "the first raw moment of a LogLogTable can be calculated" ) {
 
         // generate test result using Gauss-Legendre quadrature
         // integration::GaussLegendre< 64, double > integrator{};
