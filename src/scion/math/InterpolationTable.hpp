@@ -330,6 +330,46 @@ namespace math {
     }
 
     /**
+     *  @brief Calculate the cumulative integral of the table over its domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    std::vector< I > cumulativeIntegral() const {
+
+      std::vector< I > result;
+      I first{ 0. };
+
+      auto cumulative = [&first] ( const auto& table )
+                                 { return table.cumulativeIntegral( first ); };
+
+      auto check = [this] ( const auto& table ) {
+
+        return table.x().end() != this->x().end()
+               ? ( *( table.x().end() ) == table.x().back() )
+                 ? ( *( table.y().end() ) != table.y().back() ? true : false )
+                 : false
+               : true;
+      };
+
+      for ( const auto& table : this->tables_ ) {
+
+        auto integrals = std::visit( cumulative, table );
+        bool isJumpOrEnd = std::visit( check, table );
+
+        if ( isJumpOrEnd ) {
+
+          result.insert( result.end(), integrals.begin(), integrals.end() );
+        }
+        else {
+
+          result.insert( result.end(), integrals.begin(), std::prev( integrals.end() ) );
+        }
+        first = integrals.back();
+      }
+
+      return result;
+    }
+
+    /**
      *  @brief Calculate the mean (first order raw moment) of the table over its domain
      *
      *  Note: an interpolation table does not have to be normalised, so this will only

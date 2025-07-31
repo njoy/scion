@@ -108,7 +108,20 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I integral() const {
 
-      return Parent::integrate( integration::linlin );
+      return Parent::integral( integration::linlin );
+    }
+
+    /**
+     *  @brief Calculate the cumulative integral of the table over its domain
+     *
+     *  @param[in] initial   the initial value of the cumulative integral to be used
+     *                       (i.e. the value of the integral at the end of the previous
+     *                       interpolation zone or zero if this is the first region)
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    std::vector< I > cumulativeIntegral( const I& initial ) const {
+
+      return Parent::cumulativeIntegral( initial, integration::linlin );
     }
 
     /**
@@ -117,7 +130,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I mean() const {
 
-      return Parent::integrate( integration::linLinMean );
+      return Parent::integral( integration::linLinMean );
     }
   };
 
