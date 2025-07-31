@@ -114,12 +114,14 @@ namespace math {
     /**
      *  @brief Calculate the cumulative integral of the table over its domain
      *
-     *  @param[in] first   the first value of the cumulative integral
+     *  @param[in] initial   the initial value of the cumulative integral to be used
+     *                       (i.e. the value of the integral at the end of the previous
+     *                       interpolation zone or zero if this is the first region)
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    std::vector< I > cumulativeIntegral( const I& first ) const {
+    std::vector< I > cumulativeIntegral( const I& initial ) const {
 
-      return Parent::cumulativeIntegral( first, integration::linlin );
+      return Parent::cumulativeIntegral( initial, integration::linlin );
     }
 
     /**

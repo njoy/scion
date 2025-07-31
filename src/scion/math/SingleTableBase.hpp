@@ -116,13 +116,15 @@ namespace math {
      *  @brief Calculate the cumulative integral by applying an analytical integrator
      *         over each panel in the table
      *
-     *  @param[in] first        the first value of the cumulative integral
+     *  @param[in] initial      the initial value of the cumulative integral to be used
+     *                          (i.e. the value of the integral at the end of the previous
+     *                          interpolation zone or zero if this is the first region)
      *  @param[in] integrator   the integrator to be applied
      */
     template < typename I, typename Integrator >
-    auto cumulativeIntegral( const I& first, const Integrator& integrator ) const {
+    auto cumulativeIntegral( const I& initial, const Integrator& integrator ) const {
 
-      return integration::cumulativeIntegral( first, this->x(), this->y(), integrator );
+      return integration::cumulativeIntegral( initial, this->x(), this->y(), integrator );
     }
   };
 
