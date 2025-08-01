@@ -103,6 +103,16 @@ namespace math {
     }
 
     /**
+     *  @brief Return the f(y) functions of the table
+     *
+     *  DO NOT USE THIS TO ADD/REMOVE ELEMENTS OR YOU WILL BREAK THINGS!
+     */
+    std::vector< F >& f() noexcept {
+
+      return this->f_;
+    }
+
+    /**
      *  @brief Return the boundaries of the interpolation regions
      */
     const std::vector< std::size_t >& boundaries() const noexcept {
