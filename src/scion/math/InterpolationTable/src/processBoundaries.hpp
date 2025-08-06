@@ -78,8 +78,31 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
   auto xIter = std::adjacent_find( x.begin(), x.end() );
   if ( xIter == x.begin() ) {
 
-    Log::error( "A jump in the x grid cannot occur at the beginning of the x grid" );
-    throw std::exception();
+    auto yIter = y.begin();
+    if ( ( *yIter == Y() ) && ( *std::next( yIter ) != Y() ) ) {
+
+      // remove the initial zero value in a jump at the beginning of the x grid
+      x.erase( xIter );
+      y.erase( yIter );
+      std::transform( boundaries.begin(), boundaries.end(), boundaries.begin(),
+                      [] ( auto&& boundary ) { return boundary - 1; } );
+      xIter = std::adjacent_find( x.begin(), x.end() );
+
+      auto next = std::next( xIter );
+      if ( next != x.end() && *next == *xIter ) {
+
+        Log::error( "An x value can only be repeated a maximum of two times" );
+        Log::info( "x = {} is present at least three times", *xIter );
+        throw std::exception();
+      }
+
+      Log::warning( "An initial zero value in a jump at the beginning of the x grid was removed" );
+    }
+    else {
+
+      Log::error( "A jump in the x grid cannot occur at the beginning of the x grid" );
+      throw std::exception();
+    }
   }
 
   auto bIter = boundaries.begin();
