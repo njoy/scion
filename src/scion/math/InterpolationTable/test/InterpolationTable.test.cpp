@@ -2440,6 +2440,17 @@ SCENARIO( "InterpolationTable" ) {
       } // THEN
     } // WHEN
 
+    WHEN( "the x grid has a triplicate point at the beginning" ) {
+
+      std::vector< double > x = { 1., 1., 1., 3., 4. };
+      std::vector< double > y = { 0., 4., 3., 1., 4. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
+      } // THEN
+    } // WHEN
+
     WHEN( "the x grid has a jump at the end" ) {
 
       std::vector< double > x = { 1., 2., 4., 4. };

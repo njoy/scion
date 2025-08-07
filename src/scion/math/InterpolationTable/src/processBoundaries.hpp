@@ -88,15 +88,11 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
                       [] ( auto&& boundary ) { return boundary - 1; } );
       xIter = std::adjacent_find( x.begin(), x.end() );
 
-      if ( xIter != x.end() ) {
+      if ( xIter == x.begin() ) {
 
-        auto next = std::next( xIter );
-        if ( next != x.end() && *next == *xIter ) {
-
-          Log::error( "An x value can only be repeated a maximum of two times" );
-          Log::info( "x = {} is present at least three times", *xIter );
-          throw std::exception();
-        }
+        Log::error( "An x value can only be repeated a maximum of two times" );
+        Log::info( "x = {} is present at least three times", *xIter );
+        throw std::exception();
       }
 
       Log::warning( "An initial zero value in a jump at the beginning of the x grid was removed" );
