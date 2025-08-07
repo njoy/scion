@@ -88,10 +88,10 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
                       [] ( auto&& boundary ) { return boundary - 1; } );
       xIter = std::adjacent_find( x.begin(), x.end() );
 
-      auto next = std::next( xIter );
-      if ( next != x.end() ) {
+      if ( xIter != x.end() ) {
 
-        if ( *next == *xIter ) {
+        auto next = std::next( xIter );
+        if ( next != x.end() && *next == *xIter ) {
 
           Log::error( "An x value can only be repeated a maximum of two times" );
           Log::info( "x = {} is present at least three times", *xIter );
