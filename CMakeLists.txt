@@ -74,12 +74,12 @@ target_link_libraries( scion
 # scion : python bindings
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-if (scion.python)
-  add_subdirectory(python)
+if ( scion.python )
+  add_subdirectory( python )
 endif()
 
 if( scion.tests )
-  include( cmake/unit_testing.cmake )
+  add_subdirectory( test )
 endif()
 
 #######################################################################
