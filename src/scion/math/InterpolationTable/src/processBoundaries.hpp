@@ -22,10 +22,9 @@
  *  point in the jump instead of the second one. When this is encountered, the boundary value is
  *  adjusted. This change is made silently as it does not constitute an error on the user side.
  *
- *  A jump at the end of the x grid is also not allowed. If a jump is detected at the end of the
- *  x grid, and if the last y value is zero, then the last point is just removed. A warning is
- *  issued if this happens to be the case. If the last y value is any other value, an error is
- *  raised.
+ *  A jump at the beginning or end of the x grid is also not allowed. If one of these jumps is
+ *  detected, and if the associated y value is zero, then the point is just removed. A warning is
+ *  issued if this happens to be the case. If the y value is any other value, an error is raised.
  */
 static std::tuple< std::vector< X >,
                    std::vector< Y >,
@@ -78,8 +77,30 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
   auto xIter = std::adjacent_find( x.begin(), x.end() );
   if ( xIter == x.begin() ) {
 
-    Log::error( "A jump in the x grid cannot occur at the beginning of the x grid" );
-    throw std::exception();
+    auto yIter = y.begin();
+    if ( ( *yIter == Y() ) && ( *std::next( yIter ) != Y() ) ) {
+
+      // remove the initial zero value in a jump at the beginning of the x grid
+      x.erase( xIter );
+      y.erase( yIter );
+      std::transform( boundaries.begin(), boundaries.end(), boundaries.begin(),
+                      [] ( auto&& boundary ) { return boundary - 1; } );
+      xIter = std::adjacent_find( x.begin(), x.end() );
+
+      if ( xIter == x.begin() ) {
+
+        Log::error( "An x value can only be repeated a maximum of two times" );
+        Log::info( "x = {} is present at least three times", *xIter );
+        throw std::exception();
+      }
+
+      Log::warning( "An initial zero value in a jump at the beginning of the x grid was removed" );
+    }
+    else {
+
+      Log::error( "A jump in the x grid cannot occur at the beginning of the x grid" );
+      throw std::exception();
+    }
   }
 
   auto bIter = boundaries.begin();

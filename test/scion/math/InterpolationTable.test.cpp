@@ -2291,6 +2291,53 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "non-linearised data with multiple regions with a jump at the beginning from zero on" ) {
+
+    // note: at construction time, the first x and y value will be removed and all
+    //       boundary values will be decremented by 1.
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 1., 2., 3., 4. }; // <-- jump at beginning
+      const std::vector< double > y = { 0., 4., 3., 2., 1. }; // <-- first value is zero
+      const std::vector< std::size_t > boundaries = { 2, 4 }; // <-- pointing to end
+      const std::vector< InterpolationType > interpolants = {
+
+        InterpolationType::LinearLinear,
+        InterpolationType::LinearLog
+      };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          std::move( boundaries ),
+                                          std::move( interpolants ) );
+
+      THEN( "an InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) ); // <-- first point removed
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) ); // <-- first point removed
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );         // <-- boundary value reset
+        CHECK( 3 == chunk.boundaries()[1] );         // <-- boundary value reset
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "comparison operators" ) {
 
     WHEN( "two instances of InterpolationTable are given" ) {
@@ -2386,6 +2433,17 @@ SCENARIO( "InterpolationTable" ) {
 
       std::vector< double > x = { 1., 1., 3., 4. };
       std::vector< double > y = { 4., 3., 1., 4. };
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the x grid has a triplicate point at the beginning" ) {
+
+      std::vector< double > x = { 1., 1., 1., 3., 4. };
+      std::vector< double > y = { 0., 4., 3., 1., 4. };
 
       THEN( "an exception is thrown" ) {
 
