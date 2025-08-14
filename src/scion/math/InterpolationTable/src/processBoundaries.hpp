@@ -22,10 +22,9 @@
  *  point in the jump instead of the second one. When this is encountered, the boundary value is
  *  adjusted. This change is made silently as it does not constitute an error on the user side.
  *
- *  A jump at the end of the x grid is also not allowed. If a jump is detected at the end of the
- *  x grid, and if the last y value is zero, then the last point is just removed. A warning is
- *  issued if this happens to be the case. If the last y value is any other value, an error is
- *  raised.
+ *  A jump at the beginning or end of the x grid is also not allowed. If one of these jumps is
+ *  detected, and if the associated y value is zero, then the point is just removed. A warning is
+ *  issued if this happens to be the case. If the y value is any other value, an error is raised.
  */
 static std::tuple< std::vector< X >,
                    std::vector< Y >,
