@@ -67,11 +67,6 @@ namespace unionisation {
     /**
      *  @brief Unionise two grids and preserve duplicate points that appear in each
      *
-     *  If the grids do not have the same begin and/or end point, a duplicate point
-     *  is inserted into the grid corresponding to the highest beginning and/or
-     *  lowest end point (unless those are already a duplicate point) if the corresponding
-     *  tabulated values are non-zero.
-     *
      *  @param first1   an iterator to the first element of the first grid
      *  @param last1    an iterator pointing past the last element of the first grid
      *  @param first2   an iterator to the first element of the second grid
@@ -91,6 +86,18 @@ namespace unionisation {
       return grid;
     }
 
+    /**
+     *  @brief Add a jump if required
+     *
+     *  If the grids do not have the same begin point, a duplicate point is inserted into
+     *  the grid corresponding to the highest beginning point (unless those are already
+     *  a duplicate point) if the corresponding tabulated values are non-zero.
+     *
+     *  @param first1   an iterator to the first element of the first grid
+     *  @param first2   an iterator to the first element of the second grid
+     *  @param zero1    true if the first value of the first grid is zero
+     *  @param zero2    true if the first value of the second grid is zero
+     */
     bool add_first_jump( std::vector< X >& grid,
                          const XIter& first1, const XIter& first2,
                          bool zero1, bool zero2 ) {
@@ -123,6 +130,18 @@ namespace unionisation {
       }
     }
 
+    /**
+     *  @brief Add a jump if required
+     *
+     *  If the grids do not have the same end point, a duplicate point is inserted into
+     *  the grid corresponding to the lowest end point (unless those are already a
+     *  duplicate point) if the corresponding tabulated values are non-zero.
+     *
+     *  @param first1   an iterator to past the last element of the first grid
+     *  @param first2   an iterator to past the last element of the second grid
+     *  @param zero1    true if the last value of the first grid is zero
+     *  @param zero2    true if the last value of the second grid is zero
+     */
     bool add_last_jump( std::vector< X >& grid,
                         const XIter& last1, const XIter& last2,
                         bool zero1, bool zero2 ) {
