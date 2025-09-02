@@ -45,24 +45,28 @@ operation( const InterpolationTable& right, BinaryOperation operation ) {
     else {
 
       // unionise and evaluate on the new grid
-      unionisation::Unioniser unioniser( this->x(), right.x() );
+      unionisation::Unioniser< std::vector< X > > unioniser;
+      unioniser.addGrid( this->x(), this->y() );
+      unioniser.addGrid( right.x(), right.y() );
+
       std::vector< X > x = unioniser.unionise();
       std::vector< Y > y = unioniser.evaluate( this->x(), this->y() );
       std::vector< Y > temp = unioniser.evaluate( right.x(), right.y() );
       std::transform( y.begin(), y.end(), temp.begin(), y.begin(), operation );
 
-      // check for threshold jump with the same y value
-      if ( this->x().front() != right.x().front() ) {
+      // check for threshold jumps with the same y value and remove them
+      auto xIter = std::adjacent_find( x.begin(), x.end() );
+      while ( xIter != x.end() ) {
 
-        X value = this->x().front() < right.x().front() ? right.x().front()
-                                                        : this->x().front();
-        auto xIter = std::lower_bound( x.begin(), x.end(), value );
         auto yIter = std::next( y.begin(), std::distance( x.begin(), xIter ) );
         if ( *std::next( yIter ) == *yIter ) {
 
-          x.erase( xIter );
-          y.erase( yIter );
+          xIter = x.erase( xIter );
+          yIter = y.erase( yIter );
         }
+
+        // find the next duplicate x value
+        xIter = std::adjacent_find( std::upper_bound( xIter, x.end(), *xIter ), x.end() );
       }
 
       // replace this with a new table

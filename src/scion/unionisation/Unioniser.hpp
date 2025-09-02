@@ -33,9 +33,22 @@ namespace unionisation {
     /* type aliases */
     using X = typename std::decay< typename XContainer::value_type >::type;
 
+    /* helper class */
+
+    struct GridInformation {
+
+      XIter begin;
+      XIter end;
+      bool first_value_is_zero;
+      bool last_value_is_zero;
+    };
+
     /* fields */
-    std::vector< std::pair< XIter, XIter > > grids_;
+    std::vector< GridInformation > grids_;
+
     std::vector< X > union_;
+    bool firstZero_;
+    bool lastZero_;
 
     /* auxiliary function */
 
@@ -47,19 +60,17 @@ namespace unionisation {
       // sort the grids as a function of size
       std::sort( this->grids_.begin(), this->grids_.end(),
                  [] ( auto&& left, auto&& right )
-                    { return std::distance( left.first, left.second ) <
-                             std::distance( right.first, right.second ); } );
+                    { return std::distance( left.begin, left.end ) <
+                             std::distance( right.begin, right.end ); } );
     }
 
     /**
      *  @brief Unionise two grids and preserve duplicate points that appear in each
      *
-     *  If the grids do not have the same begin and/or end point, a duplicate point
-     *  is inserted into the grid corresponding to the highest beginning and/or
-     *  lowest end point (unless those are already a duplicate point).
-     *
-     *  @param first    the first grid (assumed to be sorted)
-     *  @param second   the second grid (assumed to be sorted)
+     *  @param first1   an iterator to the first element of the first grid
+     *  @param last1    an iterator pointing past the last element of the first grid
+     *  @param first2   an iterator to the first element of the second grid
+     *  @param last2    an iterator pointing past the last element of the second grid
      */
     static std::vector< X >
     apply_set_union( const XIter& first1, const XIter& last1,
@@ -72,56 +83,145 @@ namespace unionisation {
       auto end = std::set_union( first1, last1, first2, last2, grid.begin() );
       grid.erase( end, grid.end() );
 
+      return grid;
+    }
+
+    /**
+     *  @brief Add a jump if required
+     *
+     *  If the grids do not have the same begin point, a duplicate point is inserted into
+     *  the grid corresponding to the highest beginning point (unless those are already
+     *  a duplicate point) if the corresponding tabulated values are non-zero.
+     *
+     *  This function returns a boolean that indicates if the first tabulated value is
+     *  a zero value or not. If first1 and first2 point to the same x value, that return
+     *  value is ( zero1 && zero2 ), ie true if both are true. If first1 and first2 do not
+     *  point to the same x value, then either zero1 or zero2 is returned depending on
+     *  which x value is the lowest.
+     *
+     *  @param grid.    the current union grid
+     *  @param first1   an iterator to the first element of the first grid
+     *  @param first2   an iterator to the first element of the second grid
+     *  @param zero1    true if the first value of the first grid is zero
+     *  @param zero2    true if the first value of the second grid is zero
+     */
+    bool add_first_jump( std::vector< X >& grid,
+                         const XIter& first1, const XIter& first2,
+                         bool zero1, bool zero2 ) {
+
       // special case: the begin points are not the same
       X xfirst = *first1;
       X xsecond = *first2;
       if ( xfirst != xsecond ) {
 
-        X x = std::max( xfirst, xsecond );
-        auto iter = std::lower_bound( grid.begin(), grid.end(), x );
-        if ( *std::next( iter ) != x ) {
+        bool check = xfirst < xsecond;
 
-          grid.insert( iter, x );
+        bool zero = check ? zero2 : zero1;
+        bool result = check ? zero1 : zero2;
+
+        if ( ! zero ) {
+
+          X x = check ? xsecond : xfirst;
+          auto iter = std::lower_bound( grid.begin(), grid.end(), x );
+          if ( *std::next( iter ) != x ) {
+
+            grid.insert( iter, x );
+          }
         }
+
+        return result;
       }
+      else {
+
+        return zero1 && zero2;
+      }
+    }
+
+    /**
+     *  @brief Add a jump if required
+     *
+     *  If the grids do not have the same end point, a duplicate point is inserted into
+     *  the grid corresponding to the lowest end point (unless those are already a
+     *  duplicate point) if the corresponding tabulated values are non-zero.
+     *
+     *  This function returns a boolean that indicates if the first tabulated value is
+     *  a zero value or not. If first1 and first2 point to the same x value, that return
+     *  value is ( zero1 && zero2 ), ie true if both are true. If first1 and first2 do not
+     *  point to the same x value, then either zero1 or zero2 is returned depending on
+     *  which x value is the highest.
+     *
+     *  @param grid.    the current union grid
+     *  @param first1   an iterator to past the last element of the first grid
+     *  @param first2   an iterator to past the last element of the second grid
+     *  @param zero1    true if the last value of the first grid is zero
+     *  @param zero2    true if the last value of the second grid is zero
+     */
+    bool add_last_jump( std::vector< X >& grid,
+                        const XIter& last1, const XIter& last2,
+                        bool zero1, bool zero2 ) {
 
       // special case: the end points are not the same
-      xfirst = *std::prev( last1 );
-      xsecond = *std::prev( last2 );
+      X xfirst = *std::prev( last1 );
+      X xsecond = *std::prev( last2 );
       if ( xfirst != xsecond ) {
 
-        X x = std::min( xfirst, xsecond );
-        auto iter = std::lower_bound( grid.begin(), grid.end(), x );
-        if ( *std::next( iter ) != x ) {
+        bool check = xfirst < xsecond;
 
-          grid.insert( iter, x );
+        bool zero = check ? zero1 : zero2;
+        bool result = check ? zero2 : zero1;
+
+        if ( ! zero ) {
+
+          X x = check ? xfirst : xsecond;
+          auto iter = std::lower_bound( grid.begin(), grid.end(), x );
+          if ( *std::next( iter ) != x ) {
+
+            grid.insert( iter, x );
+          }
         }
-      }
 
-      return grid;
+        return result;
+      }
+      else {
+
+        return zero1 && zero2;
+      }
     }
 
   public:
 
     /* constructor */
-    #include "scion/unionisation/Unioniser/src/ctor.hpp"
+
+    /**
+     *  @brief Default constructor
+     */
+    Unioniser() = default;
 
     /* methods */
 
     /**
      *  @brief Add a grid to be used in the unionisation process
      *
-     *  @param[in] grid   the grid to be added
+     *  @param[in] grid     the grid to be added
+     *  @param[in] values   the associated tabulated values
      */
-    void addGrid( const XContainer& grid ) {
+    template < typename YContainer = XContainer,
+               typename Y = typename std::decay< typename YContainer::value_type >::type >
+    void addGrid( const XContainer& grid, const YContainer& values ) {
 
-      auto size = std::distance( grid.begin(), grid.end() );
+      auto is_zero = [] ( auto&& iter ) { return *iter == Y(); };
+
+      auto begin = std::begin( grid );
+      auto end = std::end( grid );
+
+      auto size = std::distance( begin, end );
       this->grids_.insert(
-          std::lower_bound( this->grids_.begin(), this->grids_.end(),
-                            size,
-                            [] ( auto&& pair, auto&& size )
-                               { return std::distance( pair.first, pair.second ) < size; } ),
-          std::make_pair( grid.begin(), grid.end() ) );
+          std::lower_bound( this->grids_.begin(), this->grids_.end(), size,
+                            [] ( auto&& grid, auto&& size )
+                               { return std::distance( grid.begin, grid.end ) < size; } ),
+          GridInformation{ begin, end,
+                           is_zero( std::begin( values ) ),
+                           is_zero( std::prev( std::end( values ) ) ) } );
     }
 
     /**
@@ -132,21 +232,30 @@ namespace unionisation {
       // generate a first union grid
       if ( this->grids_.size() > 1 ) {
 
-        this->union_ = apply_set_union( this->grids_[0].first, this->grids_[0].second,
-                                        this->grids_[1].first, this->grids_[1].second );
+        this->union_ = apply_set_union( this->grids_[0].begin, this->grids_[0].end,
+                                        this->grids_[1].begin, this->grids_[1].end );
+        this->firstZero_ = add_first_jump( this->union_, this->grids_[0].begin, this->grids_[1].begin,
+                                           this->grids_[0].first_value_is_zero, this->grids_[1].first_value_is_zero );
+        this->lastZero_ = add_last_jump( this->union_, this->grids_[0].end, this->grids_[1].end,
+                                           this->grids_[0].last_value_is_zero, this->grids_[1].last_value_is_zero );
         this->grids_.erase( this->grids_.begin(), this->grids_.begin() + 2 );
       }
       else if ( this->grids_.size() == 1 ) {
 
-        this->union_ = std::vector< X >{ this->grids_[0].first, this->grids_[0].second };
+        this->union_ = std::vector< X >{ this->grids_[0].begin, this->grids_[0].end };
         this->grids_.erase( this->grids_.begin() );
       }
 
       // iterate over the remaining grids
       while ( this->grids_.size() > 0 ) {
 
-        this->union_ = apply_set_union( this->grids_.front().first, this->grids_.front().second ,
+        this->union_ = apply_set_union( this->grids_.front().begin,
+                                        this->grids_.front().end,
                                         this->union_.begin(), this->union_.end() );
+        this->firstZero_ = add_first_jump( this->union_, this->grids_.front().begin, this->union_.begin(),
+                                           this->grids_.front().first_value_is_zero, this->firstZero_ );
+        this->lastZero_ = add_last_jump( this->union_, this->grids_.front().end, this->union_.end(),
+                                           this->grids_.front().last_value_is_zero, this->lastZero_ );
         this->grids_.erase( this->grids_.begin() );
       }
 
@@ -169,14 +278,17 @@ namespace unionisation {
      *  the grid are present in the unionised grid. If the grid has duplicate points,
      *  those points must have duplicates in the unionised grid. If the start and/or end
      *  point of the grid and the unionised grid are not the same, then those points
-     *  must have duplicates in the unionised grid. This function can be used
-     *  prior to calling the evaluate() function to ensure that the contraints for
-     *  that function are met (putting this test in the generate() function would
-     *  cause too much overhead in that function so we decided against that).
+     *  must have duplicates in the unionised grid if the corresponding y values are
+     *  different from zero. This function can be used prior to calling the evaluate()
+     *  function to ensure that the contraints for that function are met (putting this
+     *  test in the generate() function would cause too much overhead in that function
+     *  so we decided against that).
      *
      *  @param[in] grid   the grid to be verified
      */
-    bool isComptatible( const XContainer& grid ) const {
+    template < typename YContainer = XContainer,
+               typename Y = typename std::decay< typename YContainer::value_type >::type >
+    bool isComptatible( const XContainer& grid, const YContainer& values ) const {
 
       // check if all values are in the unionised grid
       auto find = [this] ( auto&& value ) {
@@ -209,11 +321,14 @@ namespace unionisation {
         iter = std::lower_bound( this->grid().begin(), this->grid().end(), grid.front() );
         if ( iter != this->grid().begin() ) {
 
-          // check for jump
-          auto upper = std::upper_bound( iter, this->grid().end(), grid.front() );
-          if ( 1 >= std::distance( iter, upper ) ) {
+          // check for jump if the front y value is non-zero
+          if ( values.front() != Y() ) {
 
-            return false;
+            auto upper = std::upper_bound( iter, this->grid().end(), grid.front() );
+            if ( 1 >= std::distance( iter, upper ) ) {
+
+              return false;
+            }
           }
         }
 
@@ -221,11 +336,14 @@ namespace unionisation {
         iter = std::lower_bound( this->grid().begin(), this->grid().end(), grid.back() );
         if ( iter != std::prev( this->grid().end() ) ) {
 
-          // check for jump
-          auto upper = std::upper_bound( iter, this->grid().end(), grid.back() );
-          if ( 1 >= std::distance( iter, upper ) ) {
+          // check for jump if the back y value is non-zero
+          if ( values.back() != Y() ) {
 
-            return false;
+            auto upper = std::upper_bound( iter, this->grid().end(), grid.back() );
+            if ( 1 >= std::distance( iter, upper ) ) {
+
+              return false;
+            }
           }
         }
 
@@ -255,7 +373,8 @@ namespace unionisation {
                typename IContainer,
                typename YContainer = XContainer,
                typename Y = typename std::decay< typename YContainer::value_type >::type >
-    std::vector< Y > evaluate( const XContainer& x, const YContainer& y,
+    std::vector< Y > evaluate( const XContainer& x,
+                               const YContainer& y,
                                const BContainer& boundaries,
                                const IContainer& interpolants ) const {
 

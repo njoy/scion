@@ -25,6 +25,8 @@ SCENARIO( "unionisation grids" ) {
     std::vector< double > grid7 = { 2., 3., 4. };
     std::vector< double > grid8 = { 2., 3. };
     std::vector< double > grid9 = { 1.5, 2.5, 3.5 };
+    std::vector< double > grid10 = { 1., 2., 3. };
+    std::vector< double > grid11 = { 2., 3., 4. };
 
     std::vector< double > values1 = { 4., 3., 2., 1. };
     std::vector< double > values2 = { 4., 3.5, 3., 2.5, 2., 1.5, 1. };
@@ -35,6 +37,8 @@ SCENARIO( "unionisation grids" ) {
     std::vector< double > values7 = { 4., 3., 2. };
     std::vector< double > values8 = { 4., 3. };
     std::vector< double > values9 = { 4., 3., 2. };
+    std::vector< double > values10 = { 4., 3., 0. };
+    std::vector< double > values11 = { 0., 3., 2. };
 
     std::vector< std::size_t > boundaries1 = { 2, 3 };
     std::vector< std::size_t > boundaries2 = { 6 };
@@ -45,6 +49,8 @@ SCENARIO( "unionisation grids" ) {
     std::vector< std::size_t > boundaries7 = { 2 };
     std::vector< std::size_t > boundaries8 = { 1 };
     std::vector< std::size_t > boundaries9 = { 2 };
+    std::vector< std::size_t > boundaries10 = { 2 };
+    std::vector< std::size_t > boundaries11 = { 2 };
 
     std::vector< InterpolationType > interpolants1 = { InterpolationType::Histogram, InterpolationType::LinearLinear };
     std::vector< InterpolationType > interpolants2 = { InterpolationType::LinearLinear };
@@ -55,6 +61,8 @@ SCENARIO( "unionisation grids" ) {
     std::vector< InterpolationType > interpolants7 = { InterpolationType::Histogram };
     std::vector< InterpolationType > interpolants8 = { InterpolationType::Histogram };
     std::vector< InterpolationType > interpolants9 = { InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants10 = { InterpolationType::LinearLinear };
+    std::vector< InterpolationType > interpolants11 = { InterpolationType::LinearLinear };
 
     unionisation::Unioniser< std::vector< double > > unioniser;
 
@@ -64,8 +72,8 @@ SCENARIO( "unionisation grids" ) {
             "boundaries and interpolants can be retrieved" ) {
 
         // same grid => no change
-        unioniser.addGrid( grid1 );
-        unioniser.addGrid( grid1 );
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid1, values1 );
         std::vector< double > grid = unioniser.unionise();
 
         CHECK( 4 == grid.size() );
@@ -74,15 +82,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[2] ) );
         CHECK_THAT( 4., WithinRel( grid[3] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( false == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( false == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( false == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( false == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         std::vector< double > y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -102,8 +112,8 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with a few common points but no jumps
         unioniser.clear();
-        unioniser.addGrid( grid1 );
-        unioniser.addGrid( grid2 );
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid2, values2 );
         grid = unioniser.unionise();
 
         CHECK( 7 == grid.size() );
@@ -115,15 +125,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3.5, WithinRel( grid[5] ) );
         CHECK_THAT( 4. , WithinRel( grid[6] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( true  == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( false == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( false == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( true == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( false == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( false == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -171,8 +183,8 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with a few common points and jumps in the first one
         unioniser.clear();
-        unioniser.addGrid( grid3 );
-        unioniser.addGrid( grid1 );
+        unioniser.addGrid( grid3, values3 );
+        unioniser.addGrid( grid1, values1 );
         grid = unioniser.unionise();
 
         CHECK( 5 == grid.size() );
@@ -182,15 +194,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( true  == unioniser.isComptatible( grid3 ) );
-        CHECK( false == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( false == unioniser.isComptatible( grid6 ) );
-        CHECK( true  == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( true == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( false == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( false == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( true == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -230,8 +244,8 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with a few common points and jumps in the second one
         unioniser.clear();
-        unioniser.addGrid( grid1 );
-        unioniser.addGrid( grid3 );
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid3, values3 );
         grid = unioniser.unionise();
 
         CHECK( 5 == grid.size() );
@@ -241,15 +255,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( true  == unioniser.isComptatible( grid3 ) );
-        CHECK( false == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( false == unioniser.isComptatible( grid6 ) );
-        CHECK( true  == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( true == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( false == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( false == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( true == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -290,8 +306,8 @@ SCENARIO( "unionisation grids" ) {
         // different grids with a few common points and jumps in the both but
         // those jumps are not the same
         unioniser.clear();
-        unioniser.addGrid( grid3 );
-        unioniser.addGrid( grid4 );
+        unioniser.addGrid( grid3, values3 );
+        unioniser.addGrid( grid4, values4 );
         grid = unioniser.unionise();
 
         CHECK( 6 == grid.size() );
@@ -302,15 +318,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[4] ) );
         CHECK_THAT( 4., WithinRel( grid[5] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( true  == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( true  == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( true  == unioniser.isComptatible( grid7 ) );
-        CHECK( true  == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( true == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( true == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( true == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( true == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid3, values3, boundaries3, interpolants3 );
 
@@ -355,8 +373,8 @@ SCENARIO( "unionisation grids" ) {
         // different grids with a few common points and jumps in both and
         // some jumps are the same
         unioniser.clear();
-        unioniser.addGrid( grid4 );
-        unioniser.addGrid( grid5 );
+        unioniser.addGrid( grid4, values4 );
+        unioniser.addGrid( grid5, values5 );
         grid = unioniser.unionise();
 
         CHECK( 6 == grid.size() );
@@ -367,15 +385,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[4] ) );
         CHECK_THAT( 4., WithinRel( grid[5] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( true  == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( true  == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( true  == unioniser.isComptatible( grid7 ) );
-        CHECK( true  == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( true == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( true == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( true == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( true == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
 
@@ -419,8 +439,8 @@ SCENARIO( "unionisation grids" ) {
 
         // different grids with different end points (no duplicate end point)
         unioniser.clear();
-        unioniser.addGrid( grid1 );
-        unioniser.addGrid( grid6 );
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid6, values6 );
         grid = unioniser.unionise();
 
         CHECK( 5 == grid.size() );
@@ -430,15 +450,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -479,8 +501,8 @@ SCENARIO( "unionisation grids" ) {
         // different grids with different end points (no duplicate end point in
         // other grid)
         unioniser.clear();
-        unioniser.addGrid( grid6 );
-        unioniser.addGrid( grid1 );
+        unioniser.addGrid( grid6, values6 );
+        unioniser.addGrid( grid1, values1 );
         grid = unioniser.unionise();
 
         CHECK( 5 == grid.size() );
@@ -490,15 +512,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -539,8 +563,8 @@ SCENARIO( "unionisation grids" ) {
         // different grids with different end points (duplicate end point in
         // other grid)
         unioniser.clear();
-        unioniser.addGrid( grid4 );
-        unioniser.addGrid( grid6 );
+        unioniser.addGrid( grid4, values4 );
+        unioniser.addGrid( grid6, values6 );
         grid = unioniser.unionise();
 
         CHECK( 5 == grid.size() );
@@ -550,15 +574,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
 
@@ -599,8 +625,8 @@ SCENARIO( "unionisation grids" ) {
         // different grids with different end points (duplicate end point in
         // other grid)
         unioniser.clear();
-        unioniser.addGrid( grid6 );
-        unioniser.addGrid( grid4 );
+        unioniser.addGrid( grid6, values6 );
+        unioniser.addGrid( grid4, values4 );
         grid = unioniser.unionise();
 
         CHECK( 5 == grid.size() );
@@ -610,15 +636,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3., WithinRel( grid[3] ) );
         CHECK_THAT( 4., WithinRel( grid[4] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( false == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid4, values4, boundaries4, interpolants4 );
 
@@ -658,8 +686,8 @@ SCENARIO( "unionisation grids" ) {
 
         // grids with no points in common
         unioniser.clear();
-        unioniser.addGrid( grid1 );
-        unioniser.addGrid( grid9 );
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid9, values9 );
         grid = unioniser.unionise();
 
         CHECK( 9 == grid.size() );
@@ -673,15 +701,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3.5, WithinRel( grid[7] ) );
         CHECK_THAT( 4. , WithinRel( grid[8] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( true  == unioniser.isComptatible( grid2 ) );
-        CHECK( false == unioniser.isComptatible( grid3 ) );
-        CHECK( false == unioniser.isComptatible( grid4 ) );
-        CHECK( false == unioniser.isComptatible( grid5 ) );
-        CHECK( false == unioniser.isComptatible( grid6 ) );
-        CHECK( false == unioniser.isComptatible( grid7 ) );
-        CHECK( false == unioniser.isComptatible( grid8 ) );
-        CHECK( true  == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( true == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( false == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( false == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( true == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -735,16 +765,66 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 0. , WithinRel( y[7] ) );
         CHECK_THAT( 0. , WithinRel( y[8] ) );
 
+        // grids with zero start or zero beginning
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid10, values10 );
+        unioniser.addGrid( grid11, values11 );
+        grid = unioniser.unionise();
+
+        CHECK( 4 == grid.size() );
+        CHECK_THAT( 1., WithinRel( grid[0] ) );
+        CHECK_THAT( 2., WithinRel( grid[1] ) );
+        CHECK_THAT( 3., WithinRel( grid[2] ) );
+        CHECK_THAT( 4., WithinRel( grid[3] ) );
+
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( false == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( false == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( false == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( false == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( false == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( false == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( false == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
+
+        y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
+
+        CHECK( 4 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 2., WithinRel( y[2] ) );
+        CHECK_THAT( 1., WithinRel( y[3] ) );
+
+        y = unioniser.evaluate( grid10, values10 );
+
+        CHECK( 4 == y.size() );
+        CHECK_THAT( 4., WithinRel( y[0] ) );
+        CHECK_THAT( 3., WithinRel( y[1] ) );
+        CHECK_THAT( 0., WithinRel( y[2] ) );
+        CHECK_THAT( 0., WithinRel( y[3] ) );
+
+        y = unioniser.evaluate( grid11, values11 );
+
+        CHECK( 4 == y.size() );
+        CHECK_THAT( 0., WithinRel( y[0] ) );
+        CHECK_THAT( 0., WithinRel( y[1] ) );
+        CHECK_THAT( 3., WithinRel( y[2] ) );
+        CHECK_THAT( 2., WithinRel( y[3] ) );
+
         // multiple grids at once
         unioniser.clear();
-        unioniser.addGrid( grid1 );
-        unioniser.addGrid( grid2 );
-        unioniser.addGrid( grid3 );
-        unioniser.addGrid( grid4 );
-        unioniser.addGrid( grid5 );
-        unioniser.addGrid( grid6 );
-        unioniser.addGrid( grid7 );
-        unioniser.addGrid( grid8 );
+        unioniser.addGrid( grid1, values1 );
+        unioniser.addGrid( grid2, values2 );
+        unioniser.addGrid( grid3, values3 );
+        unioniser.addGrid( grid4, values4 );
+        unioniser.addGrid( grid5, values5 );
+        unioniser.addGrid( grid6, values6 );
+        unioniser.addGrid( grid7, values7 );
+        unioniser.addGrid( grid8, values8 );
+        unioniser.addGrid( grid10, values10 );
+        unioniser.addGrid( grid11, values11 );
         grid = unioniser.unionise();
 
         CHECK( 9 == grid.size() );
@@ -758,15 +838,17 @@ SCENARIO( "unionisation grids" ) {
         CHECK_THAT( 3.5, WithinRel( grid[7] ) );
         CHECK_THAT( 4. , WithinRel( grid[8] ) );
 
-        CHECK( true  == unioniser.isComptatible( grid1 ) );
-        CHECK( true  == unioniser.isComptatible( grid2 ) );
-        CHECK( true  == unioniser.isComptatible( grid3 ) );
-        CHECK( true  == unioniser.isComptatible( grid4 ) );
-        CHECK( true  == unioniser.isComptatible( grid5 ) );
-        CHECK( true  == unioniser.isComptatible( grid6 ) );
-        CHECK( true  == unioniser.isComptatible( grid7 ) );
-        CHECK( true  == unioniser.isComptatible( grid8 ) );
-        CHECK( false == unioniser.isComptatible( grid9 ) );
+        CHECK( true  == unioniser.isComptatible( grid1, values1 ) );
+        CHECK( true == unioniser.isComptatible( grid2, values2 ) );
+        CHECK( true == unioniser.isComptatible( grid3, values3 ) );
+        CHECK( true == unioniser.isComptatible( grid4, values4 ) );
+        CHECK( true == unioniser.isComptatible( grid5, values5 ) );
+        CHECK( true == unioniser.isComptatible( grid6, values6 ) );
+        CHECK( true == unioniser.isComptatible( grid7, values7 ) );
+        CHECK( true == unioniser.isComptatible( grid8, values8 ) );
+        CHECK( false == unioniser.isComptatible( grid9, values9 ) );
+        CHECK( true == unioniser.isComptatible( grid10, values10 ) );
+        CHECK( true == unioniser.isComptatible( grid11, values11 ) );
 
         y = unioniser.evaluate( grid1, values1, boundaries1, interpolants1 );
 
@@ -1050,6 +1132,72 @@ SCENARIO( "unionisation grids" ) {
         CHECK( InterpolationType::LinearLinear == pair.second[0] );
         CHECK( InterpolationType::Histogram == pair.second[1] );
         CHECK( InterpolationType::LinearLinear == pair.second[2] );
+
+        y = unioniser.evaluate( grid10, values10, boundaries10, interpolants10 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 1.5, WithinRel( y[4] ) );
+        CHECK_THAT( 0. , WithinRel( y[5] ) );
+        CHECK_THAT( 0. , WithinRel( y[6] ) );
+        CHECK_THAT( 0. , WithinRel( y[7] ) );
+        CHECK_THAT( 0. , WithinRel( y[8] ) );
+
+        y = unioniser.evaluate( grid10, values10 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 4. , WithinRel( y[0] ) );
+        CHECK_THAT( 3.5, WithinRel( y[1] ) );
+        CHECK_THAT( 3. , WithinRel( y[2] ) );
+        CHECK_THAT( 3. , WithinRel( y[3] ) );
+        CHECK_THAT( 1.5, WithinRel( y[4] ) );
+        CHECK_THAT( 0. , WithinRel( y[5] ) );
+        CHECK_THAT( 0. , WithinRel( y[6] ) );
+        CHECK_THAT( 0. , WithinRel( y[7] ) );
+        CHECK_THAT( 0. , WithinRel( y[8] ) );
+
+        pair = unioniser.updateBoundariesAndInterpolants( grid10, boundaries10, interpolants10 );
+
+        CHECK( 1 == pair.first.size() );
+        CHECK( 1 == pair.second.size() );
+        CHECK( 8 == pair.first[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
+
+        y = unioniser.evaluate( grid11, values11, boundaries11, interpolants11 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 0. , WithinRel( y[0] ) );
+        CHECK_THAT( 0. , WithinRel( y[1] ) );
+        CHECK_THAT( 0. , WithinRel( y[2] ) );
+        CHECK_THAT( 0. , WithinRel( y[3] ) );
+        CHECK_THAT( 1.5, WithinRel( y[4] ) );
+        CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 3. , WithinRel( y[6] ) );
+        CHECK_THAT( 2.5, WithinRel( y[7] ) );
+        CHECK_THAT( 2. , WithinRel( y[8] ) );
+
+        y = unioniser.evaluate( grid11, values11 );
+
+        CHECK( 9 == y.size() );
+        CHECK_THAT( 0. , WithinRel( y[0] ) );
+        CHECK_THAT( 0. , WithinRel( y[1] ) );
+        CHECK_THAT( 0. , WithinRel( y[2] ) );
+        CHECK_THAT( 0. , WithinRel( y[3] ) );
+        CHECK_THAT( 1.5, WithinRel( y[4] ) );
+        CHECK_THAT( 3. , WithinRel( y[5] ) );
+        CHECK_THAT( 3. , WithinRel( y[6] ) );
+        CHECK_THAT( 2.5, WithinRel( y[7] ) );
+        CHECK_THAT( 2. , WithinRel( y[8] ) );
+
+        pair = unioniser.updateBoundariesAndInterpolants( grid11, boundaries11, interpolants11 );
+
+        CHECK( 1 == pair.first.size() );
+        CHECK( 1 == pair.second.size() );
+        CHECK( 8 == pair.first[0] );
+        CHECK( InterpolationType::LinearLinear == pair.second[0] );
       } // THEN
     } // WHEN
   } // GIVEN
