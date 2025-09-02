@@ -93,6 +93,13 @@ namespace unionisation {
      *  the grid corresponding to the highest beginning point (unless those are already
      *  a duplicate point) if the corresponding tabulated values are non-zero.
      *
+     *  This function returns a boolean that indicates if the first tabulated value is
+     *  a zero value or not. If first1 and first2 point to the same x value, that return
+     *  value is ( zero1 && zero2 ), ie true if both are true. If first1 and first2 do not
+     *  point to the same x value, then either zero1 or zero2 is returned depending on
+     *  which x value is the lowest.
+     *
+     *  @param grid.    the current union grid
      *  @param first1   an iterator to the first element of the first grid
      *  @param first2   an iterator to the first element of the second grid
      *  @param zero1    true if the first value of the first grid is zero
@@ -137,6 +144,13 @@ namespace unionisation {
      *  the grid corresponding to the lowest end point (unless those are already a
      *  duplicate point) if the corresponding tabulated values are non-zero.
      *
+     *  This function returns a boolean that indicates if the first tabulated value is
+     *  a zero value or not. If first1 and first2 point to the same x value, that return
+     *  value is ( zero1 && zero2 ), ie true if both are true. If first1 and first2 do not
+     *  point to the same x value, then either zero1 or zero2 is returned depending on
+     *  which x value is the highest.
+     *
+     *  @param grid.    the current union grid
      *  @param first1   an iterator to past the last element of the first grid
      *  @param first2   an iterator to past the last element of the second grid
      *  @param zero1    true if the last value of the first grid is zero
