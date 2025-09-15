@@ -22,7 +22,7 @@ FetchContent_Declare( pybind11
 
 FetchContent_Declare( spdlog
     GIT_REPOSITORY  https://github.com/gabime/spdlog
-    GIT_TAG         a51b4856377a71f81b6d74b9af459305c4c644f8
+    GIT_TAG         27cb4c76708608465c413f6d0e6b8d99a4d84302 # tag: v1.14.1
     )
 
 #######################################################################
