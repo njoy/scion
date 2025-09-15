@@ -10,9 +10,9 @@ FetchContent_Declare( Catch2
     GIT_TAG         3f0283de7a9c43200033da996ff9093be3ac84dc # tag: v3.3.2
     )
 
-FetchContent_Declare( Log
-    GIT_REPOSITORY  https://github.com/njoy/Log
-    GIT_TAG         52962b7796afe37ef1d8f7edb4bf9ecb1b868d15
+FetchContent_Declare( tools
+    GIT_REPOSITORY  https://github.com/njoy/tools
+    GIT_TAG         b03f7f65070d84009c1ba5ae2e095f2e8a1a6ed4  # tag: v0.4.4
     )
 
 FetchContent_Declare( pybind11
