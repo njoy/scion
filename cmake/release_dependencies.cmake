@@ -31,7 +31,7 @@ FetchContent_Declare( spdlog
 
 FetchContent_MakeAvailable(
     Catch2
-    Log
+    tools
     pybind11
     spdlog
     )
