@@ -12,5 +12,4 @@ auto calculateIntegral() const {
     result += 2. * this->coefficients()[i] / ( 1. - i * i );
   }
   return result;
-
 }
