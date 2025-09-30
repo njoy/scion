@@ -489,6 +489,31 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK_THAT(   1., WithinRel( result.coefficients()[3] ) );
         CHECK_THAT(  -1., WithinRel( result.coefficients()[4] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk * small;
+
+        CHECK( 5 == result.order() );
+        CHECK( 6 == result.coefficients().size() );
+        CHECK_THAT( -24., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT(  42., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( -29., WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(  17., WithinRel( result.coefficients()[3] ) );
+        CHECK_THAT(  -7., WithinRel( result.coefficients()[4] ) );
+        CHECK_THAT(   1., WithinRel( result.coefficients()[5] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+
+        result = chunk;
+        result *= small;
+
+        CHECK( 5 == result.order() );
+        CHECK( 6 == result.coefficients().size() );
+        CHECK_THAT( -24., WithinRel( result.coefficients()[0] ) );
+        CHECK_THAT(  42., WithinRel( result.coefficients()[1] ) );
+        CHECK_THAT( -29., WithinRel( result.coefficients()[2] ) );
+        CHECK_THAT(  17., WithinRel( result.coefficients()[3] ) );
+        CHECK_THAT(  -7., WithinRel( result.coefficients()[4] ) );
+        CHECK_THAT(   1., WithinRel( result.coefficients()[5] ) );
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
     } // WHEN
   } // GIVEN

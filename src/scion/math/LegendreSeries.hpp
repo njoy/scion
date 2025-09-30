@@ -70,6 +70,7 @@ namespace math {
     #include "scion/math/LegendreSeries/src/calculatePrimitive.hpp"
     #include "scion/math/LegendreSeries/src/calculateIntegral.hpp"
     #include "scion/math/LegendreSeries/src/calculateMean.hpp"
+    #include "scion/math/LegendreSeries/src/calculateProduct.hpp"
     #include "scion/math/LegendreSeries/src/companionMatrix.hpp"
 
   public:

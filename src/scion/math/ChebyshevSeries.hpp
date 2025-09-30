@@ -64,6 +64,7 @@ namespace math {
     #include "scion/math/ChebyshevSeries/src/calculatePrimitive.hpp"
     #include "scion/math/ChebyshevSeries/src/calculateIntegral.hpp"
     #include "scion/math/ChebyshevSeries/src/calculateMean.hpp"
+    #include "scion/math/ChebyshevSeries/src/calculateProduct.hpp"
     #include "scion/math/ChebyshevSeries/src/companionMatrix.hpp"
 
   public:

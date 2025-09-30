@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_SERIESBASE
 
 // system includes
+#include <vector>
 
 // other includes
 #include "tools/Log.hpp"
@@ -253,6 +254,25 @@ namespace math {
     }
 
     /**
+     *  @brief Inplace series multiplication
+     *
+     *  There is no domain checking on the two series. It is up to the user to
+     *  verify that the domain of the two series are compatible.
+     *
+     *  @todo add domain check?
+     *
+     *  @todo make noexcept when all derived series have an implementation
+     *
+     *  @param[in] right    the series
+     */
+    Derived& operator*=( const Derived& right ) {
+
+      this->coefficients_ = static_cast< const Derived* >( this )->calculateProduct( right.coefficients() );
+      this->trimCoefficients();
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
      *  @brief Series and series addition
      *
      *  @param[in] right    the series
@@ -273,6 +293,20 @@ namespace math {
 
       Derived result = *static_cast< const Derived* >( this );
       result -= right;
+      return result;
+    }
+
+    /**
+     *  @brief Series and series multiplication
+     *
+     *  @todo make noexcept when all derived series have an implementation
+     *
+     *  @param[in] right    the series
+     */
+    Derived operator*( const Derived& right ) const {
+
+      Derived result = *static_cast< const Derived* >( this );
+      result *= right;
       return result;
     }
 
