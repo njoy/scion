@@ -3,7 +3,7 @@
  */
 std::vector< Y > calculateProduct( const std::vector< Y >& right ) const {
 
-  Log::error( "Multiplication of Chebyshev polynomials is not implemented yet, "
+  Log::error( "Multiplication of Legendre polynomials is not implemented yet, "
               "contact a developer." );
   throw std::exception();
 }
