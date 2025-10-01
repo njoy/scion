@@ -1,5 +1,5 @@
 /**
- *  @brief Return the derivative of the Chebyshev series
+ *  @brief Return the derivative of the series
  */
 Derived derivative() const {
 

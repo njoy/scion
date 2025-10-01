@@ -27,7 +27,7 @@ SCENARIO( "PolynomialSeriesRatio" ) {
       PolynomialSeriesRatio< double > chunk( std::move( numerator ),
                                              std::move( denominator ) );
 
-      THEN( "a PolynomialSeries can be constructed and members can be tested" ) {
+      THEN( "a PolynomialSeriesRatio can be constructed and members can be tested" ) {
 
         CHECK( 4 == chunk.numerator().coefficients().size() );
         CHECK_THAT( -8., WithinRel( chunk.numerator().coefficients()[0] ) );
@@ -40,11 +40,29 @@ SCENARIO( "PolynomialSeriesRatio" ) {
         CHECK_THAT( 5., WithinRel( chunk.denominator().coefficients()[2] ) );
       } // THEN
 
-      THEN( "a PolynomialSeries can be evaluated" ) {
+      THEN( "a PolynomialSeriesRatio can be evaluated" ) {
 
         CHECK_THAT(  -8. / 3., WithinRel( chunk(  0. ) ) );
         CHECK_THAT(   0.     , WithinRel( chunk(  1. ) ) );
         CHECK_THAT( -30. / 8., WithinRel( chunk( -1. ) ) );
+      } // THEN
+
+      THEN( "a PolynomialSeriesRatio can be derived" ) {
+
+        auto derivative = chunk.derivative();
+
+        CHECK( 5 == derivative.numerator().coefficients().size() );
+        CHECK_THAT(  42., WithinRel( derivative.numerator().coefficients()[0] ) );
+        CHECK_THAT(  38., WithinRel( derivative.numerator().coefficients()[1] ) );
+        CHECK_THAT( -61., WithinRel( derivative.numerator().coefficients()[2] ) );
+        CHECK_THAT(   0., WithinRel( derivative.numerator().coefficients()[3] ) );
+        CHECK_THAT(   5., WithinRel( derivative.numerator().coefficients()[4] ) );
+        CHECK( 5 == derivative.denominator().coefficients().size() );
+        CHECK_THAT(  9., WithinRel( derivative.denominator().coefficients()[0] ) );
+        CHECK_THAT(  0., WithinRel( derivative.denominator().coefficients()[1] ) );
+        CHECK_THAT( 30., WithinRel( derivative.denominator().coefficients()[2] ) );
+        CHECK_THAT(  0., WithinRel( derivative.denominator().coefficients()[3] ) );
+        CHECK_THAT( 25., WithinRel( derivative.denominator().coefficients()[4] ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {

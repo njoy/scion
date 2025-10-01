@@ -50,6 +50,7 @@ namespace math {
 
     using Parent::numerator;
     using Parent::denominator;
+    using Parent::derivative;
     using Parent::operator+;
     using Parent::operator-;
     using Parent::operator*;

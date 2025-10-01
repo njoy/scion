@@ -73,6 +73,17 @@ namespace math {
     }
 
     /**
+     *  @brief Return the derivative of the ratio
+     */
+    Derived derivative() const {
+
+      Series numerator = this->numerator().derivative() * this->denominator() -
+                         this->numerator() * this->denominator().derivative();
+      Series denominator = this->denominator() * this->denominator();
+      return Derived( std::move( numerator ), std::move( denominator ) );
+    }
+
+    /**
      *  @brief Inplace scalar addition
      *
      *  @param[in] right    the scalar
