@@ -56,6 +56,7 @@ namespace math {
     #include "scion/math/PolynomialSeries/src/calculatePrimitive.hpp"
     #include "scion/math/PolynomialSeries/src/calculateIntegral.hpp"
     #include "scion/math/PolynomialSeries/src/calculateMean.hpp"
+    #include "scion/math/PolynomialSeries/src/calculateProduct.hpp"
     #include "scion/math/PolynomialSeries/src/companionMatrix.hpp"
 
   public:
