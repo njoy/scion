@@ -104,9 +104,10 @@ namespace math {
    *  @param[in] left     the scalar
    *  @param[in] right    the series
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   PolynomialSeries< X, Y >
-  operator+( const Y& left, const PolynomialSeries< X, Y >& right ) {
+  operator+( const S& left, const PolynomialSeries< X, Y >& right ) {
 
     return right + left;
   }
@@ -117,9 +118,10 @@ namespace math {
    *  @param[in] left     the scalar
    *  @param[in] right    the series
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   PolynomialSeries< X, Y >
-  operator-( const Y& left, const PolynomialSeries< X, Y >& right ) {
+  operator-( const S& left, const PolynomialSeries< X, Y >& right ) {
 
     auto result = -right;
     result += left;
@@ -132,9 +134,10 @@ namespace math {
    *  @param[in] left     the scalar
    *  @param[in] right    the series
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   PolynomialSeries< X, Y >
-  operator*( const Y& left, const PolynomialSeries< X, Y >& right ) {
+  operator*( const S& left, const PolynomialSeries< X, Y >& right ) {
 
     return right * left;
   }

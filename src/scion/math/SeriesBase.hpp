@@ -107,7 +107,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived& operator+=( const Y& right ) noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived& operator+=( const S& right ) noexcept {
 
       this->coefficients_[0] += right;
       return *static_cast< Derived* >( this );
@@ -118,7 +120,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived& operator-=( const Y& right ) noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived& operator-=( const S& right ) noexcept {
 
       return this->operator+=( -right );
     }
@@ -128,7 +132,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived& operator*=( const Y& right ) noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived& operator*=( const S& right ) noexcept {
 
       for ( auto& value : this->coefficients_ ) {
 
@@ -142,7 +148,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived& operator/=( const Y& right ) noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived& operator/=( const S& right ) noexcept {
 
       return this->operator*=( Y( 1. ) / right );
     }
@@ -152,7 +160,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived operator+( const Y& right ) const noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived operator+( const S& right ) const noexcept {
 
       Derived result = *static_cast< const Derived* >( this );
       result += right;
@@ -164,7 +174,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived operator-( const Y& right ) const noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived operator-( const S& right ) const noexcept {
 
       Derived result = *static_cast< const Derived* >( this );
       result -= right;
@@ -176,7 +188,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived operator*( const Y& right ) const noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived operator*( const S& right ) const noexcept {
 
       Derived result = *static_cast< const Derived* >( this );
       result *= right;
@@ -188,7 +202,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    Derived operator/( const Y& right ) const noexcept {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    Derived operator/( const S& right ) const noexcept {
 
       Derived result = *static_cast< const Derived* >( this );
       result /= right;
