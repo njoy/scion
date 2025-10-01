@@ -253,7 +253,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
-        chunk *= 2.;
+        chunk *= 2;
 
         CHECK( 4 == chunk.numberPoints() );
         CHECK( 1 == chunk.numberRegions() );
@@ -273,7 +273,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
-        chunk /= 2.;
+        chunk /= 2;
 
         CHECK( 4 == chunk.numberPoints() );
         CHECK( 1 == chunk.numberRegions() );
@@ -393,7 +393,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
-        result = chunk * 2.;
+        result = chunk * 2;
 
         CHECK( 4 == result.numberPoints() );
         CHECK( 1 == result.numberRegions() );
@@ -413,7 +413,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
-        result = 2. * chunk;
+        result = 2 * chunk;
 
         CHECK( 4 == result.numberPoints() );
         CHECK( 1 == result.numberRegions() );
@@ -433,7 +433,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
-        result = chunk / 2.;
+        result = chunk / 2;
 
         CHECK( 4 == result.numberPoints() );
         CHECK( 1 == result.numberRegions() );
