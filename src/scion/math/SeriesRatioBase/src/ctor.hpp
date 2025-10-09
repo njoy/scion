@@ -18,4 +18,7 @@ SeriesRatioBase& operator=( SeriesRatioBase&& ) = default;
 SeriesRatioBase( Series numerator, Series denominator ) :
   Parent( numerator.domain() ),
   numerator_( std::move( numerator ) ),
-  denominator_( std::move( denominator ) ) {}
+  denominator_( std::move( denominator ) ) {
+
+  this->simplify();
+}

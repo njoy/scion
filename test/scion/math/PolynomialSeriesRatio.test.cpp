@@ -69,6 +69,7 @@ SCENARIO( "PolynomialSeriesRatio" ) {
 
         PolynomialSeries< double > series( { 3., 0., 1. } );
         PolynomialSeriesRatio< double > other( { 3., 0., 1. }, { 5., 2. } );
+        PolynomialSeriesRatio< double > denom( { 3., 0., 1. }, { 1. } );
         PolynomialSeriesRatio< double > result( { 0. }, { 0. } );
 
         result = -chunk;
@@ -495,6 +496,682 @@ SCENARIO( "PolynomialSeriesRatio" ) {
         CHECK_THAT(  6., WithinRel( result.denominator().coefficients()[1] ) );
         CHECK_THAT( 25., WithinRel( result.denominator().coefficients()[2] ) );
         CHECK_THAT( 10., WithinRel( result.denominator().coefficients()[3] ) );
+
+        chunk += denom;
+
+        CHECK( 5 == chunk.numerator().coefficients().size() );
+        CHECK_THAT(  1., WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( 11., WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK_THAT(  5., WithinRel( chunk.numerator().coefficients()[4] ) );
+        CHECK( 3 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( chunk.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( chunk.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( chunk.denominator().coefficients()[2] ) );
+
+        chunk -= denom;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 3 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( chunk.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( chunk.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( chunk.denominator().coefficients()[2] ) );
+
+        result = chunk + denom;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( 11., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  5., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = denom + chunk;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( 11., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  5., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk - denom;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -17., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -25., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -5., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = denom - chunk;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT(  17., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( -14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  25., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   5., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk * denom;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -24., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  42., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -29., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  17., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -7., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   1., WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = denom * chunk;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -24., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  42., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -29., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  17., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -7., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   1., WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk;
+        result *= denom;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -24., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  42., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -29., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  17., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -7., WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   1., WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk / denom;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 5 == result.denominator().coefficients().size() );
+        CHECK_THAT(  9., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT(  0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 18., WithinRel( result.denominator().coefficients()[2] ) );
+        CHECK_THAT(  0., WithinRel( result.denominator().coefficients()[3] ) );
+        CHECK_THAT(  5., WithinRel( result.denominator().coefficients()[4] ) );
+
+        result = chunk;
+        result /= denom;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 5 == result.denominator().coefficients().size() );
+        CHECK_THAT(  9., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT(  0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 18., WithinRel( result.denominator().coefficients()[2] ) );
+        CHECK_THAT(  0., WithinRel( result.denominator().coefficients()[3] ) );
+        CHECK_THAT(  5., WithinRel( result.denominator().coefficients()[4] ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly with a constant denominator" ) {
+
+      // note: the ratio is updated so that the denominator is equal to 1
+
+      std::vector< double > numerator = { -8., 14., -7., 1. };
+      std::vector< double > denominator = { 2. };
+
+      PolynomialSeriesRatio< double > chunk( std::move( numerator ),
+                                             std::move( denominator ) );
+
+      THEN( "a PolynomialSeriesRatio can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+      } // THEN
+
+      THEN( "a PolynomialSeriesRatio can be evaluated" ) {
+
+        CHECK_THAT(  -4., WithinRel( chunk(  0. ) ) );
+        CHECK_THAT(   0., WithinRel( chunk(  1. ) ) );
+        CHECK_THAT( -15., WithinRel( chunk( -1. ) ) );
+      } // THEN
+
+      THEN( "a PolynomialSeriesRatio can be derived" ) {
+
+        auto derivative = chunk.derivative();
+
+        CHECK( 3 == derivative.numerator().coefficients().size() );
+        CHECK_THAT(  7. , WithinRel( derivative.numerator().coefficients()[0] ) );
+        CHECK_THAT( -7. , WithinRel( derivative.numerator().coefficients()[1] ) );
+        CHECK_THAT(  1.5, WithinRel( derivative.numerator().coefficients()[2] ) );
+        CHECK( 1 == derivative.denominator().coefficients().size() );
+        CHECK_THAT(  1., WithinRel( derivative.denominator().coefficients()[0] ) );
+      } // THEN
+
+      THEN( "arithmetic operations can be performed" ) {
+
+        PolynomialSeries< double > series( { 3., 0., 1. } );
+        PolynomialSeriesRatio< double > other( { 3., 0., 1. }, { 5., 2. } );
+        PolynomialSeriesRatio< double > denom( { 3., 0., 1. }, { 1. } );
+        PolynomialSeriesRatio< double > result( { 0. }, { 0. } );
+
+        result = -chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT(  4. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( -7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT( -0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        chunk += 2;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -2. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        chunk -= 2;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        chunk += series;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -1. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -2.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        chunk -= series;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        chunk *= 2;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        chunk /= 2;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        result = chunk + 2;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -2. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = 2 + chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -2. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk - 2;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -6. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = 2 - chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT(  6. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( -7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT( -0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk * 2;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = 2 * chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk / 2;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -2.  , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  3.5 , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -1.75, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.25, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = 2 / chunk;
+
+        CHECK( 1 == result.numerator().coefficients().size() );
+        CHECK_THAT( 2., WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK( 4 == result.denominator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.denominator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.denominator().coefficients()[3] ) );
+
+        result = chunk + series;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -1. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -2.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = series + chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -1. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -2.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk - series;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -7. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -4.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = series - chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( -7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  4.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT( -0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk * series;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = series * chunk;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk;
+        result *= series;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk / series;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk;
+        result /= series;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk;
+        result *= other;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 2 == result.denominator().coefficients().size() );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.denominator().coefficients()[1] ) );
+
+        result = chunk;
+        result /= other;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -20. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  27. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   1. , WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk * other;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 2 == result.denominator().coefficients().size() );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.denominator().coefficients()[1] ) );
+
+        result = chunk / other;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -20. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  27. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   1. , WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk;
+        result += other;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -17. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  27. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  -2.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   1. , WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 2 == result.denominator().coefficients().size() );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.denominator().coefficients()[1] ) );
+
+        result = chunk;
+        result -= other;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -23. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  27. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   1. , WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 2 == result.denominator().coefficients().size() );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.denominator().coefficients()[1] ) );
+
+        result = chunk + other;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -17. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  27. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  -2.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   1. , WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 2 == result.denominator().coefficients().size() );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.denominator().coefficients()[1] ) );
+
+        result = chunk - other;
+
+        CHECK( 5 == result.numerator().coefficients().size() );
+        CHECK_THAT( -23. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  27. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  -4.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(   1. , WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK( 2 == result.denominator().coefficients().size() );
+        CHECK_THAT( 5., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 2., WithinRel( result.denominator().coefficients()[1] ) );
+
+        chunk += denom;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -1. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -2.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        chunk -= denom;
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 1 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.denominator().coefficients()[0] ) );
+
+        result = chunk + denom;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -1. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -2.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = denom + chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -1. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -2.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk - denom;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -7. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -4.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = denom - chunk;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT( -7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT(  4.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT( -0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk * denom;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = denom * chunk;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk;
+        result *= denom;
+
+        CHECK( 6 == result.numerator().coefficients().size() );
+        CHECK_THAT( -12. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  21. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -14.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(   8.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK_THAT(  -3.5, WithinRel( result.numerator().coefficients()[4] ) );
+        CHECK_THAT(   0.5, WithinRel( result.numerator().coefficients()[5] ) );
+        CHECK( 1 == result.denominator().coefficients().size() );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[0] ) );
+
+        result = chunk / denom;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[2] ) );
+
+        result = chunk;
+        result /= denom;
+
+        CHECK( 4 == result.numerator().coefficients().size() );
+        CHECK_THAT( -4. , WithinRel( result.numerator().coefficients()[0] ) );
+        CHECK_THAT(  7. , WithinRel( result.numerator().coefficients()[1] ) );
+        CHECK_THAT( -3.5, WithinRel( result.numerator().coefficients()[2] ) );
+        CHECK_THAT(  0.5, WithinRel( result.numerator().coefficients()[3] ) );
+        CHECK( 3 == result.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( result.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( result.denominator().coefficients()[1] ) );
+        CHECK_THAT( 1., WithinRel( result.denominator().coefficients()[2] ) );
       } // THEN
     } // WHEN
   } // GIVEN

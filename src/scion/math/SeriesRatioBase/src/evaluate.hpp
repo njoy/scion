@@ -5,5 +5,12 @@
  */
 Y evaluate( const X& x ) const {
 
-  return this->numerator()( x ) / this->denominator()( x );
+  if ( this->denominator().order() == 0 ) {
+
+    return this->numerator()( x );
+  }
+  else {
+
+    return this->numerator()( x ) / this->denominator()( x );
+  }
 }

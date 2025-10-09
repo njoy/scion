@@ -50,6 +50,7 @@ namespace math {
 
     /* auxiliary function */
 
+    #include "scion/math/SeriesRatioBase/src/simplify.hpp"
     #include "scion/math/SeriesRatioBase/src/evaluate.hpp"
 
   public:
@@ -77,10 +78,19 @@ namespace math {
      */
     Derived derivative() const {
 
-      Series numerator = this->numerator().derivative() * this->denominator() -
-                         this->numerator() * this->denominator().derivative();
-      Series denominator = this->denominator() * this->denominator();
-      return Derived( std::move( numerator ), std::move( denominator ) );
+      if ( this->denominator().order() == 0 ) {
+
+        Series numerator = this->numerator().derivative();
+        Series denominator = this->denominator();
+        return Derived( std::move( numerator ), std::move( denominator ) );
+      }
+      else {
+
+        Series numerator = this->numerator().derivative() * this->denominator() -
+                           this->numerator() * this->denominator().derivative();
+        Series denominator = this->denominator() * this->denominator();
+        return Derived( std::move( numerator ), std::move( denominator ) );
+      }
     }
 
     /**
@@ -92,7 +102,14 @@ namespace math {
                typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
     Derived& operator+=( const S& right ) noexcept {
 
-      this->numerator_ += right * this->denominator_;
+      if ( this->denominator().order() == 0 ) {
+
+        this->numerator_ += right;
+      }
+      else {
+
+        this->numerator_ += right * this->denominator_;
+      }
       return *static_cast< Derived* >( this );
     }
 
@@ -211,7 +228,14 @@ namespace math {
      */
     Derived& operator+=( const Series& right ) noexcept {
 
-      this->numerator_ += this->denominator_ * right;
+      if ( this->denominator().order() == 0 ) {
+
+        this->numerator_ += right;
+      }
+      else {
+
+        this->numerator_ += this->denominator_ * right;
+      }
       return *static_cast< Derived* >( this );
     }
 
@@ -227,9 +251,24 @@ namespace math {
      */
     Derived& operator+=( const Derived& right ) noexcept {
 
-      this->numerator_ *= right.denominator();
-      this->numerator_ += this->denominator_ * right.numerator();
-      this->denominator_ *= right.denominator();
+      bool has_denominator = right.denominator().order() != 0;
+
+      if ( has_denominator ) {
+
+        this->numerator_ *= right.denominator();
+      }
+      if ( this->denominator().order() == 0 ) {
+
+        this->numerator_ += right.numerator();
+      }
+      else {
+
+        this->numerator_ += this->denominator() * right.numerator();
+      }
+      if ( has_denominator ) {
+
+        this->denominator_ *= right.denominator();
+      }
       return *static_cast< Derived* >( this );
     }
 
@@ -245,7 +284,14 @@ namespace math {
      */
     Derived& operator-=( const Series& right ) noexcept {
 
-      this->numerator_ -= this->denominator_ * right;
+      if ( this->denominator().order() == 0 ) {
+
+        this->numerator_ -= right;
+      }
+      else {
+
+        this->numerator_ -= this->denominator_ * right;
+      }
       return *static_cast< Derived* >( this );
     }
 
@@ -261,9 +307,24 @@ namespace math {
      */
     Derived& operator-=( const Derived& right ) noexcept {
 
-      this->numerator_ *= right.denominator();
-      this->numerator_ -= this->denominator_ * right.numerator();
-      this->denominator_ *= right.denominator();
+      bool has_denominator = right.denominator().order() != 0;
+
+      if ( has_denominator ) {
+
+        this->numerator_ *= right.denominator();
+      }
+      if ( this->denominator().order() == 0 ) {
+
+        this->numerator_ -= right.numerator();
+      }
+      else {
+
+        this->numerator_ -= this->denominator() * right.numerator();
+      }
+      if ( has_denominator ) {
+
+        this->denominator_ *= right.denominator();
+      }
       return *static_cast< Derived* >( this );
     }
 
@@ -300,7 +361,10 @@ namespace math {
     Derived& operator*=( const Derived& right ) {
 
       this->numerator_ *= right.numerator();
-      this->denominator_ *= right.denominator();
+      if ( right.denominator().order() != 0 ) {
+
+        this->denominator_ *= right.denominator();
+      }
       return *static_cast< Derived* >( this );
     }
 
@@ -319,6 +383,7 @@ namespace math {
     Derived& operator/=( const Series& right ) {
 
       this->denominator_ *= right;
+      this->simplify();
       return *static_cast< Derived* >( this );
     }
 
@@ -338,6 +403,7 @@ namespace math {
 
       this->numerator_ *= right.denominator();
       this->denominator_ *= right.numerator();
+      this->simplify();
       return *static_cast< Derived* >( this );
     }
 
