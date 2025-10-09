@@ -12,6 +12,12 @@ public:
  */
 LegendreSeries() = default;
 
+LegendreSeries( const LegendreSeries& ) = default;
+LegendreSeries( LegendreSeries&& ) = default;
+
+LegendreSeries& operator=( const LegendreSeries& ) = default;
+LegendreSeries& operator=( LegendreSeries&& ) = default;
+
 /**
  *  @brief Constructor
  *

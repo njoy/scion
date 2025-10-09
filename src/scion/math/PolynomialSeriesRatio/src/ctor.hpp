@@ -12,6 +12,12 @@ public:
  */
 PolynomialSeriesRatio() = default;
 
+PolynomialSeriesRatio( const PolynomialSeriesRatio& ) = default;
+PolynomialSeriesRatio( PolynomialSeriesRatio&& ) = default;
+
+PolynomialSeriesRatio& operator=( const PolynomialSeriesRatio& ) = default;
+PolynomialSeriesRatio& operator=( PolynomialSeriesRatio&& ) = default;
+
 /**
  *  @brief Constructor
  *

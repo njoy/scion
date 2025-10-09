@@ -3,6 +3,12 @@
  */
 SeriesRatioBase() = default;
 
+SeriesRatioBase( const SeriesRatioBase& ) = default;
+SeriesRatioBase( SeriesRatioBase&& ) = default;
+
+SeriesRatioBase& operator=( const SeriesRatioBase& ) = default;
+SeriesRatioBase& operator=( SeriesRatioBase&& ) = default;
+
 /**
  *  @brief Constructor
  *

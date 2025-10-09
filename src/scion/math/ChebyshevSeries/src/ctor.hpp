@@ -12,6 +12,12 @@ public:
  */
 ChebyshevSeries() = default;
 
+ChebyshevSeries( const ChebyshevSeries& ) = default;
+ChebyshevSeries( ChebyshevSeries&& ) = default;
+
+ChebyshevSeries& operator=( const ChebyshevSeries& ) = default;
+ChebyshevSeries& operator=( ChebyshevSeries&& ) = default;
+
 /**
  *  @brief Constructor
  *

@@ -12,6 +12,12 @@ public:
  */
 PolynomialSeries() = default;
 
+PolynomialSeries( const PolynomialSeries& ) = default;
+PolynomialSeries( PolynomialSeries&& ) = default;
+
+PolynomialSeries& operator=( const PolynomialSeries& ) = default;
+PolynomialSeries& operator=( PolynomialSeries&& ) = default;
+
 /**
  *  @brief Constructor
  *

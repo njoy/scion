@@ -3,6 +3,12 @@
  */
 SeriesBase() = default;
 
+SeriesBase( const SeriesBase& ) = default;
+SeriesBase( SeriesBase&& ) = default;
+
+SeriesBase& operator=( const SeriesBase& ) = default;
+SeriesBase& operator=( SeriesBase&& ) = default;
+
 /**
  *  @brief Constructor
  *
