@@ -604,6 +604,24 @@ SCENARIO( "PolynomialSeries" ) {
         CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
       } // THEN
     } // WHEN
+
+    WHEN( "using constant assignment" ) {
+
+      PolynomialSeries< double > chunk( -1, 1, { -8., 14., -7., 1. } );
+      chunk = 1.;
+
+      THEN( "an PolynomialSeries can be constructed and  members can be tested" ) {
+
+        CHECK( 0 == chunk.order() );
+
+        CHECK( 1 == chunk.coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[0] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 
   GIVEN( "comparison operators" ) {

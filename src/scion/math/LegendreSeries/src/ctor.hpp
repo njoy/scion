@@ -19,6 +19,16 @@ LegendreSeries& operator=( const LegendreSeries& ) = default;
 LegendreSeries& operator=( LegendreSeries&& ) = default;
 
 /**
+ *  @brief Assignment operator
+ *
+ *  @param coefficient   the zero order coefficient
+ */
+LegendreSeries& operator=( const Y& value ) {
+
+  return Parent::operator=( value );
+}
+
+/**
  *  @brief Constructor
  *
  *  @param coefficients   the coefficients of the Legendre series (from

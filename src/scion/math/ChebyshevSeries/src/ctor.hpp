@@ -19,6 +19,16 @@ ChebyshevSeries& operator=( const ChebyshevSeries& ) = default;
 ChebyshevSeries& operator=( ChebyshevSeries&& ) = default;
 
 /**
+ *  @brief Assignment operator
+ *
+ *  @param coefficient   the zero order coefficient
+ */
+ChebyshevSeries& operator=( const Y& value ) {
+
+  return Parent::operator=( value );
+}
+
+/**
  *  @brief Constructor
  *
  *  @param coefficients   the coefficients of the Chebyshev series (from

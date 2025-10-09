@@ -561,6 +561,24 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
       } // THEN
     } // WHEN
+
+    WHEN( "using constant assignment" ) {
+
+      LegendreSeries< double > chunk( { -31./3., 73./5., -14./3., 2./5. } );
+      chunk = 1.;
+
+      THEN( "an LegendreSeries can be constructed and  members can be tested" ) {
+
+        CHECK( 0 == chunk.order() );
+
+        CHECK( 1 == chunk.coefficients().size() );
+        CHECK_THAT( 1., WithinRel( chunk.coefficients()[0] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 
   GIVEN( "comparison operators" ) {

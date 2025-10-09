@@ -10,6 +10,17 @@ SeriesBase& operator=( const SeriesBase& ) = default;
 SeriesBase& operator=( SeriesBase&& ) = default;
 
 /**
+ *  @brief Assignment operator
+ *
+ *  @param coefficient   the zero order coefficient
+ */
+Derived& operator=( const Y& value ) {
+
+  this->coefficients_ = { value };
+  return *static_cast< Derived* >( this );;
+}
+
+/**
  *  @brief Constructor
  *
  *  There must be at least 1 coefficient. Trailing zeros in the coefficients are
