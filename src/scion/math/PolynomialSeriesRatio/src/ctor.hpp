@@ -56,3 +56,26 @@ PolynomialSeriesRatio( X lower, X upper,
                        std::vector< Y > denominator ) :
   PolynomialSeriesRatio( PolynomialSeries< X, Y >( lower, upper, std::move( numerator ) ),
                          PolynomialSeries< X, Y >( lower, upper, std::move( denominator ) ) ) {}
+
+/**
+ *  @brief Constructor (for an open domain on the polynomial series)
+ *
+ *  @param numerator     the coefficients of the numerator series
+ *                       (from lowest to highest order coefficient)
+ */
+PolynomialSeriesRatio( std::vector< Y > numerator ) :
+  PolynomialSeriesRatio( PolynomialSeries< X, Y >( std::move( numerator ) ),
+                         PolynomialSeries< X, Y >( { Y( 1. ) } ) ) {}
+
+/**
+ *  @brief Constructor (for an interval domain on the polynomial series)
+ *
+ *  @param lower         the lower limit of the domain
+ *  @param upper         the upper limit of the domain
+ *  @param numerator     the coefficients of the numerator series
+ *                       (from lowest to highest order coefficient)
+ */
+PolynomialSeriesRatio( X lower, X upper,
+                       std::vector< Y > numerator ) :
+  PolynomialSeriesRatio( PolynomialSeries< X, Y >( lower, upper, std::move( numerator ) ),
+                         PolynomialSeries< X, Y >( lower, upper, { Y( 1. ) } ) ) {}
