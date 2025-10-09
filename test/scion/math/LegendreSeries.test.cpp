@@ -51,6 +51,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).upperLimit() ) );
       } // THEN
 
       THEN( "a LegendreSeries can be evaluated" ) {
@@ -471,6 +473,92 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(   0.4             , WithinRel( result.coefficients()[3] ) );
         CHECK_THAT(  -1.              , WithinRel( result.coefficients()[4] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using the copy constructor" ) {
+
+      LegendreSeries< double > chunk( { -31./3., 73./5., -14./3., 2./5. } );
+      LegendreSeries< double > copy( chunk );
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == copy.order() );
+
+        CHECK( 4 == copy.coefficients().size() );
+        CHECK_THAT( -10.33333333333333, WithinRel( copy.coefficients()[0] ) );
+        CHECK_THAT(  14.6             , WithinRel( copy.coefficients()[1] ) );
+        CHECK_THAT(  -4.66666666666666, WithinRel( copy.coefficients()[2] ) );
+        CHECK_THAT(   0.4             , WithinRel( copy.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using the move constructor" ) {
+
+      LegendreSeries< double > chunk( { -31./3., 73./5., -14./3., 2./5. } );
+      LegendreSeries< double > move( std::move( chunk ) );
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == move.order() );
+
+        CHECK( 4 == move.coefficients().size() );
+        CHECK_THAT( -10.33333333333333, WithinRel( move.coefficients()[0] ) );
+        CHECK_THAT(  14.6             , WithinRel( move.coefficients()[1] ) );
+        CHECK_THAT(  -4.66666666666666, WithinRel( move.coefficients()[2] ) );
+        CHECK_THAT(   0.4             , WithinRel( move.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using copy assignment" ) {
+
+      LegendreSeries< double > chunk( { -31./3., 73./5., -14./3., 2./5. } );
+      LegendreSeries< double > copy( { 1. } );
+      copy = chunk;
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == copy.order() );
+
+        CHECK( 4 == copy.coefficients().size() );
+        CHECK_THAT( -10.33333333333333, WithinRel( copy.coefficients()[0] ) );
+        CHECK_THAT(  14.6             , WithinRel( copy.coefficients()[1] ) );
+        CHECK_THAT(  -4.66666666666666, WithinRel( copy.coefficients()[2] ) );
+        CHECK_THAT(   0.4             , WithinRel( copy.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using move assignment" ) {
+
+      LegendreSeries< double > chunk( { -31./3., 73./5., -14./3., 2./5. } );
+      LegendreSeries< double > move( { 1. } );
+      move = std::move( chunk );
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == move.order() );
+
+        CHECK( 4 == move.coefficients().size() );
+        CHECK_THAT( -10.33333333333333, WithinRel( move.coefficients()[0] ) );
+        CHECK_THAT(  14.6             , WithinRel( move.coefficients()[1] ) );
+        CHECK_THAT(  -4.66666666666666, WithinRel( move.coefficients()[2] ) );
+        CHECK_THAT(   0.4             , WithinRel( move.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN

@@ -51,6 +51,8 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK_THAT(   0.25, WithinRel( chunk.coefficients()[3] ) );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).upperLimit() ) );
       } // THEN
 
       THEN( "a ChebyshevSeries can be evaluated" ) {
@@ -499,6 +501,91 @@ SCENARIO( "ChebyshevSeries" ) {
         CHECK_THAT(  -1.750, WithinRel( result.coefficients()[4] ) );
         CHECK_THAT(   0.125, WithinRel( result.coefficients()[5] ) );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+      } // THEN
+    } // WHEN
+    WHEN( "using the copy constructor" ) {
+
+      ChebyshevSeries< double > chunk( { -23./2., 59./4., -7./2., 1./4. } );
+      ChebyshevSeries< double > copy( chunk );
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == copy.order() );
+
+        CHECK( 4 == copy.coefficients().size() );
+        CHECK_THAT( -11.50, WithinRel( copy.coefficients()[0] ) );
+        CHECK_THAT(  14.75, WithinRel( copy.coefficients()[1] ) );
+        CHECK_THAT(  -3.50, WithinRel( copy.coefficients()[2] ) );
+        CHECK_THAT(   0.25, WithinRel( copy.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using the move constructor" ) {
+
+      ChebyshevSeries< double > chunk( { -23./2., 59./4., -7./2., 1./4. } );
+      ChebyshevSeries< double > move( std::move( chunk ) );
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == move.order() );
+
+        CHECK( 4 == move.coefficients().size() );
+        CHECK_THAT( -11.50, WithinRel( move.coefficients()[0] ) );
+        CHECK_THAT(  14.75, WithinRel( move.coefficients()[1] ) );
+        CHECK_THAT(  -3.50, WithinRel( move.coefficients()[2] ) );
+        CHECK_THAT(   0.25, WithinRel( move.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using copy assignment" ) {
+
+      ChebyshevSeries< double > chunk( { -23./2., 59./4., -7./2., 1./4. } );
+      ChebyshevSeries< double > copy( { 1. } );
+      copy = chunk;
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == copy.order() );
+
+        CHECK( 4 == copy.coefficients().size() );
+        CHECK_THAT( -11.50, WithinRel( copy.coefficients()[0] ) );
+        CHECK_THAT(  14.75, WithinRel( copy.coefficients()[1] ) );
+        CHECK_THAT(  -3.50, WithinRel( copy.coefficients()[2] ) );
+        CHECK_THAT(   0.25, WithinRel( copy.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).upperLimit() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "using move assignment" ) {
+
+      ChebyshevSeries< double > chunk( { -23./2., 59./4., -7./2., 1./4. } );
+      ChebyshevSeries< double > move( { 1. } );
+      move = std::move( chunk );
+
+      THEN( "a LegendreSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == move.order() );
+
+        CHECK( 4 == move.coefficients().size() );
+        CHECK_THAT( -11.50, WithinRel( move.coefficients()[0] ) );
+        CHECK_THAT(  14.75, WithinRel( move.coefficients()[1] ) );
+        CHECK_THAT(  -3.50, WithinRel( move.coefficients()[2] ) );
+        CHECK_THAT(   0.25, WithinRel( move.coefficients()[3] ) );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN
