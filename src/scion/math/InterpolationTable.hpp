@@ -171,7 +171,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    template < typename S >
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
     InterpolationTable& operator*=( const S& right ) {
 
       return this->operation( right, std::multiplies< Y >() );
@@ -182,7 +183,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    template < typename S >
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
     InterpolationTable& operator/=( const S& right ) {
 
       return this->operation( right, std::divides< Y >() );
@@ -217,7 +219,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    template < typename S >
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
     InterpolationTable operator*( const S& right ) const {
 
       InterpolationTable result = *this;
@@ -230,7 +233,8 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    template < typename S >
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
     InterpolationTable operator/( const S& right ) const {
 
       InterpolationTable result = *this;
@@ -420,9 +424,10 @@ namespace math {
    *  @brief Scalar and InterpolationTable multiplication
    *
    *  @param[in] left    the scalar
-   *  @param[in] right     the series
+   *  @param[in] right   the series
    */
-  template < typename S, typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   InterpolationTable< X, Y >
   operator*( const S& left, const InterpolationTable< X, Y >& right ) {
 

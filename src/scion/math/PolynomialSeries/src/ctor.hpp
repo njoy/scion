@@ -12,6 +12,22 @@ public:
  */
 PolynomialSeries() = default;
 
+PolynomialSeries( const PolynomialSeries& ) = default;
+PolynomialSeries( PolynomialSeries&& ) = default;
+
+PolynomialSeries& operator=( const PolynomialSeries& ) = default;
+PolynomialSeries& operator=( PolynomialSeries&& ) = default;
+
+/**
+ *  @brief Assignment operator
+ *
+ *  @param coefficient   the zero order coefficient
+ */
+PolynomialSeries& operator=( const Y& value ) {
+
+  return Parent::operator=( value );
+}
+
 /**
  *  @brief Constructor
  *

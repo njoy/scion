@@ -12,6 +12,22 @@ public:
  */
 LegendreSeries() = default;
 
+LegendreSeries( const LegendreSeries& ) = default;
+LegendreSeries( LegendreSeries&& ) = default;
+
+LegendreSeries& operator=( const LegendreSeries& ) = default;
+LegendreSeries& operator=( LegendreSeries&& ) = default;
+
+/**
+ *  @brief Assignment operator
+ *
+ *  @param coefficient   the zero order coefficient
+ */
+LegendreSeries& operator=( const Y& value ) {
+
+  return Parent::operator=( value );
+}
+
 /**
  *  @brief Constructor
  *

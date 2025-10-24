@@ -99,7 +99,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation& operator+=( const Y& right ) {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation& operator+=( const S& right ) {
 
       this->series_ += right;
       return *this;
@@ -110,7 +112,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation& operator-=( const Y& right ) {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation& operator-=( const S& right ) {
 
       return this->operator+=( -right );
     }
@@ -120,7 +124,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation& operator*=( const Y& right ) {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation& operator*=( const S& right ) {
 
       this->series_ *= right;
       return *this;
@@ -131,7 +137,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation& operator/=( const Y& right ) {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation& operator/=( const S& right ) {
 
       return this->operator*=( Y( 1. ) / right );
     }
@@ -141,7 +149,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation operator+( const Y& right ) const {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation operator+( const S& right ) const {
 
       ChebyshevApproximation result = *this;
       result += right;
@@ -153,7 +163,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation operator-( const Y& right ) const {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation operator-( const S& right ) const {
 
       ChebyshevApproximation result = *this;
       result -= right;
@@ -165,7 +177,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation operator*( const Y& right ) const {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation operator*( const S& right ) const {
 
       ChebyshevApproximation result = *this;
       result *= right;
@@ -177,7 +191,9 @@ namespace math {
      *
      *  @param[in] right    the scalar
      */
-    ChebyshevApproximation operator/( const Y& right ) const {
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    ChebyshevApproximation operator/( const S& right ) const {
 
       ChebyshevApproximation result = *this;
       result /= right;
@@ -284,9 +300,10 @@ namespace math {
    *  @param[in] left     the scalar
    *  @param[in] right    the approximation
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   ChebyshevApproximation< X, Y >
-  operator+( const Y& left, const ChebyshevApproximation< X, Y >& right ) {
+  operator+( const S& left, const ChebyshevApproximation< X, Y >& right ) {
 
     return right + left;
   }
@@ -297,9 +314,10 @@ namespace math {
    *  @param[in] left     the scalar
    *  @param[in] right    the approximation
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   ChebyshevApproximation< X, Y >
-  operator-( const Y& left, const ChebyshevApproximation< X, Y >& right ) {
+  operator-( const S& left, const ChebyshevApproximation< X, Y >& right ) {
 
     auto result = -right;
     result += left;
@@ -312,9 +330,10 @@ namespace math {
    *  @param[in] left     the scalar
    *  @param[in] right    the approximation
    */
-  template < typename X, typename Y = X >
+  template < typename S, typename X, typename Y = X,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
   ChebyshevApproximation< X, Y >
-  operator*( const Y& left, const ChebyshevApproximation< X, Y >& right ) {
+  operator*( const S& left, const ChebyshevApproximation< X, Y >& right ) {
 
     return right * left;
   }
