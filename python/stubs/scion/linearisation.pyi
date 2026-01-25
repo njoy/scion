@@ -3,7 +3,7 @@ Common linearisation capabilities and components
 """
 from __future__ import annotations
 import typing
-__all__ = ['Lineariser', 'MidpointSplit', 'ToleranceConvergence']
+__all__: list[str] = ['Lineariser', 'MidpointSplit', 'ToleranceConvergence']
 class Lineariser:
     """
     A generic linearisation object
