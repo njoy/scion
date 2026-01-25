@@ -1794,6 +1794,15 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
         verify_chunk4( self, chunk )
 
+        # the data is given explicitly with a jump that uses more than 2 x values
+        chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4. ],
+                                    y = [ 4., 3., 2., 4., 3., 2. ],
+                                    boundaries = [ 2, 5 ],   # <-- pointing to middle of the jump
+                                    interpolants = [ InterpolationType.LinearLinear,
+                                                     InterpolationType.LinearLog ] )
+
+        verify_chunk5( self, chunk )
+
         # the data is given explicitly with boundaries that point to the second x value in the jump
         chunk = InterpolationTable( x = [ 1., 2., 2., 3., 4. ],
                                     y = [ 4., 3., 4., 3., 2. ],
@@ -1803,9 +1812,18 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
         verify_chunk5( self, chunk )
 
-        # the data is given explicitly with a jump at the end that goes to zero
+        # the data is given explicitly with a jump at the beginning
+        chunk = InterpolationTable( x = [ 1., 1., 2., 3., 4. ], # <-- jump at beginning
+                                    y = [ 1., 4., 3., 2., 1. ],
+                                    boundaries = [ 2, 4 ],      # <-- pointing to end
+                                    interpolants = [ InterpolationType.LinearLinear,
+                                                     InterpolationType.LinearLog ] )
+
+        verify_chunk6( self, chunk )
+
+        # the data is given explicitly with a jump at the end
         chunk = InterpolationTable( x = [ 1., 2., 3., 4., 4. ], # <-- jump at end
-                                    y = [ 4., 3., 2., 1., 0. ], # <-- last value is zero
+                                    y = [ 4., 3., 2., 1., 4. ],
                                     boundaries = [ 1, 4 ],      # <-- pointing to end
                                     interpolants = [ InterpolationType.LinearLinear,
                                                      InterpolationType.LinearLog ] )
@@ -1845,24 +1863,6 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             chunk = InterpolationTable( x = [ 1., 3., 2., 4. ],
                                         y = [ 4., 3., 2., 1. ] )
 
-        # the x grid contains a triple x value
-        with self.assertRaises( Exception ) :
-
-            chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4. ],
-                                        y = [ 4., 3., 3., 3., 2., 1. ] )
-
-        # the x grid has a jump at the beginning
-        with self.assertRaises( Exception ) :
-
-            chunk = InterpolationTable( x = [ 1., 1., 3., 4. ],
-                                        y = [ 4., 3., 1., 4. ] )
-
-        # the x grid has a jump at the end
-        with self.assertRaises( Exception ) :
-
-            chunk = InterpolationTable( x = [ 1., 2., 4., 4. ],
-                                        y = [ 4., 3., 1., 4. ] )
-
         # the last boundary does not point to the last point
         with self.assertRaises( Exception ) :
 
@@ -1877,8 +1877,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
         equal = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ] )
         different1 = InterpolationTable( [ 1., 2., 3. ], [ 1., 0., 3. ] )
         different2 = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ], InterpolationType.LogLog )
-        different3 = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ], 
-                                         [ 1, 2 ], 
+        different3 = InterpolationTable( [ 1., 2., 3. ], [ 1., 2., 3. ],
+                                         [ 1, 2 ],
                                          [ InterpolationType.LinearLinear, InterpolationType.LogLog ] )
 
         self.assertEqual( True, left == left )
