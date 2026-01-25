@@ -8,7 +8,6 @@
  *    - The number of boundaries and interpolants are the same
  *    - The last boundary index is equal to the index of the last x value
  *    - The x grid is sorted
- *    - There is no jump at the beginning or end of the x grid
  *    - The x values appear only a maximum of two times in the grid
  *
  *  Next, this function will look for every jump in the x grid and check if the jump corresponds
@@ -22,9 +21,8 @@
  *  point in the jump instead of the second one. When this is encountered, the boundary value is
  *  adjusted. This change is made silently as it does not constitute an error on the user side.
  *
- *  A jump at the beginning or end of the x grid is also not allowed. If one of these jumps is
- *  detected, and if the associated y value is zero, then the point is just removed. A warning is
- *  issued if this happens to be the case. If the y value is any other value, an error is raised.
+ *  A jump at the beginning or end of the x grid is allowed. However, if one of these jumps is
+ *  detected, then the first or last point is just removed.
  */
 static std::tuple< std::vector< X >,
                    std::vector< Y >,
@@ -75,45 +73,22 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
   }
 
   auto xIter = std::adjacent_find( x.begin(), x.end() );
-  if ( xIter == x.begin() ) {
-
-    auto yIter = y.begin();
-    if ( ( *yIter == Y() ) && ( *std::next( yIter ) != Y() ) ) {
-
-      // remove the initial zero value in a jump at the beginning of the x grid
-      x.erase( xIter );
-      y.erase( yIter );
-      std::transform( boundaries.begin(), boundaries.end(), boundaries.begin(),
-                      [] ( auto&& boundary ) { return boundary - 1; } );
-      xIter = std::adjacent_find( x.begin(), x.end() );
-
-      if ( xIter == x.begin() ) {
-
-        Log::error( "An x value can only be repeated a maximum of two times" );
-        Log::info( "x = {} is present at least three times", *xIter );
-        throw std::exception();
-      }
-
-      Log::warning( "An initial zero value in a jump at the beginning of the x grid was removed" );
-    }
-    else {
-
-      Log::error( "A jump in the x grid cannot occur at the beginning of the x grid" );
-      throw std::exception();
-    }
-  }
-
   auto bIter = boundaries.begin();
   auto iIter = interpolants.begin();
   while ( xIter != x.end() ) {
 
+    // determine the next x value
+    auto xNext = std::upper_bound( xIter, x.end(), *xIter );
+    auto number = std::distance( xIter, xNext );
+
+    // set the boundary for this jump, insert it if necessary
     auto index = std::distance( x.begin(), xIter );
     bIter = std::lower_bound( bIter, boundaries.end(), index );
     if ( *bIter != index ) {
 
-      if ( *bIter == index + 1 ) {
+      if ( *bIter < index + number ) {
 
-        *bIter -= 1;
+        *bIter = index;
       }
       else {
 
@@ -123,38 +98,48 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
         iIter = interpolants.insert( iIter, *iIter );
       }
     }
-    ++xIter;
-    if ( std::next( xIter ) == x.end() ) {
 
-      auto yIter = std::prev( y.end() );
-      if ( ( *std::prev( yIter ) != Y() ) && ( *yIter == Y() ) ) {
+    // remove extraneous points and adjust boundaries
+    if ( number > 2 ) {
 
-        x.pop_back();
-        y.pop_back();
-        boundaries.back() = x.size() - 1;
-        xIter = std::prev( x.end() );
+      Log::warning( "x = {} is present {} times, extraneous points will be removed", *xIter, number );
 
-        Log::warning( "A trailing zero value at the end of the x grid was removed" );
-      }
-      else {
+      // remove x and y values
+      auto yIter = std::next( y.begin(),
+                              std::distance( x.begin(), xIter ) );
+      auto yNext = std::next( yIter, number );
+      x.erase( std::next( xIter ), std::prev( xNext ) );
+      y.erase( std::next( yIter ), std::prev( yNext ) );
 
-        Log::error( "A jump in the x grid cannot occur at the end of the x grid" );
-        throw std::exception();
-      }
+      // adjust boundaries
+      auto offset = number - 2;
+      std::transform( std::next( bIter ), boundaries.end(), std::next( bIter ),
+                      [&] ( auto&& boundary ) { return boundary - offset; } );
     }
 
-    // make sure we do not go beyond the end of the x grid: valgrind will yell at you
-    auto next = std::next( xIter );
-    if ( next < x.end() ) {
+    xIter = std::adjacent_find( std::next( xIter ), x.end() );
+  }
 
-      if ( *std::next( xIter ) == *xIter ) {
+  // check for a jump at the beginning of the table
+  xIter = x.begin();
+  if ( *xIter == *( std::next( xIter ) ) ) {
 
-        Log::error( "An x value can only be repeated a maximum of two times" );
-        Log::info( "x = {} is present at least three times", *xIter );
-        throw std::exception();
-      }
-    }
-    xIter = std::adjacent_find( xIter, x.end() );
+    Log::warning( "A jump at the beginning of the table (x = {}) has been removed", *xIter );
+    x.erase( x.begin() );
+    y.erase( y.begin() );
+    boundaries.erase( boundaries.begin() );
+    interpolants.erase( interpolants.begin() );
+    std::transform( boundaries.begin(), boundaries.end(), boundaries.begin(),
+                    [] ( auto&& boundary ) { return boundary - 1; } );
+  }
+
+  // check for a jump at the end of the table
+  xIter = std::prev( x.end() );
+  if ( *xIter == *( std::prev( xIter ) ) ) {
+
+    Log::warning( "A jump at the end of the table (x = {}) has been removed", *xIter );
+    x.erase( std::prev( x.end() ) );
+    y.erase( std::prev( y.end() ) );
   }
 
   return { std::move( x ), std::move( y ),
