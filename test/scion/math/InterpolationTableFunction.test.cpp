@@ -356,6 +356,206 @@ SCENARIO( "InterpolationTableFunction" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "a table of functions with a jump consisting of more than 2 x values" ) {
+
+    // note: the middle point in the jump is removed
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4. };
+      const std::vector< InterpolationTable< double > > f = {
+
+        { { -1., +1. }, { 0.5, 0.5 } },
+        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
+        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
+        { { -1., +1. }, { 0.1, 0.9 } },
+        { { -1., +1. }, { 0.2, 0.8 } },
+        { { -1., +1. }, { 0.3, 0.7 } }
+      };
+
+      Table2D chunk( std::move( x ), std::move( f ) );
+
+      THEN( "an InterpolationTableFunction can be constructed and members can be tested" ) {
+
+        CHECK( 5 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.f().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK( 2 == chunk.f()[0].x().size() );
+        CHECK( 2 == chunk.f()[0].y().size() );
+        CHECK( 3 == chunk.f()[1].x().size() );
+        CHECK( 3 == chunk.f()[1].y().size() );
+        CHECK( 2 == chunk.f()[2].x().size() );
+        CHECK( 2 == chunk.f()[2].y().size() );
+        CHECK( 2 == chunk.f()[3].x().size() );
+        CHECK( 2 == chunk.f()[3].y().size() );
+        CHECK( 2 == chunk.f()[4].x().size() );
+        CHECK( 2 == chunk.f()[4].y().size() );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( chunk.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( chunk.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[2].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[2].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( chunk.f()[2].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( chunk.f()[2].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[3].x()[1] ) );
+        CHECK_THAT(  0.2 , WithinRel( chunk.f()[3].y()[0] ) );
+        CHECK_THAT(  0.8 , WithinRel( chunk.f()[3].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[4].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[4].x()[1] ) );
+        CHECK_THAT(  0.3 , WithinRel( chunk.f()[4].y()[0] ) );
+        CHECK_THAT(  0.7 , WithinRel( chunk.f()[4].y()[1] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "a table of functions with a jump at the beginning" ) {
+
+    // note: the first point is removed
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 1., 2., 3., 4. };
+      const std::vector< InterpolationTable< double > > f = {
+
+        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
+        { { -1., +1. }, { 0.5, 0.5 } },
+        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
+        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
+        { { -1., +1. }, { 0.1, 0.9 } }
+      };
+
+      Table2D chunk( std::move( x ), std::move( f ) );
+
+      THEN( "an InterpolationTableFunction can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.f().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK( 2 == chunk.f()[0].x().size() );
+        CHECK( 2 == chunk.f()[0].y().size() );
+        CHECK( 3 == chunk.f()[1].x().size() );
+        CHECK( 3 == chunk.f()[1].y().size() );
+        CHECK( 3 == chunk.f()[2].x().size() );
+        CHECK( 3 == chunk.f()[2].y().size() );
+        CHECK( 2 == chunk.f()[3].x().size() );
+        CHECK( 2 == chunk.f()[3].y().size() );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( chunk.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( chunk.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( chunk.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( chunk.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( chunk.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "a table of functions with a jump at the beginning" ) {
+
+    // note: the first point is removed
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 2., 3., 4., 4. };
+      const std::vector< InterpolationTable< double > > f = {
+
+        { { -1., +1. }, { 0.5, 0.5 } },
+        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
+        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
+        { { -1., +1. }, { 0.1, 0.9 } },
+        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } }
+      };
+
+      Table2D chunk( std::move( x ), std::move( f ) );
+
+      THEN( "an InterpolationTableFunction can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 1 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.f().size() );
+        CHECK( 1 == chunk.boundaries().size() );
+        CHECK( 1 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK( 2 == chunk.f()[0].x().size() );
+        CHECK( 2 == chunk.f()[0].y().size() );
+        CHECK( 3 == chunk.f()[1].x().size() );
+        CHECK( 3 == chunk.f()[1].y().size() );
+        CHECK( 3 == chunk.f()[2].x().size() );
+        CHECK( 3 == chunk.f()[2].y().size() );
+        CHECK( 2 == chunk.f()[3].x().size() );
+        CHECK( 2 == chunk.f()[3].y().size() );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( chunk.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( chunk.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( chunk.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( chunk.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( chunk.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
+        CHECK( 3 == chunk.boundaries()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "comparison operators" ) {
 
     WHEN( "two instances of InterpolationTableFunction are given" ) {
@@ -463,58 +663,6 @@ SCENARIO( "InterpolationTableFunction" ) {
     WHEN( "the x grid is not sorted" ) {
 
       const std::vector< double > x = { 1., 3., 2., 4. };
-      const std::vector< InterpolationTable< double > > f = {
-
-        { { -1., +1. }, { 0.5, 0.5 } },
-        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
-        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
-        { { -1., +1. }, { 0.1, 0.9 } }
-      };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( Table2D( std::move( x ), std::move( f ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid contains a triple x value" ) {
-
-      const std::vector< double > x = { 1., 2., 2., 2., 4. };
-      const std::vector< InterpolationTable< double > > f = {
-
-        { { -1., +1. }, { 0.5, 0.5 } },
-        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
-        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
-        { { -1., +1. }, { 0.1, 0.9 } },
-        { { -1., +1. }, { 0.3, 0.7 } }
-      };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( Table2D( std::move( x ), std::move( f ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid has a jump at the beginning" ) {
-
-      const std::vector< double > x = { 1., 1., 3., 4. };
-      const std::vector< InterpolationTable< double > > f = {
-
-        { { -1., +1. }, { 0.5, 0.5 } },
-        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
-        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
-        { { -1., +1. }, { 0.1, 0.9 } }
-      };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( Table2D( std::move( x ), std::move( f ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid has a jump at the end" ) {
-
-      const std::vector< double > x = { 1., 2., 4., 4. };
       const std::vector< InterpolationTable< double > > f = {
 
         { { -1., +1. }, { 0.5, 0.5 } },

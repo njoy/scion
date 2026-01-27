@@ -3,7 +3,7 @@ Common interpolation capabilities and components
 """
 from __future__ import annotations
 import typing
-__all__ = ['InterpolationType', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
+__all__: list[str] = ['InterpolationType', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
 class InterpolationType:
     """
     The interpolation types

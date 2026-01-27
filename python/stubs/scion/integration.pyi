@@ -3,7 +3,7 @@ Common integration capabilities and components
 """
 from __future__ import annotations
 import typing
-__all__ = ['GaussLegendre10', 'GaussLegendre16', 'GaussLegendre2', 'GaussLegendre32', 'GaussLegendre4', 'GaussLegendre6', 'GaussLegendre64', 'GaussLegendre7', 'GaussLegendre8', 'GaussLobatto10', 'GaussLobatto16', 'GaussLobatto2', 'GaussLobatto32', 'GaussLobatto4', 'GaussLobatto6', 'GaussLobatto64', 'GaussLobatto8', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
+__all__: list[str] = ['GaussLegendre10', 'GaussLegendre16', 'GaussLegendre2', 'GaussLegendre32', 'GaussLegendre4', 'GaussLegendre6', 'GaussLegendre64', 'GaussLegendre7', 'GaussLegendre8', 'GaussLobatto10', 'GaussLobatto16', 'GaussLobatto2', 'GaussLobatto32', 'GaussLobatto4', 'GaussLobatto6', 'GaussLobatto64', 'GaussLobatto8', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
 class GaussLegendre10:
     """
     Gauss-Legendre 10-point quadrature rule

@@ -2195,6 +2195,55 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "non-linearised data with multiple regions with a jump that consist of "
+         "more than 2 points" ) {
+
+    // note: at construction time, the extraneous points in between the first and last
+    //       x value in the jump are removed. boundaries always point to the first point
+    //       in the jump
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
+      const std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
+      const std::vector< std::size_t > boundaries = { 2, 5 }; // <-- pointing to middle of the jump
+      const std::vector< InterpolationType > interpolants = {
+
+        InterpolationType::LinearLinear,
+        InterpolationType::LinearLog
+      };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          std::move( boundaries ),
+                                          std::move( interpolants ) );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );         // <-- this is changed from 2 to 1
+        CHECK( 4 == chunk.boundaries()[1] );         // <-- this is changed from 5 to 4
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "non-linearised data with multiple regions with a jump and boundaries "
          "that point to the second x value in the jump" ) {
 
@@ -2244,7 +2293,7 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "non-linearised data with multiple regions with a jump at the end that goes to zero" ) {
+  GIVEN( "non-linearised data with multiple regions with a jump at the end" ) {
 
     // note: at construction time, the last x and y value will be removed and the last
     //       boundary value will be decremented by 1.
@@ -2252,7 +2301,7 @@ SCENARIO( "InterpolationTable" ) {
     WHEN( "the data is given explicitly" ) {
 
       const std::vector< double > x = { 1., 2., 3., 4., 4. }; // <-- jump at end
-      const std::vector< double > y = { 4., 3., 2., 1., 0. }; // <-- last value is zero
+      const std::vector< double > y = { 4., 3., 2., 1., 4. };
       const std::vector< std::size_t > boundaries = { 1, 4 }; // <-- pointing to end
       const std::vector< InterpolationType > interpolants = {
 
@@ -2291,7 +2340,7 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "non-linearised data with multiple regions with a jump at the beginning from zero on" ) {
+  GIVEN( "non-linearised data with multiple regions with a jump at the beginning" ) {
 
     // note: at construction time, the first x and y value will be removed and all
     //       boundary values will be decremented by 1.
@@ -2299,7 +2348,7 @@ SCENARIO( "InterpolationTable" ) {
     WHEN( "the data is given explicitly" ) {
 
       const std::vector< double > x = { 1., 1., 2., 3., 4. }; // <-- jump at beginning
-      const std::vector< double > y = { 0., 4., 3., 2., 1. }; // <-- first value is zero
+      const std::vector< double > y = { 1., 4., 3., 2., 1. };
       const std::vector< std::size_t > boundaries = { 2, 4 }; // <-- pointing to end
       const std::vector< InterpolationType > interpolants = {
 
@@ -2411,50 +2460,6 @@ SCENARIO( "InterpolationTable" ) {
 
       std::vector< double > x = { 1., 3., 2., 4. };
       std::vector< double > y = { 4., 3., 2., 1. };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid contains a triple x value" ) {
-
-      std::vector< double > x = { 1., 2., 2., 2., 3., 4. };
-      std::vector< double > y = { 4., 3., 3., 3., 2., 1. };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid has a jump at the beginning" ) {
-
-      std::vector< double > x = { 1., 1., 3., 4. };
-      std::vector< double > y = { 4., 3., 1., 4. };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid has a triplicate point at the beginning" ) {
-
-      std::vector< double > x = { 1., 1., 1., 3., 4. };
-      std::vector< double > y = { 0., 4., 3., 1., 4. };
-
-      THEN( "an exception is thrown" ) {
-
-        CHECK_THROWS( InterpolationTable< double >( std::move( x ), std::move( y ) ) );
-      } // THEN
-    } // WHEN
-
-    WHEN( "the x grid has a jump at the end" ) {
-
-      std::vector< double > x = { 1., 2., 4., 4. };
-      std::vector< double > y = { 4., 3., 1., 4. };
 
       THEN( "an exception is thrown" ) {
 

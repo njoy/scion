@@ -5,7 +5,7 @@ from __future__ import annotations
 import scion.interpolation
 import scion.linearisation
 import typing
-__all__ = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
+__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
 class AnalyticalIntegrator:
     """
     Analytical integration of data over a number of successive integration intervals
