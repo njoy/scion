@@ -36,7 +36,7 @@ namespace linearisation {
      *  @param[in] yLeft        the left value on the y interval
      *  @param[in] yRight       the right value on the y interval
      */
-    Y operator()( const X& xLeft, const X& xRight,
+    X operator()( const X& xLeft, const X& xRight,
                   const Y& yLeft, const Y& yRight ) const {
 
       return static_cast< const Derived* >( this )->split( xLeft, xRight,
