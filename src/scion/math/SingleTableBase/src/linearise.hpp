@@ -13,7 +13,7 @@ linearise( Convergence&& convergence = Convergence() ) const {
   lineariser( this->x(),
               *this,
               std::forward< Convergence >( convergence ),
-              linearisation::MidpointSplit< X >() );
+              linearisation::MidpointSplit< X, Y >() );
 
   return std::make_pair( std::move( x ), std::move( y ) );
 }
