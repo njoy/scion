@@ -79,6 +79,7 @@ namespace math {
     using Parent::x;
     using Parent::y;
     using Parent::numberPoints;
+    using Parent::linearise;
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;
