@@ -3,6 +3,7 @@
 
 // system includes
 #include <cmath>
+#include <complex>
 
 // other includes
 #include "scion/interpolation/InterpolatorBase.hpp"
