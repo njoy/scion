@@ -37,18 +37,18 @@ namespace integration {
     /**
      *  @brief Return the points and weights in the quadrature rule
      */
-    static const std::array< std::pair< X, double >, 8 >& pairs() {
+    static const std::array< std::pair< X, X >, 8 >& pairs() {
 
-      static constexpr const std::array< std::pair< X, double >, 8 > pairs = {
+      static constexpr const std::array< std::pair< X, X >, 8 > pairs = {
 
-        std::pair< X, double >{ -1.000000000000000e+0, 3.571428571428571e-2 },
-        std::pair< X, double >{ -8.717401485096066e-1, 2.107042271435062e-1 },
-        std::pair< X, double >{ -5.917001814331423e-1, 3.411226924835043e-1 },
-        std::pair< X, double >{ -2.092992179024789e-1, 4.124587946587038e-1 },
-        std::pair< X, double >{  2.092992179024789e-1, 4.124587946587038e-1 },
-        std::pair< X, double >{  5.917001814331423e-1, 3.411226924835043e-1 },
-        std::pair< X, double >{  8.717401485096066e-1, 2.107042271435062e-1 },
-        std::pair< X, double >{  1.000000000000000e+0, 3.571428571428571e-2 } };
+        std::pair< X, X >{ -1.000000000000000e+0, 3.571428571428571e-2 },
+        std::pair< X, X >{ -8.717401485096066e-1, 2.107042271435062e-1 },
+        std::pair< X, X >{ -5.917001814331423e-1, 3.411226924835043e-1 },
+        std::pair< X, X >{ -2.092992179024789e-1, 4.124587946587038e-1 },
+        std::pair< X, X >{  2.092992179024789e-1, 4.124587946587038e-1 },
+        std::pair< X, X >{  5.917001814331423e-1, 3.411226924835043e-1 },
+        std::pair< X, X >{  8.717401485096066e-1, 2.107042271435062e-1 },
+        std::pair< X, X >{  1.000000000000000e+0, 3.571428571428571e-2 } };
 
         return pairs;
     }
