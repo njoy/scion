@@ -4,7 +4,7 @@
  *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
  */
 template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-std::pair< std::vector< X >, std::vector< X > >
+std::pair< std::vector< X >, std::vector< Y > >
 linearise( Convergence&& convergence = Convergence() ) const {
 
   std::vector< X > x;
@@ -13,7 +13,7 @@ linearise( Convergence&& convergence = Convergence() ) const {
   lineariser( this->x(),
               *this,
               std::forward< Convergence >( convergence ),
-              linearisation::MidpointSplit< X >() );
+              linearisation::MidpointSplit< X, Y >() );
 
   return std::make_pair( std::move( x ), std::move( y ) );
 }

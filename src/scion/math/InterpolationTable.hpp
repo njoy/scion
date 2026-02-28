@@ -249,7 +249,7 @@ namespace math {
     InterpolationTable operator-() const {
 
       InterpolationTable result = *this;
-      result *= Y( -1. );
+      result *= -1;
       return result;
     }
 
