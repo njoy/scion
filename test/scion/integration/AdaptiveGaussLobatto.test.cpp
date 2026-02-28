@@ -7,8 +7,8 @@ using Catch::Matchers::WithinRel;
 #include "scion/integration/AdaptiveGaussLobatto.hpp"
 
 // other includes
-#include <iostream>
-#include <iomanip>
+#include <cmath>
+
 // convenience typedefs
 using namespace njoy::scion;
 
