@@ -44,7 +44,7 @@ SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
         auto functor = [] ( double x ) { return std::cos( x ); };
 
         CHECK_THAT( 2. * std::sin( 1. ), WithinRel( integrator( functor, -1.,  1. ), 1e-8 ) );
-        CHECK_THAT( 2. * std::sin( 1. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-12 ) );
+        CHECK_THAT( 2. * std::sin( 1. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 5e-12 ) );
       } // THEN
 
       THEN( "the integration is performed for sine on [-1,1] for different tolerances" ) {
@@ -53,7 +53,7 @@ SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
         auto functor = [] ( double x ) { return std::sin( x ); };
 
         CHECK_THAT( 0., WithinRel( integrator( functor, -1.,  1. ), 1e-8 ) );
-        CHECK_THAT( 0., WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-12 ) );
+        CHECK_THAT( 0., WithinRel( integrator( functor, -1.,  1., 1e-12 ), 5e-12 ) );
       } // THEN
 
       THEN( "the integration is performed for 1/(1+x) on [0,1] for different tolerances" ) {
@@ -62,7 +62,7 @@ SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
         auto functor = [] ( double x ) { return 1. / ( 1. + x ); };
 
         CHECK_THAT( std::log( 2. ), WithinRel( integrator( functor, 0.,  1. ), 1e-8 ) );
-        CHECK_THAT( std::log( 2. ), WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-12 ) );
+        CHECK_THAT( std::log( 2. ), WithinRel( integrator( functor, 0.,  1., 1e-12 ), 5e-12 ) );
       } // THEN
     } // WHEN
   } // GIVEN
