@@ -3,9 +3,10 @@
 
 // system includes
 #include <array>
+#include <optional>
 
 // other includes
-#include <iostream>
+
 namespace njoy {
 namespace scion {
 namespace integration {
