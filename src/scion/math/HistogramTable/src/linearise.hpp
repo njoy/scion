@@ -5,7 +5,7 @@
  */
 template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
 std::pair< std::vector< X >, std::vector< Y > >
-linearise( Convergence&& convergence = Convergence() ) const {
+linearise( Convergence&& = Convergence() ) const {
 
   std::vector< X > x = { this->x().front() };
   std::vector< Y > y = { this->y().front() };

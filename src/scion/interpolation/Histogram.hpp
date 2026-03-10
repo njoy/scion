@@ -31,7 +31,7 @@ namespace interpolation {
      *  @param[in] yRight   the right value on the y interval
      */
     template < typename X, typename Y >
-    Y interpolate( const X& x,
+    Y interpolate( const X&,
                    const X&, const X&,
                    const Y& yLeft, const Y& ) const noexcept {
 

@@ -50,8 +50,6 @@ void wrapLineariserFor( python::module& module, const std::string& name ) {
 
   // type aliases
   using Component = linearisation::Lineariser< X, Y >;
-  using MidpointSplit = njoy::scion::linearisation::MidpointSplit< X, Y >;
-  using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
 
   // wrap views created by this component
 

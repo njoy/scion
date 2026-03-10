@@ -24,7 +24,7 @@ SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
       THEN( "the integration is performed exactly for an order 0 polynomial" ) {
 
         // y = f(x) = 1
-        auto functor = [] ( double x ) { return 1.; };
+        auto functor = [] ( double ) { return 1.; };
 
         CHECK_THAT( 2., WithinRel( integrator( functor, -1.,  1. ) ) );
         CHECK_THAT( 2., WithinRel( integrator( functor,  3.,  5. ) ) );

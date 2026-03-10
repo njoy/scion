@@ -82,7 +82,8 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
     auto number = std::distance( xIter, xNext );
 
     // set the boundary for this jump, insert it if necessary
-    auto index = std::distance( x.begin(), xIter );
+    // index is always positive since xIter is x.begin() or higher iterator
+    std::size_t index = std::distance( x.begin(), xIter );
     bIter = std::lower_bound( bIter, boundaries.end(), index );
     if ( *bIter != index ) {
 
