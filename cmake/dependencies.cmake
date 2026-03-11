@@ -9,7 +9,7 @@ shacl_FetchContent_Declare( tools
 
 shacl_FetchContent_Declare( eigen
     GIT_REPOSITORY  ../../njoy/eigen.git
-    GIT_TAG         d0bfdc1658ca0b4c659fd3702c351d2c2cdc876c # 3.4.1 branch on July 26, 2023
+    GIT_TAG         bc3b39870ecb690a623a3f49149a358b95c5781d # tag: 5.0.1
     )
 # the next line prevents eigen from populating the .cmake/packages folder
 set( CMAKE_EXPORT_NO_PACKAGE_REGISTRY ON )
