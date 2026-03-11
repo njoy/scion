@@ -37,7 +37,7 @@ cmake_dependent_option(
   "NOT ${subproject} OR DEFINED require.scion.python " OFF
 )
 
-option( scion.installation "Install ACEtk" ON )
+option( scion.installation "Install scion" OFF )
 
 ########################################################################
 # Dependencies
