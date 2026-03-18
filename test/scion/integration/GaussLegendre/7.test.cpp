@@ -23,7 +23,7 @@ SCENARIO( "Gauss-Legendre 7-point quadrature rule" ) {
       THEN( "the integration is performed exactly for an order 0 polynomial" ) {
 
         // y = f(x) = 1
-        auto functor = [] ( double x ) { return 1.; };
+        auto functor = [] ( double ) { return 1.; };
 
         CHECK_THAT( 2., WithinRel( integrator( functor ) ) );
         CHECK_THAT( 2., WithinRel( integrator( functor, -1.,  1. ) ) );

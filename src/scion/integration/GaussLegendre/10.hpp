@@ -32,7 +32,7 @@ namespace integration {
     /**
      *  @brief Return the number of points used in the quadrature rule
      */
-    static constexpr const int number() noexcept { return 10; }
+    static constexpr int number() noexcept { return 10; }
 
     /**
      *  @brief Return the points and weights in the quadrature rule

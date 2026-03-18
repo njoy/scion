@@ -132,7 +132,7 @@ Y clenshawLegendre( Iter first, Iter last, const X& x ) {
 
     return static_cast< Y >( 2 * k + 1 ) / static_cast< Y >( k + 1 ) * x;
   };
-  auto b = [] ( unsigned int k, const X& x ) -> Y {
+  auto b = [] ( unsigned int k, const X& ) -> Y {
 
     return - static_cast< Y >( k ) / static_cast< Y >( k + 1 );
   };
@@ -162,11 +162,11 @@ Y clenshawLegendre( const Range& coefficients, const X& x ) noexcept {
 template < typename X, typename Y = X, typename Iter >
 Y clenshawChebyshev( Iter first, Iter last, const X& x ) {
 
-  auto a = [] ( unsigned int k, const X& x ) -> Y {
+  auto a = [] ( unsigned int, const X& x ) -> Y {
 
     return static_cast< Y >( 2 ) * x;
   };
-  auto b = [] ( unsigned int k, const X& x ) -> Y {
+  auto b = [] ( unsigned int, const X& ) -> Y {
 
     return - static_cast< Y >( 1 );
   };

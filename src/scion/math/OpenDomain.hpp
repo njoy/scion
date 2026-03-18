@@ -64,7 +64,7 @@ namespace math {
      *
      *  @param[in] right   the domain on the right hand side
      */
-    bool operator==( const OpenDomain& right ) const noexcept {
+    bool operator==( const OpenDomain& ) const noexcept {
 
       return true;
     }
@@ -74,7 +74,7 @@ namespace math {
      *
      *  @param[in] right   the domain on the right hand side
      */
-    bool operator!=( const OpenDomain& right ) const noexcept {
+    bool operator!=( const OpenDomain& ) const noexcept {
 
       return false;
     }
