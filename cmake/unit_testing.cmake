@@ -45,6 +45,7 @@ add_cpp_test( scion.integration.GaussLobatto.10             scion/integration/Ga
 add_cpp_test( scion.integration.GaussLobatto.16             scion/integration/GaussLobatto/16.test.cpp )
 add_cpp_test( scion.integration.GaussLobatto.32             scion/integration/GaussLobatto/32.test.cpp )
 add_cpp_test( scion.integration.GaussLobatto.64             scion/integration/GaussLobatto/64.test.cpp )
+add_cpp_test( scion.integration.AdaptiveGaussLobatto        scion/integration/AdaptiveGaussLobatto.test.cpp )
 add_cpp_test( scion.integration.Histogram                   scion/integration/Histogram.test.cpp )
 add_cpp_test( scion.integration.HistogramMean               scion/integration/HistogramMean.test.cpp )
 add_cpp_test( scion.integration.HistogramVariance           scion/integration/HistogramVariance.test.cpp )

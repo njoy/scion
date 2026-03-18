@@ -37,14 +37,14 @@ namespace integration {
     /**
      *  @brief Return the points and weights in the quadrature rule
      */
-    static const std::array< std::pair< X, double >, 4 >& pairs() {
+    static const std::array< std::pair< X, X >, 4 >& pairs() {
 
-      static constexpr const std::array< std::pair< X, double >, 4 > pairs = {
+      static constexpr const std::array< std::pair< X, X >, 4 > pairs = {
 
-        std::pair< X, double >{ -8.61136311594052573e-1, 3.47854845137453683e-1 },
-        std::pair< X, double >{ -3.39981043584856257e-1, 6.52145154862546206e-1 },
-        std::pair< X, double >{  3.39981043584856257e-1, 6.52145154862546206e-1 },
-        std::pair< X, double >{  8.61136311594052573e-1, 3.47854845137453683e-1 } };
+        std::pair< X, X >{ -8.61136311594052573e-1, 3.47854845137453683e-1 },
+        std::pair< X, X >{ -3.39981043584856257e-1, 6.52145154862546206e-1 },
+        std::pair< X, X >{  3.39981043584856257e-1, 6.52145154862546206e-1 },
+        std::pair< X, X >{  8.61136311594052573e-1, 3.47854845137453683e-1 } };
 
       return pairs;
     }
