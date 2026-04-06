@@ -42,6 +42,47 @@ SCENARIO( "GroupedTable" ) {
                 }
 
             } // then
+
+            THEN( "a GroupedTable can be multiplied" ) {
+
+                GroupedTable< double, double > table( bounds, y );
+                GroupedTable< double, double > changed = 2. * table;
+
+                CHECK( changed.values().size() == 3 );
+                CHECK( changed.bounds().size() == 4 );
+                CHECK( changed.numberGroups() == 3 );
+
+                for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
+
+                    CHECK_THAT( changed.values()[i], WithinRel( 2. * y[i] ) );
+                }
+
+                for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
+
+                    CHECK_THAT( changed.bounds()[i], WithinRel( bounds[i] ) );
+                }
+
+                
+                GroupedTable< double, double > changedBack = changed / 2.;
+
+                CHECK( changedBack.values().size() == 3 );
+                CHECK( changedBack.bounds().size() == 4 );
+                CHECK( changedBack.numberGroups() == 3 );
+
+                for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
+
+                    CHECK_THAT( changedBack.values()[i], WithinRel( y[i] ) );
+                }
+
+                for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
+
+                    CHECK_THAT( changedBack.bounds()[i], WithinRel( bounds[i] ) );
+                }
+
+                CHECK( changedBack == table );
+                CHECK( changed != table );
+
+            } // then
         }  // when
 
         WHEN( "bad values are given" ) {

@@ -63,6 +63,9 @@ void wrapGroupedTable( python::module& module, const std::string& name ) {
     "The number of groups"
   );
 
+  addStandardEqualDefinitions< Component >( component );
+  addLimitedOperatorDefinitions< Component, X, Y > ( component );
+
 }
 
 void wrapGroupedTable( python::module& module ) {

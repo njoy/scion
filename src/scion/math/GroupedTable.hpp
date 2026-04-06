@@ -32,6 +32,7 @@ namespace math {
     std::vector< Y > y_;          // vector of grouped values
 
     /* auxiliary functions */
+    #include "scion/math/GroupedTable/src/operation.hpp"
     #include "scion/math/GroupedTable/src/verifyTable.hpp"
 
   public:
@@ -65,7 +66,94 @@ namespace math {
       return this->values().size();
     }
 
+    /**
+     *  @brief Inplace scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    GroupedTable& operator*=( const S& right ) {
+
+      return this->operation( right, std::multiplies< Y >() );
+    }
+
+    /**
+     *  @brief Inplace scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    GroupedTable& operator/=( const S& right ) {
+
+      return this->operation( right, std::divides< Y >() );
+    }
+
+    /**
+     *  @brief GroupedTable and scalar multiplication
+     *
+     *  @param[in] right    the scalar
+     */
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    GroupedTable operator*( const S& right ) const {
+
+      GroupedTable result = *this;
+      result *= right;
+      return result;
+    }
+
+
+    /**
+     *  @brief GroupedTable and scalar division
+     *
+     *  @param[in] right    the scalar
+     */
+    template < typename S,
+               typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+    GroupedTable operator/( const S& right ) const {
+
+      GroupedTable result = *this;
+      result /= right;
+      return result;
+    }
+
+    /**
+     *  @brief Comparison operator: equal
+     *
+     *  @param[in] right   the table on the right hand side
+     */
+    bool operator==( const GroupedTable& right ) const noexcept {
+
+      return this->numberGroups() == right.numberGroups() &&
+             this->bounds() == right.bounds() &&
+             this->values() == right.values();
+    }
+
+    /**
+     *  @brief Comparison operator: not equal
+     *
+     *  @param[in] right   the table on the right hand side
+     */
+    bool operator!=( const GroupedTable& right ) const noexcept {
+
+      return ! this->operator==( right );
+    }
 };
+
+  /**
+   *  @brief Scalar and GroupedTable multiplication
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right   the GroupedTable
+   */
+  template < typename S, typename X, typename Y,
+             typename std::enable_if_t< std::is_arithmetic_v< S >, bool > = true >
+  GroupedTable< X, Y > operator*( const S& left, const GroupedTable< X, Y >& right ) {
+
+    return right * left;
+  }
 
 } // math namespace
 } // scion namespace

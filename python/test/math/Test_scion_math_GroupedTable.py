@@ -32,6 +32,11 @@ class Test_scion_math_GroupedTable( unittest.TestCase ) :
 
         verify_chunk( self, chunk )
 
+        changed = 2 * chunk
+        changed_back = changed / 2
+
+        verify_chunk(self, changed_back)
+
     def test_failures( self ) :
 
         print( '\n' )
