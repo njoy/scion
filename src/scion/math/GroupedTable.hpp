@@ -42,7 +42,7 @@ namespace math {
     /* methods */
 
     /**
-     *  @brief Return the group bounds
+     *  @brief Return the group boundaries
      */
     const std::vector< X >& bounds() const noexcept {
 
@@ -50,7 +50,7 @@ namespace math {
     }
     
     /**
-     *  @brief Return the group values
+     *  @brief Return the grouped values
      */
     const std::vector< Y >& values() const noexcept {
 

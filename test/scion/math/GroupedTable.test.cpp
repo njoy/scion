@@ -44,30 +44,6 @@ SCENARIO( "GroupedTable" ) {
             } // then
         }  // when
 
-        WHEN( " the ref is given as a const ref") {
-
-            GroupedTable< double, double > table( bounds, y );
-
-            THEN( "a GroupedTable can be constructed and members can be tested" ) {
-
-                CHECK( table.values().size() == 3 );
-                CHECK( table.bounds().size() == 4 );
-                CHECK( table.numberGroups() == 3 );
-
-                for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
-
-                    CHECK_THAT( table.values()[i], WithinRel( y[i] ) );
-                }
-
-
-                for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
-
-                    CHECK_THAT( table.bounds()[i], WithinRel( bounds[i] ) );
-                }
-
-            } // then
-        }  // when
-
         WHEN( "bad values are given" ) {
             
             std::vector< double > outOfOrder{ 1., 2., 1.5, 6. };

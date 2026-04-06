@@ -1,7 +1,7 @@
 /**
  * @brief Constructor
  *
- * @param bounds   reference_wrapper to the boundary values (size n)
+ * @param bounds   the boundary values (size n)
  * @param values   vector of values  (size n-1)
  *
  */
