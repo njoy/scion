@@ -61,11 +61,13 @@ void wrapGroupedTable( python::module& module, const std::string& name ) {
     "number_groups",
     &Component::numberGroups,
     "The number of groups"
-  );
-
+  )
+  .def( python::self * double() )
+  .def( python::self / double() )
+  .def( python::self *= double() )
+  .def( python::self /= double() )
+  .def( double() * python::self );
   addStandardEqualDefinitions< Component >( component );
-  addLimitedOperatorDefinitions< Component, X, Y > ( component );
-
 }
 
 void wrapGroupedTable( python::module& module ) {

@@ -220,26 +220,6 @@ void addStandardOperatorDefinitions( PythonClass& component ) {
 }
 
 /**
- *  @brief Add limited operator definitions
- *
- *  This adds the following standard functions:
- *    *=, /= for scalars only
- *    *, / for scalars only
- *
- *  @param[in] component   the function to which the definitions have to be added
- */
-template < typename Component, typename X, typename Y, typename PythonClass >
-void addLimitedOperatorDefinitions( PythonClass& component ) {
-
-  component
-  .def( python::self * double() )
-  .def( python::self / double() )
-  .def( python::self *= double() )
-  .def( python::self /= double() )
-  .def( double() * python::self );
-}
-
-/**
  *  @brief Add standard series expansion definitions
  *
  *  This adds the following standard functions:
