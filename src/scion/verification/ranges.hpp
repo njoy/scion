@@ -75,6 +75,54 @@ bool isAllSameElement( const Range& range ) {
                                             std::not_equal_to{} );
 }
 
+/** @brief Verify if a range consists of elements that are all larger than
+ *         a value
+ *
+ *  @param[in] range    the range
+ */
+template < typename Range, typename Value >
+bool isAllLargerThan( const Range& range, const Value& value ) {
+
+  return std::all_of( range.begin(), range.end(),
+                      [&] ( auto&& element ) { return element > value; } );
+}
+
+/** @brief Verify if a range consists of elements that are all larger than or
+ *         equal to a value
+ *
+ *  @param[in] range    the range
+ */
+template < typename Range, typename Value >
+bool isAllLargerThanOrEqualTo( const Range& range, const Value& value ) {
+
+  return std::all_of( range.begin(), range.end(),
+                      [&] ( auto&& element ) { return element >= value; } );
+}
+
+/** @brief Verify if a range consists of elements that are all less than
+ *         a value
+ *
+ *  @param[in] range    the range
+ */
+template < typename Range, typename Value >
+bool isAllLessThan( const Range& range, const Value& value ) {
+
+  return std::all_of( range.begin(), range.end(),
+                      [&] ( auto&& element ) { return element < value; } );
+}
+
+/** @brief Verify if a range consists of elements that are all less than or
+ *         equal to a value
+ *
+ *  @param[in] range    the range
+ */
+template < typename Range, typename Value >
+bool isAllLessThanOrEqualTo( const Range& range, const Value& value ) {
+
+  return std::all_of( range.begin(), range.end(),
+                      [&] ( auto&& element ) { return element <= value; } );
+}
+
 } // math namespace
 } // scion namespace
 } // njoy namespace
