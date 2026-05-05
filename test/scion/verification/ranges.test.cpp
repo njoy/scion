@@ -51,6 +51,16 @@ SCENARIO( "verification ranges" ) {
 
         CHECK( false == verification::isAllSameElement( unique ) );
         CHECK( true == verification::isAllSameElement( same ) );
+
+        CHECK( true == verification::isAllLargerThan( unsorted, 0 ) );
+        CHECK( false == verification::isAllLargerThan( unsorted, 1. ) );
+        CHECK( true == verification::isAllLargerThanOrEqualTo( unsorted, 0 ) );
+        CHECK( true == verification::isAllLargerThanOrEqualTo( unsorted, 1 ) );
+
+        CHECK( true == verification::isAllLessThan( unsorted, 4 ) );
+        CHECK( false == verification::isAllLessThan( unsorted, 3. ) );
+        CHECK( true == verification::isAllLessThanOrEqualTo( unsorted, 4 ) );
+        CHECK( true == verification::isAllLessThanOrEqualTo( unsorted, 3 ) );
       } // THEN
     } // WHEN
   } // GIVEN
