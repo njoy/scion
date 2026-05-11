@@ -3,7 +3,8 @@ void verifyTable( ) {
     // check sizes - there must be at least two boundaries
     if ( ! verification::isAtLeastOfSize( this->bounds(), 2 )  ) {
 
-        Log::error( "In GroupedTable there must be at least two boundary values." );
+        Log::error( "Insufficient boundary values defined for grouped data "
+                "(at least 2 values are required)" );
         Log::info( "Boundary size: {}", this->bounds().size() );
         throw std::exception();
     }
@@ -11,7 +12,8 @@ void verifyTable( ) {
     // check sizes - bounds must be one longer than values
     if ( this->bounds().size() != this->values().size() + 1 ) {
 
-        Log::error( "In GroupedTable the boundaries must be one longer than the values." );
+        Log::error( "Inconsistent boundaries and values defined for grouped data "
+                "(number of boundaries must be one greater than number of values)" );
         Log::info( "Boundaries: {}", this->bounds().size() );
         Log::info( "Values: {}", this->values().size() );
         throw std::exception();

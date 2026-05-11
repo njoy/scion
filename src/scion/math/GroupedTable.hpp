@@ -126,8 +126,7 @@ namespace math {
      */
     bool operator==( const GroupedTable& right ) const noexcept {
 
-      return this->numberGroups() == right.numberGroups() &&
-             this->bounds() == right.bounds() &&
+      return this->bounds() == right.bounds() &&
              this->values() == right.values();
     }
 
