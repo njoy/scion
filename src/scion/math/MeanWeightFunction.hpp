@@ -1,11 +1,10 @@
-#ifndef NJOY_SCION_MATH_CONSTANTWEIGHTFUNCTION
-#define NJOY_SCION_MATH_CONSTANTWEIGHTFUNCTION
+#ifndef NJOY_SCION_MATH_MeanWeightFunction
+#define NJOY_SCION_MATH_MeanWeightFunction
 
 // system includes
 
 // other includes
 #include "scion/math/WeightFunctionBase.hpp"
-#include "scion/math/OpenDomain.hpp"
 #include "scion/integration.hpp"
 
 namespace njoy {
@@ -14,17 +13,18 @@ namespace math {
 
   /**
    *  @class
-   *  @brief A weight function w(x) = c
+   *  @brief A weight function w(x) = x
    */
-  template < typename X, typename Y, typename W >
-  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, Y, W >, X, Y, W > {
+  template < typename X, typename Y, typename W = X >
+  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X, Y, W >, X, Y, W > {
 
     /* friend declarations */
-    friend class WeightFunctionBase< ConstantWeightFunction< X, Y, W >, X, Y, W >;
-    friend class OneDimensionalFunctionBase< ConstantWeightFunction< X, Y, W >, X, W >;
+    friend class WeightFunctionBase< MeanWeightFunction< X, Y, W >, X, Y, W >;
+    friend class OneDimensionalFunctionBase< MeanWeightFunction< X, Y, W >, X, W >;
 
     /* type aliases */
-    using Parent = WeightFunctionBase< ConstantWeightFunction< X, Y, W >, X, Y, W >;
+    using Parent = WeightFunctionBase< MeanWeightFunction< X, Y, W >, X, Y, W >;
+    using SlopeType = decltype( std::declval< W >() / std::declval< X >() );
 
   public:
 
@@ -37,16 +37,15 @@ namespace math {
   private:
 
     /* fields */
-    W constant_;
 
     /* interface implementation functions */
 
     /**
      *  @brief Evaluate the weight function
      */
-    W evaluate( const X& ) const noexcept {
+    W evaluate( const X& x ) const noexcept {
 
-      return this->constant();
+      return x;
     }
 
     /**
@@ -58,7 +57,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< W >() ) >
     I calculateIntegral( const X& xLeft, const X& xRight ) const noexcept {
 
-      return integration::histogram( xLeft, xRight, this->constant(), this->constant() );
+      return integration::linlin( xLeft, xRight, xLeft, xRight );
     }
 
     /**
@@ -70,7 +69,7 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< W >() ) >
     I calculateMean( const X& xLeft, const X& xRight ) const noexcept {
 
-      return integration::histogramMean( xLeft, xRight, this->constant(), this->constant() );
+      return integration::linLinMean( xLeft, xRight, xLeft, xRight );
     }
 
     /**
@@ -85,7 +84,7 @@ namespace math {
     I calculateHistogramIntegral( const X& xLeft, const X& xRight,
                                   const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return this->constant() * integration::histogram( xLeft, xRight, yLeft, yRight );
+      return integration::histogramMean( xLeft, xRight, yLeft, yRight );
     }
 
     /**
@@ -100,7 +99,7 @@ namespace math {
     I calculateLinearLinearIntegral( const X& xLeft, const X& xRight,
                                      const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return this->constant() * integration::linlin( xLeft, xRight, yLeft, yRight );
+      return integration::linLinMean( xLeft, xRight, yLeft, yRight );
     }
 
     /**
@@ -115,7 +114,7 @@ namespace math {
     I calculateLinearLogarithmicIntegral( const X& xLeft, const X& xRight,
                                           const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return this->constant() * integration::linlog( xLeft, xRight, yLeft, yRight );
+      return integration::linLogMean( xLeft, xRight, yLeft, yRight );
     }
 
     /**
@@ -130,7 +129,7 @@ namespace math {
     I calculateLogarithmicLinearIntegral( const X& xLeft, const X& xRight,
                                           const Y& yLeft, const Y& yRight ) const {
 
-      return this->constant() * integration::loglin( xLeft, xRight, yLeft, yRight );
+      return integration::logLinMean( xLeft, xRight, yLeft, yRight );
     }
 
     /**
@@ -145,7 +144,7 @@ namespace math {
     I calculateLogarithmicLogarithmicIntegral( const X& xLeft, const X& xRight,
                                                const Y& yLeft, const Y& yRight ) const {
 
-      return this->constant() * integration::loglog( xLeft, xRight, yLeft, yRight );
+      return integration::logLogMean( xLeft, xRight, yLeft, yRight );
     }
 
   public:
@@ -154,22 +153,10 @@ namespace math {
 
     /**
      *  @brief Constructor
-     *
-     *  @param constant  the constant value of the weight function
      */
-    ConstantWeightFunction( W constant = 1. ) :
-      Parent( OpenDomain< X >() ),
-      constant_( std::move( constant ) ) {}
+    MeanWeightFunction() :  Parent( OpenDomain< X >() ) {}
 
     /* methods */
-
-    /**
-     *  @brief Return the constant value
-     */
-    const W& constant() const noexcept {
-
-      return this->constant_;
-    }
 
     using Parent::integral;
     using Parent::mean;

@@ -72,6 +72,7 @@ add_cpp_test( scion.math.AnalyticalIntegrator               scion/math/Analytica
 add_cpp_test( scion.math.ChebyshevApproximation             scion/math/ChebyshevApproximation.test.cpp )
 add_cpp_test( scion.math.ChebyshevSeries                    scion/math/ChebyshevSeries.test.cpp )
 add_cpp_test( scion.math.ConstantWeightFunction             scion/math/ConstantWeightFunction.test.cpp )
+add_cpp_test( scion.math.MeanWeightFunction                 scion/math/MeanWeightFunction.test.cpp )
 add_cpp_test( scion.math.HistogramTable                     scion/math/HistogramTable.test.cpp )
 add_cpp_test( scion.math.HistogramTableFunction             scion/math/HistogramTableFunction.test.cpp )
 add_cpp_test( scion.math.InterpolationTable                 scion/math/InterpolationTable.test.cpp )
