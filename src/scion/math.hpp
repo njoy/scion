@@ -34,3 +34,5 @@
 #include "scion/math/ChebyshevSeries.hpp"
 #include "scion/math/LegendreSeries.hpp"
 #include "scion/math/PolynomialSeries.hpp"
+#include "scion/math/WeightFunctionBase.hpp"
+#include "scion/math/ConstantWeightFunction.hpp"
