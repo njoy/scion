@@ -1,5 +1,5 @@
-#ifndef NJOY_SCION_MATH_MeanWeightFunction
-#define NJOY_SCION_MATH_MeanWeightFunction
+#ifndef NJOY_SCION_MATH_MEANWEIGHTFUNCTION
+#define NJOY_SCION_MATH_MEANWEIGHTFUNCTION
 
 // system includes
 
