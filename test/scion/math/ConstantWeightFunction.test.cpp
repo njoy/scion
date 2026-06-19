@@ -8,7 +8,7 @@ using Catch::Matchers::WithinRel;
 
 // convenience typedefs
 using namespace njoy::scion;
-using ConstantWeightFunction = math::ConstantWeightFunction< double, double, double >;
+using ConstantWeightFunction = math::ConstantWeightFunction< double, double >;
 
 SCENARIO( "ConstantWeightFunction" ) {
 

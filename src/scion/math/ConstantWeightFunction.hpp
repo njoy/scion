@@ -16,23 +16,19 @@ namespace math {
    *  @class
    *  @brief A weight function w(x) = c
    */
-  template < typename X, typename Y, typename W >
-  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, Y, W >, X, Y, W > {
+  template < typename X, typename W >
+  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, W >, X, W > {
 
     /* friend declarations */
-    friend class WeightFunctionBase< ConstantWeightFunction< X, Y, W >, X, Y, W >;
-    friend class OneDimensionalFunctionBase< ConstantWeightFunction< X, Y, W >, X, W >;
+    friend class WeightFunctionBase< ConstantWeightFunction< X, W >, X, W >;
+    friend class OneDimensionalFunctionBase< ConstantWeightFunction< X, W >, X, W >;
 
     /* type aliases */
-    using Parent = WeightFunctionBase< ConstantWeightFunction< X, Y, W >, X, Y, W >;
+    using Parent = WeightFunctionBase< ConstantWeightFunction< X, W >, X, W >;
 
   public:
 
     /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-    using typename Parent::DomainVariant;
 
   private:
 
@@ -81,7 +77,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateHistogramIntegral( const X& xLeft, const X& xRight,
                                   const Y& yLeft, const Y& yRight ) const noexcept {
 
@@ -96,7 +92,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateLinearLinearIntegral( const X& xLeft, const X& xRight,
                                      const Y& yLeft, const Y& yRight ) const noexcept {
 
@@ -111,7 +107,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateLinearLogarithmicIntegral( const X& xLeft, const X& xRight,
                                           const Y& yLeft, const Y& yRight ) const noexcept {
 
@@ -126,7 +122,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateLogarithmicLinearIntegral( const X& xLeft, const X& xRight,
                                           const Y& yLeft, const Y& yRight ) const {
 
@@ -141,7 +137,7 @@ namespace math {
      *  @param yLeft    the left y-value of the tabulated function
      *  @param yRight   the right y-value of the tabulated function
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateLogarithmicLogarithmicIntegral( const X& xLeft, const X& xRight,
                                                const Y& yLeft, const Y& yRight ) const {
 
@@ -171,6 +167,7 @@ namespace math {
       return this->constant_;
     }
 
+    using Parent::operator();
     using Parent::integral;
     using Parent::mean;
     using Parent::integrateHistogram;
@@ -178,11 +175,6 @@ namespace math {
     using Parent::integrateLinearLogarithmic;
     using Parent::integrateLogarithmicLinear;
     using Parent::integrateLogarithmicLogarithmic;
-    using Parent::domain;
-    using Parent::operator();
-    using Parent::isInside;
-    using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
 } // math namespace

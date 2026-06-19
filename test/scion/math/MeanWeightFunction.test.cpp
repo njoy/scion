@@ -8,7 +8,7 @@ using Catch::Matchers::WithinRel;
 
 // convenience typedefs
 using namespace njoy::scion;
-using MeanWeightFunction = math::MeanWeightFunction< double, double, double >;
+using MeanWeightFunction = math::MeanWeightFunction< double, double >;
 
 SCENARIO( "MeanWeightFunction" ) {
 

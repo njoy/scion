@@ -18,10 +18,11 @@ namespace math {
    *  integration of tabulated data. Weight functions can be used to calculate
    *  integrals of the form w(x) f(x) dx where f(x) is tabulated data.
    */
-  template < typename Derived, typename X, typename Y, typename W >
+  template < typename Derived, typename X, typename W >
   class WeightFunctionBase : public OneDimensionalFunctionBase< Derived, X, W > {
 
     /* type aliases */
+
     using Parent = OneDimensionalFunctionBase< Derived, X, W >;
 
   public:
@@ -89,7 +90,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I integrateHistogram( const X& xLeft, const X& xRight,
                           const Y& yLeft, const Y& yRight ) const {
 
@@ -104,7 +105,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I integrateLinearLinear( const X& xLeft, const X& xRight,
                              const Y& yLeft, const Y& yRight ) const {
 
@@ -119,7 +120,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I integrateLinearLogarithmic( const X& xLeft, const X& xRight,
                                   const Y& yLeft, const Y& yRight ) const {
 
@@ -134,7 +135,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I integrateLogarithmicLinear( const X& xLeft, const X& xRight,
                                   const Y& yLeft, const Y& yRight ) const {
 
@@ -149,7 +150,7 @@ namespace math {
      *  @param yLeft    the left y-value of the tabulated function
      *  @param yRight   the right y-value of the tabulated function
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I integrateLogarithmicLogarithmic( const X& xLeft, const X& xRight,
                                        const Y& yLeft, const Y& yRight ) const {
 
