@@ -453,19 +453,9 @@ class HistogramTable:
         The domain
         """
     @property
-    def integral(self) -> float:
-        """
-        The integral (zeroth order moment) of the table over its domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
-        """
-    @property
-    def mean(self) -> float:
-        """
-        The mean (first order raw moment) of the table over its domain
         """
     @property
     def number_points(self) -> int:
@@ -929,19 +919,9 @@ class LinearLinearTable:
         The domain
         """
     @property
-    def integral(self) -> float:
-        """
-        The integral (zeroth order moment) of the table over its domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
-        """
-    @property
-    def mean(self) -> float:
-        """
-        The mean (first order raw moment) of the table over its domain
         """
     @property
     def number_points(self) -> int:
@@ -1017,19 +997,9 @@ class LinearLogTable:
         The domain
         """
     @property
-    def integral(self) -> float:
-        """
-        The integral (zeroth order moment) of the table over its domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
-        """
-    @property
-    def mean(self) -> float:
-        """
-        The mean (first order raw moment) of the table over its domain
         """
     @property
     def number_points(self) -> int:
@@ -1105,19 +1075,9 @@ class LogLinearTable:
         The domain
         """
     @property
-    def integral(self) -> float:
-        """
-        The integral (zeroth order moment) of the table over its domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
-        """
-    @property
-    def mean(self) -> float:
-        """
-        The mean (first order raw moment) of the table over its domain
         """
     @property
     def number_points(self) -> int:
@@ -1193,19 +1153,9 @@ class LogLogTable:
         The domain
         """
     @property
-    def integral(self) -> float:
-        """
-        The integral (zeroth order moment) of the table over its domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
-        """
-    @property
-    def mean(self) -> float:
-        """
-        The mean (first order raw moment) of the table over its domain
         """
     @property
     def number_points(self) -> int:
