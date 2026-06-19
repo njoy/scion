@@ -423,15 +423,10 @@ namespace math {
 
     /**
      *  @brief Calculate the mean (first order raw moment) of the table over its domain
-     *
-     *  Note: an interpolation table does not have to be normalised, so this will only
-     *        return the mean (i.e. the expected value of x) if the interpolation table
-     *        is normalised.
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
-    I mean() const {
+    X mean() const {
 
-      return this->integrate( MeanWeightFunction< X, X >{} );
+      return this->integrate( MeanWeightFunction< X, X >{} ) / this->integral();
     }
 
     using Parent::isInside;
