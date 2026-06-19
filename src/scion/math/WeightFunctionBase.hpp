@@ -69,20 +69,6 @@ namespace math {
     }
 
     /**
-     *  @brief Calculate the mean of the weight function over a panel
-     *
-     *  The mean or first raw moment is defined as the integral of x * f(x)
-     *
-     *  @param xLeft    the left boundary of the panel
-     *  @param xRight   the right boundary of the panel
-     */
-    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< W >() ) >
-    I mean( const X& xLeft, const X& xRight ) const {
-
-      return static_cast< const Derived* >( this )->calculateMean( xLeft, xRight );
-    }
-
-    /**
      *  @brief Integrate w(x) * f(x) over a panel using histogram interpolation
      *
      *  @param xLeft    the left boundary of the panel

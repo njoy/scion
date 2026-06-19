@@ -56,18 +56,6 @@ namespace math {
     }
 
     /**
-     *  @brief Calculate the mean of weight function over a panel
-     *
-     *  @param xLeft    the left boundary of the panel
-     *  @param xRight   the right boundary of the panel
-     */
-    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< W >() ) >
-    I calculateMean( const X& xLeft, const X& xRight ) const noexcept {
-
-      return integration::linLinMean( xLeft, xRight, xLeft, xRight );
-    }
-
-    /**
      *  @brief Integrate w(x) * f(x) over a panel using histogram interpolation
      *
      *  @param xLeft    the left boundary of the panel
@@ -155,7 +143,6 @@ namespace math {
 
     using Parent::operator();
     using Parent::integral;
-    using Parent::mean;
     using Parent::integrateHistogram;
     using Parent::integrateLinearLinear;
     using Parent::integrateLinearLogarithmic;

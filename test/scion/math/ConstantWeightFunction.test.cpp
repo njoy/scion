@@ -38,12 +38,6 @@ SCENARIO( "ConstantWeightFunction" ) {
         CHECK_THAT( 8., WithinRel( weight.integral( 1., 5. ) ) );
       } // THEN
 
-      THEN( "the mean of the weight function over a panel can be calculated" ) {
-
-        CHECK_THAT( 12., WithinRel( weight.mean( 2., 4. ) ) );
-        CHECK_THAT( 24., WithinRel( weight.mean( 1., 5. ) ) );
-      } // THEN
-
       // test results taken from the integration tests (times 2)
 
       THEN( "integration with histogram interpolation can be performed" ) {
