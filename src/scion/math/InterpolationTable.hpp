@@ -65,7 +65,6 @@ namespace math {
     #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
     #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
-    #include "scion/math/InterpolationTable/src/summation.hpp"
 
     /**
      *  @brief Return the interpolation tables
@@ -327,38 +326,55 @@ namespace math {
     using Parent::domain;
     using Parent::operator();
 
+    /**
+     *  @brief Calculate the integral of w(x) * f(x) dx over the table domain
+     *
+     *  The weight function must implement the math::WeightFunctionBase interface.
+     *
+     *  @param[in] weight   the weight function
+     */
+    template < typename WeightFunction >
+    decltype(auto) integrate( const WeightFunction& weight ) const {
 
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    auto integral() const {
+      auto integrate = [&] ( auto&& region ) -> decltype(auto) {
 
-      ConstantWeightFunction< X, double > weight( 1. );
-      auto integrate = [&] ( auto&& region ) -> decltype(auto) { return region.integrate( weight ); };
-      return this->summation( integrate );
+        return region.integrate( weight );
+      };
+
+      auto compute = [&] ( auto&& result, auto&& variant ) -> decltype(auto) {
+
+        return result + std::visit( integrate, variant );
+      };
+
+      auto iter = this->tables().begin();
+      auto result = std::visit( integrate, *iter );
+      ++iter;
+
+      return std::accumulate( iter, this->tables().end(), result, compute );
     }
 
+    /**
+     *  @brief Calculate the integral over the table domain
+     */
+    decltype(auto) integral() const {
 
-
-//    /**
-//     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
-//     */
-//    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-//    I integral() const {
-//
-//      auto integrate = [] ( auto&& region ) { return region.integral(); };
-//      return this->summation( integrate );
-//    }
+      return this->integrate( ConstantWeightFunction< X, double >{ 1. } );
+    }
 
     /**
-     *  @brief Calculate the cumulative integral of the table over its domain
+     *  @brief Calculate the cumulative integral of w(x) * f(x) dx over the table domain
+     *
+     *  The weight function must implement the math::WeightFunctionBase interface.
+     *
+     *  @param[in] weight   the weight function
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    std::vector< I > cumulativeIntegral() const {
+    template < typename WeightFunction >
+    decltype(auto) cumulativeIntegrate( const WeightFunction& weight ) const {
 
-      ConstantWeightFunction< X, double > weight( 1. );
-      std::vector< I > result;
+      using I = decltype( weight.integrateHistogram( this->x()[0], this->x()[1], this->y()[0], this->y()[1] ) );
+
       I first{ 0. };
-
-      auto cumulative = [&] ( const auto& table ) {
+      auto cumulative = [&] ( auto&& table ) {
 
         return table.cumulativeIntegrate( first, weight );
       };
@@ -372,46 +388,51 @@ namespace math {
                : true;
       };
 
-      for ( const auto& table : this->tables_ ) {
+      auto iter = this->tables().begin();
+      auto result = std::visit( cumulative, *iter );
+      ++iter;
 
-        auto integrals = std::visit( cumulative, table );
-        bool isJumpOrEnd = std::visit( check, table );
+      while ( iter != this->tables().end() ) {
 
-        if ( isJumpOrEnd ) {
+        first = result.back();
+        auto integrals = std::visit( cumulative, *iter );
+
+        if ( std::visit( check, *std::prev( iter ) ) ) {
 
           result.insert( result.end(), integrals.begin(), integrals.end() );
         }
         else {
 
-          result.insert( result.end(), integrals.begin(), std::prev( integrals.end() ) );
+          result.insert( result.end(), std::next( integrals.begin() ), integrals.end() );
         }
-        first = integrals.back();
+
+        ++iter;
       }
 
       return result;
     }
 
+    /**
+     *  @brief Calculate the cumulative integral over the table domain
+     */
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    std::vector< I > cumulativeIntegral() const {
+
+      return this->cumulativeIntegrate( ConstantWeightFunction< X, double >{ 1. } );
+    }
+
+    /**
+     *  @brief Calculate the mean (first order raw moment) of the table over its domain
+     *
+     *  Note: an interpolation table does not have to be normalised, so this will only
+     *        return the mean (i.e. the expected value of x) if the interpolation table
+     *        is normalised.
+     */
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I mean() const {
 
-      MeanWeightFunction< X, X > weight;
-      auto integrate = [&] ( auto&& region ) -> decltype(auto) { return region.integrate( weight ); };
-      return this->summation( integrate );
+      return this->integrate( MeanWeightFunction< X, X >{} );
     }
-
-//    /**
-//     *  @brief Calculate the mean (first order raw moment) of the table over its domain
-//     *
-//     *  Note: an interpolation table does not have to be normalised, so this will only
-//     *        return the mean (i.e. the expected value of x) if the interpolation table
-//     *        is normalised.
-//     */
-//    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
-//    I mean() const {
-//
-//      auto integrate = [] ( auto&& region ) { return region.mean(); };
-//      return this->summation( integrate );
-//    }
 
     using Parent::isInside;
     using Parent::isContained;
