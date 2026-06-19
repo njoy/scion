@@ -13,7 +13,7 @@
 namespace python = pybind11;
 
 /**
- *  @brief Add equal and not equal 
+ *  @brief Add equal and not equal
  *
  *  This adds the following standard functions:
  *    __eq__, __ne__
@@ -330,7 +330,6 @@ void addStandardSingleInterpolationTableDefinitions( PythonClass& component ) {
 
   // add standard function definitions
   addStandardFunctionDefinitions< Component, X, Y >( component );
-  addStandardIntegrationDefinitions< Component, X, Y >( component );
 }
 
 /**
