@@ -422,7 +422,9 @@ namespace math {
     }
 
     /**
-     *  @brief Calculate the mean (first order raw moment) of the table over its domain
+     *  @brief Calculate the mean over the table domain
+     *
+     *  Note: unnormalised and normalised tables return the same mean value.
      */
     X mean() const {
 
