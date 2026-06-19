@@ -81,7 +81,7 @@ namespace math {
     #include "scion/math/SeriesBase/src/linearise.hpp"
 
     /**
-     *  @brief Calculate the integral (zeroth order moment) of the series over its domain
+     *  @brief Calculate the integral over the series domain
      */
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I integral() const {
@@ -90,16 +90,13 @@ namespace math {
     }
 
     /**
-     *  @brief Calculate the mean (first order raw moment) of the series over its domain
+     *  @brief Calculate the mean over the series domain
      *
-     *  Note: a series expansion does not have to be normalised, so this will only
-     *        return the mean (i.e. the expected value of x) if the series expansion
-     *        is normalised.
+     *  Note: unnormalised and normalised tables return the same mean value.
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
-    I mean() const {
+    X mean() const {
 
-      return static_cast< const Derived* >( this )->calculateMean();
+      return static_cast< const Derived* >( this )->calculateMean() / this->integral();
     }
 
     /**
