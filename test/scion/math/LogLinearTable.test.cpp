@@ -13,6 +13,8 @@ using Catch::Matchers::WithinRel;
 
 // other includes
 #include "utility/IteratorView.hpp"
+#include "scion/math/ConstantWeightFunction.hpp"
+#include "scion/math/MeanWeightFunction.hpp"
 
 // convenience typedefs
 using namespace njoy::scion;
@@ -23,8 +25,15 @@ using LogLinearTable = math::LogLinearTable< X, Y, XContainer, YContainer >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
+template < typename X, typename Y = X, typename W = X >
+using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
+template < typename X, typename Y = X, typename W = X >
+using MeanWeightFunction = math::MeanWeightFunction< X, W >;
 
 SCENARIO( "LogLinearTable" ) {
+
+  ConstantWeightFunction< double > constant( 1. );
+  MeanWeightFunction< double > mean;
 
   GIVEN( "tabulated data" ) {
 
@@ -78,8 +87,8 @@ SCENARIO( "LogLinearTable" ) {
         // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. )
         //                                     + integrator( chunk, 2.,  3. )
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
-        // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
-        CHECK_THAT( 7.3850580000476, WithinRel( chunk.integral() ) );
+        // std::cout << std::setprecision(15) << chunk.integrate( constant ) << std::endl;
+        CHECK_THAT( 7.3850580000476, WithinRel( chunk.integrate( constant ) ) );
       } // THEN
 
       THEN( "the cumulative integral of a LogLinearTable can be calculated" ) {
@@ -92,7 +101,7 @@ SCENARIO( "LogLinearTable" ) {
         //                                    << integrator( chunk, 1.,  2. )
         //                                     + integrator( chunk, 2.,  3. )
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
-        auto cumulative = chunk.cumulativeIntegral( 0. );
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
         CHECK( 4 == cumulative.size() );
         CHECK_THAT( 0.              , WithinRel( cumulative[0] ) );
         CHECK_THAT( 3.47605949678221, WithinRel( cumulative[1] ) );
@@ -108,8 +117,8 @@ SCENARIO( "LogLinearTable" ) {
         // std::cout << std::setprecision(15) << integrator( functor, 1.,  2. )
         //                                     + integrator( functor, 2.,  3. )
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
-        // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
-        CHECK_THAT( 16.180282462919, WithinRel( chunk.mean() ) );
+        // std::cout << std::setprecision(15) << chunk.integrate( mean ) << std::endl;
+        CHECK_THAT( 16.180282462919, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
       THEN( "a LogLinearTable can be linearised" ) {
@@ -235,8 +244,8 @@ SCENARIO( "LogLinearTable" ) {
         // std::cout << std::setprecision(15) << integrator( chunk, 1.,  2. )
         //                                     + integrator( chunk, 2.,  3. )
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
-        // std::cout << std::setprecision(15) << chunk.integral() << std::endl;
-        CHECK_THAT( 7.385058000047600, WithinRel( chunk.integral() ) );
+        // std::cout << std::setprecision(15) << chunk.integrate( constant ) << std::endl;
+        CHECK_THAT( 7.385058000047600, WithinRel( chunk.integrate( constant ) ) );
       } // THEN
 
       THEN( "the cumulative integral of a LogLinearTable can be calculated" ) {
@@ -249,7 +258,7 @@ SCENARIO( "LogLinearTable" ) {
         //                                    << integrator( chunk, 1.,  2. )
         //                                     + integrator( chunk, 2.,  3. )
         //                                     + integrator( chunk, 3.,  4. ) << std::endl;
-        auto cumulative = chunk.cumulativeIntegral( 0. );
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
         CHECK( 4 == cumulative.size() );
         CHECK_THAT( 0.              , WithinRel( cumulative[0] ) );
         CHECK_THAT( 3.47605949678221, WithinRel( cumulative[1] ) );
@@ -265,8 +274,8 @@ SCENARIO( "LogLinearTable" ) {
         // std::cout << std::setprecision(15) << integrator( functor, 1.,  2. )
         //                                     + integrator( functor, 2.,  3. )
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
-        // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
-        CHECK_THAT( 16.180282462919, WithinRel( chunk.mean() ) );
+        // std::cout << std::setprecision(15) << chunk.integrate( mean ) << std::endl;
+        CHECK_THAT( 16.180282462919, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
       THEN( "a LogLinearTable can be linearised" ) {

@@ -22,6 +22,9 @@
 #include "scion/math/IntervalDomain.hpp"
 #include "scion/verification/ranges.hpp"
 
+#include "scion/math/ConstantWeightFunction.hpp"
+#include "scion/math/MeanWeightFunction.hpp"
+
 namespace njoy {
 namespace scion {
 namespace math {
@@ -324,15 +327,26 @@ namespace math {
     using Parent::domain;
     using Parent::operator();
 
-    /**
-     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
-     */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integral() const {
 
-      auto integrate = [] ( auto&& region ) { return region.integral(); };
+    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+    auto integral() const {
+
+      ConstantWeightFunction< X, double > weight( 1. );
+      auto integrate = [&] ( auto&& region ) -> decltype(auto) { return region.integrate( weight ); };
       return this->summation( integrate );
     }
+
+
+
+//    /**
+//     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
+//     */
+//    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
+//    I integral() const {
+//
+//      auto integrate = [] ( auto&& region ) { return region.integral(); };
+//      return this->summation( integrate );
+//    }
 
     /**
      *  @brief Calculate the cumulative integral of the table over its domain
@@ -340,11 +354,14 @@ namespace math {
     template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     std::vector< I > cumulativeIntegral() const {
 
+      ConstantWeightFunction< X, double > weight( 1. );
       std::vector< I > result;
       I first{ 0. };
 
-      auto cumulative = [&first] ( const auto& table )
-                                 { return table.cumulativeIntegral( first ); };
+      auto cumulative = [&] ( const auto& table ) {
+
+        return table.cumulativeIntegrate( first, weight );
+      };
 
       auto check = [this] ( const auto& table ) {
 
@@ -374,19 +391,27 @@ namespace math {
       return result;
     }
 
-    /**
-     *  @brief Calculate the mean (first order raw moment) of the table over its domain
-     *
-     *  Note: an interpolation table does not have to be normalised, so this will only
-     *        return the mean (i.e. the expected value of x) if the interpolation table
-     *        is normalised.
-     */
     template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I mean() const {
 
-      auto integrate = [] ( auto&& region ) { return region.mean(); };
+      MeanWeightFunction< X, X > weight;
+      auto integrate = [&] ( auto&& region ) -> decltype(auto) { return region.integrate( weight ); };
       return this->summation( integrate );
     }
+
+//    /**
+//     *  @brief Calculate the mean (first order raw moment) of the table over its domain
+//     *
+//     *  Note: an interpolation table does not have to be normalised, so this will only
+//     *        return the mean (i.e. the expected value of x) if the interpolation table
+//     *        is normalised.
+//     */
+//    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
+//    I mean() const {
+//
+//      auto integrate = [] ( auto&& region ) { return region.mean(); };
+//      return this->summation( integrate );
+//    }
 
     using Parent::isInside;
     using Parent::isContained;

@@ -8,6 +8,8 @@ using Catch::Matchers::WithinRel;
 
 // other includes
 #include "utility/IteratorView.hpp"
+#include "scion/math/ConstantWeightFunction.hpp"
+#include "scion/math/MeanWeightFunction.hpp"
 
 // convenience typedefs
 using namespace njoy::scion;
@@ -18,8 +20,15 @@ using HistogramTable = math::HistogramTable< X, Y, XContainer, YContainer >;
 template < typename X > using OpenDomain = math::OpenDomain< X >;
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
+template < typename X, typename W = X >
+using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
+template < typename X, typename W = X >
+using MeanWeightFunction = math::MeanWeightFunction< X, W >;
 
 SCENARIO( "HistogramTable" ) {
+
+  ConstantWeightFunction< double > constant( 1. );
+  MeanWeightFunction< double > mean;
 
   GIVEN( "tabulated data" ) {
 
@@ -69,12 +78,12 @@ SCENARIO( "HistogramTable" ) {
       THEN( "a HistogramTable can be integrated" ) {
 
         // 4 + 3 + 2 = 9
-        CHECK_THAT( 9., WithinRel( chunk.integral() ) );
+        CHECK_THAT( 9., WithinRel( chunk.integrate( constant ) ) );
       } // THEN
 
       THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
 
-        auto cumulative = chunk.cumulativeIntegral( 0. );
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
         CHECK( 4 == cumulative.size() );
         CHECK_THAT( 0., WithinRel( cumulative[0] ) );
         CHECK_THAT( 4., WithinRel( cumulative[1] ) );
@@ -85,7 +94,7 @@ SCENARIO( "HistogramTable" ) {
       THEN( "the first raw moment of a HistogramTable can be calculated" ) {
 
         // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
-        CHECK_THAT( 20.5, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 20.5, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -176,12 +185,12 @@ SCENARIO( "HistogramTable" ) {
       THEN( "a HistogramTable can be integrated" ) {
 
         // 4 + 3 + 2 = 9
-        CHECK_THAT( 9., WithinRel( chunk.integral() ) );
+        CHECK_THAT( 9., WithinRel( chunk.integrate( constant ) ) );
       } // THEN
 
       THEN( "the cumulative integral of a HistogramTable can be calculated" ) {
 
-        auto cumulative = chunk.cumulativeIntegral( 0. );
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
         CHECK( 4 == cumulative.size() );
         CHECK_THAT( 0., WithinRel( cumulative[0] ) );
         CHECK_THAT( 4., WithinRel( cumulative[1] ) );
@@ -192,7 +201,7 @@ SCENARIO( "HistogramTable" ) {
       THEN( "the mean value of a HistogramTable can be calculated" ) {
 
         // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
-        CHECK_THAT( 20.5, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 20.5, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

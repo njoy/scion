@@ -8,6 +8,8 @@ using Catch::Matchers::WithinRel;
 
 // other includes
 #include "utility/IteratorView.hpp"
+#include "scion/math/ConstantWeightFunction.hpp"
+#include "scion/math/MeanWeightFunction.hpp"
 
 // convenience typedefs
 using namespace njoy::scion;
@@ -18,8 +20,15 @@ using LinearLinearTable = math::LinearLinearTable< X, Y, XContainer, YContainer 
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
+template < typename X, typename Y = X, typename W = X >
+using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
+template < typename X, typename Y = X, typename W = X >
+using MeanWeightFunction = math::MeanWeightFunction< X, W >;
 
 SCENARIO( "LinearLinearTable" ) {
+
+  ConstantWeightFunction< double > constant( 1. );
+  MeanWeightFunction< double > mean;
 
   GIVEN( "tabulated data" ) {
 
@@ -69,12 +78,12 @@ SCENARIO( "LinearLinearTable" ) {
       THEN( "a LinearLinearTable can be integrated" ) {
 
         // ( 4 + 1 ) * 3 / 2 = 7.5
-        CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
+        CHECK_THAT( 7.5, WithinRel( chunk.integrate( constant ) ) );
       } // THEN
 
       THEN( "the cumulative integral of a LinearLinearTable can be calculated" ) {
 
-        auto cumulative = chunk.cumulativeIntegral( 0. );
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
         CHECK( 4 == cumulative.size() );
         CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
         CHECK_THAT( 3.5, WithinRel( cumulative[1] ) );
@@ -89,7 +98,7 @@ SCENARIO( "LinearLinearTable" ) {
         // primitive = 5 x^2 / 2 - x^3 / 3
         // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
         //          = 75 / 2 -  63 / 3 = 37.5 - 21
-        CHECK_THAT( 16.5, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 16.5, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {
@@ -164,12 +173,12 @@ SCENARIO( "LinearLinearTable" ) {
       THEN( "a LinearLinearTable can be integrated" ) {
 
         // ( 4 + 1 ) * 3 / 2 = 7.5
-        CHECK_THAT( 7.5, WithinRel( chunk.integral() ) );
+        CHECK_THAT( 7.5, WithinRel( chunk.integrate( constant ) ) );
       } // THEN
 
       THEN( "the cumulative integral of a LinearLinearTable can be calculated" ) {
 
-        auto cumulative = chunk.cumulativeIntegral( 0. );
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
         CHECK( 4 == cumulative.size() );
         CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
         CHECK_THAT( 3.5, WithinRel( cumulative[1] ) );
@@ -184,7 +193,7 @@ SCENARIO( "LinearLinearTable" ) {
         // primitive = 5 x^2 / 2 - x^3 / 3
         // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
         //          = 75 / 2 -  63 / 3 = 37.5 - 21
-        CHECK_THAT( 16.5, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 16.5, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {
