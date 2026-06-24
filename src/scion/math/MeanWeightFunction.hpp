@@ -15,15 +15,15 @@ namespace math {
    *  @class
    *  @brief A weight function w(x) = x
    */
-  template < typename X, typename W >
-  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X, W >, X, W > {
+  template < typename X >
+  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X >, X, X > {
 
     /* friend declarations */
-    friend class WeightFunctionBase< MeanWeightFunction< X, W >, X, W >;
-    friend class OneDimensionalFunctionBase< MeanWeightFunction< X, W >, X, W >;
+    friend class WeightFunctionBase< MeanWeightFunction< X >, X, X >;
+    friend class OneDimensionalFunctionBase< MeanWeightFunction< X >, X, X >;
 
     /* type aliases */
-    using Parent = WeightFunctionBase< MeanWeightFunction< X, W >, X, W >;
+    using Parent = WeightFunctionBase< MeanWeightFunction< X >, X, X >;
 
   public:
 
@@ -38,7 +38,7 @@ namespace math {
     /**
      *  @brief Evaluate the weight function
      */
-    W evaluate( const X& x ) const noexcept {
+    X evaluate( const X& x ) const noexcept {
 
       return x;
     }
@@ -49,7 +49,7 @@ namespace math {
      *  @param xLeft    the left boundary of the panel
      *  @param xRight   the right boundary of the panel
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< W >() ) >
+    template < typename I = decltype( std::declval< X >() * std::declval< X >() ) >
     I calculateIntegral( const X& xLeft, const X& xRight ) const noexcept {
 
       return integration::linlin( xLeft, xRight, xLeft, xRight );
@@ -63,7 +63,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateHistogramIntegral( const X& xLeft, const X& xRight,
                                   const Y& yLeft, const Y& yRight ) const noexcept {
 
@@ -78,7 +78,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateLinearLinearIntegral( const X& xLeft, const X& xRight,
                                      const Y& yLeft, const Y& yRight ) const noexcept {
 
@@ -93,7 +93,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateLinearLogarithmicIntegral( const X& xLeft, const X& xRight,
                                           const Y& yLeft, const Y& yRight ) const noexcept {
 
@@ -108,7 +108,7 @@ namespace math {
      *  @param yLeft    the tabulated function value at the left boundary of the panel
      *  @param yRight   the tabulated function value at the right boundary of the panel
      */
-    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateLogarithmicLinearIntegral( const X& xLeft, const X& xRight,
                                           const Y& yLeft, const Y& yRight ) const {
 
@@ -123,7 +123,7 @@ namespace math {
      *  @param yLeft    the left y-value of the tabulated function
      *  @param yRight   the right y-value of the tabulated function
      */
-    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateLogarithmicLogarithmicIntegral( const X& xLeft, const X& xRight,
                                                const Y& yLeft, const Y& yRight ) const {
 

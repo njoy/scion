@@ -428,7 +428,7 @@ namespace math {
      */
     X mean() const {
 
-      return this->integrate( MeanWeightFunction< X, X >{} ) / this->integral();
+      return this->integrate( MeanWeightFunction< X >{} ) / this->integral();
     }
 
     using Parent::isInside;

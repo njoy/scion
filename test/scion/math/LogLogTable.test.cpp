@@ -28,7 +28,7 @@ using InterpolationType = interpolation::InterpolationType;
 template < typename X, typename Y = X, typename W = X >
 using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
 template < typename X, typename Y = X, typename W = X >
-using MeanWeightFunction = math::MeanWeightFunction< X, W >;
+using MeanWeightFunction = math::MeanWeightFunction< X >;
 
 SCENARIO( "LogLogTable" ) {
 
