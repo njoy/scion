@@ -77,7 +77,7 @@ SCENARIO( "LegendreSeries" ) {
         // auto functor = [&chunk] ( auto&& x ) { return x * chunk( x ); };
         // std::cout << std::setprecision(15) << integrator( functor, -1.,  1. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
-        CHECK_THAT( 146./15., WithinRel( chunk.mean() ) );
+        CHECK_THAT( 146./15. / (-62./3.), WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "a LegendreSeries can be differentiated" ) {

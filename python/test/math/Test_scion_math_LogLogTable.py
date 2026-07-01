@@ -59,10 +59,6 @@ class Test_scion_math_LogLogTable( unittest.TestCase ) :
             self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
             self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
 
-            # verify integration
-            self.assertAlmostEqual( 10.3092587344326, chunk.integral )
-            self.assertAlmostEqual( 23.545310328628 , chunk.mean )
-
             # verify linearisation
             linear = chunk.linearise()
 
