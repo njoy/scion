@@ -16,28 +16,31 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Table to hold grouped y values and the group boundaries. 
+   *  @brief Table to hold grouped y values and the group boundaries.
    *         The size of the y values vector should be one less
    *         than the size of the group boundary values. The
    *         groups are assumed to be contiguous and ascending.
    *
-   * The GroupedTable is templated on the types of the x and y values, 
+   *  The GroupedTable is templated on the types of the x and y values,
    *  but does require that they are both in vectors.
    */
  template < typename X, typename Y >
  class GroupedTable {
 
-    /* fields */                           
+    /* fields */
+
     std::vector< X > x_;          // vector of group boundary values
     std::vector< Y > y_;          // vector of grouped values
 
     /* auxiliary functions */
+
     #include "scion/math/GroupedTable/src/operation.hpp"
     #include "scion/math/GroupedTable/src/verifyTable.hpp"
 
   public:
 
     /* constructor */
+
     #include "scion/math/GroupedTable/src/ctor.hpp"
 
     /* methods */
@@ -49,7 +52,7 @@ namespace math {
 
       return this->x_;
     }
-    
+
     /**
      *  @brief Return the grouped values
      */
@@ -57,7 +60,7 @@ namespace math {
 
       return this->y_;
     }
-      
+
     /**
      *  @brief Return the number of groups
      */
@@ -104,7 +107,6 @@ namespace math {
       return result;
     }
 
-
     /**
      *  @brief GroupedTable and scalar division
      *
@@ -139,7 +141,7 @@ namespace math {
 
       return ! this->operator==( right );
     }
-};
+  };
 
   /**
    *  @brief Scalar and GroupedTable multiplication
