@@ -187,7 +187,7 @@ SCENARIO( "InterpolationTable" ) {
         // primitive = 5 x^2 / 2 - x^3 / 3
         // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
         //          = 75 / 2 -  63 / 3 = 37.5 - 21
-        CHECK_THAT( 16.5, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 16.5 / 7.5, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -888,7 +888,7 @@ SCENARIO( "InterpolationTable" ) {
         // integral = 48 - 64 / 3 - 12 + 2 / 3
         //          = 36 - 62 / 3
         // sum = 43.5 - 69 / 3 = 22.5
-        CHECK_THAT( 22.5, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 22.5 / 9.5, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -1629,7 +1629,7 @@ SCENARIO( "InterpolationTable" ) {
         //                                     + integrator( functor, 2.,  3. )
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
-        CHECK_THAT( 16.332650114006, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 16.332650114006 / 7.44236295915864, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -1965,7 +1965,7 @@ SCENARIO( "InterpolationTable" ) {
         //                                     + integrator( functor, 2.,  3. )
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
-        CHECK_THAT( 22.332650114006, WithinRel( chunk.mean() ) );
+        CHECK_THAT( 22.332650114006 / 9.44236295915864, WithinRel( chunk.mean() ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

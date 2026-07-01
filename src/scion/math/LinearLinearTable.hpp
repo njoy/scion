@@ -7,8 +7,8 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/LinearLinear.hpp"
-#include "scion/integration/LinearLinear.hpp"
-#include "scion/integration/LinearLinearMean.hpp"
+#include "scion/integration/integral.hpp"
+#include "scion/integration/cumulativeIntegral.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
@@ -103,34 +103,38 @@ namespace math {
     using Parent::isSameDomain;
 
     /**
-     *  @brief Calculate the integral (zeroth order moment) of the table over its domain
+     *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region
+     *
+     *  @param[in] weight   the weight function
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    I integral() const {
+    template < typename WeightFunction >
+    decltype(auto) integrate( const WeightFunction& weight ) const {
 
-      return Parent::integral( integration::linlin );
+      auto integrator = [&] ( const X& xLeft, const X& xRight,
+                              const Y& yLeft, const Y& yRight ) -> decltype(auto) {
+
+        return weight.integrateLinearLinear( xLeft, xRight, yLeft, yRight );
+      };
+      return integration::integral( this->x(), this->y(), integrator );
     }
 
     /**
-     *  @brief Calculate the cumulative integral of the table over its domain
+     *  @brief Calculate the cumulative integral of w(x) * f(x) dx over the interpolation region
      *
      *  @param[in] initial   the initial value of the cumulative integral to be used
      *                       (i.e. the value of the integral at the end of the previous
      *                       interpolation zone or zero if this is the first region)
+     *  @param[in] weight    the weight function
      */
-    template < typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
-    std::vector< I > cumulativeIntegral( const I& initial ) const {
+    template < typename I, typename WeightFunction >
+    std::vector< I > cumulativeIntegrate( const I& initial, const WeightFunction& weight ) const {
 
-      return Parent::cumulativeIntegral( initial, integration::linlin );
-    }
+      auto integrator = [&] ( const X& xLeft, const X& xRight,
+                              const Y& yLeft, const Y& yRight ) -> decltype(auto) {
 
-    /**
-     *  @brief Calculate the mean (first order raw moment) of the table over its domain
-     */
-    template < typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
-    I mean() const {
-
-      return Parent::integral( integration::linLinMean );
+        return weight.integrateLinearLinear( xLeft, xRight, yLeft, yRight );
+      };
+      return integration::cumulativeIntegral( initial, this->x(), this->y(), integrator );
     }
   };
 

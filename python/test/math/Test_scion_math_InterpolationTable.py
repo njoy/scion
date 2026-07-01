@@ -53,7 +53,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
             # verify integration
             self.assertAlmostEqual(  7.5, chunk.integral )
-            self.assertAlmostEqual( 16.5, chunk.mean )
+            self.assertAlmostEqual( 16.5 / 7.5, chunk.mean )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -629,7 +629,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
             # verify integration
             self.assertAlmostEqual(  9.5, chunk.integral )
-            self.assertAlmostEqual( 22.5, chunk.mean )
+            self.assertAlmostEqual( 22.5 / 9.5, chunk.mean )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -1265,7 +1265,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
             # verify integration
             self.assertAlmostEqual(  7.44236295915864, chunk.integral )
-            self.assertAlmostEqual( 16.332650114006  , chunk.mean )
+            self.assertAlmostEqual( 16.332650114006 / 7.44236295915864, chunk.mean )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -1511,7 +1511,7 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
             # verify integration
             self.assertAlmostEqual(  9.44236295915864, chunk.integral )
-            self.assertAlmostEqual( 22.332650114006  , chunk.mean )
+            self.assertAlmostEqual( 22.332650114006 / 9.44236295915864, chunk.mean )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )

@@ -1,5 +1,5 @@
 /**
- *  @brief Calculate the mean (first order raw moment) of the series over its domain
+ *  @brief Calculate the unnormalised mean (first order raw moment) of the series over its domain
  */
 auto calculateMean() const {
 
