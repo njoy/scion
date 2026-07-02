@@ -96,6 +96,7 @@ add_cpp_test( scion.math.compare                            scion/math/compare.t
 add_cpp_test( scion.math.horner                             scion/math/horner.test.cpp )
 add_cpp_test( scion.math.legendre                           scion/math/legendre.test.cpp )
 add_cpp_test( scion.math.newton                             scion/math/newton.test.cpp )
+add_cpp_test( scion.math.GroupedTable                       scion/math/GroupedTable.test.cpp )
 add_cpp_test( scion.unionisation.Unioniser                  scion/unionisation/Unioniser.test.cpp )
 add_cpp_test( scion.verification.ranges                     scion/verification/ranges.test.cpp )
 add_cpp_test( utility.IteratorView                          utility/IteratorView.test.cpp )

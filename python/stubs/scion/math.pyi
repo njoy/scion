@@ -5,7 +5,7 @@ from __future__ import annotations
 import scion.interpolation
 import scion.linearisation
 import typing
-__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
+__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
 class AnalyticalIntegrator:
     """
     Analytical integration of data over a number of successive integration intervals
@@ -393,6 +393,55 @@ class ChebyshevSeries:
     def order(self) -> int:
         """
         The order of the series expansion
+        """
+class GroupedTable:
+    """
+    Table to hold grouped y values and the group boundaries.
+    
+    The size of the y values vector should be one less
+    than the size of the group boundary values. The
+    groups are assumed to be contiguous and ascending.
+    
+    Parameters
+    ----------
+        bounds : array-like 
+            the boundary values
+        values : array-like
+            array of values
+    """
+    __hash__: typing.ClassVar[None] = None
+    def __eq__(self, arg0: GroupedTable) -> bool:
+        ...
+    def __imul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __init__(self, bounds: list[float], values: list[float]) -> None:
+        """
+        Create the table
+        """
+    def __itruediv__(self, arg0: float) -> GroupedTable:
+        ...
+    def __mul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __ne__(self, arg0: GroupedTable) -> bool:
+        ...
+    def __rmul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __truediv__(self, arg0: float) -> GroupedTable:
+        ...
+    @property
+    def bounds(self) -> list[float]:
+        """
+        The group boundaries
+        """
+    @property
+    def number_groups(self) -> int:
+        """
+        The number of groups
+        """
+    @property
+    def values(self) -> list[float]:
+        """
+        The grouped values
         """
 class HistogramTable:
     """
