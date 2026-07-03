@@ -164,10 +164,8 @@ namespace math {
      */
     bool operator==( const InterpolationTableFunction& right ) const noexcept {
 
-      return this->interpolants() == right.interpolants() &&
-             this->boundaries() == right.boundaries() &&
-             this->x() == right.x() &&
-             this->f() == right.f();
+      return std::tie( this->interpolants(), this->boundaries(), this->x(), this->f() ) ==
+             std::tie( right.interpolants(), right.boundaries(), right.x(), right.f() );
     }
 
     /**

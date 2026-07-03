@@ -17,17 +17,17 @@ class Test_scion_math_GroupedTable( unittest.TestCase ) :
             # verify content
             self.assertEqual( 3, chunk.number_groups )
             self.assertEqual( 3, len(chunk.values) )
-            self.assertEqual( 4, len( chunk.bounds ) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
             self.assertAlmostEqual( chunk.values[0], 34 )
             self.assertAlmostEqual( chunk.values[1], 35 )
             self.assertAlmostEqual( chunk.values[2], 36 )
-            self.assertAlmostEqual( chunk.bounds[0],  0 )
-            self.assertAlmostEqual( chunk.bounds[1], 10 )
-            self.assertAlmostEqual( chunk.bounds[2], 25 )
-            self.assertAlmostEqual( chunk.bounds[3], 32 )
+            self.assertAlmostEqual( chunk.boundaries[0],  0 )
+            self.assertAlmostEqual( chunk.boundaries[1], 10 )
+            self.assertAlmostEqual( chunk.boundaries[2], 25 )
+            self.assertAlmostEqual( chunk.boundaries[3], 32 )
 
         # the data is given explicitly for data without boundaries
-        chunk = GroupedTable( bounds = [ 0., 10., 25., 32. ],
+        chunk = GroupedTable( boundaries = [ 0., 10., 25., 32. ],
                               values = [ 34., 35., 36. ] )
 
         verify_chunk( self, chunk )
@@ -41,30 +41,28 @@ class Test_scion_math_GroupedTable( unittest.TestCase ) :
 
         print( '\n' )
 
-        # there are not enough values in the x or y grid
+        # there are not enough values in the boundaries or values grid
         with self.assertRaises( Exception ) :
 
-            chunk = GroupedTable( x = [1.0], y = [] )
+            chunk = GroupedTable( boundaries = [1.0], values = [] )
 
-        # the x and y sizes don't match
+        # the boundaries and values sizes don't match
         with self.assertRaises( Exception ) :
 
-            chunk = GroupedTable( x = [ 1., 2., 3. ],
-                                        y = [ 4., 3., 2. ] )
+            chunk = GroupedTable( boundaries = [ 1., 2., 3. ],
+                                  values = [ 4., 3., 2. ] )
 
-        # the x grid is not sorted
+        # the boundaries grid is not sorted
         with self.assertRaises( Exception ) :
 
-            chunk = GroupedTable( x = [ 1., 3., 2., 4. ],
-                                        y = [ 4., 3., 2. ] )
+            chunk = GroupedTable( boundaries = [ 1., 3., 2., 4. ],
+                                  values = [ 4., 3., 2. ] )
 
-        # the x grid is not unique
+        # the boundaries grid is not unique
         with self.assertRaises( Exception ) :
 
-            chunk = GroupedTable( x = [ 1., 2., 2., 4. ],
-                                        y = [ 4., 3., 2. ]
-            )
-
+            chunk = GroupedTable( boundaries = [ 1., 2., 2., 4. ],
+                                  values = [ 4., 3., 2. ] )
 
 if __name__ == '__main__' :
 

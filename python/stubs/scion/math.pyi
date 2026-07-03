@@ -404,7 +404,7 @@ class GroupedTable:
     
     Parameters
     ----------
-        bounds : array-like 
+        boundaries : array-like 
             the boundary values
         values : array-like
             array of values
@@ -414,7 +414,7 @@ class GroupedTable:
         ...
     def __imul__(self, arg0: float) -> GroupedTable:
         ...
-    def __init__(self, bounds: list[float], values: list[float]) -> None:
+    def __init__(self, boundaries: list[float], values: list[float]) -> None:
         """
         Create the table
         """
@@ -429,7 +429,7 @@ class GroupedTable:
     def __truediv__(self, arg0: float) -> GroupedTable:
         ...
     @property
-    def bounds(self) -> list[float]:
+    def boundaries(self) -> list[float]:
         """
         The group boundaries
         """

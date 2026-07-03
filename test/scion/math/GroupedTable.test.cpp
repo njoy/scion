@@ -28,7 +28,7 @@ SCENARIO( "GroupedTable" ) {
             THEN( "a GroupedTable can be constructed and members can be tested" ) {
 
                 CHECK( table.values().size() == 3 );
-                CHECK( table.bounds().size() == 4 );
+                CHECK( table.boundaries().size() == 4 );
                 CHECK( table.numberGroups() == 3 );
 
                 for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
@@ -38,7 +38,7 @@ SCENARIO( "GroupedTable" ) {
 
                 for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
 
-                    CHECK_THAT( table.bounds()[i], WithinRel( bounds[i] ) );
+                    CHECK_THAT( table.boundaries()[i], WithinRel( bounds[i] ) );
                 }
 
             } // then
@@ -49,7 +49,7 @@ SCENARIO( "GroupedTable" ) {
                 GroupedTable< double, double > changed = 2. * table;
 
                 CHECK( changed.values().size() == 3 );
-                CHECK( changed.bounds().size() == 4 );
+                CHECK( changed.boundaries().size() == 4 );
                 CHECK( changed.numberGroups() == 3 );
 
                 for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
@@ -59,14 +59,14 @@ SCENARIO( "GroupedTable" ) {
 
                 for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
 
-                    CHECK_THAT( changed.bounds()[i], WithinRel( bounds[i] ) );
+                    CHECK_THAT( changed.boundaries()[i], WithinRel( bounds[i] ) );
                 }
 
-                
+
                 GroupedTable< double, double > changedBack = changed / 2.;
 
                 CHECK( changedBack.values().size() == 3 );
-                CHECK( changedBack.bounds().size() == 4 );
+                CHECK( changedBack.boundaries().size() == 4 );
                 CHECK( changedBack.numberGroups() == 3 );
 
                 for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
@@ -76,7 +76,7 @@ SCENARIO( "GroupedTable" ) {
 
                 for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
 
-                    CHECK_THAT( changedBack.bounds()[i], WithinRel( bounds[i] ) );
+                    CHECK_THAT( changedBack.boundaries()[i], WithinRel( bounds[i] ) );
                 }
 
                 CHECK( changedBack == table );
@@ -86,7 +86,7 @@ SCENARIO( "GroupedTable" ) {
         }  // when
 
         WHEN( "bad values are given" ) {
-            
+
             std::vector< double > outOfOrder{ 1., 2., 1.5, 6. };
             std::vector< double > notUnique{ 1., 3., 3., 5. };
             std::vector< double > notEnough{ 1. };

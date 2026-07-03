@@ -30,7 +30,7 @@ void wrapGroupedTable( python::module& module, const std::string& name ) {
     "groups are assumed to be contiguous and ascending.\n\n"
     "Parameters\n"
     "----------\n"
-    "    bounds : array-like \n"
+    "    boundaries : array-like \n"
     "        the boundary values\n"
     "    values : array-like\n"
     "        array of values\n"
@@ -41,13 +41,13 @@ void wrapGroupedTable( python::module& module, const std::string& name ) {
   .def(
 
     python::init< std::vector< X >, std::vector< Y > >(),
-    python::arg( "bounds" ), python::arg( "values" ),
+    python::arg( "boundaries" ), python::arg( "values" ),
     "Create the table\n\n"
   )
   .def_property_readonly(
 
-    "bounds",
-    &Component::bounds,
+    "boundaries",
+    &Component::boundaries,
     "The group boundaries"
   )
   .def_property_readonly(

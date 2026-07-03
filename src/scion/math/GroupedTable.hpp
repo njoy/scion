@@ -29,8 +29,8 @@ namespace math {
 
     /* fields */
 
-    std::vector< X > x_;          // vector of group boundary values
-    std::vector< Y > y_;          // vector of grouped values
+    std::vector< X > x_;
+    std::vector< Y > y_;
 
     /* auxiliary functions */
 
@@ -48,7 +48,7 @@ namespace math {
     /**
      *  @brief Return the group boundaries
      */
-    const std::vector< X >& bounds() const noexcept {
+    const std::vector< X >& boundaries() const noexcept {
 
       return this->x_;
     }
@@ -128,8 +128,8 @@ namespace math {
      */
     bool operator==( const GroupedTable& right ) const noexcept {
 
-      return this->bounds() == right.bounds() &&
-             this->values() == right.values();
+      return std::tie( this->boundaries(), this->values() ) ==
+             std::tie( right.boundaries(), right.values() );
     }
 
     /**

@@ -1,13 +1,13 @@
 /**
  *  @brief Constructor
  *
- *  @param bounds   the boundary values (size n)
- *  @param values   vector of values  (size n-1)
+ *  @param boundaries   the group boundaries (size n)
+ *  @param values       the grouped values (size n-1)
  *
  */
-GroupedTable( std::vector< X > bounds,
+GroupedTable( std::vector< X > boundaries,
               std::vector< Y > values ) :
-    x_( std::move( bounds ) ), y_( std::move( values ) ) {
+    x_( std::move( boundaries ) ), y_( std::move( values ) ) {
 
   this->verifyTable();
 }
