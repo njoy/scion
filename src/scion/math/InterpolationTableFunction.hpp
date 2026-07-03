@@ -3,6 +3,7 @@
 
 // system includes
 #include <algorithm>
+#include <tuple>
 #include <variant>
 #include <vector>
 
