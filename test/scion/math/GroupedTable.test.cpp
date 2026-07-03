@@ -22,64 +22,246 @@ SCENARIO( "GroupedTable" ) {
 
     WHEN( " the ref is given as a reference_wrapper ") {
 
-      GroupedTable< double, double > table( boundaries, values );
+      GroupedTable< double, double > chunk( boundaries, values );
 
       THEN( "a GroupedTable can be constructed and members can be tested" ) {
 
-        CHECK( table.values().size() == 3 );
-        CHECK( table.boundaries().size() == 4 );
-        CHECK( table.numberGroups() == 3 );
+        CHECK( chunk.values().size() == 3 );
+        CHECK( chunk.boundaries().size() == 4 );
+        CHECK( chunk.numberGroups() == 3 );
 
-        for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
+        for ( unsigned int i = 0; i < chunk.numberGroups(); i++ ) {
 
-          CHECK_THAT( table.values()[i], WithinRel( values[i] ) );
+          CHECK_THAT( chunk.values()[i], WithinRel( values[i] ) );
         }
 
-        for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
+        for ( unsigned int i = 0; i <= chunk.numberGroups(); i++ ) {
 
-          CHECK_THAT( table.boundaries()[i], WithinRel( boundaries[i] ) );
+          CHECK_THAT( chunk.boundaries()[i], WithinRel( boundaries[i] ) );
         }
-      } // then
+      } // THEN
 
-      THEN( "a GroupedTable can be multiplied" ) {
 
-        GroupedTable< double, double > table( boundaries, values );
-        GroupedTable< double, double > changed = 2. * table;
+      THEN( "arithmetic operations can be performed" ) {
 
-        CHECK( changed.values().size() == 3 );
-        CHECK( changed.boundaries().size() == 4 );
-        CHECK( changed.numberGroups() == 3 );
+        GroupedTable< double, double > result( { 0., 32. }, { 0. } );
+        GroupedTable< double, double > other( { 0., 10., 25., 32. }, { 1., 2., 3. } );
+        GroupedTable< double, double > different( { 0., 15., 30., 32. }, { 1., 2., 3. } );
 
-        for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
+        chunk += 2.;
 
-            CHECK_THAT( changed.values()[i], WithinRel( 2. * values[i] ) );
-        }
+        CHECK( 3 == chunk.numberGroups() );
+        CHECK( 3 == chunk.values().size() );
+        CHECK( 4 == chunk.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( chunk.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( chunk.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( chunk.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( chunk.boundaries()[3] ) );
+        CHECK_THAT( 36., WithinRel( chunk.values()[0] ) );
+        CHECK_THAT( 37., WithinRel( chunk.values()[1] ) );
+        CHECK_THAT( 38., WithinRel( chunk.values()[2] ) );
 
-        for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
+        chunk -= 2.;
 
-            CHECK_THAT( changed.boundaries()[i], WithinRel( boundaries[i] ) );
-        }
+        CHECK( 3 == chunk.numberGroups() );
+        CHECK( 3 == chunk.values().size() );
+        CHECK( 4 == chunk.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( chunk.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( chunk.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( chunk.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( chunk.boundaries()[3] ) );
+        CHECK_THAT( 34., WithinRel( chunk.values()[0] ) );
+        CHECK_THAT( 35., WithinRel( chunk.values()[1] ) );
+        CHECK_THAT( 36., WithinRel( chunk.values()[2] ) );
 
-        GroupedTable< double, double > changedBack = changed / 2.;
+        chunk *= 2.;
 
-        CHECK( changedBack.values().size() == 3 );
-        CHECK( changedBack.boundaries().size() == 4 );
-        CHECK( changedBack.numberGroups() == 3 );
+        CHECK( 3 == chunk.numberGroups() );
+        CHECK( 3 == chunk.values().size() );
+        CHECK( 4 == chunk.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( chunk.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( chunk.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( chunk.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( chunk.boundaries()[3] ) );
+        CHECK_THAT( 68., WithinRel( chunk.values()[0] ) );
+        CHECK_THAT( 70., WithinRel( chunk.values()[1] ) );
+        CHECK_THAT( 72., WithinRel( chunk.values()[2] ) );
 
-        for ( unsigned int i = 0; i < table.numberGroups(); i++ ) {
+        chunk /= 2.;
 
-            CHECK_THAT( changedBack.values()[i], WithinRel( values[i] ) );
-        }
+        CHECK( 3 == chunk.numberGroups() );
+        CHECK( 3 == chunk.values().size() );
+        CHECK( 4 == chunk.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( chunk.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( chunk.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( chunk.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( chunk.boundaries()[3] ) );
+        CHECK_THAT( 34., WithinRel( chunk.values()[0] ) );
+        CHECK_THAT( 35., WithinRel( chunk.values()[1] ) );
+        CHECK_THAT( 36., WithinRel( chunk.values()[2] ) );
 
-        for ( unsigned int i = 0; i <= table.numberGroups(); i++ ) {
+        result = -chunk;
 
-            CHECK_THAT( changedBack.boundaries()[i], WithinRel( boundaries[i] ) );
-        }
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( -34., WithinRel( result.values()[0] ) );
+        CHECK_THAT( -35., WithinRel( result.values()[1] ) );
+        CHECK_THAT( -36., WithinRel( result.values()[2] ) );
 
-        CHECK( changedBack == table );
-        CHECK( changed != table );
-      } // then
-    } // when
+        result = chunk + 2.;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 36., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 37., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 38., WithinRel( result.values()[2] ) );
+
+        result = 2. + chunk;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 36., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 37., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 38., WithinRel( result.values()[2] ) );
+
+        result = chunk - 2.;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 32., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 33., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 34., WithinRel( result.values()[2] ) );
+
+        result = 2. - chunk;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( -32., WithinRel( result.values()[0] ) );
+        CHECK_THAT( -33., WithinRel( result.values()[1] ) );
+        CHECK_THAT( -34., WithinRel( result.values()[2] ) );
+
+        result = chunk * 2.;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 68., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 70., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 72., WithinRel( result.values()[2] ) );
+
+        result = 2. * chunk;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 68., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 70., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 72., WithinRel( result.values()[2] ) );
+
+        result = chunk / 2;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 17. , WithinRel( result.values()[0] ) );
+        CHECK_THAT( 17.5, WithinRel( result.values()[1] ) );
+        CHECK_THAT( 18. , WithinRel( result.values()[2] ) );
+
+        chunk += other;
+
+        CHECK( 3 == chunk.numberGroups() );
+        CHECK( 3 == chunk.values().size() );
+        CHECK( 4 == chunk.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( chunk.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( chunk.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( chunk.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( chunk.boundaries()[3] ) );
+        CHECK_THAT( 35., WithinRel( chunk.values()[0] ) );
+        CHECK_THAT( 37., WithinRel( chunk.values()[1] ) );
+        CHECK_THAT( 39., WithinRel( chunk.values()[2] ) );
+
+        chunk -= other;
+
+        CHECK( 3 == chunk.numberGroups() );
+        CHECK( 3 == chunk.values().size() );
+        CHECK( 4 == chunk.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( chunk.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( chunk.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( chunk.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( chunk.boundaries()[3] ) );
+        CHECK_THAT( 34., WithinRel( chunk.values()[0] ) );
+        CHECK_THAT( 35., WithinRel( chunk.values()[1] ) );
+        CHECK_THAT( 36., WithinRel( chunk.values()[2] ) );
+
+        result = chunk + other;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 35., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 37., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 39., WithinRel( result.values()[2] ) );
+
+        result = chunk - other;
+
+        CHECK( 3 == result.numberGroups() );
+        CHECK( 3 == result.values().size() );
+        CHECK( 4 == result.boundaries().size() );
+        CHECK_THAT(  0., WithinRel( result.boundaries()[0] ) );
+        CHECK_THAT( 10., WithinRel( result.boundaries()[1] ) );
+        CHECK_THAT( 25., WithinRel( result.boundaries()[2] ) );
+        CHECK_THAT( 32., WithinRel( result.boundaries()[3] ) );
+        CHECK_THAT( 33., WithinRel( result.values()[0] ) );
+        CHECK_THAT( 33., WithinRel( result.values()[1] ) );
+        CHECK_THAT( 33., WithinRel( result.values()[2] ) );
+
+        CHECK_THROWS( chunk += different );
+        CHECK_THROWS( chunk -= different );
+        CHECK_THROWS( result = chunk + different );
+        CHECK_THROWS( result = chunk - different );
+      } // THEN
+    } // WHEN
 
     WHEN( "bad values are given" ) {
 
@@ -94,7 +276,7 @@ SCENARIO( "GroupedTable" ) {
         CHECK_THROWS( GroupedTable< double, double >( notUnique, values ) );
         CHECK_THROWS( GroupedTable< double, double >( notEnough, values ) );
         CHECK_THROWS( GroupedTable< double, double >( wrongSize, values ) );
-      } // then
-    } // when
-  } // given
-} // scenario
+      } // THEN
+    } // WHEN
+  } // GIVEN
+} // SCENARIO

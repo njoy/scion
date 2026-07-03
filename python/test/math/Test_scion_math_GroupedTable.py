@@ -16,26 +16,239 @@ class Test_scion_math_GroupedTable( unittest.TestCase ) :
 
             # verify content
             self.assertEqual( 3, chunk.number_groups )
-            self.assertEqual( 3, len(chunk.values) )
+            self.assertEqual( 3, len( chunk.values) )
             self.assertEqual( 4, len( chunk.boundaries ) )
-            self.assertAlmostEqual( chunk.values[0], 34 )
-            self.assertAlmostEqual( chunk.values[1], 35 )
-            self.assertAlmostEqual( chunk.values[2], 36 )
-            self.assertAlmostEqual( chunk.boundaries[0],  0 )
-            self.assertAlmostEqual( chunk.boundaries[1], 10 )
-            self.assertAlmostEqual( chunk.boundaries[2], 25 )
-            self.assertAlmostEqual( chunk.boundaries[3], 32 )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 34., chunk.values[0] )
+            self.assertAlmostEqual( 35., chunk.values[1] )
+            self.assertAlmostEqual( 36., chunk.values[2] )
 
-        # the data is given explicitly for data without boundaries
+            # verify arithmetic operators
+            result = GroupedTable( [ 0., 32. ], [ 0. ] )
+            other = GroupedTable( [ 0., 10., 25., 32. ], [ 1., 2., 3. ] );
+            different = GroupedTable( [ 0., 15., 30., 32. ], [ 1., 2., 3. ] );
+
+            chunk += 2.
+
+            self.assertEqual( 3, chunk.number_groups )
+            self.assertEqual( 3, len( chunk.values) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 36., chunk.values[0] )
+            self.assertAlmostEqual( 37., chunk.values[1] )
+            self.assertAlmostEqual( 38., chunk.values[2] )
+
+            chunk -= 2.
+
+            self.assertEqual( 3, chunk.number_groups )
+            self.assertEqual( 3, len( chunk.values) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 34., chunk.values[0] )
+            self.assertAlmostEqual( 35., chunk.values[1] )
+            self.assertAlmostEqual( 36., chunk.values[2] )
+
+            chunk *= 2.
+
+            self.assertEqual( 3, chunk.number_groups )
+            self.assertEqual( 3, len( chunk.values) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 68., chunk.values[0] )
+            self.assertAlmostEqual( 70., chunk.values[1] )
+            self.assertAlmostEqual( 72., chunk.values[2] )
+
+            chunk /= 2.
+
+            self.assertEqual( 3, chunk.number_groups )
+            self.assertEqual( 3, len( chunk.values) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 34., chunk.values[0] )
+            self.assertAlmostEqual( 35., chunk.values[1] )
+            self.assertAlmostEqual( 36., chunk.values[2] )
+
+            result = -chunk
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( -34., result.values[0] )
+            self.assertAlmostEqual( -35., result.values[1] )
+            self.assertAlmostEqual( -36., result.values[2] )
+
+            result = chunk + 2.
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 36., result.values[0] )
+            self.assertAlmostEqual( 37., result.values[1] )
+            self.assertAlmostEqual( 38., result.values[2] )
+
+            result = 2. + chunk
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 36., result.values[0] )
+            self.assertAlmostEqual( 37., result.values[1] )
+            self.assertAlmostEqual( 38., result.values[2] )
+
+            result = chunk - 2.
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 32., result.values[0] )
+            self.assertAlmostEqual( 33., result.values[1] )
+            self.assertAlmostEqual( 34., result.values[2] )
+
+            result = 2. - chunk
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( -32., result.values[0] )
+            self.assertAlmostEqual( -33., result.values[1] )
+            self.assertAlmostEqual( -34., result.values[2] )
+
+            result = chunk * 2.
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 68., result.values[0] )
+            self.assertAlmostEqual( 70., result.values[1] )
+            self.assertAlmostEqual( 72., result.values[2] )
+
+            result = 2. * chunk
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 68., result.values[0] )
+            self.assertAlmostEqual( 70., result.values[1] )
+            self.assertAlmostEqual( 72., result.values[2] )
+
+            result = chunk / 2
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 17. , result.values[0] )
+            self.assertAlmostEqual( 17.5, result.values[1] )
+            self.assertAlmostEqual( 18. , result.values[2] )
+
+            chunk += other
+
+            self.assertEqual( 3, chunk.number_groups )
+            self.assertEqual( 3, len( chunk.values) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 35., chunk.values[0] )
+            self.assertAlmostEqual( 37., chunk.values[1] )
+            self.assertAlmostEqual( 39., chunk.values[2] )
+
+            chunk -= other
+
+            self.assertEqual( 3, chunk.number_groups )
+            self.assertEqual( 3, len( chunk.values) )
+            self.assertEqual( 4, len( chunk.boundaries ) )
+            self.assertAlmostEqual(  0., chunk.boundaries[0] )
+            self.assertAlmostEqual( 10., chunk.boundaries[1] )
+            self.assertAlmostEqual( 25., chunk.boundaries[2] )
+            self.assertAlmostEqual( 32., chunk.boundaries[3] )
+            self.assertAlmostEqual( 34., chunk.values[0] )
+            self.assertAlmostEqual( 35., chunk.values[1] )
+            self.assertAlmostEqual( 36., chunk.values[2] )
+
+            result = chunk + other
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 35., result.values[0] )
+            self.assertAlmostEqual( 37., result.values[1] )
+            self.assertAlmostEqual( 39., result.values[2] )
+
+            result = chunk - other
+
+            self.assertEqual( 3, result.number_groups )
+            self.assertEqual( 3, len( result.values) )
+            self.assertEqual( 4, len( result.boundaries ) )
+            self.assertAlmostEqual(  0., result.boundaries[0] )
+            self.assertAlmostEqual( 10., result.boundaries[1] )
+            self.assertAlmostEqual( 25., result.boundaries[2] )
+            self.assertAlmostEqual( 32., result.boundaries[3] )
+            self.assertAlmostEqual( 33., result.values[0] )
+            self.assertAlmostEqual( 33., result.values[1] )
+            self.assertAlmostEqual( 33., result.values[2] )
+
+            with self.assertRaises( Exception ) : chunk += different
+            with self.assertRaises( Exception ) : chunk -= different
+            with self.assertRaises( Exception ) : result = chunk + different
+            with self.assertRaises( Exception ) : result = chunk - different
+
+        # the data is given explicitly
         chunk = GroupedTable( boundaries = [ 0., 10., 25., 32. ],
                               values = [ 34., 35., 36. ] )
 
         verify_chunk( self, chunk )
-
-        changed = 2 * chunk
-        changed_back = changed / 2
-
-        verify_chunk(self, changed_back)
 
     def test_failures( self ) :
 

@@ -3,6 +3,7 @@
 
 // system includes
 #include <vector>
+#include <tuple>
 #include <numeric>
 #include <functional>
 
@@ -70,6 +71,26 @@ namespace math {
     }
 
     /**
+     *  @brief Inplace scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable& operator+=( const Y& right ) {
+
+      return this->operationForAdditionAndSubtraction( right, std::plus< Y >() );
+    }
+
+    /**
+     *  @brief Inplace scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable& operator-=( const Y& right ) {
+
+      return this->operationForAdditionAndSubtraction( right, std::minus< Y >() );
+    }
+
+    /**
      *  @brief Inplace scalar multiplication
      *
      *  @param[in] right    the scalar
@@ -91,6 +112,30 @@ namespace math {
     GroupedTable& operator/=( const S& right ) {
 
       return this->operation( right, std::divides< Y >() );
+    }
+
+    /**
+     *  @brief GroupedTable and scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable operator+( const Y& right ) const {
+
+      GroupedTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief GroupedTable and scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable operator-( const Y& right ) const {
+
+      GroupedTable result = *this;
+      result -= right;
+      return result;
     }
 
     /**
@@ -122,6 +167,59 @@ namespace math {
     }
 
     /**
+     *  @brief Unary minus
+     */
+    GroupedTable operator-() const {
+
+      GroupedTable result = *this;
+      result *= -1;
+      return result;
+    }
+    /**
+     *  @brief Inplace GroupedTable addition
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable& operator+=( const GroupedTable& right ) {
+
+      return this->operation( right, std::plus< Y >() );
+    }
+
+    /**
+     *  @brief Inplace GroupedTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable& operator-=( const GroupedTable& right ) {
+
+      return this->operation( right, std::minus< Y >() );
+    }
+
+    /**
+     *  @brief GroupedTable and GroupedTable addition
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable operator+( const GroupedTable& right ) const {
+
+      GroupedTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief GroupedTable and GroupedTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable operator-( const GroupedTable& right ) const {
+
+      GroupedTable result = *this;
+      result -= right;
+      return result;
+    }
+
+    /**
      *  @brief Comparison operator: equal
      *
      *  @param[in] right   the table on the right hand side
@@ -142,6 +240,34 @@ namespace math {
       return ! this->operator==( right );
     }
   };
+
+  /**
+   *  @brief Scalar and GroupedTable addition
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  GroupedTable< X, Y >
+  operator+( const Y& left, const GroupedTable< X, Y >& right ) {
+
+    return right + left;
+  }
+
+  /**
+   *  @brief Scalar and GroupedTable subtraction
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  GroupedTable< X, Y >
+  operator-( const Y& left, const GroupedTable< X, Y >& right ) {
+
+    auto result = -right;
+    result += left;
+    return result;
+  }
 
   /**
    *  @brief Scalar and GroupedTable multiplication

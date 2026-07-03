@@ -1,4 +1,9 @@
 /**
+ *  @brief Default constructor (for pybind11 purposes only)
+ */
+GroupedTable() = default;
+
+/**
  *  @brief Constructor
  *
  *  @param boundaries   the group boundaries (size n)
