@@ -21,10 +21,6 @@ namespace interpolation {
     /* friend declarations */
     friend class InterpolatorBase< CoulombPenetrability< X, Y > >;
 
-  public:
-
-    /* type aliases */
-
   private:
 
     /* fields */
@@ -41,6 +37,7 @@ namespace interpolation {
      */
     CoulombPenetrability( X threshold ) :
       threshold_( std::move( threshold ) ) {}
+      
 
     /* interface implementation functions */
 
@@ -76,9 +73,6 @@ namespace interpolation {
     }
 
   };
-
-  // interpolation function
-  // static constexpr CoulombPenetrability coulomb;
 
 } // interpolation namespace
 } // scion namespace
