@@ -11,11 +11,12 @@ namespace interpolation {
 
   enum class InterpolationType : short {
 
-    Histogram = 1,   // constant or histogram interpolation
-    LinearLinear,    // y is linear in x
-    LinearLog,       // y is linear in ln(x)
-    LogLinear,       // ln(y) is linear in x
-    LogLog           // ln(y) is linear in ln(x)
+    Histogram = 1,        // constant or histogram interpolation
+    LinearLinear,         // y is linear in x
+    LinearLog,            // y is linear in ln(x)
+    LogLinear,            // ln(y) is linear in x
+    LogLog,               // ln(y) is linear in ln(x)
+    CoulombPenetrability  // LAW=6 Coulomb Penetrability
   };
 
 } // interpolation namespace

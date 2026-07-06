@@ -31,7 +31,8 @@ void wrapInterpolationType( python::module& module ) {
   .value( "LinearLinear", Component::LinearLinear )
   .value( "LinearLog", Component::LinearLog )
   .value( "LogLinear", Component::LogLinear )
-  .value( "LogLog", Component::LogLog );
+  .value( "LogLog", Component::LogLog )
+  .value( "CoulombPenetrability", Component::CoulombPenetrability );
 }
 
 } // namespace interpolation
