@@ -2,6 +2,7 @@
 #define NJOY_SCION_INTERPOLATION_COULOMBPENETRABILITY
 
 // system includes
+#include <math.h>
 
 // other includes
 #include "scion/interpolation/InterpolatorBase.hpp"
