@@ -89,6 +89,7 @@ add_cpp_test( scion.math.LogLinearTable                     scion/math/LogLinear
 add_cpp_test( scion.math.LogLinearTableFunction             scion/math/LogLinearTableFunction.test.cpp )
 add_cpp_test( scion.math.LogLogTable                        scion/math/LogLogTable.test.cpp )
 add_cpp_test( scion.math.LogLogTableFunction                scion/math/LogLogTableFunction.test.cpp )
+add_cpp_test( scion.math.CoulombPenetrabilityTable          scion/math/CoulombPenetrabilityTable.test.cpp )
 add_cpp_test( scion.math.OpenDomain                         scion/math/OpenDomain.test.cpp )
 add_cpp_test( scion.math.PolynomialSeries                   scion/math/PolynomialSeries.test.cpp )
 add_cpp_test( scion.math.PolynomialSeriesRatio              scion/math/PolynomialSeriesRatio.test.cpp )
