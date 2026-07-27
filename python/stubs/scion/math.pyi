@@ -404,32 +404,62 @@ class GroupedTable:
     
     Parameters
     ----------
-        bounds : array-like 
+        boundaries : array-like 
             the boundary values
         values : array-like
             array of values
     """
     __hash__: typing.ClassVar[None] = None
+    @typing.overload
+    def __add__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __add__(self, arg0: GroupedTable) -> GroupedTable:
+        ...
     def __eq__(self, arg0: GroupedTable) -> bool:
+        ...
+    @typing.overload
+    def __iadd__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __iadd__(self, arg0: GroupedTable) -> GroupedTable:
         ...
     def __imul__(self, arg0: float) -> GroupedTable:
         ...
-    def __init__(self, bounds: list[float], values: list[float]) -> None:
+    def __init__(self, boundaries: list[float], values: list[float]) -> None:
         """
         Create the table
         """
+    @typing.overload
+    def __isub__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __isub__(self, arg0: GroupedTable) -> GroupedTable:
+        ...
     def __itruediv__(self, arg0: float) -> GroupedTable:
         ...
     def __mul__(self, arg0: float) -> GroupedTable:
         ...
     def __ne__(self, arg0: GroupedTable) -> bool:
         ...
+    def __neg__(self) -> GroupedTable:
+        ...
+    def __radd__(self, arg0: float) -> GroupedTable:
+        ...
     def __rmul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __rsub__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __sub__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __sub__(self, arg0: GroupedTable) -> GroupedTable:
         ...
     def __truediv__(self, arg0: float) -> GroupedTable:
         ...
     @property
-    def bounds(self) -> list[float]:
+    def boundaries(self) -> list[float]:
         """
         The group boundaries
         """

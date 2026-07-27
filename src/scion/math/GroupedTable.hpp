@@ -3,6 +3,7 @@
 
 // system includes
 #include <vector>
+#include <tuple>
 #include <numeric>
 #include <functional>
 
@@ -29,8 +30,8 @@ namespace math {
 
     /* fields */
 
-    std::vector< X > x_;          // vector of group boundary values
-    std::vector< Y > y_;          // vector of grouped values
+    std::vector< X > x_;
+    std::vector< Y > y_;
 
     /* auxiliary functions */
 
@@ -48,7 +49,7 @@ namespace math {
     /**
      *  @brief Return the group boundaries
      */
-    const std::vector< X >& bounds() const noexcept {
+    const std::vector< X >& boundaries() const noexcept {
 
       return this->x_;
     }
@@ -67,6 +68,26 @@ namespace math {
     std::size_t numberGroups() const noexcept {
 
       return this->values().size();
+    }
+
+    /**
+     *  @brief Inplace scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable& operator+=( const Y& right ) {
+
+      return this->operationForAdditionAndSubtraction( right, std::plus< Y >() );
+    }
+
+    /**
+     *  @brief Inplace scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable& operator-=( const Y& right ) {
+
+      return this->operationForAdditionAndSubtraction( right, std::minus< Y >() );
     }
 
     /**
@@ -91,6 +112,30 @@ namespace math {
     GroupedTable& operator/=( const S& right ) {
 
       return this->operation( right, std::divides< Y >() );
+    }
+
+    /**
+     *  @brief GroupedTable and scalar addition
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable operator+( const Y& right ) const {
+
+      GroupedTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief GroupedTable and scalar subtraction
+     *
+     *  @param[in] right    the scalar
+     */
+    GroupedTable operator-( const Y& right ) const {
+
+      GroupedTable result = *this;
+      result -= right;
+      return result;
     }
 
     /**
@@ -122,14 +167,67 @@ namespace math {
     }
 
     /**
+     *  @brief Unary minus
+     */
+    GroupedTable operator-() const {
+
+      GroupedTable result = *this;
+      result *= -1;
+      return result;
+    }
+    /**
+     *  @brief Inplace GroupedTable addition
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable& operator+=( const GroupedTable& right ) {
+
+      return this->operation( right, std::plus< Y >() );
+    }
+
+    /**
+     *  @brief Inplace GroupedTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable& operator-=( const GroupedTable& right ) {
+
+      return this->operation( right, std::minus< Y >() );
+    }
+
+    /**
+     *  @brief GroupedTable and GroupedTable addition
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable operator+( const GroupedTable& right ) const {
+
+      GroupedTable result = *this;
+      result += right;
+      return result;
+    }
+
+    /**
+     *  @brief GroupedTable and GroupedTable subtraction
+     *
+     *  @param[in] right    the table
+     */
+    GroupedTable operator-( const GroupedTable& right ) const {
+
+      GroupedTable result = *this;
+      result -= right;
+      return result;
+    }
+
+    /**
      *  @brief Comparison operator: equal
      *
      *  @param[in] right   the table on the right hand side
      */
     bool operator==( const GroupedTable& right ) const noexcept {
 
-      return this->bounds() == right.bounds() &&
-             this->values() == right.values();
+      return std::tie( this->boundaries(), this->values() ) ==
+             std::tie( right.boundaries(), right.values() );
     }
 
     /**
@@ -142,6 +240,34 @@ namespace math {
       return ! this->operator==( right );
     }
   };
+
+  /**
+   *  @brief Scalar and GroupedTable addition
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  GroupedTable< X, Y >
+  operator+( const Y& left, const GroupedTable< X, Y >& right ) {
+
+    return right + left;
+  }
+
+  /**
+   *  @brief Scalar and GroupedTable subtraction
+   *
+   *  @param[in] left    the scalar
+   *  @param[in] right     the series
+   */
+  template < typename X, typename Y = X >
+  GroupedTable< X, Y >
+  operator-( const Y& left, const GroupedTable< X, Y >& right ) {
+
+    auto result = -right;
+    result += left;
+    return result;
+  }
 
   /**
    *  @brief Scalar and GroupedTable multiplication
