@@ -29,9 +29,10 @@ SCENARIO( "CoulombPenetrability" ) {
 
       THEN( "the interpolation is performed correctly" ) {
 
-        CHECK_THAT( 10.0 , WithinRel( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( yLeft , WithinRel( interpolator( 2.0, xLeft, xRight, yLeft, yRight ) ) );
         CHECK_THAT( 5.413649473508178, WithinRel( interpolator( 1.5, xLeft, xRight, yLeft, yRight ) ) );
         CHECK_THAT( 26.437218001252052 , WithinRel( interpolator( 5.0, xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( yRight, WithinRel( interpolator( xRight, xLeft, xRight, yLeft, yRight ) ) );
 
       } // THEN
     } // WHEN

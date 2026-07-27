@@ -3,6 +3,7 @@
 
 // system includes
 #include <math.h>
+#include <iostream>
 
 // other includes
 #include "scion/interpolation/InterpolatorBase.hpp"

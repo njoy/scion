@@ -58,6 +58,7 @@ add_cpp_test( scion.integration.LogarithmicLinear           scion/integration/Lo
 add_cpp_test( scion.integration.LogarithmicLinearMean       scion/integration/LogarithmicLinearMean.test.cpp )
 add_cpp_test( scion.integration.LogarithmicLogarithmic      scion/integration/LogarithmicLogarithmic.test.cpp )
 add_cpp_test( scion.integration.LogarithmicLogarithmicMean  scion/integration/LogarithmicLogarithmicMean.test.cpp )
+add_cpp_test( scion.integration.CoulombPenetrability        scion/integration/CoulombPenetrability.test.cpp )
 add_cpp_test( scion.integration.cumulativeIntegral          scion/integration/cumulativeIntegral.test.cpp )
 add_cpp_test( scion.integration.integral                    scion/integration/integral.test.cpp )
 add_cpp_test( scion.interpolation.Histogram                 scion/interpolation/Histogram.test.cpp )
