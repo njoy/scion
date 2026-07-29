@@ -6,6 +6,7 @@ using Catch::Matchers::WithinRel;
 // what we are testing
 #include "scion/math/CoulombPenetrabilityTable.hpp"
 #include "scion/math/ConstantWeightFunction.hpp"
+#include "scion/math/MeanWeightFunction.hpp"
 
 // other includes
 #include "utility/IteratorView.hpp"
@@ -21,13 +22,14 @@ template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 template < typename X, typename Y = X, typename W = X >
 using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
-// template < typename X, typename Y = X, typename W = X >
-// using MeanWeightFunction = math::MeanWeightFunction< X >;
+template < typename X, typename Y = X, typename W = X >
+using MeanWeightFunction = math::MeanWeightFunction< X >;
 
 
 SCENARIO( "CoulombPenetrabilityTable" ) {
   
   ConstantWeightFunction< double > constant( 1. );
+  MeanWeightFunction< double > mean;
 
   GIVEN( "tabulated data" ) {
 
@@ -94,6 +96,7 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
       THEN( "the integral can be calculated" ) {
 
         CHECK_THAT( 116.47154112769871, WithinRel( chunk.integrate( constant ), 1e-8 ) );
+        CHECK_THAT( 563.4270027081915, WithinRel( chunk.integrate( mean ), 1e-8 ) );
       } // THEN
 
       THEN( "the cumulative integral can be calculated" ) {

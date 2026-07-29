@@ -130,6 +130,25 @@ namespace math {
       return integration::logLogMean( xLeft, xRight, yLeft, yRight );
     }
 
+    /**
+     *  @brief Integrate w(x) * x * f(x) over a panel using Coulomb Penetrability interpolation
+     *
+     *  @param xLeft       the left boundary of the panel
+     *  @param xRight      the right boundary of the panel
+     *  @param yLeft       the left y-value of the tabulated function
+     *  @param yRight      the right y-value of the tabulated function
+     *  @param threshold   the reaction threshold
+     */
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
+    I calculateCoulombPenetrabilityIntegral( const X& xLeft, const X& xRight,
+                                               const Y& yLeft, const Y& yRight,
+                                               const X& threshold ) const {
+
+      return integration::coulombMean( xLeft, xRight, yLeft, yRight, threshold );
+    }
+
+
+
   public:
 
     /* constructor */
