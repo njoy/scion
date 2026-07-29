@@ -110,22 +110,6 @@ namespace math {
       return this->interpolator_( x, xLeft, xRight, yLeft, yRight );
     }
 
-
-    /**
-     *  @brief Linearise the table and return a LinearLinearTable
-     *
-     *  Note: this function returns a copy of the original table.
-     *
-     *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
-     */
-    template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
-    std::pair< std::vector< X >, std::vector< Y > >
-    linearise( Convergence&& = Convergence() ) const {
-
-      return { std::vector< X >{ this->x().begin(), this->x().end() },
-               std::vector< Y >{ this->y().begin(), this->y().end() } };
-    }
-
     /**
      *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region
      *
@@ -168,6 +152,7 @@ namespace math {
     using Parent::isInside;
     using Parent::isContained;
     using Parent::isSameDomain;
+    using Parent::linearise;
 
   };
 

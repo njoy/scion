@@ -105,6 +105,18 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
         CHECK_THAT( 59.484310860195265 , WithinRel( cumulative[2], 1e-8 ) );
         CHECK_THAT( 116.47154112769871, WithinRel( cumulative[3], 1e-8 ) );
       } // THEN
+
+      THEN( "the table can be linearised" ) {
+
+        auto linear = chunk.linearise();
+        
+        CHECK_THAT( 2.25, WithinRel( linear.first[2] ) );
+        CHECK_THAT( 12.169490587611747, WithinRel( linear.second[2] ) );
+
+        CHECK_THAT( 3.25, WithinRel( linear.first[10] ) );
+        CHECK_THAT( 19.265892760109487, WithinRel( linear.second[10] ) );
+      } // THEN
+
     } // WHEN
   } // GIVEN
 
