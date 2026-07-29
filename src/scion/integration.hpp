@@ -12,6 +12,7 @@
 #include "scion/integration/LogarithmicLogarithmic.hpp"
 #include "scion/integration/LogarithmicLogarithmicMean.hpp"
 #include "scion/integration/CoulombPenetrability.hpp"
+#include "scion/integration/CoulombPenetrabilityMean.hpp"
 #include "scion/integration/integral.hpp"
 #include "scion/integration/GaussLegendre.hpp"
 #include "scion/integration/GaussLobatto.hpp"

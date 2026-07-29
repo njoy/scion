@@ -8,8 +8,5 @@ void verifyTable( const XContainer& x, Y threshold = 0.0 ) {
     Log::error( "The x values cannot be less than the threshold value" );
     throw std::exception();
   }
-  else {
-    std::cout<< " -- threshold vals ok"<< "\n";
-  }
 }
 
