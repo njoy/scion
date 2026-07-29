@@ -7,7 +7,6 @@
 // other includes
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/CoulombPenetrability.hpp"
-#include "scion/integration/CoulombPenetrability.hpp"
 #include "scion/math/SingleTableBase.hpp"
 
 namespace njoy {
@@ -39,7 +38,6 @@ namespace math {
     /* fields */
     X threshold_;
     njoy::scion::interpolation::CoulombPenetrability< X, Y > interpolator_;
-    njoy::scion::integration::CoulombPenetrability< X, Y > integrator_;
 
     /* auxiliary function */
     #include "scion/math/CoulombPenetrabilityTable/src/verifyTable.hpp"
@@ -64,8 +62,7 @@ namespace math {
     CoulombPenetrabilityTable( XContainer x, YContainer y, X threshold ) :
       Parent( std::move( x ), std::move( y ) ),
       threshold_( threshold ),
-      interpolator_( threshold ),
-      integrator_( threshold ) {
+      interpolator_( threshold ) {
 
         verifyTable( this->x(), this->threshold() );
       }
