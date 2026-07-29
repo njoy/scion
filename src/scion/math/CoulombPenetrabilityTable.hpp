@@ -8,6 +8,8 @@
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/interpolation/CoulombPenetrability.hpp"
 #include "scion/math/SingleTableBase.hpp"
+#include "scion/integration/integral.hpp"
+#include "scion/integration/cumulativeIntegral.hpp"
 
 namespace njoy {
 namespace scion {
@@ -108,6 +110,57 @@ namespace math {
       return this->interpolator_( x, xLeft, xRight, yLeft, yRight );
     }
 
+
+    /**
+     *  @brief Linearise the table and return a LinearLinearTable
+     *
+     *  Note: this function returns a copy of the original table.
+     *
+     *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
+     */
+    template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
+    std::pair< std::vector< X >, std::vector< Y > >
+    linearise( Convergence&& = Convergence() ) const {
+
+      return { std::vector< X >{ this->x().begin(), this->x().end() },
+               std::vector< Y >{ this->y().begin(), this->y().end() } };
+    }
+
+    /**
+     *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region
+     *
+     *  @param[in] weight   the weight function
+     */
+    template < typename WeightFunction >
+    decltype(auto) integrate( const WeightFunction& weight ) const {
+
+      auto integrator = [&] ( const X& xLeft, const X& xRight,
+                              const Y& yLeft, const Y& yRight ) -> decltype(auto) {
+
+        return weight.integrateCoulombPenetrability( xLeft, xRight, yLeft, yRight, this->threshold_ );
+      };
+      return integration::integral( this->x(), this->y(), integrator );
+    }
+
+
+    /**
+     *  @brief Calculate the cumulative integral of w(x) * f(x) dx over the interpolation region
+     *
+     *  @param[in] initial   the initial value of the cumulative integral to be used
+     *                       (i.e. the value of the integral at the end of the previous
+     *                       interpolation zone or zero if this is the first region)
+     *  @param[in] weight    the weight function
+     */
+    template < typename I, typename WeightFunction >
+    std::vector< I > cumulativeIntegrate( const I& initial, const WeightFunction& weight ) const {
+
+      auto integrator = [&] ( const X& xLeft, const X& xRight,
+                              const Y& yLeft, const Y& yRight ) -> decltype(auto) {
+
+        return weight.integrateCoulombPenetrability( xLeft, xRight, yLeft, yRight, this->threshold_ );
+      };
+      return integration::cumulativeIntegral( initial, this->x(), this->y(), integrator );
+    }
 
     /* methods */
 

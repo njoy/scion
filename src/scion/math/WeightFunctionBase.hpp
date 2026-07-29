@@ -143,6 +143,23 @@ namespace math {
       return static_cast< const Derived* >( this )->calculateLogarithmicLogarithmicIntegral( xLeft, xRight, yLeft, yRight );
     }
 
+    /**
+     *  @brief Integrate w(x) * f(x) over a panel using CoulombPenetrability interpolation
+     *
+     *  @param xLeft       the left boundary of the panel
+     *  @param xRight      the right boundary of the panel
+     *  @param yLeft       the tabulated function value at the left boundary of the panel
+     *  @param yRight      the tabulated function value at the right boundary of the panel
+     *  @param threshold   the reaction threshold 
+     */
+    template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
+    I integrateCoulombPenetrability( const X& xLeft, const X& xRight,
+                                       const Y& yLeft, const Y& yRight, 
+                                       const X& threshold ) const {
+
+      return static_cast< const Derived* >( this )->calculateCoulombPenetrabilityIntegral( xLeft, xRight, yLeft, yRight, threshold );
+    }
+
     using Parent::domain;
     using Parent::operator();
     using Parent::isInside;

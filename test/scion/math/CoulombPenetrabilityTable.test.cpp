@@ -5,6 +5,7 @@ using Catch::Matchers::WithinRel;
 
 // what we are testing
 #include "scion/math/CoulombPenetrabilityTable.hpp"
+#include "scion/math/ConstantWeightFunction.hpp"
 
 // other includes
 #include "utility/IteratorView.hpp"
@@ -18,9 +19,15 @@ using CoulombPenetrabilityTable = math::CoulombPenetrabilityTable< X, Y, XContai
 template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
+template < typename X, typename Y = X, typename W = X >
+using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
+// template < typename X, typename Y = X, typename W = X >
+// using MeanWeightFunction = math::MeanWeightFunction< X >;
+
 
 SCENARIO( "CoulombPenetrabilityTable" ) {
-
+  
+  ConstantWeightFunction< double > constant( 1. );
 
   GIVEN( "tabulated data" ) {
 
@@ -82,6 +89,21 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
         CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 2., 7. ) ) );
         CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
         CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
+      } // THEN
+
+      THEN( "the integral can be calculated" ) {
+
+        CHECK_THAT( 116.47154112769871, WithinRel( chunk.integrate( constant ), 1e-8 ) );
+      } // THEN
+
+      THEN( "the cumulative integral can be calculated" ) {
+
+        auto cumulative = chunk.cumulativeIntegrate( 0., constant );
+        CHECK( 4 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 14.080978126372528, WithinRel( cumulative[1], 1e-8 ) );
+        CHECK_THAT( 59.484310860195265 , WithinRel( cumulative[2], 1e-8 ) );
+        CHECK_THAT( 116.47154112769871, WithinRel( cumulative[3], 1e-8 ) );
       } // THEN
     } // WHEN
   } // GIVEN
