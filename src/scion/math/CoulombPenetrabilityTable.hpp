@@ -104,8 +104,8 @@ namespace math {
      *  @param[in] yRight   the right value on the y interval
      */
     Y interpolate( const X& x,
-                                    const X& xLeft, const X& xRight,
-                                    const Y& yLeft, const Y& yRight ) noexcept {
+                  const X& xLeft, const X& xRight,
+                  const Y& yLeft, const Y& yRight ) noexcept {
 
       return this->interpolator_( x, xLeft, xRight, yLeft, yRight );
     }
@@ -145,8 +145,6 @@ namespace math {
       };
       return integration::cumulativeIntegral( initial, this->x(), this->y(), integrator );
     }
-
-    /* methods */
 
     using Parent::domain;
     using Parent::isInside;

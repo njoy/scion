@@ -41,6 +41,11 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
 
       CoulombPenetrabilityTable< double, double > chunk( std::move( x ), std::move( y ), std::move( threshold ) );
 
+      // Unit test answers were generated using a Python script that evaluated the function on a 
+      // dense grid using the numpy linspace function, and integrated over regions using the 
+      // numpy trapezoid function.
+
+
       THEN( "a CoulombPenetrabilityTable can be constructed and members can be tested" ) {
 
         CHECK( InterpolationType::CoulombPenetrability == chunk.interpolation() );
@@ -93,7 +98,7 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
         CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
-      THEN( "the integral can be calculated" ) {
+      THEN( "the integral can be calculated with constant and mean WFs" ) {
 
         CHECK_THAT( 116.47154112769871, WithinRel( chunk.integrate( constant ), 1e-8 ) );
         CHECK_THAT( 563.4270027081915, WithinRel( chunk.integrate( mean ), 1e-8 ) );
@@ -108,6 +113,7 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
         CHECK_THAT( 59.484310860195265 , WithinRel( cumulative[2], 1e-8 ) );
         CHECK_THAT( 116.47154112769871, WithinRel( cumulative[3], 1e-8 ) );
       } // THEN
+
 
       THEN( "the table can be linearised" ) {
 
