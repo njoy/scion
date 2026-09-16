@@ -2,6 +2,7 @@
 #define NJOY_SCION_LINEARISATION_TOLERANCECONVERGENCE
 
 // system includes
+#include <cmath>
 
 // other includes
 #include "scion/linearisation/ConvergenceBase.hpp"
@@ -15,15 +16,11 @@ namespace linearisation {
    *  @brief A convergence functor using a single tolerance
    *
    *  This functor class can be used to ensure convergence of the linearisation
-   *  process using a relative tolerance and absolute difference threshold.
-   *  With this functor, a trial value and reference value are considered
-   *  converged if:
-   *    abs( trial - reference ) < ( abs( trial ) + abs( reference ) ) * tolerance
-   *
-   *  For very small values (when ( abs( trial ) + abs( reference ) ) * tolerance
-   *  is smaller than the threshold value), a trial value and reference value
-   *  are considered converged if:
-   *    abs( trial - reference ) < threshold
+   *  process using a relative tolerance criterion, normalized by the reference
+   *  value, with the threshold acting as an absolute difference floor when the
+   *  reference value is close to zero. With this functor, a trial value and
+   *  reference value are considered converged if:
+   *    abs( trial - reference ) < max( abs( reference ) * tolerance, threshold )
    */
   template< typename X, typename Y = X >
   class ToleranceConvergence : public ConvergenceBase< ToleranceConvergence< X, Y >, X, Y > {
