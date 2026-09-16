@@ -7,6 +7,7 @@
 #include <vector>
 
 // other includes
+#include "scion/interpolation/LinearLinear.hpp"
 
 namespace njoy {
 namespace scion {
