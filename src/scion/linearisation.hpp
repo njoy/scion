@@ -1,7 +1,7 @@
 // utility functions
-#include "scion/linearisarion/grid.hpp"
+#include "scion/linearisation/grid.hpp"
 
 // linearisation components
-#include "scion/linearisarion/Lineariser.hpp"
-#include "scion/linearisarion/MidpointSplit.hpp"
-#include "scion/linearisarion/ToleranceConvergence.hpp"
+#include "scion/linearisation/Lineariser.hpp"
+#include "scion/linearisation/MidpointSplit.hpp"
+#include "scion/linearisation/ToleranceConvergence.hpp"
