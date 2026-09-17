@@ -3,7 +3,7 @@
  *
  *  @param first        the first derivative of the function
  *  @param second       the second derivative of the function
- *  @param iterations   the maximum number of iterations
+ *  @param iterations   the maximum number of iterations (default is 20)
  */
 AbsoluteErrorSplit( FirstDerivative first,
                     SecondDerivative second,

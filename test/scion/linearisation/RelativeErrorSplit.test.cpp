@@ -4,7 +4,7 @@
 using Catch::Matchers::WithinRel;
 
 // what we are testing
-#include "scion/linearisation/AbsoluteErrorSplit.hpp"
+#include "scion/linearisation/RelativeErrorSplit.hpp"
 
 // other includes
 #include <cmath>
@@ -13,10 +13,11 @@ using Catch::Matchers::WithinRel;
 using namespace Catch;
 using namespace njoy::scion;
 
-SCENARIO( "AbsoluteErrorSplit" ) {
+SCENARIO( "RelativeErrorSplit" ) {
 
   GIVEN( "a function" ) {
 
+    auto function = [] ( double x ) { return std::exp( x ); };
     auto first = [] ( double x ) { return std::exp( x ); };
     auto second = [] ( double x ) { return std::exp( x ); };
 
@@ -25,22 +26,25 @@ SCENARIO( "AbsoluteErrorSplit" ) {
     double yLeft = std::exp( xLeft );
     double yRight = std::exp( xRight );
 
+    using Function = decltype( function );
     using First = decltype( first );
     using Second = decltype( second );
-    linearisation::AbsoluteErrorSplit< double, First, Second > chunk( first, second );
+    linearisation::RelativeErrorSplit< double, Function, First, Second > chunk( function, first, second );
 
-    WHEN( "panels are split" ) {
+    WHEN( "the panel is split" ) {
 
       THEN( "the correct value is returned" ) {
 
         double slope = ( yRight - yLeft ) / ( xRight - xLeft );
-        CHECK_THAT( std::log( slope ), WithinRel( chunk( xLeft, xRight, yLeft, yRight ) ) );
+        double intercept = yLeft - slope * xLeft;
+        CHECK_THAT( ( slope - intercept ) / slope, WithinRel( chunk( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
 
   GIVEN( "a function for which newton diverges" ) {
 
+    auto function = [] ( double x ) { return x; };
     auto first = [] ( double x ) { return 1.; };
     auto second = [] ( double ) { return 0.; };
 
@@ -49,9 +53,10 @@ SCENARIO( "AbsoluteErrorSplit" ) {
     double yLeft = 0.;
     double yRight = 1.;
 
+    using Function = decltype( function );
     using First = decltype( first );
     using Second = decltype( second );
-    linearisation::AbsoluteErrorSplit< double, First, Second > chunk( first, second );
+    linearisation::RelativeErrorSplit< double, Function, First, Second > chunk( function, first, second );
 
     WHEN( "panels are split" ) {
 
