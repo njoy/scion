@@ -71,7 +71,7 @@ namespace linearisation {
         return -( slope * x + intercept ) * this->secondDerivative()( x );
       };
 
-      const X root = math::newton( midpoint, function,derivative, this->iterations() );
+      const X root = math::newton( midpoint, function, derivative, this->iterations() );
       return ( root > xLeft && root < xRight ) ? root : midpoint;
     }
 
