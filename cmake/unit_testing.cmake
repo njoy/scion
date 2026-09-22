@@ -67,6 +67,8 @@ add_cpp_test( scion.interpolation.LogarithmicLinear         scion/interpolation/
 add_cpp_test( scion.interpolation.LogarithmicLogarithmic    scion/interpolation/LogarithmicLogarithmic.test.cpp )
 add_cpp_test( scion.linearisation.Lineariser                scion/linearisation/Lineariser.test.cpp )
 add_cpp_test( scion.linearisation.MidpointSplit             scion/linearisation/MidpointSplit.test.cpp )
+add_cpp_test( scion.linearisation.AbsoluteErrorSplit        scion/linearisation/AbsoluteErrorSplit.test.cpp )
+add_cpp_test( scion.linearisation.RelativeErrorSplit        scion/linearisation/RelativeErrorSplit.test.cpp )
 add_cpp_test( scion.linearisation.ToleranceConvergence      scion/linearisation/ToleranceConvergence.test.cpp )
 add_cpp_test( scion.math.AnalyticalIntegrator               scion/math/AnalyticalIntegrator.test.cpp )
 add_cpp_test( scion.math.ChebyshevApproximation             scion/math/ChebyshevApproximation.test.cpp )
