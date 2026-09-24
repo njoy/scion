@@ -1741,6 +1741,31 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
             self.assertEqual( False, chunk.is_linearised )
 
+        def verify_chunk5_not_curated( self, chunk ) :
+
+            # verify content
+            self.assertEqual( 6, len( chunk.x ) )
+            self.assertEqual( 6, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 2., chunk.x[3] )
+            self.assertAlmostEqual( 3., chunk.x[4] )
+            self.assertAlmostEqual( 4., chunk.x[5] )
+            self.assertAlmostEqual( 4., chunk.y[0] )
+            self.assertAlmostEqual( 3., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 4., chunk.y[3] )
+            self.assertAlmostEqual( 3., chunk.y[4] )
+            self.assertAlmostEqual( 2., chunk.y[5] )
+            self.assertEqual( 1, chunk.boundaries[0] )    # <-- this is changed from 2 to 1
+            self.assertEqual( 5, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
+            self.assertEqual( False, chunk.is_linearised )
+
         def verify_chunk6( self, chunk ) :
 
             # verify content
@@ -1795,12 +1820,32 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
         verify_chunk4( self, chunk )
 
         # the data is given explicitly with a jump that uses more than 2 x values
+        # and curate is not requested: the extraneous point is kept
         chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4. ],
                                     y = [ 4., 3., 2., 4., 3., 2. ],
                                     boundaries = [ 2, 5 ],   # <-- pointing to middle of the jump
                                     interpolants = [ InterpolationType.LinearLinear,
                                                      InterpolationType.LinearLog ] )
 
+        verify_chunk5_not_curated( self, chunk )
+
+        # check curation
+        chunk.curate()
+        verify_chunk5( self, chunk )
+
+        # the data is given explicitly with a jump that uses more than 2 x values
+        # and curate is requested: the extraneous point is removed
+        chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4. ],
+                                    y = [ 4., 3., 2., 4., 3., 2. ],
+                                    boundaries = [ 2, 5 ],   # <-- pointing to middle of the jump
+                                    interpolants = [ InterpolationType.LinearLinear,
+                                                     InterpolationType.LinearLog ],
+                                    curate = True )
+
+        verify_chunk5( self, chunk )
+
+        # check that curation does not change the table
+        chunk.curate()
         verify_chunk5( self, chunk )
 
         # the data is given explicitly with boundaries that point to the second x value in the jump

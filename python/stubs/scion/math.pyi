@@ -581,7 +581,7 @@ class InterpolationTable:
     def __imul__(self, arg0: float) -> InterpolationTable:
         ...
     @typing.overload
-    def __init__(self, x: list[float], y: list[float], boundaries: list[int], interpolants: list[scion.interpolation.InterpolationType]) -> None:
+    def __init__(self, x: list[float], y: list[float], boundaries: list[int], interpolants: list[scion.interpolation.InterpolationType], curate: bool = False) -> None:
         """
         Initialise the function
         
@@ -591,9 +591,10 @@ class InterpolationTable:
             y              the y values of the tabulated data
             boundaries     the boundaries of the interpolation regions
             interpolants   the interpolation types of the interpolation regions
+            curate         flag to indicate whether or not to curate the table (default: false)
         """
     @typing.overload
-    def __init__(self, x: list[float], y: list[float], interpolant: scion.interpolation.InterpolationType = ...) -> None:
+    def __init__(self, x: list[float], y: list[float], interpolant: scion.interpolation.InterpolationType = ..., curate: bool = False) -> None:
         """
         Initialise the function
         
@@ -602,6 +603,7 @@ class InterpolationTable:
             x             the x values of the tabulated data
             y             the y values of the tabulated data
             interpolant   the interpolation type (default lin-lin)
+            curate        flag to indicate whether or not to curate the table (default: false)
         """
     @typing.overload
     def __isub__(self, arg0: float) -> InterpolationTable:
@@ -631,6 +633,12 @@ class InterpolationTable:
         ...
     def __truediv__(self, arg0: float) -> InterpolationTable:
         ...
+    def curate(self) -> None:
+        """
+        Curate the table
+        
+        This removes extraneous interior points in discontinuities in the data.
+        """
     def is_contained(self, x: float) -> bool:
         """
         Check whether or not a value is inside the domain (including boundaries)
