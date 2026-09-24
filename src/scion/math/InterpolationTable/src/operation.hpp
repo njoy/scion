@@ -66,12 +66,12 @@ operation( const InterpolationTable& right, BinaryOperation operation ) {
         if ( std::all_of( std::next( yIter ), yNext,
                           [&] ( auto&& value ) { return value == *yIter; } ) ) {
 
-          xIter = x.erase( std::next( xIter ), xNext );
-          yIter = y.erase( std::next( yIter ), yNext );
+          xNext = x.erase( std::next( xIter ), xNext );
+          yNext = y.erase( std::next( yIter ), yNext );
         }
 
         // find the next duplicate x value
-        xIter = std::adjacent_find( std::upper_bound( xIter, x.end(), *xIter ), x.end() );
+        xIter = std::adjacent_find( xNext, x.end() );
       }
 
       // replace this with a new table
