@@ -146,7 +146,7 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
       }
     }
 
-    xIter = std::adjacent_find( std::next( xIter ), x.end() );
+    xIter = std::adjacent_find( xNext, x.end() );
   }
 
   if ( curate ) {
