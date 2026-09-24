@@ -37,7 +37,7 @@ static void curateTable( std::vector< X >& x, std::vector< F >& f,
                       [&] ( auto&& boundary ) { return boundary - offset; } );
     }
 
-    xIter = std::adjacent_find( xNext, x.end() );
+    xIter = std::adjacent_find( std::next( xIter ), x.end() );
   }
 }
 
@@ -69,7 +69,7 @@ static void curateTable( std::vector< X >& x, std::vector< F >& f,
  *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
  *  point of the jump.
  */
-static std::tuple< std::vector< double >,
+static std::tuple< std::vector< X >,
                    std::vector< F >,
                    std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
