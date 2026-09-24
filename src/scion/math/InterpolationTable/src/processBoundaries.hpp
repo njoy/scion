@@ -1,4 +1,47 @@
 /**
+ *  @brief Curate the tabulated data
+ *
+ *  Curation currently consists of removing extraneous interior points in discontinuities
+ *  in the data.
+ *
+ *  The boundaries array is assumed to already have a boundary indices pointing to the first
+ *  point of every jump, so this function only has to reduce the boundary values that come
+ *  after a curated jump by the number of points that were removed. This is guaranteed by
+ *  processBoundaries() prior to calling this function.
+ */
+static void curate( std::vector< X >& x, std::vector< Y >& y,
+                    std::vector< std::size_t >& boundaries,
+                    std::vector< interpolation::InterpolationType >& /* interpolants */ ) {
+
+  auto xIter = std::adjacent_find( x.begin(), x.end() );
+  auto bIter = boundaries.begin();
+  while ( xIter != x.end() ) {
+
+    auto xNext = std::upper_bound( xIter, x.end(), *xIter );
+    auto number = std::distance( xIter, xNext );
+
+    if ( number > 2 ) {
+
+      Log::warning( "x = {} is present {} times, extraneous points will be removed", *xIter, number );
+
+      std::size_t index = std::distance( x.begin(), xIter );
+      auto yIter = std::next( y.begin(), index );
+      auto yNext = std::next( yIter, number );
+
+      x.erase( std::next( xIter ), std::prev( xNext ) );
+      y.erase( std::next( yIter ), std::prev( yNext ) );
+
+      auto offset = number - 2;
+      bIter = std::upper_bound( bIter, boundaries.end(), index );
+      std::transform( bIter, boundaries.end(), bIter,
+                      [&] ( auto&& boundary ) { return boundary - offset; } );
+    }
+
+    xIter = std::adjacent_find( std::next( xIter ), x.end() );
+  }
+}
+
+/**
  *  @brief Verify and correct boundaries and interpolants
  *
  *  This function does a lot, so here's an overview of what it does. First of all, it verifies
@@ -8,7 +51,6 @@
  *    - The number of boundaries and interpolants are the same
  *    - The last boundary index is equal to the index of the last x value
  *    - The x grid is sorted
- *    - The x values appear only a maximum of two times in the grid
  *
  *  Next, this function will look for every jump in the x grid and check if the jump corresponds
  *  to a change in interpolation region (meaning that the index of the first x value in the jump
@@ -23,6 +65,9 @@
  *
  *  A jump at the beginning or end of the x grid is allowed. However, if one of these jumps is
  *  detected, then the first or last point is just removed.
+ *
+ *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
+ *  point of the jump.
  */
 static std::tuple< std::vector< X >,
                    std::vector< Y >,
@@ -30,7 +75,8 @@ static std::tuple< std::vector< X >,
                    std::vector< interpolation::InterpolationType > >
 processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
                    std::vector< std::size_t >&& boundaries,
-                   std::vector< interpolation::InterpolationType >&& interpolants  ) {
+                   std::vector< interpolation::InterpolationType >&& interpolants,
+                   bool curate = false ) {
 
   if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
        ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
@@ -100,25 +146,12 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
       }
     }
 
-    // remove extraneous points and adjust boundaries
-    if ( number > 2 ) {
-
-      Log::warning( "x = {} is present {} times, extraneous points will be removed", *xIter, number );
-
-      // remove x and y values
-      auto yIter = std::next( y.begin(),
-                              std::distance( x.begin(), xIter ) );
-      auto yNext = std::next( yIter, number );
-      x.erase( std::next( xIter ), std::prev( xNext ) );
-      y.erase( std::next( yIter ), std::prev( yNext ) );
-
-      // adjust boundaries
-      auto offset = number - 2;
-      std::transform( std::next( bIter ), boundaries.end(), std::next( bIter ),
-                      [&] ( auto&& boundary ) { return boundary - offset; } );
-    }
-
     xIter = std::adjacent_find( std::next( xIter ), x.end() );
+  }
+
+  if ( curate ) {
+
+    InterpolationTable::curate( x, y, boundaries, interpolants );
   }
 
   // check for a jump at the beginning of the table
@@ -152,9 +185,10 @@ static std::tuple< std::vector< X >,
                    std::vector< std::size_t >,
                    std::vector< interpolation::InterpolationType > >
 processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
-                   interpolation::InterpolationType interpolant ) {
+                   interpolation::InterpolationType interpolant,
+                   bool curate = false ) {
 
   return processBoundaries( std::move( x ), std::move( y ),
                             { x.size() > 0 ? x.size() - 1 : 0 },
-                            { interpolant } );
+                            { interpolant }, curate );
 }

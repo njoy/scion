@@ -101,13 +101,15 @@ public:
  *  @param y              the y values of the tabulated data
  *  @param boundaries     the boundaries of the interpolation regions
  *  @param interpolants   the interpolation types of the interpolation regions
+ *  @param curate         flag to indicate whether or not to curate the table (default: false)
  */
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     std::vector< std::size_t > boundaries,
-                    std::vector< interpolation::InterpolationType > interpolants ) :
+                    std::vector< interpolation::InterpolationType > interpolants,
+                    bool curate = false ) :
   InterpolationTable( processBoundaries( std::move( x ), std::move( y ),
                                          std::move( boundaries ),
-                                         std::move( interpolants ) ) ) {}
+                                         std::move( interpolants ), curate ) ) {}
 
 /**
  *  @brief Constructor for tabulated data in a single interpolation zone
@@ -115,8 +117,10 @@ InterpolationTable( std::vector< X > x, std::vector< Y > y,
  *  @param x              the x values of the tabulated data
  *  @param y              the y values of the tabulated data
  *  @param interpolant    the interpolation type of the data (default lin-lin)
+ *  @param curate         flag to indicate whether or not to curate the table (default: false)
  */
 InterpolationTable( std::vector< X > x, std::vector< Y > y,
                     interpolation::InterpolationType interpolant =
-                        interpolation::InterpolationType::LinearLinear ) :
-  InterpolationTable( processBoundaries( std::move( x ), std::move( y ), interpolant ) ) {}
+                        interpolation::InterpolationType::LinearLinear,
+                    bool curate = false ) :
+  InterpolationTable( processBoundaries( std::move( x ), std::move( y ), interpolant, curate ) ) {}
