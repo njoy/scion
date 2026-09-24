@@ -358,9 +358,10 @@ SCENARIO( "InterpolationTableFunction" ) {
 
   GIVEN( "a table of functions with a jump consisting of more than 2 x values" ) {
 
-    // note: the middle point in the jump is removed
+    // note: by default (curate = false), the extraneous points in between the first
+    //       and last x value in the jump are kept.
 
-    WHEN( "the data is given explicitly" ) {
+    WHEN( "the data is given explicitly and curate is not requested" ) {
 
       const std::vector< double > x = { 1., 2., 2., 2., 3., 4. };
       const std::vector< InterpolationTable< double > > f = {
@@ -376,6 +377,187 @@ SCENARIO( "InterpolationTableFunction" ) {
       Table2D chunk( std::move( x ), std::move( f ) );
 
       THEN( "an InterpolationTableFunction can be constructed and members can be tested" ) {
+
+        CHECK( 6 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 6 == chunk.x().size() );
+        CHECK( 6 == chunk.f().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[5] ) );
+        CHECK( 2 == chunk.f()[0].x().size() );
+        CHECK( 2 == chunk.f()[0].y().size() );
+        CHECK( 3 == chunk.f()[1].x().size() );
+        CHECK( 3 == chunk.f()[1].y().size() );
+        CHECK( 3 == chunk.f()[2].x().size() );
+        CHECK( 3 == chunk.f()[2].y().size() );
+        CHECK( 2 == chunk.f()[3].x().size() );
+        CHECK( 2 == chunk.f()[3].y().size() );
+        CHECK( 2 == chunk.f()[4].x().size() );
+        CHECK( 2 == chunk.f()[4].y().size() );
+        CHECK( 2 == chunk.f()[5].x().size() );
+        CHECK( 2 == chunk.f()[5].y().size() );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( chunk.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( chunk.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[2].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[2].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[2].x()[2] ) );
+        CHECK_THAT(  0.4 , WithinRel( chunk.f()[2].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[2].y()[1] ) );
+        CHECK_THAT(  0.6 , WithinRel( chunk.f()[2].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[3].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( chunk.f()[3].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[4].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[4].x()[1] ) );
+        CHECK_THAT(  0.2 , WithinRel( chunk.f()[4].y()[0] ) );
+        CHECK_THAT(  0.8 , WithinRel( chunk.f()[4].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[5].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[5].x()[1] ) );
+        CHECK_THAT(  0.3 , WithinRel( chunk.f()[5].y()[0] ) );
+        CHECK_THAT(  0.7 , WithinRel( chunk.f()[5].y()[1] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 5 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+      } // THEN
+
+      THEN( "the table can be curated on demand and the extraneous points are removed" ) {
+
+        // note: curate() curates the table in place - it does not return a new instance
+        chunk.curate();
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.f().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK( 2 == chunk.f()[0].x().size() );
+        CHECK( 2 == chunk.f()[0].y().size() );
+        CHECK( 3 == chunk.f()[1].x().size() );
+        CHECK( 3 == chunk.f()[1].y().size() );
+        CHECK( 2 == chunk.f()[2].x().size() );
+        CHECK( 2 == chunk.f()[2].y().size() );
+        CHECK( 2 == chunk.f()[3].x().size() );
+        CHECK( 2 == chunk.f()[3].y().size() );
+        CHECK( 2 == chunk.f()[4].x().size() );
+        CHECK( 2 == chunk.f()[4].y().size() );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( chunk.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( chunk.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[2].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[2].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( chunk.f()[2].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( chunk.f()[2].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[3].x()[1] ) );
+        CHECK_THAT(  0.2 , WithinRel( chunk.f()[3].y()[0] ) );
+        CHECK_THAT(  0.8 , WithinRel( chunk.f()[3].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[4].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[4].x()[1] ) );
+        CHECK_THAT(  0.3 , WithinRel( chunk.f()[4].y()[0] ) );
+        CHECK_THAT(  0.7 , WithinRel( chunk.f()[4].y()[1] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and curate is requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4. };
+      const std::vector< InterpolationTable< double > > f = {
+
+        { { -1., +1. }, { 0.5, 0.5 } },
+        { { -1., 0., +1. }, { 0.49, 0.5, 0.51 } },
+        { { -1., 0., +1. }, { 0.4, 0.5, 0.6 } },
+        { { -1., +1. }, { 0.1, 0.9 } },
+        { { -1., +1. }, { 0.2, 0.8 } },
+        { { -1., +1. }, { 0.3, 0.7 } }
+      };
+
+      Table2D chunk( std::move( x ), std::move( f ), InterpolationType::LinearLinear, true );
+
+      THEN( "an InterpolationTableFunction can be constructed and members can be tested" ) {
+
+        CHECK( 5 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.f().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK( 2 == chunk.f()[0].x().size() );
+        CHECK( 2 == chunk.f()[0].y().size() );
+        CHECK( 3 == chunk.f()[1].x().size() );
+        CHECK( 3 == chunk.f()[1].y().size() );
+        CHECK( 2 == chunk.f()[2].x().size() );
+        CHECK( 2 == chunk.f()[2].y().size() );
+        CHECK( 2 == chunk.f()[3].x().size() );
+        CHECK( 2 == chunk.f()[3].y().size() );
+        CHECK( 2 == chunk.f()[4].x().size() );
+        CHECK( 2 == chunk.f()[4].y().size() );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[0].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[0].x()[1] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[0].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[1].x()[0] ) );
+        CHECK_THAT(  0.  , WithinRel( chunk.f()[1].x()[1] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[1].x()[2] ) );
+        CHECK_THAT(  0.49, WithinRel( chunk.f()[1].y()[0] ) );
+        CHECK_THAT(  0.5 , WithinRel( chunk.f()[1].y()[1] ) );
+        CHECK_THAT(  0.51, WithinRel( chunk.f()[1].y()[2] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[2].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[2].x()[1] ) );
+        CHECK_THAT(  0.1 , WithinRel( chunk.f()[2].y()[0] ) );
+        CHECK_THAT(  0.9 , WithinRel( chunk.f()[2].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[3].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[3].x()[1] ) );
+        CHECK_THAT(  0.2 , WithinRel( chunk.f()[3].y()[0] ) );
+        CHECK_THAT(  0.8 , WithinRel( chunk.f()[3].y()[1] ) );
+        CHECK_THAT( -1.  , WithinRel( chunk.f()[4].x()[0] ) );
+        CHECK_THAT(  1.  , WithinRel( chunk.f()[4].x()[1] ) );
+        CHECK_THAT(  0.3 , WithinRel( chunk.f()[4].y()[0] ) );
+        CHECK_THAT(  0.7 , WithinRel( chunk.f()[4].y()[1] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+      } // THEN
+
+      THEN( "calling curate() again on an already curated table does not change anything" ) {
+
+        chunk.curate();
 
         CHECK( 5 == chunk.numberPoints() );
         CHECK( 2 == chunk.numberRegions() );
@@ -492,9 +674,9 @@ SCENARIO( "InterpolationTableFunction" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "a table of functions with a jump at the beginning" ) {
+  GIVEN( "a table of functions with a jump at the end" ) {
 
-    // note: the first point is removed
+    // note: the last point is removed
 
     WHEN( "the data is given explicitly" ) {
 

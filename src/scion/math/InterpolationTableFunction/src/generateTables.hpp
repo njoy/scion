@@ -64,12 +64,22 @@ void generateTables() {
     // don't do this for the last region: valgrind will yell at you
     if ( xEnd != this->x().end() ) {
 
+      // go back to the shared boundary if there is no jump or advance to the last
+      // point in the jump if there is one
+
       std::swap( xStart, xEnd );
       std::swap( fStart, fEnd );
       if ( *xStart > *std::prev( xStart ) ) {
 
         --xStart;
         --fStart;
+      }
+      else {
+
+        auto iter = std::prev( std::upper_bound( xStart, this->x().end(), *xStart ) );
+        auto offset = std::distance( xStart, iter );
+        std::advance( xStart, offset );
+        std::advance( fStart, offset );
       }
     }
   }

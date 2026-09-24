@@ -93,13 +93,15 @@ public:
  *  @param f              the f(y) functions of the tabulated data
  *  @param boundaries     the boundaries of the interpolation regions
  *  @param interpolants   the interpolation types of the interpolation regions
+ *  @param curate         flag to indicate whether or not to curate the table (default: false)
  */
 InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
                             std::vector< std::size_t > boundaries,
-                            std::vector< interpolation::InterpolationType > interpolants ) :
+                            std::vector< interpolation::InterpolationType > interpolants,
+                            bool curate = false ) :
   InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ),
                                                  std::move( boundaries ),
-                                                 std::move( interpolants ) ) ) {}
+                                                 std::move( interpolants ), curate ) ) {}
 
 /**
  *  @brief Constructor for tabulated data in a single interpolation zone
@@ -107,8 +109,10 @@ InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
  *  @param x              the x values of the tabulated data
  *  @param f              the f(y) functions of the tabulated data
  *  @param interpolant    the interpolation type of the data (default lin-lin)
+ *  @param curate         flag to indicate whether or not to curate the table (default: false)
  */
 InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
                             interpolation::InterpolationType interpolant =
-                                interpolation::InterpolationType::LinearLinear ) :
-  InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ), interpolant ) ) {}
+                                interpolation::InterpolationType::LinearLinear,
+                            bool curate = false ) :
+  InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ), interpolant, curate ) ) {}

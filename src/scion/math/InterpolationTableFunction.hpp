@@ -156,6 +156,17 @@ namespace math {
       return this->boundaries().size();
     }
 
+    /**
+     *  @brief Curate the table
+     *
+     *  This removes extraneous interior points in discontinuities in the data.
+     */
+    void curate() {
+
+      curateTable( this->x_, this->f_, this->boundaries_, this->interpolants_ );
+      this->generateTables();
+    }
+
     using Parent::operator();
 
     /**
