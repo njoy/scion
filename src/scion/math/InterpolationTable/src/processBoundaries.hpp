@@ -9,9 +9,9 @@
  *  after a curated jump by the number of points that were removed. This is guaranteed by
  *  processBoundaries() prior to calling this function.
  */
-static void curate( std::vector< X >& x, std::vector< Y >& y,
-                    std::vector< std::size_t >& boundaries,
-                    std::vector< interpolation::InterpolationType >& /* interpolants */ ) {
+static void curateTable( std::vector< X >& x, std::vector< Y >& y,
+                         std::vector< std::size_t >& boundaries,
+                         std::vector< interpolation::InterpolationType >& /* interpolants */ ) {
 
   auto xIter = std::adjacent_find( x.begin(), x.end() );
   auto bIter = boundaries.begin();
@@ -151,7 +151,7 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
 
   if ( curate ) {
 
-    InterpolationTable::curate( x, y, boundaries, interpolants );
+    curateTable( x, y, boundaries, interpolants );
   }
 
   // check for a jump at the beginning of the table

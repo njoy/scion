@@ -148,6 +148,17 @@ namespace math {
       return this->linearised_;
     }
 
+    /**
+     *  @brief Curate the table
+     *
+     *  This removes extraneous interior points in discontinuities in the data.
+     */
+    void curate() {
+
+      curateTable( this->x_, this->y_, this->boundaries_, this->interpolants_ );
+      this->generateTables();
+    }
+
     #include "scion/math/InterpolationTable/src/linearise.hpp"
 
     /**
