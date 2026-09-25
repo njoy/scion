@@ -2414,6 +2414,100 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "linearised data with multiple jumps that consist of more than 2 points" ) {
+
+    WHEN( "the data is given explicitly and curate is not requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
+      const std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 9 == chunk.x().size() );
+        CHECK( 9 == chunk.y().size() );
+        CHECK( 3 == chunk.boundaries().size() );
+        CHECK( 3 == chunk.interpolants().size() );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 5 == chunk.boundaries()[1] );
+        CHECK( 8 == chunk.boundaries()[2] );
+        CHECK( false == chunk.isCurated() );
+      } // THEN
+
+      THEN( "the extraneous points are removed when calling curate()" ) {
+
+        chunk.curate();
+
+        CHECK( 7 == chunk.x().size() );
+        CHECK( 7 == chunk.y().size() );
+        CHECK( 3 == chunk.boundaries().size() );
+        CHECK( 3 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[5] ) );
+        CHECK_THAT( 5., WithinRel( chunk.x()[6] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 5., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 6., WithinRel( chunk.y()[4] ) );
+        CHECK_THAT( 8., WithinRel( chunk.y()[5] ) );
+        CHECK_THAT( 9., WithinRel( chunk.y()[6] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( 6 == chunk.boundaries()[2] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[2] );
+        CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and curate is requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
+      const std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          InterpolationType::LinearLinear, true );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 7 == chunk.x().size() );
+        CHECK( 7 == chunk.y().size() );
+        CHECK( 3 == chunk.boundaries().size() );
+        CHECK( 3 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[5] ) );
+        CHECK_THAT( 5., WithinRel( chunk.x()[6] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 5., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 6., WithinRel( chunk.y()[4] ) );
+        CHECK_THAT( 8., WithinRel( chunk.y()[5] ) );
+        CHECK_THAT( 9., WithinRel( chunk.y()[6] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( 6 == chunk.boundaries()[2] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[2] );
+        CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "linearised data with a jump that consist of more than 2 points" ) {
 
     WHEN( "the data is given explicitly and curate is not requested" ) {

@@ -2011,6 +2011,48 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 1.5, chunk.cumulative_integral[2] )
             self.assertAlmostEqual( 4. , chunk.cumulative_integral[3] )
 
+        def verify_chunk10( self, chunk ) :
+
+            # verify content
+            self.assertEqual( 7, len( chunk.x ) )
+            self.assertEqual( 7, len( chunk.y ) )
+            self.assertEqual( 3, len( chunk.boundaries ) )
+            self.assertEqual( 3, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 4., chunk.x[5] )
+            self.assertAlmostEqual( 5., chunk.x[6] )
+            self.assertAlmostEqual( 1., chunk.y[0] )
+            self.assertAlmostEqual( 2., chunk.y[1] )
+            self.assertAlmostEqual( 4., chunk.y[2] )
+            self.assertAlmostEqual( 5., chunk.y[3] )
+            self.assertAlmostEqual( 6., chunk.y[4] )
+            self.assertAlmostEqual( 8., chunk.y[5] )
+            self.assertAlmostEqual( 9., chunk.y[6] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( 6, chunk.boundaries[2] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[2] )
+            self.assertEqual( True, chunk.is_linearised )
+            self.assertEqual( True, chunk.is_curated )
+
+        def verify_chunk10_not_curated( self, chunk ) :
+
+            # verify content
+            self.assertEqual( 9, len( chunk.x ) )
+            self.assertEqual( 9, len( chunk.y ) )
+            self.assertEqual( 3, len( chunk.boundaries ) )
+            self.assertEqual( 3, len( chunk.interpolants ) )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 5, chunk.boundaries[1] )
+            self.assertEqual( 8, chunk.boundaries[2] )
+            self.assertEqual( False, chunk.is_curated )
+
         # the data is given explicitly for data without boundaries
         chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
                                     y = [ 4., 3., 2., 1. ],
@@ -2137,6 +2179,26 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
                                     y = [ 1., 2., 2., 3. ] ) # <-- same y values in the jump
 
         verify_chunk9( self, chunk )
+
+        # the data is given explicitly for linearised data with multiple jumps that use
+        # more than 2 x values and curate is not requested: the extraneous points are kept
+        chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4., 4., 4., 5. ], # <-- 2 jumps of 3 x values
+                                    y = [ 1., 2., 3., 4., 5., 6., 7., 8., 9. ] )
+
+        verify_chunk10_not_curated( self, chunk )
+
+        # check curation
+        chunk.curate()
+        verify_chunk10( self, chunk )
+
+        # the data is given explicitly for linearised data with multiple jumps that use
+        # more than 2 x values and curate is requested: the extraneous points are removed
+        chunk = InterpolationTable( x = [ 1., 2., 2., 2., 3., 4., 4., 4., 5. ], # <-- 2 jumps of 3 x values
+                                    y = [ 1., 2., 3., 4., 5., 6., 7., 8., 9. ],
+                                    interpolant = InterpolationType.LinearLinear,
+                                    curate = True )
+
+        verify_chunk10( self, chunk )
 
     def test_failures( self ) :
 
