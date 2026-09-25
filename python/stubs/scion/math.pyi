@@ -680,8 +680,6 @@ class InterpolationTable:
     def cumulative_integral(self) -> list[float]:
         """
         The cumulative integral of the table over its domain
-        
-        The cumulative integral contains a value for every x value in the table.
         """
     @property
     def domain(self) -> IntervalDomain | OpenDomain:

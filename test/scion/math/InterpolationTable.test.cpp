@@ -53,6 +53,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
@@ -76,6 +77,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == copy.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
         CHECK( true == copy.isLinearised() );
+        CHECK( true == copy.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
 
         InterpolationTable< double > move( std::move( copy ) );
@@ -96,6 +98,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == move.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
         CHECK( true == move.isLinearised() );
+        CHECK( true == move.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
       } // THEN
 
@@ -121,6 +124,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == copy.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
         CHECK( true == copy.isLinearised() );
+        CHECK( true == copy.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
 
         InterpolationTable< double > move( { 1., 4. }, { 0., 0. } );
@@ -143,6 +147,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == move.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
         CHECK( true == move.isLinearised() );
+        CHECK( true == move.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
       } // THEN
 
@@ -781,6 +786,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1., WithinRel( linear.y()[3] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -819,6 +825,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
         CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -922,6 +929,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2., WithinRel( linear.y()[4] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -1567,6 +1575,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -1702,6 +1711,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.              , WithinRel( linear.y()[17] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "some arithmetic operations can be performed" ) {
@@ -1729,6 +1739,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk /= 2.;
@@ -1902,6 +1913,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2028,6 +2040,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2.              , WithinRel( linear.y()[11] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "some arithmetic operations can be performed" ) {
@@ -2055,6 +2068,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk /= 2.;
@@ -2078,6 +2092,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         result = -chunk;
@@ -2101,6 +2116,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk * 2.;
@@ -2124,6 +2140,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = 2. * chunk;
@@ -2147,6 +2164,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk / 2.;
@@ -2170,6 +2188,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
 
@@ -2240,6 +2259,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( false == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2268,6 +2288,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
       } // THEN
 
       THEN( "the table can be linearised and the extraneous point in the jump is removed" ) {
@@ -2307,6 +2328,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "the cumulative integral has a value for every x value, including the extraneous "
@@ -2359,6 +2381,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2386,6 +2409,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -2400,6 +2424,9 @@ SCENARIO( "InterpolationTable" ) {
       InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
 
       THEN( "linearise() removes the extraneous point in the jump" ) {
+
+        CHECK( true == chunk.isLinearised() );
+        CHECK( false == chunk.isCurated() );
 
         InterpolationTable< double > linear = chunk.linearise();
 
@@ -2420,6 +2447,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "the cumulative integral has a value for every x value, including the extraneous "
@@ -2447,6 +2475,9 @@ SCENARIO( "InterpolationTable" ) {
 
       THEN( "linearise() removes the extraneous point in the jump and keeps the jump" ) {
 
+        CHECK( true == chunk.isLinearised() );
+        CHECK( false == chunk.isCurated() );
+
         InterpolationTable< double > linear = chunk.linearise();
 
         CHECK( 4 == linear.x().size() );
@@ -2466,6 +2497,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
 
         CHECK_THAT( 1.5, WithinRel( linear( 1.5 ) ) );
         CHECK_THAT( 3.5, WithinRel( linear( 3. ) ) );
@@ -2530,6 +2562,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2577,6 +2610,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2618,6 +2652,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2665,6 +2700,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2706,6 +2742,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN

@@ -83,6 +83,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
 
       THEN( "an InterpolationTableFunction can be copy and move constructed" ) {
@@ -128,6 +129,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( copy.f()[3].y()[1] ) );
         CHECK( 3 == copy.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
+        CHECK( true == copy.isCurated() );
 
         Table2D move( std::move( copy ) );
         CHECK( 4 == move.numberPoints() );
@@ -170,6 +172,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( move.f()[3].y()[1] ) );
         CHECK( 3 == move.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
+        CHECK( true == move.isCurated() );
       } // THEN
 
       THEN( "an InterpolationTableFunction can be copy and move assigned" ) {
@@ -224,6 +227,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( copy.f()[3].y()[1] ) );
         CHECK( 3 == copy.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
+        CHECK( true == copy.isCurated() );
 
         Table2D move( x, f );
         move = std::move( copy );
@@ -268,6 +272,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( move.f()[3].y()[1] ) );
         CHECK( 3 == move.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
+        CHECK( true == move.isCurated() );
       } // THEN
 
       THEN( "an InterpolationTableFunction can be evaluated" ) {
@@ -334,6 +339,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT( 0.4 , WithinRel( chunk.f()[3].coefficients()[1] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
 
       THEN( "an InterpolationTableFunction can be evaluated" ) {
@@ -434,6 +440,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK( 5 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( false == chunk.isCurated() );
       } // THEN
 
       THEN( "the table can be curated on demand and the extraneous points are removed" ) {
@@ -486,6 +493,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
 
@@ -553,6 +561,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
 
       THEN( "calling curate() again on an already curated table does not change anything" ) {
@@ -606,6 +615,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -670,6 +680,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
 
@@ -730,6 +741,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -794,6 +806,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
 
@@ -854,6 +867,7 @@ SCENARIO( "InterpolationTableFunction" ) {
         CHECK_THAT(  0.9 , WithinRel( chunk.f()[3].y()[1] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( true == chunk.isCurated() );
       } // THEN
     } // WHEN
   } // GIVEN
