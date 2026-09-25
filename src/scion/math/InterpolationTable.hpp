@@ -388,13 +388,11 @@ namespace math {
         return table.cumulativeIntegrate( first, weight );
       };
 
-      auto check = [this] ( const auto& table ) {
+      auto number_equal_x = [this] ( const auto& table ) {
 
-        return table.x().end() != this->x().end()
-               ? ( *( table.x().end() ) == table.x().back() )
-                 ? ( *( table.y().end() ) != table.y().back() ? true : false )
-                 : false
-               : true;
+        return std::distance( std::prev( table.x().end() ),
+                              std::upper_bound( table.x().end(), this->x().end(),
+                                                table.x().back() ) );
       };
 
       auto iter = this->tables().begin();
@@ -405,15 +403,13 @@ namespace math {
 
         first = result.back();
         auto integrals = std::visit( cumulative, *iter );
+        auto points = std::visit( number_equal_x, *std::prev( iter ) );
 
-        if ( std::visit( check, *std::prev( iter ) ) ) {
+        if ( points > 1 ) {
 
-          result.insert( result.end(), integrals.begin(), integrals.end() );
+          result.insert( result.end(), points - 1, first );
         }
-        else {
-
-          result.insert( result.end(), std::next( integrals.begin() ), integrals.end() );
-        }
+        result.insert( result.end(), std::next( integrals.begin() ), integrals.end() );
 
         ++iter;
       }
