@@ -1981,6 +1981,36 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertAlmostEqual( 1.5, linear( x = 1.5 ) )
             self.assertAlmostEqual( 3.5, linear( x = 3. ) )
 
+        def verify_chunk9( self, chunk ) :
+
+            # verify content
+            self.assertEqual( 4, len( chunk.x ) )
+            self.assertEqual( 4, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 3., chunk.x[3] )
+            self.assertAlmostEqual( 1., chunk.y[0] )
+            self.assertAlmostEqual( 2., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 3, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+            self.assertEqual( True, chunk.is_linearised )
+            self.assertEqual( True, chunk.is_curated )
+
+            # verify integration
+            self.assertAlmostEqual( 4., chunk.integral )
+            self.assertEqual( 4, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0. , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[2] )
+            self.assertAlmostEqual( 4. , chunk.cumulative_integral[3] )
+
         # the data is given explicitly for data without boundaries
         chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
                                     y = [ 4., 3., 2., 1. ],
@@ -2100,6 +2130,13 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
                                     y = [ 1., 2., 2., 3., 4. ] ) # <-- extraneous point has same y
 
         verify_chunk8( self, chunk )
+
+        # the data is given explicitly for linearised data with a jump where both y
+        # values in the jump are the same
+        chunk = InterpolationTable( x = [ 1., 2., 2., 3. ],
+                                    y = [ 1., 2., 2., 3. ] ) # <-- same y values in the jump
+
+        verify_chunk9( self, chunk )
 
     def test_failures( self ) :
 

@@ -2519,6 +2519,55 @@ SCENARIO( "InterpolationTable" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "linearised data with a jump where both y values in the jump are the same" ) {
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 3. };
+      const std::vector< double > y = { 1., 2., 2., 3. }; // <-- same y values in the jump
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+
+      THEN( "the integral of an InterpolationTable can be calculated" ) {
+
+        // ( 1 + 2 ) / 2 + ( 2 + 3 ) / 2 = 4
+        CHECK_THAT( 4., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral has a value for every x value" ) {
+
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 4 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[2] ) );
+        CHECK_THAT( 4. , WithinRel( cumulative[3] ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "non-linearised data with multiple regions with a jump and boundaries "
          "that point to the second x value in the jump" ) {
 
