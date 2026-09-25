@@ -1884,6 +1884,15 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
         verify_chunk6( self, chunk )
 
+        # the data is given explicitly with a jump at the end that uses more than 2 x values
+        chunk = InterpolationTable( x = [ 1., 2., 3., 4., 4., 4. ], # <-- jump at end
+                                    y = [ 4., 3., 2., 1., 4., 5. ],
+                                    boundaries = [ 1, 5 ],          # <-- pointing to end
+                                    interpolants = [ InterpolationType.LinearLinear,
+                                                     InterpolationType.LinearLog ] )
+
+        verify_chunk6( self, chunk )
+
     def test_failures( self ) :
 
         print( '\n' )
