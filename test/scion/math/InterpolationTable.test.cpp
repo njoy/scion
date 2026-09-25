@@ -2409,6 +2409,41 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == linear.isLinearised() );
       } // THEN
     } // WHEN
+
+    WHEN( "the data is given explicitly and the first and second y value in the jump are "
+          "the same" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
+      const std::vector< double > y = { 1., 2., 2., 3., 4. }; // <-- extraneous point has same y
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "linearise() removes the extraneous point in the jump and keeps the jump" ) {
+
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 4 == linear.x().size() );
+        CHECK( 4 == linear.y().size() );
+        CHECK( 2 == linear.boundaries().size() );
+        CHECK( 2 == linear.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( linear.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( linear.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( linear.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( linear.x()[3] ) );
+        CHECK_THAT( 1., WithinRel( linear.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( linear.y()[1] ) );
+        CHECK_THAT( 3., WithinRel( linear.y()[2] ) );
+        CHECK_THAT( 4., WithinRel( linear.y()[3] ) );
+        CHECK( 1 == linear.boundaries()[0] );
+        CHECK( 3 == linear.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
+        CHECK( true == linear.isLinearised() );
+
+        CHECK_THAT( 1.5, WithinRel( linear( 1.5 ) ) );
+        CHECK_THAT( 3.5, WithinRel( linear( 3. ) ) );
+      } // THEN
+    } // WHEN
   } // GIVEN
 
   GIVEN( "non-linearised data with multiple regions with a jump and boundaries "

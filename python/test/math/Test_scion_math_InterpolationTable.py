@@ -1766,6 +1766,43 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
             self.assertEqual( False, chunk.is_linearised )
 
+            # verify linearisation: the extraneous point in the jump is removed
+            linear = chunk.linearise()
+
+            self.assertEqual( 12, len( linear.x ) )
+            self.assertEqual( 12, len( linear.y ) )
+            self.assertEqual( 2, len( linear.boundaries ) )
+            self.assertEqual( 2, len( linear.interpolants ) )
+            self.assertAlmostEqual( 1.   , linear.x[0] )
+            self.assertAlmostEqual( 2.   , linear.x[1] )
+            self.assertAlmostEqual( 2.   , linear.x[2] )
+            self.assertAlmostEqual( 2.125, linear.x[3] )
+            self.assertAlmostEqual( 2.25 , linear.x[4] )
+            self.assertAlmostEqual( 2.5  , linear.x[5] )
+            self.assertAlmostEqual( 2.75 , linear.x[6] )
+            self.assertAlmostEqual( 3.   , linear.x[7] )
+            self.assertAlmostEqual( 3.25 , linear.x[8] )
+            self.assertAlmostEqual( 3.5  , linear.x[9] )
+            self.assertAlmostEqual( 3.75 , linear.x[10] )
+            self.assertAlmostEqual( 4.   , linear.x[11] )
+            self.assertAlmostEqual( 4.                , linear.y[0] )
+            self.assertAlmostEqual( 3.                , linear.y[1] )
+            self.assertAlmostEqual( 4.                , linear.y[2] )
+            self.assertAlmostEqual( 3.8504812853088648, linear.y[3] )
+            self.assertAlmostEqual( 3.709511291351455 , linear.y[4] )
+            self.assertAlmostEqual( 3.4496602867867914, linear.y[5] )
+            self.assertAlmostEqual( 3.2145964603356649, linear.y[6] )
+            self.assertAlmostEqual( 3.                , linear.y[7] )
+            self.assertAlmostEqual( 2.7217667858432417, linear.y[8] )
+            self.assertAlmostEqual( 2.4641630654510251, linear.y[9] )
+            self.assertAlmostEqual( 2.2243397393085331, linear.y[10] )
+            self.assertAlmostEqual( 2.                , linear.y[11] )
+            self.assertEqual( 1, linear.boundaries[0] )
+            self.assertEqual( 11, linear.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, linear.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, linear.interpolants[1] )
+            self.assertEqual( True, linear.is_linearised )
+
         def verify_chunk6( self, chunk ) :
 
             # verify content
@@ -1786,6 +1823,100 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
             self.assertEqual( False, chunk.is_linearised )
+
+        def verify_chunk7( self, chunk ) :
+
+            # verify content
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 2., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 1., chunk.y[0] )
+            self.assertAlmostEqual( 2., chunk.y[1] )
+            self.assertAlmostEqual( 5., chunk.y[2] )
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertAlmostEqual( 4., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+            self.assertEqual( True, chunk.is_linearised )
+
+            # verify linearisation: the extraneous point in the jump is removed
+            linear = chunk.linearise()
+
+            self.assertEqual( 4, len( linear.x ) )
+            self.assertEqual( 4, len( linear.y ) )
+            self.assertEqual( 2, len( linear.boundaries ) )
+            self.assertEqual( 2, len( linear.interpolants ) )
+            self.assertAlmostEqual( 1., linear.x[0] )
+            self.assertAlmostEqual( 2., linear.x[1] )
+            self.assertAlmostEqual( 2., linear.x[2] )
+            self.assertAlmostEqual( 4., linear.x[3] )
+            self.assertAlmostEqual( 1., linear.y[0] )
+            self.assertAlmostEqual( 2., linear.y[1] )
+            self.assertAlmostEqual( 3., linear.y[2] )
+            self.assertAlmostEqual( 4., linear.y[3] )
+            self.assertEqual( 1, linear.boundaries[0] )
+            self.assertEqual( 3, linear.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, linear.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, linear.interpolants[1] )
+            self.assertEqual( True, linear.is_linearised )
+
+            self.assertAlmostEqual( 1.5, linear( x = 1.5 ) )
+            self.assertAlmostEqual( 3.5, linear( x = 3. ) )
+
+        def verify_chunk8( self, chunk ) :
+
+            # verify content
+            self.assertEqual( 5, len( chunk.x ) )
+            self.assertEqual( 5, len( chunk.y ) )
+            self.assertEqual( 2, len( chunk.boundaries ) )
+            self.assertEqual( 2, len( chunk.interpolants ) )
+            self.assertAlmostEqual( 1., chunk.x[0] )
+            self.assertAlmostEqual( 2., chunk.x[1] )
+            self.assertAlmostEqual( 2., chunk.x[2] )
+            self.assertAlmostEqual( 2., chunk.x[3] )
+            self.assertAlmostEqual( 4., chunk.x[4] )
+            self.assertAlmostEqual( 1., chunk.y[0] )
+            self.assertAlmostEqual( 2., chunk.y[1] )
+            self.assertAlmostEqual( 2., chunk.y[2] )      # <-- extraneous point has same y
+            self.assertAlmostEqual( 3., chunk.y[3] )
+            self.assertAlmostEqual( 4., chunk.y[4] )
+            self.assertEqual( 1, chunk.boundaries[0] )
+            self.assertEqual( 4, chunk.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
+            self.assertEqual( True, chunk.is_linearised )
+
+            # verify linearisation: the extraneous point in the jump is removed
+            linear = chunk.linearise()
+
+            self.assertEqual( 4, len( linear.x ) )
+            self.assertEqual( 4, len( linear.y ) )
+            self.assertEqual( 2, len( linear.boundaries ) )
+            self.assertEqual( 2, len( linear.interpolants ) )
+            self.assertAlmostEqual( 1., linear.x[0] )
+            self.assertAlmostEqual( 2., linear.x[1] )
+            self.assertAlmostEqual( 2., linear.x[2] )
+            self.assertAlmostEqual( 4., linear.x[3] )
+            self.assertAlmostEqual( 1., linear.y[0] )
+            self.assertAlmostEqual( 2., linear.y[1] )
+            self.assertAlmostEqual( 3., linear.y[2] )
+            self.assertAlmostEqual( 4., linear.y[3] )
+            self.assertEqual( 1, linear.boundaries[0] )
+            self.assertEqual( 3, linear.boundaries[1] )
+            self.assertEqual( InterpolationType.LinearLinear, linear.interpolants[0] )
+            self.assertEqual( InterpolationType.LinearLinear, linear.interpolants[1] )
+            self.assertEqual( True, linear.is_linearised )
+
+            self.assertAlmostEqual( 1.5, linear( x = 1.5 ) )
+            self.assertAlmostEqual( 3.5, linear( x = 3. ) )
 
         # the data is given explicitly for data without boundaries
         chunk = InterpolationTable( x = [ 1., 2., 3., 4. ],
@@ -1892,6 +2023,20 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
                                                      InterpolationType.LinearLog ] )
 
         verify_chunk6( self, chunk )
+
+        # the data is given explicitly for linearised data with a jump that uses more
+        # than 2 x values
+        chunk = InterpolationTable( x = [ 1., 2., 2., 2., 4. ], # <-- jump of 3 x values
+                                    y = [ 1., 2., 5., 3., 4. ] )
+
+        verify_chunk7( self, chunk )
+
+        # the data is given explicitly for linearised data with a jump that uses more
+        # than 2 x values and the first and second y value in the jump are the same
+        chunk = InterpolationTable( x = [ 1., 2., 2., 2., 4. ], # <-- jump of 3 x values
+                                    y = [ 1., 2., 2., 3., 4. ] ) # <-- extraneous point has same y
+
+        verify_chunk8( self, chunk )
 
     def test_failures( self ) :
 
