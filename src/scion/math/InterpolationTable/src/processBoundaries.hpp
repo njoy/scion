@@ -4,41 +4,61 @@
  *  Curation currently consists of removing extraneous interior points in discontinuities
  *  in the data.
  *
- *  The boundaries array is assumed to already have a boundary indices pointing to the first
- *  point of every jump, so this function only has to reduce the boundary values that come
- *  after a curated jump by the number of points that were removed. This is guaranteed by
- *  processBoundaries() prior to calling this function.
+ *  The boundaries array is assumed to already have a boundary index pointing to the first
+ *  point of every jump. This is guaranteed by processBoundaries() prior to calling this
+ *  function. As a result, only the boundaries need to be checked to find the jumps.
+ *
+ *  The extraneous points are removed in a single pass by moving points that are kept forward
+ *  over the extraneous points. The remaining points at the end are erased.
  */
 static void curateTable( std::vector< X >& x, std::vector< Y >& y,
                          std::vector< std::size_t >& boundaries,
                          std::vector< interpolation::InterpolationType >& /* interpolants */ ) {
 
-  auto xIter = std::adjacent_find( x.begin(), x.end() );
-  auto bIter = boundaries.begin();
-  while ( xIter != x.end() ) {
+  auto xRead = x.begin();
+  auto yRead = y.begin();
+  auto xWrite = x.begin();
+  auto yWrite = y.begin();
+  std::size_t removed = 0;
+  for ( auto& boundary : boundaries ) {
 
-    auto xNext = std::upper_bound( xIter, x.end(), *xIter );
-    auto number = std::distance( xIter, xNext );
+    // the points up to and including the boundary point are kept
+    auto xEnd = std::next( x.begin(), boundary + 1 );
+    auto yEnd = std::next( y.begin(), boundary + 1 );
 
-    if ( number > 2 ) {
+    // look for extraneous points in a jump starting at the boundary point
+    std::size_t extraneous = 0;
+    if ( ( xEnd != x.end() ) && ( *xEnd == *std::prev( xEnd ) ) ) {
 
-      Log::warning( "x = {} is present {} times, extraneous points will be removed", *xIter, number );
+      auto xNext = std::upper_bound( xEnd, x.end(), *xEnd );
+      auto number = std::distance( std::prev( xEnd ), xNext );
+      if ( number > 2 ) {
 
-      std::size_t index = std::distance( x.begin(), xIter );
-      auto yIter = std::next( y.begin(), index );
-      auto yNext = std::next( yIter, number );
-
-      x.erase( std::next( xIter ), std::prev( xNext ) );
-      y.erase( std::next( yIter ), std::prev( yNext ) );
-
-      auto offset = number - 2;
-      bIter = std::upper_bound( bIter, boundaries.end(), index );
-      std::transform( bIter, boundaries.end(), bIter,
-                      [&] ( auto&& boundary ) { return boundary - offset; } );
+        Log::warning( "x = {} is present {} times, extraneous points will be removed", *xEnd, number );
+        extraneous = number - 2;
+      }
     }
 
-    xIter = std::adjacent_find( std::next( xIter ), x.end() );
+    // move the points that are kept (nothing needs to move until a point was removed)
+    if ( removed > 0 ) {
+
+      xWrite = std::move( xRead, xEnd, xWrite );
+      yWrite = std::move( yRead, yEnd, yWrite );
+    }
+    else {
+
+      xWrite = xEnd;
+      yWrite = yEnd;
+    }
+    xRead = std::next( xEnd, extraneous );
+    yRead = std::next( yEnd, extraneous );
+
+    boundary -= removed;
+    removed += extraneous;
   }
+
+  x.erase( xWrite, x.end() );
+  y.erase( yWrite, y.end() );
 }
 
 /**
