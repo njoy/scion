@@ -154,26 +154,28 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
     curateTable( x, f, boundaries, interpolants );
   }
 
-  // check for a jump at the beginning of the table
+  // check for a jump at the beginning of the table (all but the last point are removed)
   xIter = x.begin();
   if ( *xIter == *( std::next( xIter ) ) ) {
 
     Log::warning( "A jump at the beginning of the table (x = {}) has been removed", *xIter );
-    x.erase( x.begin() );
-    f.erase( f.begin() );
+    auto offset = std::distance( x.begin(), std::upper_bound( x.begin(), x.end(), *xIter ) ) - 1;
+    x.erase( x.begin(), std::next( x.begin(), offset ) );
+    f.erase( f.begin(), std::next( f.begin(), offset ) );
     boundaries.erase( boundaries.begin() );
     interpolants.erase( interpolants.begin() );
     std::transform( boundaries.begin(), boundaries.end(), boundaries.begin(),
-                    [] ( auto&& boundary ) { return boundary - 1; } );
+                    [offset] ( auto&& boundary ) { return boundary - offset; } );
   }
 
-  // check for a jump at the end of the table
+  // check for a jump at the end of the table (all but the first point are removed)
   xIter = std::prev( x.end() );
   if ( *xIter == *( std::prev( xIter ) ) ) {
 
     Log::warning( "A jump at the end of the table (x = {}) has been removed", *xIter );
-    x.erase( std::prev( x.end() ) );
-    f.erase( std::prev( f.end() ) );
+    auto offset = std::distance( std::lower_bound( x.begin(), x.end(), *xIter ), x.end() ) - 1;
+    x.erase( std::prev( x.end(), offset ), x.end() );
+    f.erase( std::prev( f.end(), offset ), f.end() );
   }
 
   return { std::move( x ), std::move( f ),
