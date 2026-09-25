@@ -697,6 +697,11 @@ class InterpolationTable:
         The interpolation types of the interpolation regions
         """
     @property
+    def is_curated(self) -> bool:
+        """
+        Flag indicating whether or not the data is curated
+        """
+    @property
     def is_linearised(self) -> bool:
         """
         Flag indicating whether or not the data is linearised

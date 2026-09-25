@@ -106,6 +106,12 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
   )
   .def_property_readonly(
 
+    "is_curated",
+    &Component::isCurated,
+    "Flag indicating whether or not the data is curated"
+  )
+  .def_property_readonly(
+
     "cumulative_integral",
     [] ( const Component& self ) { return self.cumulativeIntegral(); },
     "The cumulative integral of the table over its domain"

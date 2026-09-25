@@ -58,6 +58,7 @@ namespace math {
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
     std::vector< TableVariant > tables_;
+    bool curated_;
 
     /* auxiliary function */
     #include "scion/math/InterpolationTableFunction/src/generateTables.hpp"
@@ -157,14 +158,26 @@ namespace math {
     }
 
     /**
+     *  @brief Return whether or not the data is curated
+     *
+     */
+    bool isCurated() const noexcept {
+
+      return this->curated_;
+    }
+
+    /**
      *  @brief Curate the table
      *
      *  This removes extraneous interior points in discontinuities in the data.
      */
     void curate() {
 
-      curateTable( this->x_, this->f_, this->boundaries_, this->interpolants_ );
-      this->generateTables();
+      if ( ! this->isCurated() ) {
+
+        curateTable( this->x_, this->f_, this->boundaries_, this->interpolants_ );
+        this->generateTables();
+      }
     }
 
     using Parent::operator();
