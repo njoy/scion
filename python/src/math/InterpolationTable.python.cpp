@@ -104,6 +104,12 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     &Component::isLinearised,
     "Flag indicating whether or not the data is linearised"
   )
+  .def_property_readonly(
+
+    "cumulative_integral",
+    [] ( const Component& self ) { return self.cumulativeIntegral(); },
+    "The cumulative integral of the table over its domain"
+  )
   .def(
 
     "curate",

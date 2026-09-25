@@ -54,6 +54,11 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify integration
             self.assertAlmostEqual(  7.5, chunk.integral )
             self.assertAlmostEqual( 16.5 / 7.5, chunk.mean )
+            self.assertEqual( 4, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0. , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 3.5, chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 6. , chunk.cumulative_integral[2] )
+            self.assertAlmostEqual( 7.5, chunk.cumulative_integral[3] )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -630,6 +635,12 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify integration
             self.assertAlmostEqual(  9.5, chunk.integral )
             self.assertAlmostEqual( 22.5 / 9.5, chunk.mean )
+            self.assertEqual( 5, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0. , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 3.5, chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 3.5, chunk.cumulative_integral[2] )
+            self.assertAlmostEqual( 7. , chunk.cumulative_integral[3] )
+            self.assertAlmostEqual( 9.5, chunk.cumulative_integral[4] )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -1266,6 +1277,11 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify integration
             self.assertAlmostEqual(  7.44236295915864, chunk.integral )
             self.assertAlmostEqual( 16.332650114006 / 7.44236295915864, chunk.mean )
+            self.assertEqual( 4, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0.              , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 3.5             , chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 5.96630346237643, chunk.cumulative_integral[2] )
+            self.assertAlmostEqual( 7.44236295915864, chunk.cumulative_integral[3] )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -1512,6 +1528,12 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             # verify integration
             self.assertAlmostEqual(  9.44236295915864, chunk.integral )
             self.assertAlmostEqual( 22.332650114006 / 9.44236295915864, chunk.mean )
+            self.assertEqual( 5, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0.              , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 3.5             , chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 3.5             , chunk.cumulative_integral[2] )
+            self.assertAlmostEqual( 6.96630346237643, chunk.cumulative_integral[3] )
+            self.assertAlmostEqual( 9.44236295915864, chunk.cumulative_integral[4] )
 
             # verify domain comparison
             self.assertEqual( True, chunk.is_inside( 1. ) )
@@ -1766,6 +1788,15 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLog, chunk.interpolants[1] )
             self.assertEqual( False, chunk.is_linearised )
 
+            # verify integration: the extraneous point in the jump has a value
+            self.assertEqual( 6, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0.              , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 3.5             , chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 3.5             , chunk.cumulative_integral[2] ) # <-- extraneous point
+            self.assertAlmostEqual( 3.5             , chunk.cumulative_integral[3] )
+            self.assertAlmostEqual( 6.96630346237643, chunk.cumulative_integral[4] )
+            self.assertAlmostEqual( 9.44236295915864, chunk.cumulative_integral[5] )
+
             # verify linearisation: the extraneous point in the jump is removed
             linear = chunk.linearise()
 
@@ -1847,6 +1878,14 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
             self.assertEqual( True, chunk.is_linearised )
 
+            # verify integration: the extraneous point in the jump has a value
+            self.assertEqual( 5, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0. , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[2] ) # <-- extraneous point
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[3] )
+            self.assertAlmostEqual( 8.5, chunk.cumulative_integral[4] )
+
             # verify linearisation: the extraneous point in the jump is removed
             linear = chunk.linearise()
 
@@ -1893,6 +1932,14 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[0] )
             self.assertEqual( InterpolationType.LinearLinear, chunk.interpolants[1] )
             self.assertEqual( True, chunk.is_linearised )
+
+            # verify integration: the extraneous point in the jump has a value
+            self.assertEqual( 5, len( chunk.cumulative_integral ) )
+            self.assertAlmostEqual( 0. , chunk.cumulative_integral[0] )
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[1] )
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[2] ) # <-- extraneous point
+            self.assertAlmostEqual( 1.5, chunk.cumulative_integral[3] )
+            self.assertAlmostEqual( 8.5, chunk.cumulative_integral[4] )
 
             # verify linearisation: the extraneous point in the jump is removed
             linear = chunk.linearise()

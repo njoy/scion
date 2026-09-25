@@ -2308,6 +2308,19 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
         CHECK( true == linear.isLinearised() );
       } // THEN
+
+      THEN( "the cumulative integral has a value for every x value, including the extraneous "
+            "point in the jump" ) {
+
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 6 == cumulative.size() );
+        CHECK_THAT( 0.              , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[1] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[2] ) ); // <-- extraneous point
+        CHECK_THAT( 3.5             , WithinRel( cumulative[3] ) );
+        CHECK_THAT( 6.96630346237643, WithinRel( cumulative[4] ) );
+        CHECK_THAT( 9.44236295915864, WithinRel( cumulative[5] ) );
+      } // THEN
     } // WHEN
 
     WHEN( "the data is given explicitly and curate is requested" ) {
@@ -2408,6 +2421,20 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
         CHECK( true == linear.isLinearised() );
       } // THEN
+
+      THEN( "the cumulative integral has a value for every x value, including the extraneous "
+            "point in the jump" ) {
+
+        // region 1: ( 1 + 2 ) / 2 = 1.5
+        // region 2: ( 3 + 4 ) * 2 / 2 = 7
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 5 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[2] ) ); // <-- extraneous point
+        CHECK_THAT( 1.5, WithinRel( cumulative[3] ) );
+        CHECK_THAT( 8.5, WithinRel( cumulative[4] ) );
+      } // THEN
     } // WHEN
 
     WHEN( "the data is given explicitly and the first and second y value in the jump are "
@@ -2442,6 +2469,20 @@ SCENARIO( "InterpolationTable" ) {
 
         CHECK_THAT( 1.5, WithinRel( linear( 1.5 ) ) );
         CHECK_THAT( 3.5, WithinRel( linear( 3. ) ) );
+      } // THEN
+
+      THEN( "the cumulative integral has a value for every x value, including the extraneous "
+            "point in the jump" ) {
+
+        // region 1: ( 1 + 2 ) / 2 = 1.5
+        // region 2: ( 3 + 4 ) * 2 / 2 = 7
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 5 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[2] ) ); // <-- extraneous point
+        CHECK_THAT( 1.5, WithinRel( cumulative[3] ) );
+        CHECK_THAT( 8.5, WithinRel( cumulative[4] ) );
       } // THEN
     } // WHEN
   } // GIVEN
