@@ -1866,6 +1866,15 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
 
         verify_chunk6( self, chunk )
 
+        # the data is given explicitly with a jump at the beginning that uses more than 2 x values
+        chunk = InterpolationTable( x = [ 1., 1., 1., 2., 3., 4. ], # <-- jump at beginning
+                                    y = [ 1., 2., 4., 3., 2., 1. ],
+                                    boundaries = [ 3, 5 ],          # <-- pointing to end
+                                    interpolants = [ InterpolationType.LinearLinear,
+                                                     InterpolationType.LinearLog ] )
+
+        verify_chunk6( self, chunk )
+
         # the data is given explicitly with a jump at the end
         chunk = InterpolationTable( x = [ 1., 2., 3., 4., 4. ], # <-- jump at end
                                     y = [ 4., 3., 2., 1., 4. ],
