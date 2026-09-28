@@ -5,7 +5,6 @@ void generateTables() {
   auto xStart = this->x().begin();
   auto fStart = this->f().begin();
   std::size_t nr = this->boundaries().size();
-  bool curated = true;
   for ( std::size_t i = 0; i < nr; ++i ) {
 
     auto xEnd = this->x().begin();
@@ -79,16 +78,11 @@ void generateTables() {
 
         auto iter = std::prev( std::upper_bound( xStart, this->x().end(), *xStart ) );
         auto offset = std::distance( xStart, iter );
-        if ( offset > 0 ) {
-
-          curated = false;
-        }
         std::advance( xStart, offset );
         std::advance( fStart, offset );
       }
     }
   }
 
-  this->curated_ = curated;
   this->tables_ = std::move( tables );
 }

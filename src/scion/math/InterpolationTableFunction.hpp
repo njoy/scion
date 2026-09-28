@@ -176,6 +176,7 @@ namespace math {
       if ( ! this->isCurated() ) {
 
         curateTable( this->x_, this->f_, this->boundaries_, this->interpolants_ );
+        this->curated_ = true;
         this->generateTables();
       }
     }
