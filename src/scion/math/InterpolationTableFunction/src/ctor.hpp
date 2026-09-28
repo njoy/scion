@@ -9,9 +9,11 @@ InterpolationTableFunction() = default;
  *  @param[in] table    the table to be copied
  */
 InterpolationTableFunction( const InterpolationTableFunction& table ) :
-  x_( table.x_ ), f_( table.f_ ),
+  x_( table.x_ ),
+  f_( table.f_ ),
   boundaries_( table.boundaries_ ),
-  interpolants_( table.interpolants_ ) {
+  interpolants_( table.interpolants_ ),
+  curated_( table.curated_ ) {
 
   this->generateTables();
 }
@@ -22,9 +24,11 @@ InterpolationTableFunction( const InterpolationTableFunction& table ) :
  *  @param[in] table    the table to be moved
  */
 InterpolationTableFunction( InterpolationTableFunction&& table ) :
-  x_( std::move( table.x_ ) ), f_( std::move( table.f_ ) ),
+  x_( std::move( table.x_ ) ),
+  f_( std::move( table.f_ ) ),
   boundaries_( std::move( table.boundaries_ ) ),
-  interpolants_( std::move( table.interpolants_ ) ) {
+  interpolants_( std::move( table.interpolants_ ) ),
+  curated_( table.curated_ ) {
 
   this->generateTables();
 }
@@ -43,6 +47,7 @@ InterpolationTableFunction& operator=( const InterpolationTableFunction& base ) 
     this->f_ = base.f_;
     this->boundaries_ = base.boundaries_;
     this->interpolants_ = base.interpolants_;
+    this->curated_ = base.curated_;
     this->generateTables();
   }
   return *this;
@@ -62,6 +67,7 @@ InterpolationTableFunction& operator=( InterpolationTableFunction&& base ) {
     this->f_ = std::move( base.f_ );
     this->boundaries_ = std::move( base.boundaries_ );
     this->interpolants_ = std::move( base.interpolants_ );
+    this->curated_ = base.curated_;
     this->generateTables();
   }
   return *this;

@@ -10,9 +10,12 @@ InterpolationTable() = default;
  */
 InterpolationTable( const InterpolationTable& table ) :
   Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
-  x_( table.x_ ), y_( table.y_ ),
+  x_( table.x_ ),
+  y_( table.y_ ),
   boundaries_( table.boundaries_ ),
-  interpolants_( table.interpolants_ ) {
+  interpolants_( table.interpolants_ ),
+  linearised_( table.linearised_ ),
+  curated_( table.curated_ ) {
 
   this->generateTables();
 }
@@ -24,9 +27,12 @@ InterpolationTable( const InterpolationTable& table ) :
  */
 InterpolationTable( InterpolationTable&& table ) :
   Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
-  x_( std::move( table.x_ ) ), y_( std::move( table.y_ ) ),
+  x_( std::move( table.x_ ) ),
+  y_( std::move( table.y_ ) ),
   boundaries_( std::move( table.boundaries_ ) ),
-  interpolants_( std::move( table.interpolants_ ) ) {
+  interpolants_( std::move( table.interpolants_ ) ),
+  linearised_( table.linearised_ ),
+  curated_( table.curated_ ) {
 
   this->generateTables();
 }
@@ -45,6 +51,8 @@ InterpolationTable& operator=( const InterpolationTable& base ) {
     this->y_ = base.y_;
     this->boundaries_ = base.boundaries_;
     this->interpolants_ = base.interpolants_;
+    this->linearised_ = base.linearised_;
+    this->curated_ = base.curated_;
     this->generateTables();
   }
   return *this;
@@ -64,6 +72,8 @@ InterpolationTable& operator=( InterpolationTable&& base ) {
     this->y_ = std::move( base.y_ );
     this->boundaries_ = std::move( base.boundaries_ );
     this->interpolants_ = std::move( base.interpolants_ );
+    this->linearised_ = base.linearised_;
+    this->curated_ = base.curated_;
     this->generateTables();
   }
   return *this;
