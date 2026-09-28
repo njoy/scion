@@ -54,19 +54,30 @@ namespace math {
                              LogLinearTable< X, Y, XContainer, YContainer >,
                              LogLogTable< X, Y, XContainer, YContainer > >;
 
+    struct ProcessedData {
+
+      std::vector< X > x;
+      std::vector< Y > y;
+      std::vector< std::size_t > boundaries;
+      std::vector< interpolation::InterpolationType > interpolants;
+      bool linearised;
+      bool curated;
+    };
+
     /* fields */
     std::vector< X > x_;
     std::vector< Y > y_;
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
-    std::vector< TableVariant > tables_;
     bool linearised_;
     bool curated_;
+
+    std::vector< TableVariant > tables_;
 
     /* auxiliary function */
     #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
-    #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
+    #include "scion/math/InterpolationTable/src/processData.hpp"
 
     /**
      *  @brief Return the interpolation tables

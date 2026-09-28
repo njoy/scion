@@ -5,7 +5,7 @@
  *  in the data.
  *
  *  The boundaries array is assumed to already have a boundary index pointing to the first
- *  point of every jump. This is guaranteed by processBoundaries() prior to calling this
+ *  point of every jump. This is guaranteed by processData() prior to calling this
  *  function. As a result, only the boundaries need to be checked to find the jumps.
  *
  *  The extraneous points are removed in a single pass by moving points that are kept forward
@@ -89,16 +89,11 @@ static void curateTable( std::vector< X >& x, std::vector< Y >& y,
  *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
  *  point of the jump.
  */
-static std::tuple< std::vector< X >,
-                   std::vector< Y >,
-                   std::vector< std::size_t >,
-                   std::vector< interpolation::InterpolationType >,
-                   bool,
-                   bool >
-processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
-                   std::vector< std::size_t >&& boundaries,
-                   std::vector< interpolation::InterpolationType >&& interpolants,
-                   bool curate = false ) {
+static ProcessedData
+processData( std::vector< X >&& x, std::vector< Y >&& y,
+             std::vector< std::size_t >&& boundaries,
+             std::vector< interpolation::InterpolationType >&& interpolants,
+             bool curate = false ) {
 
   if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
        ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
@@ -217,17 +212,12 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
            linearised, curated };
 }
 
-static std::tuple< std::vector< X >,
-                   std::vector< Y >,
-                   std::vector< std::size_t >,
-                   std::vector< interpolation::InterpolationType >,
-                   bool,
-                   bool >
-processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
-                   interpolation::InterpolationType interpolant,
-                   bool curate = false ) {
+static ProcessedData
+processData( std::vector< X >&& x, std::vector< Y >&& y,
+             interpolation::InterpolationType interpolant,
+             bool curate = false ) {
 
-  return processBoundaries( std::move( x ), std::move( y ),
-                            { x.size() > 0 ? x.size() - 1 : 0 },
-                            { interpolant }, curate );
+  return processData( std::move( x ), std::move( y ),
+                      { x.size() > 0 ? x.size() - 1 : 0 },
+                      { interpolant }, curate );
 }

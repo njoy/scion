@@ -76,18 +76,16 @@ InterpolationTableFunction& operator=( InterpolationTableFunction&& base ) {
 private:
 
 /**
- *  @brief Private constructor
+ *  @brief Constructor
+ *
+ *  @param data   the processed tabulated data
  */
-InterpolationTableFunction(
-    std::tuple< std::vector< X >,
-                std::vector< F >,
-                std::vector< std::size_t >,
-                std::vector< interpolation::InterpolationType >,
-                bool >&& data ) :
-  x_( std::move( std::get< 0 >( data ) ) ), f_( std::move( std::get< 1 >( data ) ) ),
-  boundaries_( std::move( std::get< 2 >( data ) ) ),
-  interpolants_( std::move( std::get< 3 >( data ) ) ),
-  curated_( std::get< 4 >( data ) ) {
+InterpolationTableFunction( ProcessedData&& data ) :
+  x_( std::move( data.x ) ),
+  f_( std::move( data.f ) ),
+  boundaries_( std::move( data.boundaries ) ),
+  interpolants_( std::move( data.interpolants ) ),
+  curated_( data.curated ) {
 
   this->generateTables();
 }
@@ -107,9 +105,9 @@ InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
                             std::vector< std::size_t > boundaries,
                             std::vector< interpolation::InterpolationType > interpolants,
                             bool curate = false ) :
-  InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ),
-                                                 std::move( boundaries ),
-                                                 std::move( interpolants ), curate ) ) {}
+  InterpolationTableFunction( processData( std::move( x ), std::move( f ),
+                                           std::move( boundaries ),
+                                           std::move( interpolants ), curate ) ) {}
 
 /**
  *  @brief Constructor for tabulated data in a single interpolation zone
@@ -123,4 +121,4 @@ InterpolationTableFunction( std::vector< X > x, std::vector< F > f,
                             interpolation::InterpolationType interpolant =
                                 interpolation::InterpolationType::LinearLinear,
                             bool curate = false ) :
-  InterpolationTableFunction( processBoundaries( std::move( x ), std::move( f ), interpolant, curate ) ) {}
+  InterpolationTableFunction( processData( std::move( x ), std::move( f ), interpolant, curate ) ) {}
