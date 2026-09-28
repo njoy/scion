@@ -76,10 +76,12 @@ InterpolationTableFunction(
     std::tuple< std::vector< X >,
                 std::vector< F >,
                 std::vector< std::size_t >,
-                std::vector< interpolation::InterpolationType > >&& data ) :
+                std::vector< interpolation::InterpolationType >,
+                bool >&& data ) :
   x_( std::move( std::get< 0 >( data ) ) ), f_( std::move( std::get< 1 >( data ) ) ),
   boundaries_( std::move( std::get< 2 >( data ) ) ),
-  interpolants_( std::move( std::get< 3 >( data ) ) ) {
+  interpolants_( std::move( std::get< 3 >( data ) ) ),
+  curated_( std::get< 4 >( data ) ) {
 
   this->generateTables();
 }

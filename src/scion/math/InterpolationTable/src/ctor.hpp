@@ -83,11 +83,14 @@ InterpolationTable(
     std::tuple< std::vector< X >,
                 std::vector< Y >,
                 std::vector< std::size_t >,
-                std::vector< interpolation::InterpolationType > >&& data ) :
+                std::vector< interpolation::InterpolationType >,
+                bool,
+                bool >&& data ) :
   Parent( IntervalDomain( std::get< 0 >( data ).front(), std::get< 0 >( data ).back() ) ),
   x_( std::move( std::get< 0 >( data ) ) ), y_( std::move( std::get< 1 >( data ) ) ),
   boundaries_( std::move( std::get< 2 >( data ) ) ),
-  interpolants_( std::move( std::get< 3 >( data ) ) ) {
+  interpolants_( std::move( std::get< 3 >( data ) ) ),
+  linearised_( std::get< 4 >( data ) ), curated_( std::get< 5 >( data ) ) {
 
   this->generateTables();
 }

@@ -92,7 +92,8 @@ static void curateTable( std::vector< X >& x, std::vector< F >& f,
 static std::tuple< std::vector< X >,
                    std::vector< F >,
                    std::vector< std::size_t >,
-                   std::vector< interpolation::InterpolationType > >
+                   std::vector< interpolation::InterpolationType >,
+                   bool >
 processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
                    std::vector< std::size_t >&& boundaries,
                    std::vector< interpolation::InterpolationType >&& interpolants,
@@ -138,6 +139,8 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
     throw std::exception();
   }
 
+  bool curated = true;
+
   auto xIter = std::adjacent_find( x.begin(), x.end() );
   auto bIter = boundaries.begin();
   auto iIter = interpolants.begin();
@@ -146,6 +149,11 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
     // determine the next x value
     auto xNext = std::upper_bound( xIter, x.end(), *xIter );
     auto number = std::distance( xIter, xNext );
+
+    if ( ( xIter != x.begin() ) && ( xNext != x.end() ) && ( number > 2 ) ) {
+
+      curated = false;
+    }
 
     // set the boundary for this jump, insert it if necessary
     // index is always positive since xIter is x.begin() or higher iterator
@@ -172,6 +180,7 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
   if ( curate ) {
 
     curateTable( x, f, boundaries, interpolants );
+    curated = true;
   }
 
   // check for a jump at the beginning of the table (all but the last point are removed)
@@ -199,13 +208,15 @@ processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
   }
 
   return { std::move( x ), std::move( f ),
-           std::move( boundaries ), std::move( interpolants ) };
+           std::move( boundaries ), std::move( interpolants ),
+           curated };
 }
 
 static std::tuple< std::vector< X >,
                    std::vector< F >,
                    std::vector< std::size_t >,
-                   std::vector< interpolation::InterpolationType > >
+                   std::vector< interpolation::InterpolationType >,
+                   bool >
 processBoundaries( std::vector< X >&& x, std::vector< F >&& f,
                    interpolation::InterpolationType interpolant,
                    bool curate = false ) {
