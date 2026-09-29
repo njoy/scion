@@ -80,9 +80,9 @@ private:
  *
  *  @param data   the processed tabulated data
  */
-InterpolationTableFunction( ProcessedData&& data ) :
+InterpolationTableFunction( ProcessedData< X, F >&& data ) :
   x_( std::move( data.x ) ),
-  f_( std::move( data.f ) ),
+  f_( std::move( data.y ) ),
   boundaries_( std::move( data.boundaries ) ),
   interpolants_( std::move( data.interpolants ) ),
   curated_( data.curated ) {

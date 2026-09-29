@@ -13,7 +13,6 @@
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/unionisation/Unioniser.hpp"
-#include "scion/math/newton.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
@@ -21,6 +20,7 @@
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
 #include "scion/math/IntervalDomain.hpp"
+#include "scion/math/ProcessedData.hpp"
 #include "scion/verification/ranges.hpp"
 
 #include "scion/math/ConstantWeightFunction.hpp"
@@ -53,16 +53,6 @@ namespace math {
                              LinearLogTable< X, Y, XContainer, YContainer >,
                              LogLinearTable< X, Y, XContainer, YContainer >,
                              LogLogTable< X, Y, XContainer, YContainer > >;
-
-    struct ProcessedData {
-
-      std::vector< X > x;
-      std::vector< Y > y;
-      std::vector< std::size_t > boundaries;
-      std::vector< interpolation::InterpolationType > interpolants;
-      bool linearised;
-      bool curated;
-    };
 
     /* fields */
     std::vector< X > x_;

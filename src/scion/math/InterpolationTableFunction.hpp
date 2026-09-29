@@ -11,6 +11,7 @@
 #include "tools/Log.hpp"
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
+#include "scion/math/ProcessedData.hpp"
 #include "scion/math/TwoDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTableFunction.hpp"
 #include "scion/math/LinearLinearTableFunction.hpp"
@@ -51,15 +52,6 @@ namespace math {
                              LinearLogTableFunction< X, F, XContainer, FContainer >,
                              LogLinearTableFunction< X, F, XContainer, FContainer >,
                              LogLogTableFunction< X, F, XContainer, FContainer > >;
-
-    struct ProcessedData {
-
-      std::vector< X > x;
-      std::vector< F > f;
-      std::vector< std::size_t > boundaries;
-      std::vector< interpolation::InterpolationType > interpolants;
-      bool curated;
-    };
 
     /* fields */
     std::vector< X > x_;

@@ -89,7 +89,7 @@ static void curateTable( std::vector< X >& x, std::vector< Y >& y,
  *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
  *  point of the jump.
  */
-static ProcessedData
+static ProcessedData< X, Y >
 processData( std::vector< X >&& x, std::vector< Y >&& y,
              std::vector< std::size_t >&& boundaries,
              std::vector< interpolation::InterpolationType >&& interpolants,
@@ -212,7 +212,7 @@ processData( std::vector< X >&& x, std::vector< Y >&& y,
            linearised, curated };
 }
 
-static ProcessedData
+static ProcessedData< X, Y >
 processData( std::vector< X >&& x, std::vector< Y >&& y,
              interpolation::InterpolationType interpolant,
              bool curate = false ) {

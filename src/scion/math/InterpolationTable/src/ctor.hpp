@@ -86,7 +86,7 @@ private:
  *
  *  @param data   the processed tabulated data
  */
-InterpolationTable( ProcessedData&& data ) :
+InterpolationTable( ProcessedData< X, Y >&& data ) :
   Parent( IntervalDomain( data.x.front(), data.x.back() ) ),
   x_( std::move( data.x ) ),
   y_( std::move( data.y ) ),
