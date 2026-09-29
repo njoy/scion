@@ -32,10 +32,12 @@ namespace math {
                             X, Y, XContainer, YContainer > {
 
     /* friend declarations */
+
     friend class SingleTableBase< LinearLinearTable< X, Y, XContainer, YContainer >,
                                   X, Y, XContainer, YContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableBase< LinearLinearTable< X, Y, XContainer, YContainer >,
                                     X, Y, XContainer, YContainer >;
 
@@ -72,7 +74,21 @@ namespace math {
   public:
 
     /* constructor */
-    #include "scion/math/LinearLinearTable/src/ctor.hpp"
+
+    LinearLinearTable( const LinearLinearTable& ) = default;
+    LinearLinearTable( LinearLinearTable&& ) = default;
+
+    LinearLinearTable& operator=( const LinearLinearTable& ) = default;
+    LinearLinearTable& operator=( LinearLinearTable&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   the x values of the tabulated data
+     *  @param y   the y values of the tabulated data
+     */
+    LinearLinearTable( XContainer x, YContainer y ) :
+      Parent( std::move( x ), std::move( y ) ) {}
 
     /* methods */
 

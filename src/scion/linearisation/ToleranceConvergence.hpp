@@ -26,12 +26,15 @@ namespace linearisation {
   class ToleranceConvergence : public ConvergenceBase< ToleranceConvergence< X, Y >, X, Y > {
 
     /* friend declarations */
+
     friend class ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
 
     /* type aliases */
+
     using Parent = ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
 
     /* fields */
+
     Y tolerance_;
     Y threshold_;
 
@@ -64,7 +67,16 @@ namespace linearisation {
   public:
 
     /* constructor */
-    #include "scion/linearisation/ToleranceConvergence/src/ctor.hpp"
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param tolerance   the linearisation tolerance
+     *  @param threshold   the lowest allowed absolute difference
+     */
+    ToleranceConvergence( const Y& tolerance = Y( 0.001 ),
+                          const Y& threshold = Y( 1e-10 ) ) :
+      tolerance_( tolerance ), threshold_( threshold ) {}
 
     /* methods */
 

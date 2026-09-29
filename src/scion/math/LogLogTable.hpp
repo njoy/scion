@@ -31,10 +31,12 @@ namespace math {
                             X, Y, XContainer, YContainer > {
 
     /* friend declarations */
+
     friend class SingleTableBase< LogLogTable< X, Y, XContainer, YContainer >,
                                   X, Y, XContainer, YContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableBase< LogLogTable< X, Y, XContainer, YContainer >,
                                     X, Y, XContainer, YContainer >;
 
@@ -71,7 +73,21 @@ namespace math {
   public:
 
     /* constructor */
-    #include "scion/math/LogLogTable/src/ctor.hpp"
+
+    LogLogTable( const LogLogTable& ) = default;
+    LogLogTable( LogLogTable&& ) = default;
+
+    LogLogTable& operator=( const LogLogTable& ) = default;
+    LogLogTable& operator=( LogLogTable&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   the x values of the tabulated data
+     *  @param y   the y values of the tabulated data
+     */
+    LogLogTable( XContainer x, YContainer y ) :
+      Parent( std::move( x ), std::move( y ) ) {}
 
     /* methods */
 

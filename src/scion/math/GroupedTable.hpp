@@ -35,14 +35,123 @@ namespace math {
 
     /* auxiliary functions */
 
-    #include "scion/math/GroupedTable/src/operation.hpp"
-    #include "scion/math/GroupedTable/src/verifyTable.hpp"
+    /**
+     *  @brief Apply a binary operation involving a scalar of type Y
+     *
+     *  This function is applied to addition and subtraction
+     */
+    template < typename BinaryOperation >
+    GroupedTable&
+    operationForAdditionAndSubtraction( const Y& right, BinaryOperation operation ) {
+
+      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
+                      [&right, &operation] ( auto&& y )
+                                           { return operation( y, right ); } );
+
+      return *this;
+    }
+
+    /**
+     *  @brief Apply a binary operation involving a scalar
+     *
+     *  This function is applied to division and multiplication
+     */
+    template < typename S, typename BinaryOperation >
+    GroupedTable&
+    operation( const S& right, BinaryOperation operation ) {
+
+      std::transform( this->y_.cbegin(), this->y_.cend(), this->y_.begin(),
+                      [&right, &operation] ( auto&& y )
+                                           { return operation( y, right ); } );
+
+      return *this;
+    }
+
+    /**
+     *  @brief Apply a binary operation involving another GroupedTable
+     *
+     *  This function is applied to addition and subtraction
+     */
+    template < typename BinaryOperation >
+    GroupedTable&
+    operation( const GroupedTable& right, BinaryOperation operation ) {
+
+      // we can only perform the operation if they have the same boundaries
+      if ( this->boundaries() == right.boundaries() ) {
+
+        std::transform( this->y_.cbegin(), this->y_.cend(), right.y_.begin(),
+                        this->y_.begin(), operation );
+
+        return *this;
+      }
+      else {
+
+        Log::error( "The operation cannot be performed because both tables do not have the "
+                    "same boundaries" );
+        Log::info( "left number of groups: {}", this->numberGroups() );
+        Log::info( "right number of groups: {}", right.numberGroups() );
+        throw std::exception();
+      }
+    }
+
+    void verifyTable( ) {
+
+      // check sizes - there must be at least two boundaries
+      if ( ! verification::isAtLeastOfSize( this->boundaries(), 2 )  ) {
+
+        Log::error( "Insufficient boundary values defined for grouped data "
+                "(at least 2 values are required)" );
+        Log::info( "Boundary size: {}", this->boundaries().size() );
+        throw std::exception();
+      }
+
+      // check sizes - bounds must be one longer than values
+      if ( this->boundaries().size() != this->values().size() + 1 ) {
+
+        Log::error( "Inconsistent boundaries and values defined for grouped data "
+                "(number of boundaries must be one greater than number of values)" );
+        Log::info( "Boundaries: {}", this->boundaries().size() );
+        Log::info( "Values: {}", this->values().size() );
+        throw std::exception();
+      }
+
+      // check that the energy values are all increasing, with
+      // no repeated values
+      if ( ! verification::isSorted( this->boundaries() ) ) {
+
+        Log::error( "The boundary values do not appear to be in ascending order." );
+        throw std::exception();
+      }
+
+      if ( ! verification::isUnique( this->boundaries() ) ) {
+
+        Log::error( "The boundary values do not appear to be in unique." );
+        throw std::exception();
+      }
+    }
 
   public:
 
     /* constructor */
 
-    #include "scion/math/GroupedTable/src/ctor.hpp"
+    /**
+     *  @brief Default constructor (for pybind11 purposes only)
+     */
+    GroupedTable() = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param boundaries   the group boundaries (size n)
+     *  @param values       the grouped values (size n-1)
+     *
+     */
+    GroupedTable( std::vector< X > boundaries,
+                  std::vector< Y > values ) :
+        x_( std::move( boundaries ) ), y_( std::move( values ) ) {
+
+      this->verifyTable();
+    }
 
     /* methods */
 
@@ -175,6 +284,7 @@ namespace math {
       result *= -1;
       return result;
     }
+
     /**
      *  @brief Inplace GroupedTable addition
      *

@@ -32,10 +32,12 @@ namespace math {
                             X, Y, XContainer, YContainer > {
 
     /* friend declarations */
+
     friend class SingleTableBase< HistogramTable< X, Y, XContainer, YContainer >,
                                   X, Y, XContainer, YContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableBase< HistogramTable< X, Y, XContainer, YContainer >,
                                     X, Y, XContainer, YContainer >;
 
@@ -79,7 +81,20 @@ namespace math {
 
     /* constructor */
 
-    #include "scion/math/HistogramTable/src/ctor.hpp"
+    HistogramTable( const HistogramTable& ) = default;
+    HistogramTable( HistogramTable&& ) = default;
+
+    HistogramTable& operator=( const HistogramTable& ) = default;
+    HistogramTable& operator=( HistogramTable&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   the x values of the tabulated data
+     *  @param y   the y values of the tabulated data
+     */
+    HistogramTable( XContainer x, YContainer y ) :
+      Parent( std::move( x ), std::move( y ) ) {}
 
     /* methods */
 
@@ -88,7 +103,29 @@ namespace math {
     using Parent::y;
     using Parent::numberPoints;
 
-    #include "scion/math/HistogramTable/src/linearise.hpp"
+    /**
+     *  @brief Linearise the table and return a LinearLinearTable
+     *
+     *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
+     */
+    template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
+    std::pair< std::vector< X >, std::vector< Y > >
+    linearise( Convergence&& = Convergence() ) const {
+
+      std::vector< X > x = { this->x().front() };
+      std::vector< Y > y = { this->y().front() };
+      for ( unsigned int i = 1; i < this->x().size(); ++i ) {
+
+        x.push_back( this->x()[i] );
+        x.push_back( this->x()[i] );
+        y.push_back( this->y()[i-1] );
+        y.push_back( this->y()[i] );
+      }
+      x.pop_back();
+      y.pop_back();
+
+      return std::make_pair( std::move( x ), std::move( y ) );
+    }
 
     using Parent::domain;
     using Parent::operator();

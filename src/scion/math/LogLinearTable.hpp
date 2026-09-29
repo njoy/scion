@@ -31,10 +31,12 @@ namespace math {
                             X, Y, XContainer, YContainer > {
 
     /* friend declarations */
+
     friend class SingleTableBase< LogLinearTable< X, Y, XContainer, YContainer >,
                                   X, Y, XContainer, YContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableBase< LogLinearTable< X, Y, XContainer, YContainer >,
                                     X, Y, XContainer, YContainer >;
 
@@ -71,7 +73,21 @@ namespace math {
   public:
 
     /* constructor */
-    #include "scion/math/LogLinearTable/src/ctor.hpp"
+
+    LogLinearTable( const LogLinearTable& ) = default;
+    LogLinearTable( LogLinearTable&& ) = default;
+
+    LogLinearTable& operator=( const LogLinearTable& ) = default;
+    LogLinearTable& operator=( LogLinearTable&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   the x values of the tabulated data
+     *  @param y   the y values of the tabulated data
+     */
+    LogLinearTable( XContainer x, YContainer y ) :
+      Parent( std::move( x ), std::move( y ) ) {}
 
     /* methods */
 
