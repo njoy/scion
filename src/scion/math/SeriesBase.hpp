@@ -30,6 +30,7 @@ namespace math {
   class SeriesBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
     /* type aliases */
+
     using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
 
   public:
@@ -43,17 +44,82 @@ namespace math {
   private:
 
     /* fields */
+
     std::vector< Y > coefficients_;
 
     /* auxiliary function */
-    #include "scion/math/SeriesBase/src/verifyCoefficients.hpp"
-    #include "scion/math/SeriesBase/src/trimCoefficients.hpp"
+
+    static void verifyCoefficients( const std::vector< Y >& coefficients ) {
+
+      if ( verification::isEmpty( coefficients ) ) {
+
+        Log::error( "No coefficients defined for a series expansion" );
+        throw std::exception();
+      }
+    }
+
+    void trimCoefficients() {
+
+      // this removes trailing zeros in the coefficients
+      // if all coefficients are zero, it leaves a single order 0 coefficient
+      // equal to zero
+
+      if ( Y( 0. ) == this->coefficients().back() ) {
+
+        const auto iter =
+        std::find_if( this->coefficients().rbegin(), this->coefficients().rend(),
+                      [] ( auto&& coefficient ) { return coefficient != Y( 0. ); } );
+        this->coefficients_.erase( iter.base(), this->coefficients_.end() );
+        if ( this->coefficients_.size() == 0 ) {
+
+          this->coefficients_.push_back( Y( 0. ) );
+        }
+      }
+    }
 
   protected:
 
     /* constructor */
 
-    #include "scion/math/SeriesBase/src/ctor.hpp"
+    /**
+     *  @brief Default constructor (for pybind11 purposes only)
+     */
+    SeriesBase() = default;
+
+    SeriesBase( const SeriesBase& ) = default;
+    SeriesBase( SeriesBase&& ) = default;
+
+    SeriesBase& operator=( const SeriesBase& ) = default;
+    SeriesBase& operator=( SeriesBase&& ) = default;
+
+    /**
+     *  @brief Assignment operator
+     *
+     *  @param coefficient   the zero order coefficient
+     */
+    Derived& operator=( const Y& value ) {
+
+      this->coefficients_ = { value };
+      return *static_cast< Derived* >( this );
+    }
+
+    /**
+     *  @brief Constructor
+     *
+     *  There must be at least 1 coefficient. Trailing zeros in the coefficients are
+     *  removed (if all are zero, a single zero coefficient will remain).
+     *
+     *  @param coefficients   the coefficients of the series (from lowest to highest
+     *                        order coefficient)
+     *  @param domain         the domain of the series
+     */
+    SeriesBase( DomainVariant domain, std::vector< Y > coefficients ) :
+      Parent( std::move( domain ) ),
+      coefficients_( std::move( coefficients ) ) {
+
+      verifyCoefficients( this->coefficients() );
+      this->trimCoefficients();
+    }
 
   public:
 
@@ -75,10 +141,122 @@ namespace math {
       return this->coefficients().size() - 1;
     }
 
-    #include "scion/math/SeriesBase/src/roots.hpp"
-    #include "scion/math/SeriesBase/src/derivative.hpp"
-    #include "scion/math/SeriesBase/src/primitive.hpp"
-    #include "scion/math/SeriesBase/src/linearise.hpp"
+    /**
+     *  @brief Calculate the real roots of the series so that f(x) = a
+     *
+     *  This function calculates all roots on the real axis of the series.
+     *
+     *  The roots of the series are the eigenvalues of the companion matrix whose
+     *  elements are trivial functions of the coefficients of the series. The
+     *  resulting roots are in the complex plane so the roots that are not on the
+     *  real axis are filtered out.
+     *
+     *  @param[in] a   the value of a (default is zero)
+     */
+    std::vector< X > roots( const Y& a = Y( 0. ) ) const {
+
+      std::vector< X > roots;
+      roots.reserve( this->order() );
+
+      if ( 1 == this->order() ) {
+
+        roots.emplace_back( - ( this->coefficients()[0] - a ) / this->coefficients()[1] );
+      }
+      else if ( 1 < this->order() ) {
+
+        Eigen::EigenSolver< Matrix< Y > >
+        solver( static_cast< const Derived* >( this )->companionMatrix( a ), false );
+
+        Derived derivative = this->derivative();
+        auto functor = [&a, this] ( const X& x ) { return ( *this )( x ) - a; };
+
+        for ( const auto& value : solver.eigenvalues() ) {
+
+          if ( isCloseToZero( value.imag() ) ) {
+
+            roots.emplace_back( !isCloseToZero( derivative( value.real() ) )
+                                ? newton( value.real(), functor, derivative )
+                                : value.real() );
+          }
+        }
+
+        std::sort( roots.begin(), roots.end() );
+        roots.erase( std::unique( roots.begin(), roots.end() ), roots.end() );
+      }
+
+      return roots;
+    }
+
+    /**
+     *  @brief Return the derivative of the series
+     */
+    Derived derivative() const {
+
+      const unsigned int order = this->order();
+      if ( 0 == order ) {
+
+        return Derived( SeriesBase( this->domain(), { Y( 0. ) } ) );
+      }
+      else {
+
+        return static_cast< const Derived* >( this )->calculateDerivative();
+      }
+    }
+
+    /**
+     *  @brief Return the primitive (or antiderivative) of the series
+     *
+     *  @param[in] left    the left bound of the integral (default = 0)
+     */
+    Derived primitive( const X& left = X( 0. ) ) const {
+
+      return static_cast< const Derived* >( this )->calculatePrimitive( left );
+    }
+
+    /**
+     *  @brief Linearise the series and return a LinearLinearTable
+     *
+     *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
+     */
+    template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
+    InterpolationTable< X, Y > linearise( Convergence&& convergence = Convergence() ) const {
+
+      if ( ! std::holds_alternative< IntervalDomain< X > >( this->domain() ) ) {
+
+        Log::error( "Cannot linearise the series because it does not have an "
+                    "interval domain" );
+        throw std::exception();
+      }
+
+      const auto domain = std::get< IntervalDomain< X > >( this->domain() );
+
+      if ( 0 == this->order() ) {
+
+        return InterpolationTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
+                                           { this->coefficients().front(),
+                                             this->coefficients().front() } );
+      }
+      else if ( 1 == this->order() ) {
+
+        const auto a = this->coefficients().back();
+        const auto b = this->coefficients().front();
+        return InterpolationTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
+                                           { a * domain.lowerLimit() + b,
+                                             a * domain.upperLimit() + b } );
+      }
+      else {
+
+        std::vector< X > x;
+        std::vector< Y > y;
+        linearisation::Lineariser lineariser( x, y );
+        lineariser( linearisation::grid( *this, domain.lowerLimit(), domain.upperLimit() ),
+                    *this,
+                    std::forward< Convergence >( convergence ),
+                    linearisation::MidpointSplit< X >() );
+
+        return InterpolationTable< X, Y >( std::move( x ), std::move( y ) );
+      }
+    }
 
     /**
      *  @brief Calculate the integral over the series domain
