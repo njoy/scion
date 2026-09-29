@@ -13,7 +13,6 @@
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/unionisation/Unioniser.hpp"
-#include "scion/math/newton.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
@@ -21,6 +20,7 @@
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
 #include "scion/math/IntervalDomain.hpp"
+#include "scion/math/ProcessedData.hpp"
 #include "scion/verification/ranges.hpp"
 
 #include "scion/math/ConstantWeightFunction.hpp"
@@ -55,16 +55,6 @@ namespace math {
                              LinearLogTable< X, Y, XContainer, YContainer >,
                              LogLinearTable< X, Y, XContainer, YContainer >,
                              LogLogTable< X, Y, XContainer, YContainer > >;
-
-    struct ProcessedData {
-
-      std::vector< X > x;
-      std::vector< Y > y;
-      std::vector< std::size_t > boundaries;
-      std::vector< interpolation::InterpolationType > interpolants;
-      bool linearised;
-      bool curated;
-    };
 
     /* fields */
 
@@ -347,7 +337,7 @@ namespace math {
      *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
      *  point of the jump.
      */
-    static ProcessedData
+    static ProcessedData< X, Y >
     processData( std::vector< X >&& x, std::vector< Y >&& y,
                  std::vector< std::size_t >&& boundaries,
                  std::vector< interpolation::InterpolationType >&& interpolants,
@@ -470,7 +460,7 @@ namespace math {
                linearised, curated };
     }
 
-    static ProcessedData
+    static ProcessedData< X, Y >
     processData( std::vector< X >&& x, std::vector< Y >&& y,
                  interpolation::InterpolationType interpolant,
                  bool curate = false ) {
@@ -529,7 +519,7 @@ namespace math {
      *
      *  @param data   the processed tabulated data
      */
-    InterpolationTable( ProcessedData&& data ) :
+    InterpolationTable( ProcessedData< X, Y >&& data ) :
       Parent( IntervalDomain( data.x.front(), data.x.back() ) ),
       x_( std::move( data.x ) ),
       y_( std::move( data.y ) ),

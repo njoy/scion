@@ -11,6 +11,7 @@
 #include "tools/Log.hpp"
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
+#include "scion/math/ProcessedData.hpp"
 #include "scion/math/TwoDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTableFunction.hpp"
 #include "scion/math/LinearLinearTableFunction.hpp"
@@ -53,15 +54,6 @@ namespace math {
                              LinearLogTableFunction< X, F, XContainer, FContainer >,
                              LogLinearTableFunction< X, F, XContainer, FContainer >,
                              LogLogTableFunction< X, F, XContainer, FContainer > >;
-
-    struct ProcessedData {
-
-      std::vector< X > x;
-      std::vector< F > f;
-      std::vector< std::size_t > boundaries;
-      std::vector< interpolation::InterpolationType > interpolants;
-      bool curated;
-    };
 
     /* fields */
 
@@ -255,7 +247,7 @@ namespace math {
      *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
      *  point of the jump.
      */
-    static ProcessedData
+    static ProcessedData< X, F >
     processData( std::vector< X >&& x, std::vector< F >&& f,
                  std::vector< std::size_t >&& boundaries,
                  std::vector< interpolation::InterpolationType >&& interpolants,
@@ -371,10 +363,10 @@ namespace math {
 
       return { std::move( x ), std::move( f ),
                std::move( boundaries ), std::move( interpolants ),
-               curated };
+               false, curated };
     }
 
-    static ProcessedData
+    static ProcessedData< X, F >
     processData( std::vector< X >&& x, std::vector< F >&& f,
                  interpolation::InterpolationType interpolant,
                  bool curate = false ) {
@@ -434,9 +426,9 @@ namespace math {
      *
      *  @param data   the processed tabulated data
      */
-    InterpolationTableFunction( ProcessedData&& data ) :
+    InterpolationTableFunction( ProcessedData< X, F >&& data ) :
       x_( std::move( data.x ) ),
-      f_( std::move( data.f ) ),
+      f_( std::move( data.y ) ),
       boundaries_( std::move( data.boundaries ) ),
       interpolants_( std::move( data.interpolants ) ),
       curated_( data.curated ) {
