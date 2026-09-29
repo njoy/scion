@@ -13,6 +13,7 @@
 #include "scion/math/InterpolationTable.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/compare.hpp"
+#include "scion/math/newton.hpp"
 #include "scion/verification/ranges.hpp"
 
 namespace njoy {
