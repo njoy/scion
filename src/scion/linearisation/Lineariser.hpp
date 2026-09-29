@@ -42,25 +42,129 @@ namespace linearisation {
   class Lineariser {
 
     /* type aliases */
+
     using X = typename std::decay< typename XContainer::value_type >::type;
     using Y = typename std::decay< typename YContainer::value_type >::type;
 
     /* fields */
+
     std::reference_wrapper< XContainer > x_;
     std::reference_wrapper< YContainer > y_;
     std::vector< X > xbuffer_;
     std::vector< Y > ybuffer_;
 
     /* auxiliary function */
-    #include "scion/linearisation/Lineariser/src/panel.hpp"
+
+    template< typename Functor, typename Convergence, typename Split >
+    void panel( X xLeft, X xRight, Y yLeft, Y yRight,
+            	  Functor&& functor, Convergence&& criterion, Split&& split ) {
+
+      while ( true ) {
+
+        const X point = split( xLeft, xRight, yLeft, yRight );
+        const Y trial = interpolation::linlin( point, xLeft, xRight, yLeft, yRight );
+        const Y reference = functor( point );
+
+        if ( criterion( trial, reference, xLeft, xRight, yLeft, yRight ) ) {
+
+          this->x_.get().push_back( xLeft );
+          this->y_.get().push_back( yLeft );
+          if ( ! this->xbuffer_.size() ) {
+
+            break;
+          }
+
+          std::swap( xLeft, xRight );
+          std::swap( yLeft, yRight );
+          xRight = this->xbuffer_.back();
+          yRight = this->ybuffer_.back();
+          this->xbuffer_.pop_back();
+          this->ybuffer_.pop_back();
+        }
+        else {
+
+          this->xbuffer_.push_back( xRight );
+          this->ybuffer_.push_back( yRight );
+          xRight = point;
+          yRight = reference;
+        }
+      }
+    }
 
   public:
 
     /* constructor */
-    #include "scion/linearisation/Lineariser/src/ctor.hpp"
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   a reference to the container where the x values are to be stored
+     *  @param y   a reference to the container where the y values are to be stored
+     */
+    Lineariser( XContainer& x, YContainer& y ) :
+      x_( x ), y_( y ), xbuffer_(), ybuffer_() {}
 
     /* methods */
-    #include "scion/linearisation/Lineariser/src/call.hpp"
+
+    /**
+     *  @brief Linearise a function
+     *
+     *  @param[in] first         the iterator to the beginning of the initial grid
+     *  @param[in] last          the iterator to the end of the initial grid
+     *  @param[in] functor       the function to linearise
+     *  @param[in] convergence   the convergence criterion functor
+     *  @param[in] split         the panel splitting functor
+     */
+    template< typename Iter, typename Functor, typename Convergence, typename Split >
+    void operator()( Iter first, Iter last, Functor&& functor,
+                     Convergence&& convergence, Split&& split ) {
+
+      X xLeft = *first;
+      Y yLeft = functor( xLeft );
+      ++first;
+
+      X xRight = xLeft;
+      Y yRight = yLeft;
+
+      while ( first != last ) {
+
+        xRight = *first;
+        yRight = functor( xRight );
+        ++first;
+
+        this->panel( xLeft, xRight, yLeft, yRight,
+                     std::forward< Functor >( functor ),
+                     std::forward< Convergence >( convergence ),
+                     std::forward< Split >( split ) );
+
+        xLeft = xRight;
+        yLeft = yRight;
+      }
+
+      if ( this->x_.get().size() ) {
+
+        this->x_.get().push_back( xRight );
+        this->y_.get().push_back( yRight );
+      }
+    }
+
+    /**
+     *  @brief Linearise a function
+     *
+     *  @param[in] grid          the initial grid
+     *  @param[in] functor       the function to linearise
+     *  @param[in] convergence   the convergence criterion functor
+     *  @param[in] split         the panel splitting functor
+     */
+    template< typename Range, typename Functor, typename Convergence, typename Split >
+    void operator()( const Range& grid, Functor&& functor,
+                     Convergence&& convergence, Split&& split ) {
+
+      ( *this )( grid.begin(), grid.end(),
+                 std::forward< Functor >( functor ),
+                 std::forward< Convergence >( convergence ),
+                 std::forward< Split >( split ) );
+    }
   };
 
 } // linearisation namespace

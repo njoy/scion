@@ -29,12 +29,15 @@ namespace linearisation {
       public SplitBase< AbsoluteErrorSplit< X, FirstDerivative, SecondDerivative, Y >, X, Y > {
 
     /* friend declarations */
+
     friend class SplitBase< AbsoluteErrorSplit< X, FirstDerivative, SecondDerivative, Y >, X, Y >;
 
     /* type aliases */
+
     using Parent = SplitBase< AbsoluteErrorSplit< X, FirstDerivative, SecondDerivative, Y >, X, Y >;
 
     /* fields */
+
     FirstDerivative first_;
     SecondDerivative second_;
     int iterations_;
@@ -67,7 +70,20 @@ namespace linearisation {
   public:
 
     /* constructor */
-    #include "scion/linearisation/AbsoluteErrorSplit/src/ctor.hpp"
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param first        the first derivative of the function
+     *  @param second       the second derivative of the function
+     *  @param iterations   the maximum number of iterations (default is 20)
+     */
+    AbsoluteErrorSplit( FirstDerivative first,
+                        SecondDerivative second,
+                        int iterations = 20 ) :
+      first_( std::move( first ) ),
+      second_( std::move( second ) ),
+      iterations_( iterations ) {}
 
     /* methods */
 
