@@ -59,14 +59,19 @@ operation( const InterpolationTable& right, BinaryOperation operation ) {
       while ( xIter != x.end() ) {
 
         auto yIter = std::next( y.begin(), std::distance( x.begin(), xIter ) );
-        if ( *std::next( yIter ) == *yIter ) {
 
-          xIter = x.erase( xIter );
-          yIter = y.erase( yIter );
+        auto xNext = std::upper_bound( xIter, x.end(), *xIter );
+        auto yNext = std::next( yIter, std::distance( xIter, xNext ) );
+
+        if ( std::all_of( std::next( yIter ), yNext,
+                          [&] ( auto&& value ) { return value == *yIter; } ) ) {
+
+          xNext = x.erase( std::next( xIter ), xNext );
+          yNext = y.erase( std::next( yIter ), yNext );
         }
 
         // find the next duplicate x value
-        xIter = std::adjacent_find( std::upper_bound( xIter, x.end(), *xIter ), x.end() );
+        xIter = std::adjacent_find( xNext, x.end() );
       }
 
       // replace this with a new table

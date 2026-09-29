@@ -13,7 +13,6 @@
 #include "scion/interpolation/InterpolationType.hpp"
 #include "scion/linearisation/ToleranceConvergence.hpp"
 #include "scion/unionisation/Unioniser.hpp"
-#include "scion/math/newton.hpp"
 #include "scion/math/OneDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLinearTable.hpp"
@@ -21,6 +20,7 @@
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
 #include "scion/math/IntervalDomain.hpp"
+#include "scion/math/ProcessedData.hpp"
 #include "scion/verification/ranges.hpp"
 
 #include "scion/math/ConstantWeightFunction.hpp"
@@ -59,13 +59,15 @@ namespace math {
     std::vector< Y > y_;
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
-    std::vector< TableVariant > tables_;
     bool linearised_;
+    bool curated_;
+
+    std::vector< TableVariant > tables_;
 
     /* auxiliary function */
     #include "scion/math/InterpolationTable/src/operation.hpp"
     #include "scion/math/InterpolationTable/src/generateTables.hpp"
-    #include "scion/math/InterpolationTable/src/processBoundaries.hpp"
+    #include "scion/math/InterpolationTable/src/processData.hpp"
 
     /**
      *  @brief Return the interpolation tables
@@ -146,6 +148,29 @@ namespace math {
     bool isLinearised() const noexcept {
 
       return this->linearised_;
+    }
+
+    /**
+     *  @brief Return whether or not the data is curated
+     */
+    bool isCurated() const noexcept {
+
+      return this->curated_;
+    }
+
+    /**
+     *  @brief Curate the table
+     *
+     *  This removes extraneous interior points in discontinuities in the data.
+     */
+    void curate() {
+
+      if ( ! this->isCurated() ) {
+
+        curateTable( this->x_, this->y_, this->boundaries_, this->interpolants_ );
+        this->curated_ = true;
+        this->generateTables();
+      }
     }
 
     #include "scion/math/InterpolationTable/src/linearise.hpp"
@@ -377,13 +402,11 @@ namespace math {
         return table.cumulativeIntegrate( first, weight );
       };
 
-      auto check = [this] ( const auto& table ) {
+      auto number_equal_x = [this] ( const auto& table ) {
 
-        return table.x().end() != this->x().end()
-               ? ( *( table.x().end() ) == table.x().back() )
-                 ? ( *( table.y().end() ) != table.y().back() ? true : false )
-                 : false
-               : true;
+        return std::distance( std::prev( table.x().end() ),
+                              std::upper_bound( table.x().end(), this->x().end(),
+                                                table.x().back() ) );
       };
 
       auto iter = this->tables().begin();
@@ -394,15 +417,13 @@ namespace math {
 
         first = result.back();
         auto integrals = std::visit( cumulative, *iter );
+        auto points = std::visit( number_equal_x, *std::prev( iter ) );
 
-        if ( std::visit( check, *std::prev( iter ) ) ) {
+        if ( points > 1 ) {
 
-          result.insert( result.end(), integrals.begin(), integrals.end() );
+          result.insert( result.end(), points - 1, first );
         }
-        else {
-
-          result.insert( result.end(), std::next( integrals.begin() ), integrals.end() );
-        }
+        result.insert( result.end(), std::next( integrals.begin() ), integrals.end() );
 
         ++iter;
       }

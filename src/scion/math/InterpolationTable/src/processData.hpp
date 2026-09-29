@@ -1,4 +1,67 @@
 /**
+ *  @brief Curate the tabulated data
+ *
+ *  Curation currently consists of removing extraneous interior points in discontinuities
+ *  in the data.
+ *
+ *  The boundaries array is assumed to already have a boundary index pointing to the first
+ *  point of every jump. This is guaranteed by processData() prior to calling this
+ *  function. As a result, only the boundaries need to be checked to find the jumps.
+ *
+ *  The extraneous points are removed in a single pass by moving points that are kept forward
+ *  over the extraneous points. The remaining points at the end are erased.
+ */
+static void curateTable( std::vector< X >& x, std::vector< Y >& y,
+                         std::vector< std::size_t >& boundaries,
+                         std::vector< interpolation::InterpolationType >& /* interpolants */ ) {
+
+  auto xRead = x.begin();
+  auto yRead = y.begin();
+  auto xWrite = x.begin();
+  auto yWrite = y.begin();
+  std::size_t removed = 0;
+  for ( auto& boundary : boundaries ) {
+
+    // the points up to and including the boundary point are kept
+    auto xEnd = std::next( x.begin(), boundary + 1 );
+    auto yEnd = std::next( y.begin(), boundary + 1 );
+
+    // look for extraneous points in a jump starting at the boundary point
+    std::size_t extraneous = 0;
+    if ( ( xEnd != x.end() ) && ( *xEnd == *std::prev( xEnd ) ) ) {
+
+      auto xNext = std::upper_bound( xEnd, x.end(), *xEnd );
+      auto number = std::distance( std::prev( xEnd ), xNext );
+      if ( number > 2 ) {
+
+        Log::warning( "x = {} is present {} times, extraneous points will be removed", *xEnd, number );
+        extraneous = number - 2;
+      }
+    }
+
+    // move the points that are kept (nothing needs to move until a point was removed)
+    if ( removed > 0 ) {
+
+      xWrite = std::move( xRead, xEnd, xWrite );
+      yWrite = std::move( yRead, yEnd, yWrite );
+    }
+    else {
+
+      xWrite = xEnd;
+      yWrite = yEnd;
+    }
+    xRead = std::next( xEnd, extraneous );
+    yRead = std::next( yEnd, extraneous );
+
+    boundary -= removed;
+    removed += extraneous;
+  }
+
+  x.erase( xWrite, x.end() );
+  y.erase( yWrite, y.end() );
+}
+
+/**
  *  @brief Verify and correct boundaries and interpolants
  *
  *  This function does a lot, so here's an overview of what it does. First of all, it verifies
@@ -8,7 +71,6 @@
  *    - The number of boundaries and interpolants are the same
  *    - The last boundary index is equal to the index of the last x value
  *    - The x grid is sorted
- *    - The x values appear only a maximum of two times in the grid
  *
  *  Next, this function will look for every jump in the x grid and check if the jump corresponds
  *  to a change in interpolation region (meaning that the index of the first x value in the jump
@@ -23,14 +85,15 @@
  *
  *  A jump at the beginning or end of the x grid is allowed. However, if one of these jumps is
  *  detected, then the first or last point is just removed.
+ *
+ *  If curate is true, discontinuities of more than 2 points are reduced to the first and last
+ *  point of the jump.
  */
-static std::tuple< std::vector< X >,
-                   std::vector< Y >,
-                   std::vector< std::size_t >,
-                   std::vector< interpolation::InterpolationType > >
-processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
-                   std::vector< std::size_t >&& boundaries,
-                   std::vector< interpolation::InterpolationType >&& interpolants  ) {
+static ProcessedData< X, Y >
+processData( std::vector< X >&& x, std::vector< Y >&& y,
+             std::vector< std::size_t >&& boundaries,
+             std::vector< interpolation::InterpolationType >&& interpolants,
+             bool curate = false ) {
 
   if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
        ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
@@ -72,6 +135,8 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
     throw std::exception();
   }
 
+  bool curated = true;
+
   auto xIter = std::adjacent_find( x.begin(), x.end() );
   auto bIter = boundaries.begin();
   auto iIter = interpolants.begin();
@@ -80,6 +145,11 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
     // determine the next x value
     auto xNext = std::upper_bound( xIter, x.end(), *xIter );
     auto number = std::distance( xIter, xNext );
+
+    if ( ( xIter != x.begin() ) && ( xNext != x.end() ) && ( number > 2 ) ) {
+
+      curated = false;
+    }
 
     // set the boundary for this jump, insert it if necessary
     // index is always positive since xIter is x.begin() or higher iterator
@@ -100,61 +170,54 @@ processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
       }
     }
 
-    // remove extraneous points and adjust boundaries
-    if ( number > 2 ) {
-
-      Log::warning( "x = {} is present {} times, extraneous points will be removed", *xIter, number );
-
-      // remove x and y values
-      auto yIter = std::next( y.begin(),
-                              std::distance( x.begin(), xIter ) );
-      auto yNext = std::next( yIter, number );
-      x.erase( std::next( xIter ), std::prev( xNext ) );
-      y.erase( std::next( yIter ), std::prev( yNext ) );
-
-      // adjust boundaries
-      auto offset = number - 2;
-      std::transform( std::next( bIter ), boundaries.end(), std::next( bIter ),
-                      [&] ( auto&& boundary ) { return boundary - offset; } );
-    }
-
-    xIter = std::adjacent_find( std::next( xIter ), x.end() );
+    xIter = std::adjacent_find( xNext, x.end() );
   }
 
-  // check for a jump at the beginning of the table
+  if ( curate ) {
+
+    curateTable( x, y, boundaries, interpolants );
+    curated = true;
+  }
+
+  // check for a jump at the beginning of the table (all but the last point are removed)
   xIter = x.begin();
   if ( *xIter == *( std::next( xIter ) ) ) {
 
     Log::warning( "A jump at the beginning of the table (x = {}) has been removed", *xIter );
-    x.erase( x.begin() );
-    y.erase( y.begin() );
+    auto offset = std::distance( x.begin(), std::upper_bound( x.begin(), x.end(), *xIter ) ) - 1;
+    x.erase( x.begin(), std::next( x.begin(), offset ) );
+    y.erase( y.begin(), std::next( y.begin(), offset ) );
     boundaries.erase( boundaries.begin() );
     interpolants.erase( interpolants.begin() );
     std::transform( boundaries.begin(), boundaries.end(), boundaries.begin(),
-                    [] ( auto&& boundary ) { return boundary - 1; } );
+                    [offset] ( auto&& boundary ) { return boundary - offset; } );
   }
 
-  // check for a jump at the end of the table
+  // check for a jump at the end of the table (all but the first point are removed)
   xIter = std::prev( x.end() );
   if ( *xIter == *( std::prev( xIter ) ) ) {
 
     Log::warning( "A jump at the end of the table (x = {}) has been removed", *xIter );
-    x.erase( std::prev( x.end() ) );
-    y.erase( std::prev( y.end() ) );
+    auto offset = std::distance( std::lower_bound( x.begin(), x.end(), *xIter ), x.end() ) - 1;
+    x.erase( std::prev( x.end(), offset ), x.end() );
+    y.erase( std::prev( y.end(), offset ), y.end() );
   }
 
+  bool linearised = std::all_of( interpolants.begin(), interpolants.end(),
+                                 [] ( auto&& type )
+                                    { return type == interpolation::InterpolationType::LinearLinear; } );
+
   return { std::move( x ), std::move( y ),
-           std::move( boundaries ), std::move( interpolants ) };
+           std::move( boundaries ), std::move( interpolants ),
+           linearised, curated };
 }
 
-static std::tuple< std::vector< X >,
-                   std::vector< Y >,
-                   std::vector< std::size_t >,
-                   std::vector< interpolation::InterpolationType > >
-processBoundaries( std::vector< X >&& x, std::vector< Y >&& y,
-                   interpolation::InterpolationType interpolant ) {
+static ProcessedData< X, Y >
+processData( std::vector< X >&& x, std::vector< Y >&& y,
+             interpolation::InterpolationType interpolant,
+             bool curate = false ) {
 
-  return processBoundaries( std::move( x ), std::move( y ),
-                            { x.size() > 0 ? x.size() - 1 : 0 },
-                            { interpolant } );
+  return processData( std::move( x ), std::move( y ),
+                      { x.size() > 0 ? x.size() - 1 : 0 },
+                      { interpolant }, curate );
 }

@@ -34,28 +34,33 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
 
     python::init< std::vector< X >, std::vector< Y >,
                   std::vector< std::size_t >,
-                  std::vector< InterpolationType > >(),
+                  std::vector< InterpolationType >,
+                  bool >(),
     python::arg( "x" ), python::arg( "y" ),
     python::arg( "boundaries" ), python::arg( "interpolants" ),
+    python::arg( "curate" ) = false,
     "Initialise the function\n\n"
     "Arguments:\n"
     "    self           the function\n"
     "    x              the x values of the tabulated data\n"
     "    y              the y values of the tabulated data\n"
     "    boundaries     the boundaries of the interpolation regions\n"
-    "    interpolants   the interpolation types of the interpolation regions"
+    "    interpolants   the interpolation types of the interpolation regions\n"
+    "    curate         flag to indicate whether or not to curate the table (default: false)"
   )
   .def(
 
-    python::init< std::vector< X >, std::vector< Y >, InterpolationType >(),
+    python::init< std::vector< X >, std::vector< Y >, InterpolationType, bool >(),
     python::arg( "x" ), python::arg( "y" ),
     python::arg( "interpolant" ) = InterpolationType::LinearLinear,
+    python::arg( "curate" ) = false,
     "Initialise the function\n\n"
     "Arguments:\n"
     "    self          the function\n"
     "    x             the x values of the tabulated data\n"
     "    y             the y values of the tabulated data\n"
-    "    interpolant   the interpolation type (default lin-lin)"
+    "    interpolant   the interpolation type (default lin-lin)\n"
+    "    curate        flag to indicate whether or not to curate the table (default: false)"
   )
   .def_property_readonly(
 
@@ -98,6 +103,25 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     "is_linearised",
     &Component::isLinearised,
     "Flag indicating whether or not the data is linearised"
+  )
+  .def_property_readonly(
+
+    "is_curated",
+    &Component::isCurated,
+    "Flag indicating whether or not the data is curated"
+  )
+  .def_property_readonly(
+
+    "cumulative_integral",
+    [] ( const Component& self ) { return self.cumulativeIntegral(); },
+    "The cumulative integral of the table over its domain"
+  )
+  .def(
+
+    "curate",
+    &Component::curate,
+    "Curate the table\n\n"
+    "This removes extraneous interior points in discontinuities in the data."
   );
 
   // add standard function definitions

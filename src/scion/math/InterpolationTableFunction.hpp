@@ -11,6 +11,7 @@
 #include "tools/Log.hpp"
 #include "utility/IteratorView.hpp"
 #include "scion/interpolation/InterpolationType.hpp"
+#include "scion/math/ProcessedData.hpp"
 #include "scion/math/TwoDimensionalFunctionBase.hpp"
 #include "scion/math/HistogramTableFunction.hpp"
 #include "scion/math/LinearLinearTableFunction.hpp"
@@ -57,11 +58,13 @@ namespace math {
     std::vector< F > f_;
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
+    bool curated_;
+
     std::vector< TableVariant > tables_;
 
     /* auxiliary function */
     #include "scion/math/InterpolationTableFunction/src/generateTables.hpp"
-    #include "scion/math/InterpolationTableFunction/src/processBoundaries.hpp"
+    #include "scion/math/InterpolationTableFunction/src/processData.hpp"
 
     /**
      *  @brief Return the interpolation tables
@@ -154,6 +157,30 @@ namespace math {
     std::size_t numberRegions() const noexcept {
 
       return this->boundaries().size();
+    }
+
+    /**
+     *  @brief Return whether or not the data is curated
+     *
+     */
+    bool isCurated() const noexcept {
+
+      return this->curated_;
+    }
+
+    /**
+     *  @brief Curate the table
+     *
+     *  This removes extraneous interior points in discontinuities in the data.
+     */
+    void curate() {
+
+      if ( ! this->isCurated() ) {
+
+        curateTable( this->x_, this->f_, this->boundaries_, this->interpolants_ );
+        this->curated_ = true;
+        this->generateTables();
+      }
     }
 
     using Parent::operator();
