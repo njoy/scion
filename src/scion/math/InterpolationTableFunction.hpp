@@ -229,7 +229,6 @@ namespace math {
      *    - The x and f(y) grid have the same size
      *    - The number of boundaries and interpolants are the same
      *    - The boundary values are in ascending order and unique
-     *    - The first boundary index is larger than 1
      *    - The last boundary index is equal to the index of the last x value
      *    - The x grid is sorted
      *
