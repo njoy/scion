@@ -117,15 +117,9 @@ namespace math {
 
       // check that the energy values are all increasing, with
       // no repeated values
-      if ( ! verification::isSorted( this->boundaries() ) ) {
+      if ( ! verification::isSorted( this->boundaries() ) || ! verification::isUnique( this->boundaries() ) ) {
 
-        Log::error( "The boundary values do not appear to be in ascending order." );
-        throw std::exception();
-      }
-
-      if ( ! verification::isUnique( this->boundaries() ) ) {
-
-        Log::error( "The boundary values do not appear to be in unique." );
+        Log::error( "The boundary values do not appear to be unique or are not in ascending order" );
         throw std::exception();
       }
     }
