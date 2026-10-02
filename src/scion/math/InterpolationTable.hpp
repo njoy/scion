@@ -315,6 +315,7 @@ namespace math {
      *  This function does a lot, so here's an overview of what it does. First of all, it verifies
      *  the following things:
      *    - There are at least 2 values in the x and y grid
+     *    - There is at least 1 value in the boundaries and interpolants
      *    - The x and y grid have the same size
      *    - The number of boundaries and interpolants are the same
      *    - The boundary values are in ascending order and unique
