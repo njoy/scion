@@ -315,8 +315,10 @@ namespace math {
      *  This function does a lot, so here's an overview of what it does. First of all, it verifies
      *  the following things:
      *    - There are at least 2 values in the x and y grid
+     *    - There is at least 1 value in the boundaries and interpolants
      *    - The x and y grid have the same size
      *    - The number of boundaries and interpolants are the same
+     *    - The boundary values are in ascending order and unique
      *    - The last boundary index is equal to the index of the last x value
      *    - The x grid is sorted
      *
@@ -353,6 +355,16 @@ namespace math {
         throw std::exception();
       }
 
+      if ( ( ! verification::isAtLeastOfSize( boundaries, 1 ) ) ||
+           ( ! verification::isAtLeastOfSize( interpolants, 1 ) ) ) {
+
+        Log::error( "Insufficient boundary or interpolant values defined for tabulated data "
+                    "(at least 1 boundary and interpolant is required)" );
+        Log::info( "boundaries.size(): {}", boundaries.size() );
+        Log::info( "interpolants.size(): {}", interpolants.size() );
+        throw std::exception();
+      }
+
       if ( ! verification::isSameSize( x, y ) ) {
 
         Log::error( "Inconsistent number of x and y values for tabulated data" );
@@ -374,6 +386,12 @@ namespace math {
         Log::error( "The last boundary value does not point to the last x value" );
         Log::info( "x.size(): {}", x.size() );
         Log::info( "boundaries.back(): {}", boundaries.back() );
+        throw std::exception();
+      }
+
+      if ( ! verification::isSorted( boundaries ) || ! verification::isUnique( boundaries ) ) {
+
+        Log::error( "The boundary values do not appear to be unique or are not in ascending order" );
         throw std::exception();
       }
 
