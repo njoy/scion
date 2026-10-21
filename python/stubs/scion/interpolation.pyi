@@ -3,7 +3,35 @@ Common interpolation capabilities and components
 """
 from __future__ import annotations
 import typing
-__all__: list[str] = ['InterpolationType', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
+__all__: list[str] = ['CoulombPenetrability', 'InterpolationType', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
+class CoulombPenetrability:
+    """
+    Coulomb Penetrability interpolation
+    
+    Parameters 
+    ---------- 
+        threshold : float 
+             the threshold energy of the reaction
+    """
+    def __call__(self, x: float, xLeft: float, xRight: float, yLeft: float, yRight: float) -> float:
+        """
+        Perform logarithmic-logarithmic interpolation (ln(y) is linear in ln(x))
+        
+        Parameters
+        ----------
+            x : float  
+                the value of x
+            xLeft : float  
+                the left value on the x interval
+            xRight : float  
+                the right value on the x interval
+            yLeft : float  
+                the left value on the y interval
+            yRight : float  
+                the right value on the y interval
+        """
+    def __init__(self, threshold: float) -> None:
+        ...
 class InterpolationType:
     """
     The interpolation types
@@ -19,13 +47,16 @@ class InterpolationType:
       LogLinear
     
       LogLog
+    
+      CoulombPenetrability
     """
+    CoulombPenetrability: typing.ClassVar[InterpolationType]  # value = <InterpolationType.CoulombPenetrability: 6>
     Histogram: typing.ClassVar[InterpolationType]  # value = <InterpolationType.Histogram: 1>
     LinearLinear: typing.ClassVar[InterpolationType]  # value = <InterpolationType.LinearLinear: 2>
     LinearLog: typing.ClassVar[InterpolationType]  # value = <InterpolationType.LinearLog: 3>
     LogLinear: typing.ClassVar[InterpolationType]  # value = <InterpolationType.LogLinear: 4>
     LogLog: typing.ClassVar[InterpolationType]  # value = <InterpolationType.LogLog: 5>
-    __members__: typing.ClassVar[dict[str, InterpolationType]]  # value = {'Histogram': <InterpolationType.Histogram: 1>, 'LinearLinear': <InterpolationType.LinearLinear: 2>, 'LinearLog': <InterpolationType.LinearLog: 3>, 'LogLinear': <InterpolationType.LogLinear: 4>, 'LogLog': <InterpolationType.LogLog: 5>}
+    __members__: typing.ClassVar[dict[str, InterpolationType]]  # value = {'Histogram': <InterpolationType.Histogram: 1>, 'LinearLinear': <InterpolationType.LinearLinear: 2>, 'LinearLog': <InterpolationType.LinearLog: 3>, 'LogLinear': <InterpolationType.LogLinear: 4>, 'LogLog': <InterpolationType.LogLog: 5>, 'CoulombPenetrability': <InterpolationType.CoulombPenetrability: 6>}
     def __eq__(self, other: typing.Any) -> bool:
         ...
     def __ge__(self, other: typing.Any) -> bool:
