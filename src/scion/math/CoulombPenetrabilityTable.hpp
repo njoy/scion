@@ -17,7 +17,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief Tabulated x,y data with Coulomb Penetrability interpolation (LAW=6)
+   *  @brief Tabulated x,y data with Coulomb penetrability interpolation
    *
    *  The CoulombPenetrabilityTable is constructed with the threshold value
    *  and that becomes an attribute of the table object.
@@ -30,53 +30,34 @@ namespace math {
                             X, Y, XContainer, YContainer > {
 
     /* friend declarations */
+
     friend class SingleTableBase< CoulombPenetrabilityTable< X, Y, XContainer, YContainer >,
                                   X, Y, XContainer, YContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableBase< CoulombPenetrabilityTable< X, Y, XContainer, YContainer >,
                                     X, Y, XContainer, YContainer >;
 
     /* fields */
+
     X threshold_;
-    njoy::scion::interpolation::CoulombPenetrability< X, Y > interpolator_;
 
     /* auxiliary function */
-    #include "scion/math/CoulombPenetrabilityTable/src/verifyTable.hpp"
+
+    static void verifyTable( const XContainer& x, const X& threshold ) {
+
+      // check the x values are above the threshold
+
+      auto iter = x.begin();
+      if ( *iter <= threshold ) {
+
+        Log::error( "The x values cannot be less than the threshold value" );
+        throw std::exception();
+      }
+    }
 
     /* interface implementation functions */
-
-
-  public:
-
-    #include "scion/math/CoulombPenetrabilityTable/src/evaluate.hpp"
-
-
-    /* constructor */
-
-    /**
-     *  @brief Constructor
-     *
-     *  @param x           the x values of the tabulated data
-     *  @param y           the y values of the tabulated data
-     *  @param threshold   the threshold value
-     */
-    CoulombPenetrabilityTable( XContainer x, YContainer y, X threshold ) :
-      Parent( std::move( x ), std::move( y ) ),
-      threshold_( threshold ),
-      interpolator_( threshold ) {
-
-        verifyTable( this->x(), this->threshold() );
-      }
-
-
-    CoulombPenetrabilityTable( const CoulombPenetrabilityTable& ) = default;
-    CoulombPenetrabilityTable( CoulombPenetrabilityTable&& ) = default;
-
-    CoulombPenetrabilityTable& operator=( const CoulombPenetrabilityTable& ) = default;
-    CoulombPenetrabilityTable& operator=( CoulombPenetrabilityTable&& ) = default;
-
-
 
     /**
      *  @brief Return the interpolation type
@@ -84,14 +65,6 @@ namespace math {
     static constexpr interpolation::InterpolationType type() noexcept {
 
       return interpolation::InterpolationType::CoulombPenetrability;
-    }
-
-    /**
-     *  @brief Return the threshold value
-     */
-    const X& threshold() const noexcept {
-
-      return this->threshold_;
     }
 
     /**
@@ -104,11 +77,54 @@ namespace math {
      *  @param[in] yRight   the right value on the y interval
      */
     Y interpolate( const X& x,
-                  const X& xLeft, const X& xRight,
-                  const Y& yLeft, const Y& yRight ) noexcept {
+                   const X& xLeft, const X& xRight,
+                   const Y& yLeft, const Y& yRight ) const noexcept {
 
-      return this->interpolator_( x, xLeft, xRight, yLeft, yRight );
+      return interpolation::coulomb( x, xLeft, xRight, yLeft, yRight, this->threshold() );
     }
+
+  public:
+
+    /* constructor */
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x           the x values of the tabulated data
+     *  @param y           the y values of the tabulated data
+     *  @param threshold   the threshold value
+     */
+    CoulombPenetrabilityTable( XContainer x, YContainer y, X threshold ) :
+        Parent( std::move( x ), std::move( y ) ),
+        threshold_( std::move( threshold ) ) {
+
+      verifyTable( this->x(), this->threshold() );
+    }
+
+    CoulombPenetrabilityTable( const CoulombPenetrabilityTable& ) = default;
+    CoulombPenetrabilityTable( CoulombPenetrabilityTable&& ) = default;
+
+    CoulombPenetrabilityTable& operator=( const CoulombPenetrabilityTable& ) = default;
+    CoulombPenetrabilityTable& operator=( CoulombPenetrabilityTable&& ) = default;
+
+    /**
+     *  @brief Return the threshold value
+     */
+    const X& threshold() const noexcept {
+
+      return this->threshold_;
+    }
+
+    using Parent::interpolation;
+    using Parent::x;
+    using Parent::y;
+    using Parent::numberPoints;
+    using Parent::linearise;
+    using Parent::domain;
+    using Parent::operator();
+    using Parent::isInside;
+    using Parent::isContained;
+    using Parent::isSameDomain;
 
     /**
      *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region
@@ -121,11 +137,10 @@ namespace math {
       auto integrator = [&] ( const X& xLeft, const X& xRight,
                               const Y& yLeft, const Y& yRight ) -> decltype(auto) {
 
-        return weight.integrateCoulombPenetrability( xLeft, xRight, yLeft, yRight, this->threshold_ );
+        return weight.integrateCoulombPenetrability( xLeft, xRight, yLeft, yRight, this->threshold() );
       };
       return integration::integral( this->x(), this->y(), integrator );
     }
-
 
     /**
      *  @brief Calculate the cumulative integral of w(x) * f(x) dx over the interpolation region
@@ -141,17 +156,10 @@ namespace math {
       auto integrator = [&] ( const X& xLeft, const X& xRight,
                               const Y& yLeft, const Y& yRight ) -> decltype(auto) {
 
-        return weight.integrateCoulombPenetrability( xLeft, xRight, yLeft, yRight, this->threshold_ );
+        return weight.integrateCoulombPenetrability( xLeft, xRight, yLeft, yRight, this->threshold() );
       };
       return integration::cumulativeIntegral( initial, this->x(), this->y(), integrator );
     }
-
-    using Parent::domain;
-    using Parent::isInside;
-    using Parent::isContained;
-    using Parent::isSameDomain;
-    using Parent::linearise;
-
   };
 
 } // math namespace
