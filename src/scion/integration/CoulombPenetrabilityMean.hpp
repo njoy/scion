@@ -2,7 +2,6 @@
 #define NJOY_SCION_INTEGRATION_COULOMBPENETRABILITYMEAN
 
 // system includes
-#include <iostream>
 
 // other includes
 #include "scion/integration/CoulombPenetrability.hpp"
@@ -13,23 +12,17 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief Coulomb Penetrability integration (LAW = 6)
+   *  @brief Coulomb penetrability mean integration
    *
-   *  The integral of a panel is calculated numerically
+   *  The integral of a panel is calculated numerically using
+   *  adaptive Gauss-Lobatto quadrature (with a tolerance of 1e-8).
    */
-  class CoulombPenetrabilityMean : public IntegratorBase< CoulombPenetrabilityMean > {
-
-    /* friend declarations */
-    friend class IntegratorBase< CoulombPenetrabilityMean >;
-
-
-    /* interface implementation functions */
+  class CoulombPenetrabilityMean {
 
   public:
-  
+
     /**
      *  @brief Perform Coulomb Penetrability integration of x * f(x)
-     *
      *
      *  @param[in] xLeft      the left value on the x interval
      *  @param[in] xRight     the right value on the x interval
@@ -39,40 +32,28 @@ namespace integration {
      */
     template < typename X, typename Y,
                typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
-    I integrate( const X& xLeft, const X& xRight,
-                 const Y& yLeft, const Y& yRight,
-                 const X& threshold ) const noexcept {
-
-      // need to check this explicitly because the equation will return
-      // NaN instead of zero
-      if ( math::isClose( xLeft, xRight ) ) {
-
-        return 0.0;
-      }
-
-      // create the interpolator 
-      interpolation::CoulombPenetrability< X, Y > interpolator{ threshold };
-
-      auto functor = [&] ( X x ) { return x * interpolator( x, xLeft, xRight, yLeft, yRight ); };
-      
-      integration::AdaptiveGaussLobatto< I > integrator{};
-
-      return integrator( functor, xLeft, xRight );
-    }
-
-
-    template < typename X, typename Y,
-               typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I operator()( const X& xLeft, const X& xRight,
-                  const Y& yLeft, const Y& yRight, 
+                  const Y& yLeft, const Y& yRight,
                   const X& threshold ) const {
 
-     return this->integrate( xLeft, xRight, yLeft, yRight, threshold );
-    }
+      if ( xLeft == xRight ) {
 
+        return I( 0. );
+      }
+      else {
+
+        auto functor = [&] ( const X& x ) {
+
+          return x * interpolation::coulomb( x, xLeft, xRight, yLeft, yRight, threshold );
+        };
+
+        integration::AdaptiveGaussLobatto< X, Y > integrator;
+        return integrator( functor, xLeft, xRight );
+      }
+    }
   };
 
-  // static function
+  // integration function
   static constexpr CoulombPenetrabilityMean coulombMean;
 
 } // integration namespace
