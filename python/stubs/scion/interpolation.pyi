@@ -3,35 +3,7 @@ Common interpolation capabilities and components
 """
 from __future__ import annotations
 import typing
-__all__: list[str] = ['CoulombPenetrability', 'InterpolationType', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
-class CoulombPenetrability:
-    """
-    Coulomb Penetrability interpolation
-    
-    Parameters 
-    ---------- 
-        threshold : float 
-             the threshold energy of the reaction
-    """
-    def __call__(self, x: float, xLeft: float, xRight: float, yLeft: float, yRight: float) -> float:
-        """
-        Perform logarithmic-logarithmic interpolation (ln(y) is linear in ln(x))
-        
-        Parameters
-        ----------
-            x : float  
-                the value of x
-            xLeft : float  
-                the left value on the x interval
-            xRight : float  
-                the right value on the x interval
-            yLeft : float  
-                the left value on the y interval
-            yRight : float  
-                the right value on the y interval
-        """
-    def __init__(self, threshold: float) -> None:
-        ...
+__all__: list[str] = ['InterpolationType', 'coulomb', 'histogram', 'linlin', 'linlog', 'loglin', 'loglog']
 class InterpolationType:
     """
     The interpolation types
@@ -91,6 +63,18 @@ class InterpolationType:
     @property
     def value(self) -> int:
         ...
+def coulomb(x: float, xLeft: float, xRight: float, yLeft: float, yRight: float, threshold: float) -> float:
+    """
+    Perform coulomb penetrability interpolation
+    
+    Arguments:
+        x           the value of x
+        xLeft       the left value on the x interval
+        xRight      the right value on the x interval
+        yLeft       the left value on the y interval
+        yRight      the right value on the y interval
+        threshold   the threshold value
+    """
 def histogram(x: float, xLeft: float, xRight: float, yLeft: float, yRight: float) -> float:
     """
     Perform histogram interpolation (y is constant in x)

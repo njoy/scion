@@ -13,9 +13,6 @@ namespace interpolation {
   // interpolation functions
   void wrapInterpolationFunctions( python::module& );
 
-  // Coulomb Penetrability - separate bc has constructor
-  void wrapCoulombPenetrability( python::module& );
-
   // interpolation types
   void wrapInterpolationType( python::module& );
 }
@@ -31,6 +28,5 @@ void wrapInterpolationModule( python::module& module ) {
 
   // wrap scion's interpolation capabilities
   interpolation::wrapInterpolationFunctions( submodule );
-  interpolation::wrapCoulombPenetrability( submodule );
   interpolation::wrapInterpolationType( submodule );
 }

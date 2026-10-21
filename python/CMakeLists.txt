@@ -5,7 +5,6 @@ if(scion.python)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/scion.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/interpolation.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/interpolation/interpolation.python.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/interpolation/CoulombPenetrability.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/interpolation/InterpolationType.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/integration.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/integration/integration.python.cpp
