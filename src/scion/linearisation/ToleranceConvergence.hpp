@@ -2,6 +2,7 @@
 #define NJOY_SCION_LINEARISATION_TOLERANCECONVERGENCE
 
 // system includes
+#include <cmath>
 
 // other includes
 #include "scion/linearisation/ConvergenceBase.hpp"
@@ -15,26 +16,25 @@ namespace linearisation {
    *  @brief A convergence functor using a single tolerance
    *
    *  This functor class can be used to ensure convergence of the linearisation
-   *  process using a relative tolerance and absolute difference threshold.
-   *  With this functor, a trial value and reference value are considered
-   *  converged if:
-   *    abs( trial - reference ) < ( abs( trial ) + abs( reference ) ) * tolerance
-   *
-   *  For very small values (when ( abs( trial ) + abs( reference ) ) * tolerance
-   *  is smaller than the threshold value), a trial value and reference value
-   *  are considered converged if:
-   *    abs( trial - reference ) < threshold
+   *  process using a relative tolerance criterion, normalized by the reference
+   *  value, with the threshold acting as an absolute difference floor when the
+   *  reference value is close to zero. With this functor, a trial value and
+   *  reference value are considered converged if:
+   *    abs( trial - reference ) < max( abs( reference ) * tolerance, threshold )
    */
   template< typename X, typename Y = X >
   class ToleranceConvergence : public ConvergenceBase< ToleranceConvergence< X, Y >, X, Y > {
 
     /* friend declarations */
+
     friend class ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
 
     /* type aliases */
+
     using Parent = ConvergenceBase< ToleranceConvergence< X, Y >, X, Y >;
 
     /* fields */
+
     Y tolerance_;
     Y threshold_;
 
@@ -67,7 +67,16 @@ namespace linearisation {
   public:
 
     /* constructor */
-    #include "scion/linearisation/ToleranceConvergence/src/ctor.hpp"
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param tolerance   the linearisation tolerance
+     *  @param threshold   the lowest allowed absolute difference
+     */
+    ToleranceConvergence( const Y& tolerance = Y( 0.001 ),
+                          const Y& threshold = Y( 1e-10 ) ) :
+      tolerance_( tolerance ), threshold_( threshold ) {}
 
     /* methods */
 

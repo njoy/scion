@@ -30,10 +30,12 @@ namespace math {
                                     X, F, XContainer, FContainer > {
 
     /* friend declarations */
+
     friend class SingleTableFunctionBase< HistogramTableFunction< X, F, XContainer, FContainer >,
                                           X, F, XContainer, FContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableFunctionBase< HistogramTableFunction< X, F, XContainer, FContainer >,
                                             X, F, XContainer, FContainer >;
 
@@ -73,7 +75,21 @@ namespace math {
   public:
 
     /* constructor */
-    #include "scion/math/HistogramTableFunction/src/ctor.hpp"
+
+    HistogramTableFunction( const HistogramTableFunction& ) = default;
+    HistogramTableFunction( HistogramTableFunction&& ) = default;
+
+    HistogramTableFunction& operator=( const HistogramTableFunction& ) = default;
+    HistogramTableFunction& operator=( HistogramTableFunction&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   the x values of the tabulated data
+     *  @param f   the f(y) functions of the tabulated data
+     */
+    HistogramTableFunction( XContainer x, FContainer f ) :
+      Parent( std::move( x ), std::move( f ) ) {}
 
     /* methods */
 

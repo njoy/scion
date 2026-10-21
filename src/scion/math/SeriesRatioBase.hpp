@@ -26,6 +26,7 @@ namespace math {
   class SeriesRatioBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
     /* type aliases */
+
     using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
 
   public:
@@ -39,6 +40,7 @@ namespace math {
   private:
 
     /* fields */
+
     Series numerator_;
     Series denominator_;
 
@@ -46,12 +48,60 @@ namespace math {
 
     /* constructor */
 
-    #include "scion/math/SeriesRatioBase/src/ctor.hpp"
+    /**
+     *  @brief Default constructor (for pybind11 purposes only)
+     */
+    SeriesRatioBase() = default;
+
+    SeriesRatioBase( const SeriesRatioBase& ) = default;
+    SeriesRatioBase( SeriesRatioBase&& ) = default;
+
+    SeriesRatioBase& operator=( const SeriesRatioBase& ) = default;
+    SeriesRatioBase& operator=( SeriesRatioBase&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param numerator     the numerator series
+     *  @param denominator   the denominator series
+     */
+    SeriesRatioBase( Series numerator, Series denominator ) :
+      Parent( numerator.domain() ),
+      numerator_( std::move( numerator ) ),
+      denominator_( std::move( denominator ) ) {
+
+      this->simplify();
+    }
 
     /* auxiliary function */
 
-    #include "scion/math/SeriesRatioBase/src/simplify.hpp"
-    #include "scion/math/SeriesRatioBase/src/evaluate.hpp"
+    void simplify() {
+
+      // set the denominator to 1 for a zero order denominator
+      if ( this->denominator().order() == 0 &&
+           this->denominator().coefficients().front() != Y( 1. ) ) {
+
+        this->numerator_ /= this->denominator_.coefficients()[0];
+        this->denominator_ = Y( 1. );
+      }
+    }
+
+    /**
+     *  @brief Evaluate the function for a value of x
+     *
+     *  @param x   the value to be evaluated
+     */
+    Y evaluate( const X& x ) const {
+
+      if ( this->denominator().order() == 0 ) {
+
+        return this->numerator()( x );
+      }
+      else {
+
+        return this->numerator()( x ) / this->denominator()( x );
+      }
+    }
 
   public:
 

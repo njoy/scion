@@ -53,6 +53,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
 
@@ -76,6 +77,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == copy.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
         CHECK( true == copy.isLinearised() );
+        CHECK( true == copy.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
 
         InterpolationTable< double > move( std::move( copy ) );
@@ -96,6 +98,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == move.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
         CHECK( true == move.isLinearised() );
+        CHECK( true == move.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
       } // THEN
 
@@ -121,6 +124,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == copy.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
         CHECK( true == copy.isLinearised() );
+        CHECK( true == copy.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
 
         InterpolationTable< double > move( { 1., 4. }, { 0., 0. } );
@@ -143,6 +147,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == move.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
         CHECK( true == move.isLinearised() );
+        CHECK( true == move.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
       } // THEN
 
@@ -781,6 +786,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1., WithinRel( linear.y()[3] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -819,6 +825,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
         CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -922,6 +929,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2., WithinRel( linear.y()[4] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -1567,6 +1575,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -1702,6 +1711,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.              , WithinRel( linear.y()[17] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "some arithmetic operations can be performed" ) {
@@ -1729,6 +1739,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk /= 2.;
@@ -1902,6 +1913,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2028,6 +2040,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2.              , WithinRel( linear.y()[11] ) );
 
         CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
       } // THEN
 
       THEN( "some arithmetic operations can be performed" ) {
@@ -2055,6 +2068,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         chunk /= 2.;
@@ -2078,6 +2092,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
 
         result = -chunk;
@@ -2101,6 +2116,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk * 2.;
@@ -2124,6 +2140,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = 2. * chunk;
@@ -2147,6 +2164,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
 
         result = chunk / 2.;
@@ -2170,6 +2188,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
+        CHECK( true == result.isCurated() );
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
       } // THEN
 
@@ -2198,11 +2217,11 @@ SCENARIO( "InterpolationTable" ) {
   GIVEN( "non-linearised data with multiple regions with a jump that consist of "
          "more than 2 points" ) {
 
-    // note: at construction time, the extraneous points in between the first and last
-    //       x value in the jump are removed. boundaries always point to the first point
-    //       in the jump
+    // note: by default (curate = false), the extraneous points in between the first and
+    //       last x value in the jump are kept. boundaries always point to the first point
+    //       in the jump, regardless of curation.
 
-    WHEN( "the data is given explicitly" ) {
+    WHEN( "the data is given explicitly and curate is not requested" ) {
 
       const std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
       const std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
@@ -2216,6 +2235,130 @@ SCENARIO( "InterpolationTable" ) {
       InterpolationTable< double > chunk( std::move( x ), std::move( y ),
                                           std::move( boundaries ),
                                           std::move( interpolants ) );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 6 == chunk.x().size() );
+        CHECK( 6 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[5] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[4] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[5] ) );
+        CHECK( 1 == chunk.boundaries()[0] );         // <-- this is changed from 2 to 1
+        CHECK( 5 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+        CHECK( false == chunk.isCurated() );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+
+      THEN( "the table can be curated on demand and the extraneous points are removed" ) {
+
+        // note: curate() curates the table in place - it does not return a new instance
+        chunk.curate();
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+
+      THEN( "the table can be linearised and the extraneous point in the jump is removed" ) {
+
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 12 == linear.x().size() );
+        CHECK( 12 == linear.y().size() );
+        CHECK( 2 == linear.boundaries().size() );
+        CHECK( 2 == linear.interpolants().size() );
+        CHECK_THAT( 1.   , WithinRel( linear.x()[0] ) );
+        CHECK_THAT( 2.   , WithinRel( linear.x()[1] ) );
+        CHECK_THAT( 2.   , WithinRel( linear.x()[2] ) );
+        CHECK_THAT( 2.125, WithinRel( linear.x()[3] ) );
+        CHECK_THAT( 2.25 , WithinRel( linear.x()[4] ) );
+        CHECK_THAT( 2.5  , WithinRel( linear.x()[5] ) );
+        CHECK_THAT( 2.75 , WithinRel( linear.x()[6] ) );
+        CHECK_THAT( 3.   , WithinRel( linear.x()[7] ) );
+        CHECK_THAT( 3.25 , WithinRel( linear.x()[8] ) );
+        CHECK_THAT( 3.5  , WithinRel( linear.x()[9] ) );
+        CHECK_THAT( 3.75 , WithinRel( linear.x()[10] ) );
+        CHECK_THAT( 4.   , WithinRel( linear.x()[11] ) );
+        CHECK_THAT( 4.                 , WithinRel( linear.y()[0] ) );
+        CHECK_THAT( 3.                 , WithinRel( linear.y()[1] ) );
+        CHECK_THAT( 4.                 , WithinRel( linear.y()[2] ) );
+        CHECK_THAT( 3.8504812853088648 , WithinRel( linear.y()[3] ) );
+        CHECK_THAT( 3.709511291351455  , WithinRel( linear.y()[4] ) );
+        CHECK_THAT( 3.4496602867867914 , WithinRel( linear.y()[5] ) );
+        CHECK_THAT( 3.2145964603356649 , WithinRel( linear.y()[6] ) );
+        CHECK_THAT( 3.                 , WithinRel( linear.y()[7] ) );
+        CHECK_THAT( 2.7217667858432417 , WithinRel( linear.y()[8] ) );
+        CHECK_THAT( 2.4641630654510251 , WithinRel( linear.y()[9] ) );
+        CHECK_THAT( 2.2243397393085331 , WithinRel( linear.y()[10] ) );
+        CHECK_THAT( 2.                 , WithinRel( linear.y()[11] ) );
+        CHECK( 1 == linear.boundaries()[0] );
+        CHECK( 11 == linear.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
+        CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
+      } // THEN
+
+      THEN( "the cumulative integral has a value for every x value, including the extraneous "
+            "point in the jump" ) {
+
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 6 == cumulative.size() );
+        CHECK_THAT( 0.              , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[1] ) );
+        CHECK_THAT( 3.5             , WithinRel( cumulative[2] ) ); // <-- extraneous point
+        CHECK_THAT( 3.5             , WithinRel( cumulative[3] ) );
+        CHECK_THAT( 6.96630346237643, WithinRel( cumulative[4] ) );
+        CHECK_THAT( 9.44236295915864, WithinRel( cumulative[5] ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and curate is requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
+      const std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
+      const std::vector< std::size_t > boundaries = { 2, 5 }; // <-- pointing to middle of the jump
+      const std::vector< InterpolationType > interpolants = {
+
+        InterpolationType::LinearLinear,
+        InterpolationType::LinearLog
+      };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          std::move( boundaries ),
+                                          std::move( interpolants ), true );
 
       THEN( "a InterpolationTable can be constructed and members can be tested" ) {
 
@@ -2238,8 +2381,283 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+
+      THEN( "calling curate() again on an already curated table does not change anything" ) {
+
+        chunk.curate();
+
+        CHECK( 5 == chunk.x().size() );
+        CHECK( 5 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[4] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "linearised data with multiple jumps that consist of more than 2 points" ) {
+
+    WHEN( "the data is given explicitly and curate is not requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
+      const std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 9 == chunk.x().size() );
+        CHECK( 9 == chunk.y().size() );
+        CHECK( 3 == chunk.boundaries().size() );
+        CHECK( 3 == chunk.interpolants().size() );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 5 == chunk.boundaries()[1] );
+        CHECK( 8 == chunk.boundaries()[2] );
+        CHECK( false == chunk.isCurated() );
+      } // THEN
+
+      THEN( "the extraneous points are removed when calling curate()" ) {
+
+        chunk.curate();
+
+        CHECK( 7 == chunk.x().size() );
+        CHECK( 7 == chunk.y().size() );
+        CHECK( 3 == chunk.boundaries().size() );
+        CHECK( 3 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[5] ) );
+        CHECK_THAT( 5., WithinRel( chunk.x()[6] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 5., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 6., WithinRel( chunk.y()[4] ) );
+        CHECK_THAT( 8., WithinRel( chunk.y()[5] ) );
+        CHECK_THAT( 9., WithinRel( chunk.y()[6] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( 6 == chunk.boundaries()[2] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[2] );
+        CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and curate is requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
+      const std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          InterpolationType::LinearLinear, true );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 7 == chunk.x().size() );
+        CHECK( 7 == chunk.y().size() );
+        CHECK( 3 == chunk.boundaries().size() );
+        CHECK( 3 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[4] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[5] ) );
+        CHECK_THAT( 5., WithinRel( chunk.x()[6] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 5., WithinRel( chunk.y()[3] ) );
+        CHECK_THAT( 6., WithinRel( chunk.y()[4] ) );
+        CHECK_THAT( 8., WithinRel( chunk.y()[5] ) );
+        CHECK_THAT( 9., WithinRel( chunk.y()[6] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 4 == chunk.boundaries()[1] );
+        CHECK( 6 == chunk.boundaries()[2] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[2] );
+        CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "linearised data with a jump that consist of more than 2 points" ) {
+
+    WHEN( "the data is given explicitly and curate is not requested" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
+      const std::vector< double > y = { 1., 2., 5., 3., 4. };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "linearise() removes the extraneous point in the jump" ) {
+
+        CHECK( true == chunk.isLinearised() );
+        CHECK( false == chunk.isCurated() );
+
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 4 == linear.x().size() );
+        CHECK( 4 == linear.y().size() );
+        CHECK( 2 == linear.boundaries().size() );
+        CHECK( 2 == linear.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( linear.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( linear.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( linear.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( linear.x()[3] ) );
+        CHECK_THAT( 1., WithinRel( linear.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( linear.y()[1] ) );
+        CHECK_THAT( 3., WithinRel( linear.y()[2] ) );
+        CHECK_THAT( 4., WithinRel( linear.y()[3] ) );
+        CHECK( 1 == linear.boundaries()[0] );
+        CHECK( 3 == linear.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
+        CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
+      } // THEN
+
+      THEN( "the cumulative integral has a value for every x value, including the extraneous "
+            "point in the jump" ) {
+
+        // region 1: ( 1 + 2 ) / 2 = 1.5
+        // region 2: ( 3 + 4 ) * 2 / 2 = 7
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 5 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[2] ) ); // <-- extraneous point
+        CHECK_THAT( 1.5, WithinRel( cumulative[3] ) );
+        CHECK_THAT( 8.5, WithinRel( cumulative[4] ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and the first and second y value in the jump are "
+          "the same" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
+      const std::vector< double > y = { 1., 2., 2., 3., 4. }; // <-- extraneous point has same y
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "linearise() removes the extraneous point in the jump and keeps the jump" ) {
+
+        CHECK( true == chunk.isLinearised() );
+        CHECK( false == chunk.isCurated() );
+
+        InterpolationTable< double > linear = chunk.linearise();
+
+        CHECK( 4 == linear.x().size() );
+        CHECK( 4 == linear.y().size() );
+        CHECK( 2 == linear.boundaries().size() );
+        CHECK( 2 == linear.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( linear.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( linear.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( linear.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( linear.x()[3] ) );
+        CHECK_THAT( 1., WithinRel( linear.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( linear.y()[1] ) );
+        CHECK_THAT( 3., WithinRel( linear.y()[2] ) );
+        CHECK_THAT( 4., WithinRel( linear.y()[3] ) );
+        CHECK( 1 == linear.boundaries()[0] );
+        CHECK( 3 == linear.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == linear.interpolants()[1] );
+        CHECK( true == linear.isLinearised() );
+        CHECK( true == linear.isCurated() );
+
+        CHECK_THAT( 1.5, WithinRel( linear( 1.5 ) ) );
+        CHECK_THAT( 3.5, WithinRel( linear( 3. ) ) );
+      } // THEN
+
+      THEN( "the cumulative integral has a value for every x value, including the extraneous "
+            "point in the jump" ) {
+
+        // region 1: ( 1 + 2 ) / 2 = 1.5
+        // region 2: ( 3 + 4 ) * 2 / 2 = 7
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 5 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[2] ) ); // <-- extraneous point
+        CHECK_THAT( 1.5, WithinRel( cumulative[3] ) );
+        CHECK_THAT( 8.5, WithinRel( cumulative[4] ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "linearised data with a jump where both y values in the jump are the same" ) {
+
+    WHEN( "the data is given explicitly" ) {
+
+      const std::vector< double > x = { 1., 2., 2., 3. };
+      const std::vector< double > y = { 1., 2., 2., 3. }; // <-- same y values in the jump
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
+
+      THEN( "a InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
+        CHECK( true == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+      } // THEN
+
+      THEN( "the integral of an InterpolationTable can be calculated" ) {
+
+        // ( 1 + 2 ) / 2 + ( 2 + 3 ) / 2 = 4
+        CHECK_THAT( 4., WithinRel( chunk.integral() ) );
+      } // THEN
+
+      THEN( "the cumulative integral has a value for every x value" ) {
+
+        auto cumulative = chunk.cumulativeIntegral();
+        REQUIRE( 4 == cumulative.size() );
+        CHECK_THAT( 0. , WithinRel( cumulative[0] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[1] ) );
+        CHECK_THAT( 1.5, WithinRel( cumulative[2] ) );
+        CHECK_THAT( 4. , WithinRel( cumulative[3] ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -2287,6 +2705,7 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2295,10 +2714,10 @@ SCENARIO( "InterpolationTable" ) {
 
   GIVEN( "non-linearised data with multiple regions with a jump at the end" ) {
 
-    // note: at construction time, the last x and y value will be removed and the last
-    //       boundary value will be decremented by 1.
+    // note: at construction time, all but the first point of the jump will be removed and
+    //       the last boundary value will point to the first point of the jump.
 
-    WHEN( "the data is given explicitly" ) {
+    WHEN( "the data is given explicitly and the jump consists of 2 points" ) {
 
       const std::vector< double > x = { 1., 2., 3., 4., 4. }; // <-- jump at end
       const std::vector< double > y = { 4., 3., 2., 1., 4. };
@@ -2334,6 +2753,49 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and the jump consists of more than 2 points" ) {
+
+      const std::vector< double > x = { 1., 2., 3., 4., 4., 4. }; // <-- jump of 3 x values at end
+      const std::vector< double > y = { 4., 3., 2., 1., 4., 5. };
+      const std::vector< std::size_t > boundaries = { 1, 5 }; // <-- pointing to end
+      const std::vector< InterpolationType > interpolants = {
+
+        InterpolationType::LinearLinear,
+        InterpolationType::LinearLog
+      };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          std::move( boundaries ),
+                                          std::move( interpolants ) );
+
+      THEN( "an InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) );
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) ); // <-- last two points removed
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) );
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) ); // <-- last two points removed
+        CHECK( 1 == chunk.boundaries()[0] );
+        CHECK( 3 == chunk.boundaries()[1] );         // <-- boundary value reset
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN
@@ -2342,10 +2804,10 @@ SCENARIO( "InterpolationTable" ) {
 
   GIVEN( "non-linearised data with multiple regions with a jump at the beginning" ) {
 
-    // note: at construction time, the first x and y value will be removed and all
-    //       boundary values will be decremented by 1.
+    // note: at construction time, all but the last point of the jump will be removed and
+    //       all boundary values will be decremented by the number of points removed.
 
-    WHEN( "the data is given explicitly" ) {
+    WHEN( "the data is given explicitly and the jump consists of 2 points" ) {
 
       const std::vector< double > x = { 1., 1., 2., 3., 4. }; // <-- jump at beginning
       const std::vector< double > y = { 1., 4., 3., 2., 1. };
@@ -2381,6 +2843,49 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
         CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
+
+        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+      } // THEN
+    } // WHEN
+
+    WHEN( "the data is given explicitly and the jump consists of more than 2 points" ) {
+
+      const std::vector< double > x = { 1., 1., 1., 2., 3., 4. }; // <-- jump of 3 x values at beginning
+      const std::vector< double > y = { 1., 2., 4., 3., 2., 1. };
+      const std::vector< std::size_t > boundaries = { 3, 5 };
+      const std::vector< InterpolationType > interpolants = {
+
+        InterpolationType::LinearLinear,
+        InterpolationType::LinearLog
+      };
+
+      InterpolationTable< double > chunk( std::move( x ), std::move( y ),
+                                          std::move( boundaries ),
+                                          std::move( interpolants ) );
+
+      THEN( "an InterpolationTable can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numberPoints() );
+        CHECK( 2 == chunk.numberRegions() );
+        CHECK( 4 == chunk.x().size() );
+        CHECK( 4 == chunk.y().size() );
+        CHECK( 2 == chunk.boundaries().size() );
+        CHECK( 2 == chunk.interpolants().size() );
+        CHECK_THAT( 1., WithinRel( chunk.x()[0] ) ); // <-- first two points removed
+        CHECK_THAT( 2., WithinRel( chunk.x()[1] ) );
+        CHECK_THAT( 3., WithinRel( chunk.x()[2] ) );
+        CHECK_THAT( 4., WithinRel( chunk.x()[3] ) );
+        CHECK_THAT( 4., WithinRel( chunk.y()[0] ) ); // <-- first two points removed
+        CHECK_THAT( 3., WithinRel( chunk.y()[1] ) );
+        CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
+        CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
+        CHECK( 1 == chunk.boundaries()[0] );         // <-- boundary value reset
+        CHECK( 3 == chunk.boundaries()[1] );         // <-- boundary value reset
+        CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
+        CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
+        CHECK( false == chunk.isLinearised() );
+        CHECK( true == chunk.isCurated() );
 
         CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
       } // THEN

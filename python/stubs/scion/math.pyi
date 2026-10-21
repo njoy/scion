@@ -5,7 +5,7 @@ from __future__ import annotations
 import scion.interpolation
 import scion.linearisation
 import typing
-__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
+__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
 class AnalyticalIntegrator:
     """
     Analytical integration of data over a number of successive integration intervals
@@ -394,6 +394,85 @@ class ChebyshevSeries:
         """
         The order of the series expansion
         """
+class GroupedTable:
+    """
+    Table to hold grouped y values and the group boundaries.
+    
+    The size of the y values vector should be one less
+    than the size of the group boundary values. The
+    groups are assumed to be contiguous and ascending.
+    
+    Parameters
+    ----------
+        boundaries : array-like 
+            the boundary values
+        values : array-like
+            array of values
+    """
+    __hash__: typing.ClassVar[None] = None
+    @typing.overload
+    def __add__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __add__(self, arg0: GroupedTable) -> GroupedTable:
+        ...
+    def __eq__(self, arg0: GroupedTable) -> bool:
+        ...
+    @typing.overload
+    def __iadd__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __iadd__(self, arg0: GroupedTable) -> GroupedTable:
+        ...
+    def __imul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __init__(self, boundaries: list[float], values: list[float]) -> None:
+        """
+        Create the table
+        """
+    @typing.overload
+    def __isub__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __isub__(self, arg0: GroupedTable) -> GroupedTable:
+        ...
+    def __itruediv__(self, arg0: float) -> GroupedTable:
+        ...
+    def __mul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __ne__(self, arg0: GroupedTable) -> bool:
+        ...
+    def __neg__(self) -> GroupedTable:
+        ...
+    def __radd__(self, arg0: float) -> GroupedTable:
+        ...
+    def __rmul__(self, arg0: float) -> GroupedTable:
+        ...
+    def __rsub__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __sub__(self, arg0: float) -> GroupedTable:
+        ...
+    @typing.overload
+    def __sub__(self, arg0: GroupedTable) -> GroupedTable:
+        ...
+    def __truediv__(self, arg0: float) -> GroupedTable:
+        ...
+    @property
+    def boundaries(self) -> list[float]:
+        """
+        The group boundaries
+        """
+    @property
+    def number_groups(self) -> int:
+        """
+        The number of groups
+        """
+    @property
+    def values(self) -> list[float]:
+        """
+        The grouped values
+        """
 class HistogramTable:
     """
     Tabulated data with histogram interpolation (y is constant in x)
@@ -502,7 +581,7 @@ class InterpolationTable:
     def __imul__(self, arg0: float) -> InterpolationTable:
         ...
     @typing.overload
-    def __init__(self, x: list[float], y: list[float], boundaries: list[int], interpolants: list[scion.interpolation.InterpolationType]) -> None:
+    def __init__(self, x: list[float], y: list[float], boundaries: list[int], interpolants: list[scion.interpolation.InterpolationType], curate: bool = False) -> None:
         """
         Initialise the function
         
@@ -512,9 +591,10 @@ class InterpolationTable:
             y              the y values of the tabulated data
             boundaries     the boundaries of the interpolation regions
             interpolants   the interpolation types of the interpolation regions
+            curate         flag to indicate whether or not to curate the table (default: false)
         """
     @typing.overload
-    def __init__(self, x: list[float], y: list[float], interpolant: scion.interpolation.InterpolationType = ...) -> None:
+    def __init__(self, x: list[float], y: list[float], interpolant: scion.interpolation.InterpolationType = ..., curate: bool = False) -> None:
         """
         Initialise the function
         
@@ -523,6 +603,7 @@ class InterpolationTable:
             x             the x values of the tabulated data
             y             the y values of the tabulated data
             interpolant   the interpolation type (default lin-lin)
+            curate        flag to indicate whether or not to curate the table (default: false)
         """
     @typing.overload
     def __isub__(self, arg0: float) -> InterpolationTable:
@@ -552,6 +633,12 @@ class InterpolationTable:
         ...
     def __truediv__(self, arg0: float) -> InterpolationTable:
         ...
+    def curate(self) -> None:
+        """
+        Curate the table
+        
+        This removes extraneous interior points in discontinuities in the data.
+        """
     def is_contained(self, x: float) -> bool:
         """
         Check whether or not a value is inside the domain (including boundaries)
@@ -590,6 +677,11 @@ class InterpolationTable:
         The boundaries of the interpolation regions
         """
     @property
+    def cumulative_integral(self) -> list[float]:
+        """
+        The cumulative integral of the table over its domain
+        """
+    @property
     def domain(self) -> IntervalDomain | OpenDomain:
         """
         The domain
@@ -603,6 +695,11 @@ class InterpolationTable:
     def interpolants(self) -> list[scion.interpolation.InterpolationType]:
         """
         The interpolation types of the interpolation regions
+        """
+    @property
+    def is_curated(self) -> bool:
+        """
+        Flag indicating whether or not the data is curated
         """
     @property
     def is_linearised(self) -> bool:

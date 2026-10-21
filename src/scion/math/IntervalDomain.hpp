@@ -22,16 +22,49 @@ namespace math {
   class IntervalDomain {
 
     /* fields */
+
     X lower_;
     X upper_;
 
     /* auxiliary function */
-    #include "scion/math/IntervalDomain/src/verifyDomain.hpp"
+
+    static void verifyDomain( const X& lower, const X& upper ) {
+
+      if ( ( upper < lower ) || ( upper == lower ) ) {
+
+        Log::error( "Incoherent domain, expected lower < upper" );
+        Log::info( "Lower limit: {}", lower );
+        Log::info( "Upper limit: {}", upper );
+        throw std::exception();
+      }
+    }
 
   public:
 
     /* constructor */
-    #include "scion/math/IntervalDomain/src/ctor.hpp"
+
+    /**
+     *  @brief Default constructor (for pybind11 purposes only)
+     */
+    IntervalDomain() = default;
+
+    IntervalDomain( const IntervalDomain& ) = default;
+    IntervalDomain( IntervalDomain&& ) = default;
+
+    IntervalDomain& operator=( const IntervalDomain& ) = default;
+    IntervalDomain& operator=( IntervalDomain&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param lower   the lower limit of the domain
+     *  @param upper   the upper limit of the domain
+     */
+    IntervalDomain( X lower, X upper ) :
+      lower_( std::move( lower ) ), upper_( std::move( upper ) ) {
+
+      verifyDomain( this->lowerLimit(), this->upperLimit() );
+    }
 
     /* methods */
 

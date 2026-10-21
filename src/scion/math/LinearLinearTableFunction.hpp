@@ -30,10 +30,12 @@ namespace math {
                                     X, F, XContainer, FContainer > {
 
     /* friend declarations */
+
     friend class SingleTableFunctionBase< LinearLinearTableFunction< X, F, XContainer, FContainer >,
                                           X, F, XContainer, FContainer >;
 
     /* type aliases */
+
     using Parent = SingleTableFunctionBase< LinearLinearTableFunction< X, F, XContainer, FContainer >,
                                             X, F, XContainer, FContainer >;
 
@@ -73,7 +75,21 @@ namespace math {
   public:
 
     /* constructor */
-    #include "scion/math/LinearLinearTableFunction/src/ctor.hpp"
+
+    LinearLinearTableFunction( const LinearLinearTableFunction& ) = default;
+    LinearLinearTableFunction( LinearLinearTableFunction&& ) = default;
+
+    LinearLinearTableFunction& operator=( const LinearLinearTableFunction& ) = default;
+    LinearLinearTableFunction& operator=( LinearLinearTableFunction&& ) = default;
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param x   the x values of the tabulated data
+     *  @param f   the f(y) functions of the tabulated data
+     */
+    LinearLinearTableFunction( XContainer x, FContainer f ) :
+      Parent( std::move( x ), std::move( f ) ) {}
 
     /* methods */
 
