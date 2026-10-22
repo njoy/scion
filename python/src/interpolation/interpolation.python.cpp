@@ -8,6 +8,7 @@
 #include "scion/interpolation/LinearLogarithmic.hpp"
 #include "scion/interpolation/LogarithmicLinear.hpp"
 #include "scion/interpolation/LogarithmicLogarithmic.hpp"
+#include "scion/interpolation/CoulombPenetrability.hpp"
 
 // namespace aliases
 namespace python = pybind11;
@@ -91,6 +92,22 @@ void wrapInterpolationFunctionsFor( python::module& module ) {
     "    xRight   the right value on the x interval\n"
     "    yLeft    the left value on the y interval\n"
     "    yRight   the right value on the y interval"
+  )
+  .def(
+
+    "coulomb",
+    [] ( const X& x, const X& xLeft, const X& xRight, const Y& yLeft, const Y& yRight, const X& threshold ) -> decltype(auto)
+       { return njoy::scion::interpolation::coulomb( x, xLeft, xRight, yLeft, yRight, threshold ); },
+    python::arg( "x" ), python::arg( "xLeft" ), python::arg( "xRight" ),
+    python::arg( "yLeft" ), python::arg( "yRight" ), python::arg( "threshold" ),
+    "Perform coulomb penetrability interpolation\n\n"
+    "Arguments:\n"
+    "    x           the value of x\n"
+    "    xLeft       the left value on the x interval\n"
+    "    xRight      the right value on the x interval\n"
+    "    yLeft       the left value on the y interval\n"
+    "    yRight      the right value on the y interval\n"
+    "    threshold   the threshold value"
   );
 }
 

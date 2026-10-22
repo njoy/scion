@@ -141,13 +141,11 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateCoulombPenetrabilityIntegral( const X& xLeft, const X& xRight,
-                                               const Y& yLeft, const Y& yRight,
-                                               const X& threshold ) const {
+                                             const Y& yLeft, const Y& yRight,
+                                             const X& threshold ) const {
 
       return integration::coulombMean( xLeft, xRight, yLeft, yRight, threshold );
     }
-
-
 
   public:
 

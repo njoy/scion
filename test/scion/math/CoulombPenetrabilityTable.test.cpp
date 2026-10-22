@@ -25,9 +25,8 @@ using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
 template < typename X, typename Y = X, typename W = X >
 using MeanWeightFunction = math::MeanWeightFunction< X >;
 
-
 SCENARIO( "CoulombPenetrabilityTable" ) {
-  
+
   ConstantWeightFunction< double > constant( 1. );
   MeanWeightFunction< double > mean;
 
@@ -41,10 +40,9 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
 
       CoulombPenetrabilityTable< double, double > chunk( std::move( x ), std::move( y ), std::move( threshold ) );
 
-      // Unit test answers were generated using a Python script that evaluated the function on a 
-      // dense grid using the numpy linspace function, and integrated over regions using the 
+      // Unit test answers were generated using a Python script that evaluated the function on a
+      // dense grid using the numpy linspace function, and integrated over regions using the
       // numpy trapezoid function.
-
 
       THEN( "a CoulombPenetrabilityTable can be constructed and members can be tested" ) {
 
@@ -118,7 +116,7 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
       THEN( "the table can be linearised" ) {
 
         auto linear = chunk.linearise();
-        
+
         CHECK_THAT( 2.25, WithinRel( linear.first[2] ) );
         CHECK_THAT( 12.169490587611747, WithinRel( linear.second[2] ) );
 
