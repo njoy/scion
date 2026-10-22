@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_PROCESSEDDATA
 
 // system includes
+#include <optional>
 #include <vector>
 
 // other includes
