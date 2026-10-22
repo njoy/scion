@@ -683,6 +683,8 @@ namespace math {
      *  @param boundaries     the boundaries of the interpolation regions
      *  @param interpolants   the interpolation types of the interpolation regions
      *  @param curate         flag to indicate whether or not to curate the table (default: false)
+     *  @param threshold      the optional threshold value (only used for Coulomb penetrability
+     *                        interpolation, default: none)
      */
     InterpolationTable( std::vector< X > x, std::vector< Y > y,
                         std::vector< std::size_t > boundaries,
@@ -701,6 +703,8 @@ namespace math {
      *  @param y              the y values of the tabulated data
      *  @param interpolant    the interpolation type of the data (default lin-lin)
      *  @param curate         flag to indicate whether or not to curate the table (default: false)
+     *  @param threshold      the optional threshold value (only used for Coulomb penetrability
+     *                        interpolation, default: none)
      */
     InterpolationTable( std::vector< X > x, std::vector< Y > y,
                         interpolation::InterpolationType interpolant =
