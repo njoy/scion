@@ -81,6 +81,7 @@ add_cpp_test( scion.math.MeanWeightFunction                 scion/math/MeanWeigh
 add_cpp_test( scion.math.HistogramTable                     scion/math/HistogramTable.test.cpp )
 add_cpp_test( scion.math.HistogramTableFunction             scion/math/HistogramTableFunction.test.cpp )
 add_cpp_test( scion.math.InterpolationTable                 scion/math/InterpolationTable.test.cpp )
+add_cpp_test( scion.math.InterpolationTable.coulomb         scion/math/InterpolationTable.coulomb.test.cpp )
 add_cpp_test( scion.math.InterpolationTableFunction         scion/math/InterpolationTableFunction.test.cpp )
 add_cpp_test( scion.math.IntervalDomain                     scion/math/IntervalDomain.test.cpp )
 add_cpp_test( scion.math.LegendreSeries                     scion/math/LegendreSeries.test.cpp )

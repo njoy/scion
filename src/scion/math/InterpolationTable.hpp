@@ -3,6 +3,7 @@
 
 // system includes
 #include <algorithm>
+#include <optional>
 #include <tuple>
 #include <variant>
 #include <vector>
@@ -19,6 +20,7 @@
 #include "scion/math/LinearLogTable.hpp"
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
+#include "scion/math/CoulombPenetrabilityTable.hpp"
 #include "scion/math/IntervalDomain.hpp"
 #include "scion/math/ProcessedData.hpp"
 #include "scion/verification/ranges.hpp"
@@ -54,7 +56,8 @@ namespace math {
                              HistogramTable< X, Y, XContainer, YContainer >,
                              LinearLogTable< X, Y, XContainer, YContainer >,
                              LogLinearTable< X, Y, XContainer, YContainer >,
-                             LogLogTable< X, Y, XContainer, YContainer > >;
+                             LogLogTable< X, Y, XContainer, YContainer >,
+                             CoulombPenetrabilityTable< X, Y, XContainer, YContainer > >;
 
     /* fields */
 
@@ -62,6 +65,7 @@ namespace math {
     std::vector< Y > y_;
     std::vector< std::size_t > boundaries_;
     std::vector< interpolation::InterpolationType > interpolants_;
+    std::optional< X > threshold_;
     bool linearised_;
     bool curated_;
 
@@ -213,6 +217,21 @@ namespace math {
                 YContainer( yStart, yEnd ) ) );
             break;
           }
+          case interpolation::InterpolationType::CoulombPenetrability : {
+
+            if ( ! this->threshold().has_value() ) {
+
+              Log::error( "A threshold value must be defined when using Coulomb penetrability "
+                          "interpolation" );
+              throw std::exception();
+            }
+
+            tables.emplace_back( CoulombPenetrabilityTable< X, Y, XContainer, YContainer >(
+                XContainer( xStart, xEnd ),
+                YContainer( yStart, yEnd ),
+                this->threshold().value() ) );
+            break;
+          }
           default : {
 
             Log::error( "Unsupported interpolation type for InterpolationTable" );
@@ -343,7 +362,8 @@ namespace math {
     processData( std::vector< X >&& x, std::vector< Y >&& y,
                  std::vector< std::size_t >&& boundaries,
                  std::vector< interpolation::InterpolationType >&& interpolants,
-                 bool curate = false ) {
+                 bool curate = false,
+                 std::optional< X >&& threshold = std::nullopt ) {
 
       if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
            ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
@@ -473,19 +493,29 @@ namespace math {
                                      [] ( auto&& type )
                                         { return type == interpolation::InterpolationType::LinearLinear; } );
 
+      if ( std::none_of( interpolants.begin(), interpolants.end(),
+                         [] ( auto&& type )
+                            { return type == interpolation::InterpolationType::CoulombPenetrability; } ) ) {
+
+        threshold = std::nullopt;
+      }
+
       return { std::move( x ), std::move( y ),
                std::move( boundaries ), std::move( interpolants ),
+               std::move( threshold ),
                linearised, curated };
     }
 
     static ProcessedData< X, Y >
     processData( std::vector< X >&& x, std::vector< Y >&& y,
                  interpolation::InterpolationType interpolant,
-                 bool curate = false ) {
+                 bool curate = false,
+                 std::optional< X >&& threshold = std::nullopt ) {
 
       return processData( std::move( x ), std::move( y ),
                           { x.size() > 0 ? x.size() - 1 : 0 },
-                          { interpolant }, curate );
+                          { interpolant }, curate,
+                          std::move( threshold ) );
     }
 
     /**
@@ -543,6 +573,7 @@ namespace math {
       y_( std::move( data.y ) ),
       boundaries_( std::move( data.boundaries ) ),
       interpolants_( std::move( data.interpolants ) ),
+      threshold_( std::move( data.threshold ) ),
       linearised_( data.linearised ),
       curated_( data.curated ) {
 
@@ -575,6 +606,7 @@ namespace math {
       y_( table.y_ ),
       boundaries_( table.boundaries_ ),
       interpolants_( table.interpolants_ ),
+      threshold_( table.threshold_ ),
       linearised_( table.linearised_ ),
       curated_( table.curated_ ) {
 
@@ -592,6 +624,7 @@ namespace math {
       y_( std::move( table.y_ ) ),
       boundaries_( std::move( table.boundaries_ ) ),
       interpolants_( std::move( table.interpolants_ ) ),
+      threshold_( table.threshold_ ),
       linearised_( table.linearised_ ),
       curated_( table.curated_ ) {
 
@@ -612,6 +645,7 @@ namespace math {
         this->y_ = base.y_;
         this->boundaries_ = base.boundaries_;
         this->interpolants_ = base.interpolants_;
+        this->threshold_ = base.threshold_;
         this->linearised_ = base.linearised_;
         this->curated_ = base.curated_;
         this->generateTables();
@@ -633,6 +667,7 @@ namespace math {
         this->y_ = std::move( base.y_ );
         this->boundaries_ = std::move( base.boundaries_ );
         this->interpolants_ = std::move( base.interpolants_ );
+        this->threshold_ = std::move( base.threshold_ );
         this->linearised_ = base.linearised_;
         this->curated_ = base.curated_;
         this->generateTables();
@@ -648,14 +683,18 @@ namespace math {
      *  @param boundaries     the boundaries of the interpolation regions
      *  @param interpolants   the interpolation types of the interpolation regions
      *  @param curate         flag to indicate whether or not to curate the table (default: false)
+     *  @param threshold      the optional threshold value (only used for Coulomb penetrability
+     *                        interpolation, default: none)
      */
     InterpolationTable( std::vector< X > x, std::vector< Y > y,
                         std::vector< std::size_t > boundaries,
                         std::vector< interpolation::InterpolationType > interpolants,
-                        bool curate = false ) :
+                        bool curate = false,
+                        std::optional< X > threshold = std::nullopt ) :
       InterpolationTable( processData( std::move( x ), std::move( y ),
-                                             std::move( boundaries ),
-                                             std::move( interpolants ), curate ) ) {}
+                                       std::move( boundaries ),
+                                       std::move( interpolants ), curate,
+                                       std::move( threshold ) ) ) {}
 
     /**
      *  @brief Constructor for tabulated data in a single interpolation zone
@@ -664,12 +703,17 @@ namespace math {
      *  @param y              the y values of the tabulated data
      *  @param interpolant    the interpolation type of the data (default lin-lin)
      *  @param curate         flag to indicate whether or not to curate the table (default: false)
+     *  @param threshold      the optional threshold value (only used for Coulomb penetrability
+     *                        interpolation, default: none)
      */
     InterpolationTable( std::vector< X > x, std::vector< Y > y,
                         interpolation::InterpolationType interpolant =
                             interpolation::InterpolationType::LinearLinear,
-                        bool curate = false ) :
-      InterpolationTable( processData( std::move( x ), std::move( y ), interpolant, curate ) ) {}
+                        bool curate = false,
+                        std::optional< X > threshold = std::nullopt ) :
+      InterpolationTable( processData( std::move( x ), std::move( y ),
+                                       interpolant, curate,
+                                       std::move( threshold ) ) ) {}
 
     /* methods */
 
@@ -719,6 +763,14 @@ namespace math {
     std::size_t numberRegions() const noexcept {
 
       return this->boundaries().size();
+    }
+
+    /**
+     *  @brief Return optional threshold value (required for Coulomb penetrability interpolation)
+     */
+    const std::optional< X >& threshold() const noexcept {
+
+      return this->threshold_;
     }
 
     /**

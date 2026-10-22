@@ -28,6 +28,7 @@ if(scion.python)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/LogLogTable.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/LogLinearTable.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/LinearLogTable.python.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/math/CoulombPenetrabilityTable.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/InterpolationTable.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/ChebyshevSeries.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/ChebyshevApproximation.python.cpp

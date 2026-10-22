@@ -32,6 +32,7 @@ namespace math {
   void wrapLogLinearTable( python::module& );
   void wrapLinearLogTable( python::module& );
   void wrapLogLogTable( python::module& );
+  void wrapCoulombPenetrabilityTable( python::module& );
   void wrapInterpolationTable( python::module& );
   void wrapChebyshevSeries( python::module& );
   void wrapChebyshevApproximation( python::module& );
@@ -66,6 +67,7 @@ void wrapMathModule( python::module& module ) {
   math::wrapLogLinearTable( submodule );
   math::wrapLinearLogTable( submodule );
   math::wrapLogLogTable( submodule );
+  math::wrapCoulombPenetrabilityTable( submodule );
   math::wrapInterpolationTable( submodule );
   math::wrapChebyshevSeries( submodule );
   math::wrapChebyshevApproximation( submodule );

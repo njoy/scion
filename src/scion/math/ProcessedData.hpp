@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_PROCESSEDDATA
 
 // system includes
+#include <optional>
 #include <vector>
 
 // other includes
@@ -21,6 +22,7 @@ namespace math {
     std::vector< Y > y;
     std::vector< std::size_t > boundaries;
     std::vector< interpolation::InterpolationType > interpolants;
+    std::optional< X > threshold;
     bool linearised;
     bool curated;
   };

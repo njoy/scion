@@ -35,10 +35,12 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     python::init< std::vector< X >, std::vector< Y >,
                   std::vector< std::size_t >,
                   std::vector< InterpolationType >,
-                  bool >(),
+                  bool,
+                  std::optional< X > >(),
     python::arg( "x" ), python::arg( "y" ),
     python::arg( "boundaries" ), python::arg( "interpolants" ),
     python::arg( "curate" ) = false,
+    python::arg( "threshold" ) = std::nullopt,
     "Initialise the function\n\n"
     "Arguments:\n"
     "    self           the function\n"
@@ -46,21 +48,28 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     "    y              the y values of the tabulated data\n"
     "    boundaries     the boundaries of the interpolation regions\n"
     "    interpolants   the interpolation types of the interpolation regions\n"
-    "    curate         flag to indicate whether or not to curate the table (default: false)"
+    "    curate         flag to indicate whether or not to curate the table (default: false)\n"
+    "    threshold      the optional threshold value (only used for Coulomb penetrability\n"
+    "                   interpolation, default: none)"
   )
   .def(
 
-    python::init< std::vector< X >, std::vector< Y >, InterpolationType, bool >(),
+    python::init< std::vector< X >, std::vector< Y >,
+                  InterpolationType, bool,
+                  std::optional< X > >(),
     python::arg( "x" ), python::arg( "y" ),
     python::arg( "interpolant" ) = InterpolationType::LinearLinear,
     python::arg( "curate" ) = false,
+    python::arg( "threshold" ) = std::nullopt,
     "Initialise the function\n\n"
     "Arguments:\n"
     "    self          the function\n"
     "    x             the x values of the tabulated data\n"
     "    y             the y values of the tabulated data\n"
     "    interpolant   the interpolation type (default lin-lin)\n"
-    "    curate        flag to indicate whether or not to curate the table (default: false)"
+    "    curate        flag to indicate whether or not to curate the table (default: false)\n"
+    "    threshold      the optional threshold value (only used for Coulomb penetrability\n"
+    "                   interpolation, default: none)"
   )
   .def_property_readonly(
 
@@ -97,6 +106,13 @@ void wrapInterpolationTableFor( python::module& module, const std::string& name 
     "number_regions",
     &Component::numberRegions,
     "The number of interpolation regions in the table"
+  )
+  .def_property_readonly(
+
+    "threshold",
+    &Component::threshold,
+    "The optional reaction threshold (only defined when Coulomb penetrability interpolation\n"
+    "is used in the table)"
   )
   .def_property_readonly(
 

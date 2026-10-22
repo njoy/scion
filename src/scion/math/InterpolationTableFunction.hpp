@@ -381,6 +381,7 @@ namespace math {
 
       return { std::move( x ), std::move( f ),
                std::move( boundaries ), std::move( interpolants ),
+               std::nullopt,
                false, curated };
     }
 
