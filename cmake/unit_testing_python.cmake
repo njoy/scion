@@ -30,6 +30,7 @@ add_python_test( interpolation.linlin interpolation/Test_scion_interpolation_lin
 add_python_test( interpolation.linlog interpolation/Test_scion_interpolation_linlog.py )
 add_python_test( interpolation.loglin interpolation/Test_scion_interpolation_loglin.py )
 add_python_test( interpolation.loglog interpolation/Test_scion_interpolation_loglog.py )
+add_python_test( interpolation.Coulomb interpolation/Test_scion_interpolation_Coulomb.py )
 
 add_python_test( integration.histogram integration/Test_scion_integration_histogram.py )
 add_python_test( integration.linlin integration/Test_scion_integration_linlin.py )
