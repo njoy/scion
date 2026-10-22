@@ -21,6 +21,7 @@ namespace math {
     std::vector< Y > y;
     std::vector< std::size_t > boundaries;
     std::vector< interpolation::InterpolationType > interpolants;
+    std::optional< X > threshold;
     bool linearised;
     bool curated;
   };
