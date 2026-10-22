@@ -5,7 +5,7 @@ from __future__ import annotations
 import scion.interpolation
 import scion.linearisation
 import typing
-__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
+__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'CoulombPenetrabilityTable', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
 class AnalyticalIntegrator:
     """
     Analytical integration of data over a number of successive integration intervals
@@ -393,6 +393,90 @@ class ChebyshevSeries:
     def order(self) -> int:
         """
         The order of the series expansion
+        """
+class CoulombPenetrabilityTable:
+    """
+    Tabulated data with Coulomb penetrability interpolation 
+    """
+    def __call__(self, x: float) -> float:
+        """
+        Evaluate the function for a value of x
+        
+        Arguments:
+            self   the function
+            x      the value to be evaluated
+        """
+    def __init__(self, x: list[float], y: list[float], t: float = 0.0) -> None:
+        """
+        Initialise the function
+        
+        Arguments:
+            self   the function
+            x      the x values of the tabulated data
+            y      the y values of the tabulated data
+            t      the threshold value, default = 0.0
+        """
+    def is_contained(self, x: float) -> bool:
+        """
+        Check whether or not a value is inside the domain (including boundaries)
+        
+        Arguments:
+            self   the function
+            x      the value to be tested
+        """
+    def is_inside(self, x: float) -> bool:
+        """
+        Check whether or not a value is inside the domain (including boundaries)
+        
+        Arguments:
+            self   the function
+            x      the value to be tested
+        """
+    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
+        """
+        Check whether or not a domain is equal to the function's domain
+        
+        Arguments:
+            self     the function
+            domain   the domain to be tested
+        """
+    def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
+        """
+        Linearise the function and return a LinearLinearTable
+        
+        Arguments:
+            self           the function
+            convergence    the linearisation convergence criterion (default 0.1 %)
+        """
+    @property
+    def domain(self) -> IntervalDomain | OpenDomain:
+        """
+        The domain
+        """
+    @property
+    def interpolation(self) -> scion.interpolation.InterpolationType:
+        """
+        The interpolation type
+        """
+    @property
+    def number_points(self) -> int:
+        """
+        The y values of the table
+        """
+    @property
+    def threshold(self) -> float:
+        """
+        The reaction threshold
+        """
+    @property
+    def x(self) -> list[float]:
+        """
+        The x values of the table
+        """
+    @property
+    def y(self) -> list[float]:
+        """
+        The y values of the table
         """
 class GroupedTable:
     """
@@ -1037,7 +1121,7 @@ class LinearLinearTable:
         """
 class LinearLogTable:
     """
-    Tabulated data with log-log interpolation (y is linear in ln(x))
+    Tabulated data with lin-log interpolation (y is linear in ln(x))
     """
     def __call__(self, x: float) -> float:
         """
@@ -1115,7 +1199,7 @@ class LinearLogTable:
         """
 class LogLinearTable:
     """
-    Tabulated data with log-log interpolation (ln(y) is linear in x)
+    Tabulated data with log-lin interpolation (ln(y) is linear in x)
     """
     def __call__(self, x: float) -> float:
         """
