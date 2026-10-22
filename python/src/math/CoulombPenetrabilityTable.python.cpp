@@ -39,7 +39,8 @@ void wrapCoulombPenetrabilityTableFor( python::module& module, const std::string
     "    x      the x values of the tabulated data\n"
     "    y      the y values of the tabulated data\n"
     "    t      the threshold value, default = 0.0"
-  ).def_property_readonly(
+  )
+  .def_property_readonly(
 
     "threshold",
     &Component::threshold,

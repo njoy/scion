@@ -665,7 +665,7 @@ class InterpolationTable:
     def __imul__(self, arg0: float) -> InterpolationTable:
         ...
     @typing.overload
-    def __init__(self, x: list[float], y: list[float], boundaries: list[int], interpolants: list[scion.interpolation.InterpolationType], curate: bool = False) -> None:
+    def __init__(self, x: list[float], y: list[float], boundaries: list[int], interpolants: list[scion.interpolation.InterpolationType], curate: bool = False, threshold: float | None = None) -> None:
         """
         Initialise the function
         
@@ -676,9 +676,11 @@ class InterpolationTable:
             boundaries     the boundaries of the interpolation regions
             interpolants   the interpolation types of the interpolation regions
             curate         flag to indicate whether or not to curate the table (default: false)
+            threshold      the optional threshold value (only used for Coulomb penetrability
+                           interpolation, default: none)
         """
     @typing.overload
-    def __init__(self, x: list[float], y: list[float], interpolant: scion.interpolation.InterpolationType = ..., curate: bool = False) -> None:
+    def __init__(self, x: list[float], y: list[float], interpolant: scion.interpolation.InterpolationType = ..., curate: bool = False, threshold: float | None = None) -> None:
         """
         Initialise the function
         
@@ -688,6 +690,8 @@ class InterpolationTable:
             y             the y values of the tabulated data
             interpolant   the interpolation type (default lin-lin)
             curate        flag to indicate whether or not to curate the table (default: false)
+            threshold      the optional threshold value (only used for Coulomb penetrability
+                           interpolation, default: none)
         """
     @typing.overload
     def __isub__(self, arg0: float) -> InterpolationTable:
@@ -804,6 +808,12 @@ class InterpolationTable:
     def number_regions(self) -> int:
         """
         The number of interpolation regions in the table
+        """
+    @property
+    def threshold(self) -> float | None:
+        """
+        The optional reaction threshold (only defined when Coulomb penetrability interpolation
+        is used in the table)
         """
     @property
     def x(self) -> list[float]:
