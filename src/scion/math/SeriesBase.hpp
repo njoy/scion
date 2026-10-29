@@ -26,6 +26,10 @@ namespace math {
    *
    *  This base class provides the common interface for series expansions such
    *  as the polynomial series, Legendre series and Chebyshev series.
+   *
+   *  Any class deriving from this base class must implement a lower(), upper(),
+   *  evaluate(), companionMatrix(), calculateDerivative(), calculatePrimitive(),
+   *  calculateIntegral(), calculateMean() and calculateProduct() function.
    */
   template < typename Derived, typename X, typename Y >
   class SeriesBase : public OneDimensionalFunctionBase< Derived, X, Y > {
@@ -33,16 +37,6 @@ namespace math {
     /* type aliases */
 
     using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
-
-  public:
-
-    /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-    using typename Parent::DomainVariant;
-
-  private:
 
     /* fields */
 
@@ -82,9 +76,6 @@ namespace math {
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     SeriesBase() = default;
 
     SeriesBase( const SeriesBase& ) = default;
@@ -112,17 +103,20 @@ namespace math {
      *
      *  @param coefficients   the coefficients of the series (from lowest to highest
      *                        order coefficient)
-     *  @param domain         the domain of the series
      */
-    SeriesBase( DomainVariant domain, std::vector< Y > coefficients ) :
-      Parent( std::move( domain ) ),
-      coefficients_( std::move( coefficients ) ) {
+    SeriesBase( std::vector< Y > coefficients ) :
+        coefficients_( std::move( coefficients ) ) {
 
       verifyCoefficients( this->coefficients() );
       this->trimCoefficients();
     }
 
   public:
+
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
 
     /* methods */
 
@@ -137,7 +131,7 @@ namespace math {
     /**
      *  @brief Return the series order
      */
-    unsigned int order() const noexcept {
+    std::size_t order() const noexcept {
 
       return this->coefficients().size() - 1;
     }
@@ -175,7 +169,7 @@ namespace math {
 
           if ( isCloseToZero( value.imag() ) ) {
 
-            roots.emplace_back( !isCloseToZero( derivative( value.real() ) )
+            roots.emplace_back( ! isCloseToZero( derivative( value.real() ) )
                                 ? newton( value.real(), functor, derivative )
                                 : value.real() );
           }
@@ -193,15 +187,7 @@ namespace math {
      */
     Derived derivative() const {
 
-      const unsigned int order = this->order();
-      if ( 0 == order ) {
-
-        return Derived( SeriesBase( this->domain(), { Y( 0. ) } ) );
-      }
-      else {
-
-        return static_cast< const Derived* >( this )->calculateDerivative();
-      }
+      return static_cast< const Derived* >( this )->calculateDerivative();
     }
 
     /**
@@ -222,18 +208,9 @@ namespace math {
     template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
     InterpolationTable< X, Y > linearise( Convergence&& convergence = Convergence() ) const {
 
-      if ( ! std::holds_alternative< IntervalDomain< X > >( this->domain() ) ) {
-
-        Log::error( "Cannot linearise the series because it does not have an "
-                    "interval domain" );
-        throw std::exception();
-      }
-
-      const auto domain = std::get< IntervalDomain< X > >( this->domain() );
-
       if ( 0 == this->order() ) {
 
-        return InterpolationTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
+        return InterpolationTable< X, Y >( { this->lowerLimit(), this->upperLimit() },
                                            { this->coefficients().front(),
                                              this->coefficients().front() } );
       }
@@ -241,16 +218,16 @@ namespace math {
 
         const auto a = this->coefficients().back();
         const auto b = this->coefficients().front();
-        return InterpolationTable< X, Y >( { domain.lowerLimit(), domain.upperLimit() },
-                                           { a * domain.lowerLimit() + b,
-                                             a * domain.upperLimit() + b } );
+        return InterpolationTable< X, Y >( { this->lowerLimit(), this->upperLimit() },
+                                           { a * this->lowerLimit() + b,
+                                             a * this->upperLimit() + b } );
       }
       else {
 
         std::vector< X > x;
         std::vector< Y > y;
         linearisation::Lineariser lineariser( x, y );
-        lineariser( linearisation::grid( *this, domain.lowerLimit(), domain.upperLimit() ),
+        lineariser( linearisation::grid( *this, this->lowerLimit(), this->upperLimit() ),
                     *this,
                     std::forward< Convergence >( convergence ),
                     linearisation::MidpointSplit< X >() );
@@ -413,7 +390,7 @@ namespace math {
 
         this->coefficients_.resize( right.coefficients().size(), Y( 0. ) );
       }
-      for ( unsigned int i = 0; i < right.coefficients().size(); ++i ) {
+      for ( std::size_t i = 0; i < right.coefficients().size(); ++i ) {
 
         this->coefficients_[i] += right.coefficients()[i];
       }
@@ -437,7 +414,7 @@ namespace math {
 
         this->coefficients_.resize( right.coefficients().size(), Y( 0. ) );
       }
-      for ( unsigned int i = 0; i < right.coefficients().size(); ++i ) {
+      for ( std::size_t i = 0; i < right.coefficients().size(); ++i ) {
 
         this->coefficients_[i] -= right.coefficients()[i];
       }
@@ -509,7 +486,8 @@ namespace math {
      */
     bool operator==( const Derived& right ) const noexcept {
 
-      return this->domain() == right.domain() &&
+      return this->lowerLimit() == right.lowerLimit() &&
+             this->upperLimit() == right.upperLimit() &&
              this->coefficients() == right.coefficients();
     }
 
@@ -523,11 +501,11 @@ namespace math {
       return ! this->operator==( right );
     }
 
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
 } // math namespace

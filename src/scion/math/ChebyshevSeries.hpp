@@ -63,6 +63,22 @@ namespace math {
     /* interface implementation functions */
 
     /**
+     *  @brief Return the lower limit of the domain
+     */
+    static constexpr X lower() noexcept {
+
+      return X( -1 );
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    static constexpr X upper() noexcept {
+
+      return X( +1 );
+    }
+
+    /**
      *  @brief Evaluate the function for a value of x
      *
      *  The Clenshaw recursion scheme is used for the evaluation of the series
@@ -94,9 +110,9 @@ namespace math {
      */
     ChebyshevSeries calculateDerivative() const {
 
-      const unsigned int order = this->order();
-      std::vector< Y > derivative( order, Y( 0. ) );
-      for ( unsigned int i = 0; i < order; ++i ) {
+      const std::size_t order = this->order();
+      std::vector< Y > derivative( order != 0 ? order : 1, Y( 0. ) );
+      for ( std::size_t i = 0; i < order; ++i ) {
 
         const Y a = static_cast< Y >( 2 * ( i + 1 ) ) * this->coefficients()[i + 1];
         int j = static_cast< int >( i );
@@ -130,11 +146,11 @@ namespace math {
      */
     ChebyshevSeries calculatePrimitive( const X& left = X( 0. ) ) const {
 
-      unsigned int order = this->order();
+      std::size_t order = this->order();
       std::vector< Y > primitive( order + 2, Y( 0. ) );
       primitive[1] = this->coefficients()[0];
       primitive[2] = Y( 0.25 ) * this->coefficients()[1];
-      for ( unsigned int i = 2; i < order + 1; ++i ) {
+      for ( std::size_t i = 2; i < order + 1; ++i ) {
 
         auto c =  Y( 0.5 ) * this->coefficients()[i];
         primitive[i + 1] += c / Y( i + 1 );
@@ -154,7 +170,7 @@ namespace math {
       // integral of T(n,x) between -1 and 1 is 0 for odd n
 
       auto result = 2. * this->coefficients().front();
-      for ( unsigned int i = 2; i < this->coefficients().size(); i += 2 ) {
+      for ( std::size_t i = 2; i < this->coefficients().size(); i += 2 ) {
 
         result += 2. * this->coefficients()[i] / ( 1. - i * i );
       }
@@ -177,7 +193,7 @@ namespace math {
         // integral of T(n,x) between -1 and 1 is ( -1^n + 1 ) / ( 1 - n^2 ) for even n
         // integral of T(n,x) between -1 and 1 is 0 for odd n
         auto result = 2. * this->coefficients()[1] / 3.;
-        for ( unsigned int i = 3; i < this->coefficients().size(); i += 2 ) {
+        for ( std::size_t i = 3; i < this->coefficients().size(); i += 2 ) {
 
           auto a = i + 1;
           auto b = i - 1;
@@ -199,9 +215,9 @@ namespace math {
 
       std::vector< Y > coefficients( this->order() + right.size() );
       Y half( 0.5 );
-      for ( unsigned int i = 0; i < this->coefficients().size(); ++i ) {
+      for ( std::size_t i = 0; i < this->coefficients().size(); ++i ) {
 
-        for ( unsigned int j = 0; j < right.size(); ++j ) {
+        for ( std::size_t j = 0; j < right.size(); ++j ) {
 
           auto product = half * this->coefficients()[i] * right[j];
           coefficients[ i + j ] += product;
@@ -224,7 +240,7 @@ namespace math {
       // This does not check for order 0: this case is explicitly handled in the
       // roots( ... ) method.
 
-      const unsigned int order = this->order();
+      const std::size_t order = this->order();
       const Y scale = this->coefficients().back() * Y( 2 );
 
       Matrix< X > matrix( order, order );
@@ -232,7 +248,7 @@ namespace math {
 
       matrix( order - 1, 0 ) = - ( this->coefficients()[0] - a ) / scale;
       matrix( 0, 1 ) = Y( 1. );
-      for ( unsigned int i = 1; i < order - 1; ++i ) {
+      for ( std::size_t i = 1; i < order - 1; ++i ) {
 
         matrix( i, i - 1 ) = Y( 0.5 );
         matrix( i, i + 1 ) = Y( 0.5 );
@@ -254,7 +270,7 @@ namespace math {
       // This does not check for order 0 or 1: this case is explicitly handled in the
       // roots( ... ) method.
 
-      const unsigned int order = this->order();
+      const std::size_t order = this->order();
       const Y scale = this->coefficients().back() * Y( 2 );
 
       Matrix< X > matrix( order, order );
@@ -262,7 +278,7 @@ namespace math {
 
       matrix( 0, 1 ) = std::sqrt( Y( 0.5 ) );
       matrix( 1, 0 ) = matrix( 0, 1 );
-      for ( unsigned int i = 1; i < order - 1; ++i ) {
+      for ( std::size_t i = 1; i < order - 1; ++i ) {
 
         matrix( i, i + 1 ) = Y( 0.5 );
         matrix( i + 1, i ) = matrix( i, i + 1 );
@@ -271,7 +287,7 @@ namespace math {
 
       matrix( order - 1, 0 ) -= ( this->coefficients().front() - a ) / scale
                                 * std::sqrt( Y( 2. ) );
-      for ( unsigned int i = 1; i < order; ++i ) {
+      for ( std::size_t i = 1; i < order; ++i ) {
 
         matrix( order - 1, i ) -= this->coefficients()[i] / scale;
       }
@@ -295,13 +311,9 @@ namespace math {
 
     using typename Parent::XType;
     using typename Parent::YType;
-    using typename Parent::DomainVariant;
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     ChebyshevSeries() = default;
 
     ChebyshevSeries( const ChebyshevSeries& ) = default;
@@ -327,7 +339,7 @@ namespace math {
      *                        lowest to highest order coefficient)
      */
     ChebyshevSeries( std::vector< Y > coefficients ) :
-      Parent( IntervalDomain( -1., 1. ), std::move( coefficients ) ) {}
+      Parent( std::move( coefficients ) ) {}
 
     /* methods */
 
@@ -349,11 +361,11 @@ namespace math {
     using Parent::operator/=;
     using Parent::operator==;
     using Parent::operator!=;
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
   /**

@@ -19,9 +19,7 @@ namespace math {
    *  @brief A polynomial function y -> f(x) = sum c_i x^i of order n
    *
    *  This class represents a polynomial function y -> f(x) = sum c_i x^i of
-   *  order n defined over a domain. Currently, the domain can either be the
-   *  open domain where every value of x is allowed or the interval domain that
-   *  restricts x to an interval [a,b].
+   *  order n defined over an interval [a,b].
    *
    *  The horner scheme is used for the evaluation of the series.
    *
@@ -50,9 +48,39 @@ namespace math {
 
     /* fields */
 
+    X lower_;
+    X upper_;
+
     /* auxiliary functions */
 
+    static void verifyDomain( const X& lower, const X& upper ) {
+
+      if ( ! ( lower < upper ) ) {
+
+        Log::error( "Incoherent domain for a polynomial series, expected lower < upper" );
+        Log::info( "Lower limit: {}", lower );
+        Log::info( "Upper limit: {}", upper );
+        throw std::exception();
+      }
+    }
+
     /* interface implementation functions */
+
+    /**
+     *  @brief Return the lower limit of the domain
+     */
+    const X& lower() const noexcept {
+
+      return this->lower_;
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    const X& upper() const noexcept {
+
+      return this->upper_;
+    }
 
     /**
      *  @brief Evaluate the function for a value of x
@@ -75,14 +103,14 @@ namespace math {
      */
     PolynomialSeries calculateDerivative() const {
 
-      std::vector< Y > derivative = this->coefficients();
-      for ( unsigned int i = 1; i < derivative.size(); ++i ) {
+      const std::size_t order = this->order();
+      std::vector< Y > derivative( order != 0 ? order : 1, Y( 0. ) );
+      for ( std::size_t i = 0; i < order; ++i ) {
 
-        derivative[i] *= i;
+        derivative[i] = ( i + 1 ) * this->coefficients()[i + 1];
       }
-      derivative.erase( derivative.begin() );
 
-      return PolynomialSeries( this->domain(), std::move( derivative ) );
+      return PolynomialSeries( this->lower(), this->upper(), std::move( derivative ) );
     }
 
     /**
@@ -101,15 +129,15 @@ namespace math {
      */
     PolynomialSeries calculatePrimitive( const X& left = X( 0. ) ) const {
 
-      unsigned int order = this->order();
+      std::size_t order = this->order();
       std::vector< Y > primitive( order + 2, Y( 0. ) );
-      for ( unsigned int i = 1; i < order + 2; ++i ) {
+      for ( std::size_t i = 1; i < order + 2; ++i ) {
 
         primitive[i] = this->coefficients()[i-1] / Y( i );
       }
       primitive[0] -= horner( primitive, left );
 
-      return PolynomialSeries( this->domain(), std::move( primitive ) );
+      return PolynomialSeries( this->lower(), this->upper(), std::move( primitive ) );
     }
 
     /**
@@ -117,17 +145,7 @@ namespace math {
      */
     auto calculateIntegral() const {
 
-      if ( std::holds_alternative< IntervalDomain< X > >( this->domain() ) ) {
-
-        auto lower = std::get< IntervalDomain< X > >( this->domain() ).lowerLimit();
-        auto upper = std::get< IntervalDomain< X > >( this->domain() ).upperLimit();
-        return this->primitive( lower )( upper );
-      }
-      else {
-
-        Log::error( "Cannot calculate the integral of a polynomial series with an open domain" );
-        throw std::exception();
-      }
+      return this->primitive( this->lower() )( this->upper() );
     }
 
     /**
@@ -135,20 +153,10 @@ namespace math {
      */
     auto calculateMean() const {
 
-      if ( std::holds_alternative< IntervalDomain< X > >( this->domain() ) ) {
-
-        auto lower = std::get< IntervalDomain< X > >( this->domain() ).lowerLimit();
-        auto upper = std::get< IntervalDomain< X > >( this->domain() ).upperLimit();
-
-        auto coefficients = this->coefficients();
-        coefficients.insert( coefficients.begin(), 0. );
-        return PolynomialSeries( this->domain(), std::move( coefficients ) ).primitive( lower )( upper );
-      }
-      else {
-
-        Log::error( "Cannot calculate the integral of a polynomial series with an open domain" );
-        throw std::exception();
-      }
+      auto coefficients = this->coefficients();
+      coefficients.insert( coefficients.begin(), 0. );
+      return PolynomialSeries( this->lower(), this->upper(),
+                               std::move( coefficients ) ).primitive( this->lower() )( this->upper() );
     }
 
     /**
@@ -159,9 +167,9 @@ namespace math {
       //! @todo this migth be reimplemented using a cartesian product
 
       std::vector< Y > coefficients( this->order() + right.size() );
-      for ( unsigned int i = 0; i < this->coefficients().size(); ++i ) {
+      for ( std::size_t i = 0; i < this->coefficients().size(); ++i ) {
 
-        for ( unsigned int j = 0; j < right.size(); ++j ) {
+        for ( std::size_t j = 0; j < right.size(); ++j ) {
 
           coefficients[ i + j ] += this->coefficients()[i] * right[j];
         }
@@ -174,7 +182,7 @@ namespace math {
       // This does not check for order 0 or 1: this case is explicitly handled in the
       // roots( ... ) method.
 
-      const unsigned int order = this->order();
+      const std::size_t order = this->order();
       const Y scale = this->coefficients().back();
 
       Matrix< X > matrix( order, order );
@@ -182,7 +190,7 @@ namespace math {
 
       matrix( order - 1, 0 ) = - ( this->coefficients()[0] - a ) / scale;
       matrix( 0, 1 ) = Y( 1. );
-      for ( unsigned int i = 1; i < order; ++i ) {
+      for ( std::size_t i = 1; i < order; ++i ) {
 
         matrix( order - 1, i ) = - this->coefficients()[i] / scale;
         if ( i + 1 < order ) {
@@ -196,24 +204,15 @@ namespace math {
 
     /* constructor */
 
-    /**
-     *  @brief Private constructor
-     */
-    PolynomialSeries( Parent series ) : Parent( std::move( series ) ) {}
-
   public:
 
     /* type aliases */
 
     using typename Parent::XType;
     using typename Parent::YType;
-    using typename Parent::DomainVariant;
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     PolynomialSeries() = default;
 
     PolynomialSeries( const PolynomialSeries& ) = default;
@@ -235,33 +234,17 @@ namespace math {
     /**
      *  @brief Constructor
      *
-     *  @param domain         the domain of the polynomial series
-     *  @param coefficients   the coefficients of the polynomial series
-     *                        (from lowest to highest order coefficient)
-     */
-    PolynomialSeries( DomainVariant domain, std::vector< Y > coefficients ) :
-      Parent( std::move( domain ), std::move( coefficients ) ) {}
-
-    /**
-     *  @brief Constructor
-     *
-     *  @param coefficients   the coefficients of the polynomial series (from
-     *                        lowest to highest order coefficient)
-     */
-    PolynomialSeries( std::vector< Y > coefficients ) :
-      PolynomialSeries( OpenDomain< X >(), std::move( coefficients ) ) {}
-
-    /**
-     *  @brief Constructor
-     *
      *  @param lower          the lower limit of the domain
      *  @param upper          the upper limit of the domain
      *  @param coefficients   the coefficients of the polynomial series (from
      *                        lowest to highest order coefficient)
      */
     PolynomialSeries( X lower, X upper, std::vector< Y > coefficients ) :
-      PolynomialSeries( IntervalDomain< X >( std::move( lower ), std::move( upper ) ),
-                        std::move( coefficients ) ) {}
+      Parent( std::move( coefficients ) ),
+      lower_( std::move( lower ) ), upper_( std::move( upper ) ) {
+
+      verifyDomain( this->lower(), this->upper() );
+    }
 
     /* methods */
 
@@ -283,11 +266,11 @@ namespace math {
     using Parent::operator/=;
     using Parent::operator==;
     using Parent::operator!=;
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
   /**
