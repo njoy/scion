@@ -2,9 +2,9 @@
 #define NJOY_SCION_MATH_WEIGHTFUNCTIONBASE
 
 // system includes
+#include <utility>
 
 // other includes
-#include "scion/math/OneDimensionalFunctionBase.hpp"
 
 namespace njoy {
 namespace scion {
@@ -17,33 +17,19 @@ namespace math {
    *  This base class provides the interface for analytical weight functions used in
    *  integration of tabulated data. Weight functions can be used to calculate
    *  integrals of the form w(x) f(x) dx where f(x) is tabulated data.
+   *
+   *  Any class deriving from this base class must implement an evaluate(),
+   *  calculateIntegral(), calculateHistogramIntegral(),
+   *  calculateLinearLinearIntegral(), calculateLinearLogarithmicIntegral(),
+   *  calculateLogarithmicLinearIntegral(), calculateLogarithmicLogarithmicIntegral()
+   *  and calculateCoulombPenetrabilityIntegral() function.
    */
   template < typename Derived, typename X, typename W >
-  class WeightFunctionBase : public OneDimensionalFunctionBase< Derived, X, W > {
-
-    /* type aliases */
-
-    using Parent = OneDimensionalFunctionBase< Derived, X, W >;
-
-  public:
-
-    /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-    using typename Parent::DomainVariant;
+  class WeightFunctionBase {
 
   protected:
 
     /* constructor */
-
-    /**
-     *  @brief Constructor
-     *
-     *  @param domain   the domain of the weight function
-     */
-    WeightFunctionBase( DomainVariant domain ) :
-      Parent( std::move( domain ) ) {}
 
     WeightFunctionBase() = default;
     WeightFunctionBase( const WeightFunctionBase& ) = default;
@@ -55,6 +41,16 @@ namespace math {
   public:
 
     /* methods */
+
+    /**
+     *  @brief Evaluate the weight function for a value of x
+     *
+     *  @param x   the value to be evaluated
+     */
+    W operator()( const X& x ) const {
+
+      return static_cast< const Derived* >( this )->evaluate( x );
+    }
 
     /**
      *  @brief Calculate the integral of the weight function over a panel
@@ -150,21 +146,15 @@ namespace math {
      *  @param xRight      the right boundary of the panel
      *  @param yLeft       the tabulated function value at the left boundary of the panel
      *  @param yRight      the tabulated function value at the right boundary of the panel
-     *  @param threshold   the reaction threshold 
+     *  @param threshold   the reaction threshold
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I integrateCoulombPenetrability( const X& xLeft, const X& xRight,
-                                       const Y& yLeft, const Y& yRight, 
+                                       const Y& yLeft, const Y& yRight,
                                        const X& threshold ) const {
 
       return static_cast< const Derived* >( this )->calculateCoulombPenetrabilityIntegral( xLeft, xRight, yLeft, yRight, threshold );
     }
-
-    using Parent::domain;
-    using Parent::operator();
-    using Parent::isInside;
-    using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
 } // math namespace
