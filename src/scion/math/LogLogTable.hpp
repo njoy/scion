@@ -96,11 +96,11 @@ namespace math {
     using Parent::y;
     using Parent::numberPoints;
     using Parent::linearise;
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
 
     /**
      *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region

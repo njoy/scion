@@ -73,12 +73,6 @@ namespace math {
 
   public:
 
-    /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-    using typename Parent::DomainVariant;
-
     /* constructor */
 
     HistogramTable( const HistogramTable& ) = default;
@@ -127,11 +121,11 @@ namespace math {
       return std::make_pair( std::move( x ), std::move( y ) );
     }
 
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
 
     /**
      *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region
