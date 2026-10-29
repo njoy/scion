@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <optional>
 #include <tuple>
+#include <type_traits>
 #include <variant>
 #include <vector>
 
@@ -21,10 +22,8 @@
 #include "scion/math/LogLinearTable.hpp"
 #include "scion/math/LogLogTable.hpp"
 #include "scion/math/CoulombPenetrabilityTable.hpp"
-#include "scion/math/IntervalDomain.hpp"
 #include "scion/math/ProcessedData.hpp"
 #include "scion/verification/ranges.hpp"
-
 #include "scion/math/ConstantWeightFunction.hpp"
 #include "scion/math/MeanWeightFunction.hpp"
 
@@ -529,6 +528,22 @@ namespace math {
     /* interface implementation functions */
 
     /**
+     *  @brief Return the lower limit of the domain
+     */
+    const X& lower() const noexcept {
+
+      return this->x().front();
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    const X& upper() const noexcept {
+
+      return this->x().back();
+    }
+
+    /**
      *  @brief Evaluate the function for a value of x
      *
      *  @param x   the value to be evaluated
@@ -568,14 +583,13 @@ namespace math {
      *  @param data   the processed tabulated data
      */
     InterpolationTable( ProcessedData< X, Y >&& data ) :
-      Parent( IntervalDomain( data.x.front(), data.x.back() ) ),
-      x_( std::move( data.x ) ),
-      y_( std::move( data.y ) ),
-      boundaries_( std::move( data.boundaries ) ),
-      interpolants_( std::move( data.interpolants ) ),
-      threshold_( std::move( data.threshold ) ),
-      linearised_( data.linearised ),
-      curated_( data.curated ) {
+        x_( std::move( data.x ) ),
+        y_( std::move( data.y ) ),
+        boundaries_( std::move( data.boundaries ) ),
+        interpolants_( std::move( data.interpolants ) ),
+        threshold_( std::move( data.threshold ) ),
+        linearised_( data.linearised ),
+        curated_( data.curated ) {
 
       this->generateTables();
     }
@@ -586,7 +600,6 @@ namespace math {
 
     using typename Parent::XType;
     using typename Parent::YType;
-    using typename Parent::DomainVariant;
 
     /* constructor */
 
@@ -601,14 +614,13 @@ namespace math {
      *  @param[in] table    the table to be copied
      */
     InterpolationTable( const InterpolationTable& table ) :
-      Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
-      x_( table.x_ ),
-      y_( table.y_ ),
-      boundaries_( table.boundaries_ ),
-      interpolants_( table.interpolants_ ),
-      threshold_( table.threshold_ ),
-      linearised_( table.linearised_ ),
-      curated_( table.curated_ ) {
+        x_( table.x_ ),
+        y_( table.y_ ),
+        boundaries_( table.boundaries_ ),
+        interpolants_( table.interpolants_ ),
+        threshold_( table.threshold_ ),
+        linearised_( table.linearised_ ),
+        curated_( table.curated_ ) {
 
       this->generateTables();
     }
@@ -619,14 +631,13 @@ namespace math {
      *  @param[in] table    the table to be moved
      */
     InterpolationTable( InterpolationTable&& table ) :
-      Parent( IntervalDomain( table.x_.front(), table.x_.back() ) ),
-      x_( std::move( table.x_ ) ),
-      y_( std::move( table.y_ ) ),
-      boundaries_( std::move( table.boundaries_ ) ),
-      interpolants_( std::move( table.interpolants_ ) ),
-      threshold_( table.threshold_ ),
-      linearised_( table.linearised_ ),
-      curated_( table.curated_ ) {
+        x_( std::move( table.x_ ) ),
+        y_( std::move( table.y_ ) ),
+        boundaries_( std::move( table.boundaries_ ) ),
+        interpolants_( std::move( table.interpolants_ ) ),
+        threshold_( table.threshold_ ),
+        linearised_( table.linearised_ ),
+        curated_( table.curated_ ) {
 
       this->generateTables();
     }
@@ -640,7 +651,6 @@ namespace math {
 
       if ( this != &base ) {
 
-        Parent::operator=( base );
         this->x_ = base.x_;
         this->y_ = base.y_;
         this->boundaries_ = base.boundaries_;
@@ -662,7 +672,6 @@ namespace math {
 
       if ( this != &base ) {
 
-        Parent::operator=( std::move( base ) );
         this->x_ = std::move( base.x_ );
         this->y_ = std::move( base.y_ );
         this->boundaries_ = std::move( base.boundaries_ );
@@ -1048,9 +1057,6 @@ namespace math {
       return ! this->operator==( right );
     }
 
-    using Parent::domain;
-    using Parent::operator();
-
     /**
      *  @brief Calculate the integral of w(x) * f(x) dx over the table domain
      *
@@ -1152,9 +1158,11 @@ namespace math {
       return this->integrate( MeanWeightFunction< X >{} ) / this->integral();
     }
 
+    using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
   /**
