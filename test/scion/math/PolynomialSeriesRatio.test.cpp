@@ -26,7 +26,7 @@ SCENARIO( "PolynomialSeriesRatio" ) {
       std::vector< double > numerator = { -8., 14., -7., 1. };
       std::vector< double > denominator = { 3., 0, 5. };
 
-      PolynomialSeriesRatio< double > chunk( lower., upper,
+      PolynomialSeriesRatio< double > chunk( lower, upper,
                                              std::move( numerator ),
                                              std::move( denominator ) );
 
