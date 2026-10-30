@@ -6,8 +6,6 @@ import sys
 
 # local imports
 from scion.math import ChebyshevApproximation
-from scion.math import IntervalDomain
-from scion.math import OpenDomain
 
 class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
     """Unit test for the ChebyshevApproximation class."""
@@ -31,9 +29,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
 
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             # verify evaluation
             self.assertAlmostEqual( -1.0      , chunk( -1. ) )
@@ -77,9 +74,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained(  0. ) )
             self.assertEqual( False, chunk.is_contained(  1. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -1., 1. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 1. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( -1., chunk.lower_limit )
+            self.assertAlmostEqual( 1., chunk.upper_limit )
 
             # verify arithmetic operators
             small = ChebyshevApproximation( -1, 1, [ 3., 0., 1. ] )
@@ -98,9 +94,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             chunk += 2.
             self.assertEqual( 10, chunk.order )
@@ -115,9 +110,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             chunk -= 2.
             self.assertEqual( 10, chunk.order )
@@ -132,9 +126,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             chunk += small
             self.assertEqual( 10, chunk.order )
@@ -149,9 +142,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             chunk -= small
             self.assertEqual( 10, chunk.order )
@@ -166,9 +158,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             chunk *= 2.
             self.assertEqual( 10, chunk.order )
@@ -183,9 +174,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             chunk /= 2.
             self.assertEqual( 10, chunk.order )
@@ -200,9 +190,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -1., chunk.domain.lower_limit )
-            self.assertEqual(  1., chunk.domain.upper_limit )
+            self.assertEqual( -1., chunk.lower_limit )
+            self.assertEqual(  1., chunk.upper_limit )
 
             result = chunk + 2.
             self.assertEqual( 10, result.order )
@@ -217,9 +206,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = 2. + chunk
             self.assertEqual( 10, result.order )
@@ -234,9 +222,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = chunk - 2.
             self.assertEqual( 10, result.order )
@@ -251,9 +238,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = 2. - chunk
             self.assertEqual( 10, result.order )
@@ -268,9 +254,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = chunk + small
             self.assertEqual( 10, result.order )
@@ -285,9 +270,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = chunk - small
             self.assertEqual( 10, result.order )
@@ -302,9 +286,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = chunk * 2.
             self.assertEqual( 10, result.order )
@@ -319,9 +302,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = 2. * chunk
             self.assertEqual( 10, result.order )
@@ -336,9 +318,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
             result = chunk / 2.
             self.assertEqual( 10, result.order )
@@ -353,9 +334,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0.0, result.coefficients[7] )
             self.assertAlmostEqual( 0.0, result.coefficients[8] )
             self.assertAlmostEqual( 0.0, result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -1., result.domain.lower_limit )
-            self.assertEqual(  1., result.domain.upper_limit )
+            self.assertEqual( -1., result.lower_limit )
+            self.assertEqual(  1., result.upper_limit )
 
         def verify_chunk_domain2( self, chunk ) :
 
@@ -374,9 +354,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
 
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             # verify evaluation
             self.assertAlmostEqual( -1.0      , chunk( -1. ) )
@@ -420,9 +399,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained( 1. ) )
             self.assertEqual( False, chunk.is_contained( 4. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -2., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( -2., chunk.lower_limit )
+            self.assertAlmostEqual( 4., chunk.upper_limit )
 
             # verify arithmetic operators
             small = ChebyshevApproximation( -2, 4, [ 3., 0., 1. ] )
@@ -441,9 +419,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             chunk += 2.
             self.assertEqual( 10, chunk.order )
@@ -458,9 +435,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             chunk -= 2.
             self.assertEqual( 10, chunk.order )
@@ -475,9 +451,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             chunk += small
             self.assertEqual( 10, chunk.order )
@@ -492,9 +467,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             chunk -= small
             self.assertEqual( 10, chunk.order )
@@ -509,9 +483,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             chunk *= 2.
             self.assertEqual( 10, chunk.order )
@@ -526,9 +499,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             chunk /= 2.
             self.assertEqual( 10, chunk.order )
@@ -543,9 +515,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., chunk.coefficients[7] )
             self.assertAlmostEqual( 0., chunk.coefficients[8] )
             self.assertAlmostEqual( 0., chunk.coefficients[9] )
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
-            self.assertEqual( -2., chunk.domain.lower_limit )
-            self.assertEqual(  4., chunk.domain.upper_limit )
+            self.assertEqual( -2., chunk.lower_limit )
+            self.assertEqual(  4., chunk.upper_limit )
 
             result = chunk + 2.
             self.assertEqual( 10, result.order )
@@ -560,9 +531,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = 2. + chunk
             self.assertEqual( 10, result.order )
@@ -577,9 +547,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = chunk - 2.
             self.assertEqual( 10, result.order )
@@ -594,9 +563,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = 2. - chunk
             self.assertEqual( 10, result.order )
@@ -611,9 +579,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = chunk + small
             self.assertEqual( 10, result.order )
@@ -628,9 +595,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = chunk - small
             self.assertEqual( 10, result.order )
@@ -645,9 +611,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual(  0., result.coefficients[7] )
             self.assertAlmostEqual(  0., result.coefficients[8] )
             self.assertAlmostEqual(  0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = chunk * 2.
             self.assertEqual( 10, result.order )
@@ -662,9 +627,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = 2. * chunk
             self.assertEqual( 10, result.order )
@@ -679,9 +643,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0., result.coefficients[7] )
             self.assertAlmostEqual( 0., result.coefficients[8] )
             self.assertAlmostEqual( 0., result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
             result = chunk / 2.
             self.assertEqual( 10, result.order )
@@ -696,9 +659,8 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
             self.assertAlmostEqual( 0.0, result.coefficients[7] )
             self.assertAlmostEqual( 0.0, result.coefficients[8] )
             self.assertAlmostEqual( 0.0, result.coefficients[9] )
-            self.assertEqual( True, isinstance( result.domain, IntervalDomain ) )
-            self.assertEqual( -2., result.domain.lower_limit )
-            self.assertEqual(  4., result.domain.upper_limit )
+            self.assertEqual( -2., result.lower_limit )
+            self.assertEqual(  4., result.upper_limit )
 
         # test function : f(x) = x
         def function( x ) : return x
