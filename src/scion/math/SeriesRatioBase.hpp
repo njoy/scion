@@ -21,6 +21,10 @@ namespace math {
    *  Chebyshev series.
    *
    *  @todo see about adding a capability to simplify the ratio?
+   *
+   *  @todo Arithmetic operations currently do not check domain. The left side
+   *        domain is always used as the final domain. We should determine if
+   *        this is the behaviour we want.
    */
   template < typename Derived, typename Series, typename X, typename Y >
   class SeriesRatioBase : public OneDimensionalFunctionBase< Derived, X, Y > {
@@ -77,11 +81,6 @@ namespace math {
 
     /* constructor */
 
-    /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-
     SeriesRatioBase() = default;
 
     SeriesRatioBase( const SeriesRatioBase& ) = default;
@@ -135,6 +134,11 @@ namespace math {
     }
 
   public:
+
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
 
     /* methods */
 

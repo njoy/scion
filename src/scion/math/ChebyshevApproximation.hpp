@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_CHEBYSHEVAPPROXIMATION
 
 // system includes
+#include <cmath>
 #include <vector>
 
 // other includes
@@ -64,6 +65,14 @@ namespace math {
       if ( ! ( lower < upper ) ) {
 
         Log::error( "Incoherent domain for a Chebyshev approximation, expected lower < upper" );
+        Log::info( "Lower limit: {}", lower );
+        Log::info( "Upper limit: {}", upper );
+        throw std::exception();
+      }
+
+      if ( ! std::isfinite( lower ) || ! std::isfinite( upper ) ) {
+
+        Log::error( "The domain for a Chebyshev approximation must be finite" );
         Log::info( "Lower limit: {}", lower );
         Log::info( "Upper limit: {}", upper );
         throw std::exception();
@@ -144,6 +153,7 @@ namespace math {
     }
 
   public:
+
     /* type aliases */
 
     using typename Parent::XType;

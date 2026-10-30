@@ -546,6 +546,10 @@ SCENARIO( "ChebyshevApproximation" ) {
 
         CHECK_THROWS( ChebyshevApproximation< double >( 1., 1., std::vector< double >{ 1., 2. } ) );
         CHECK_THROWS( ChebyshevApproximation< double >( 1., -1., std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( -1., std::numeric_limits< double >::infinity(), std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( -std::numeric_limits< double >::infinity(), 1., std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( -std::numeric_limits< double >::infinity(),
+                                                        std::numeric_limits< double >::infinity(), std::vector< double >{ 1., 2. } ) );
       } // THEN
     } // WHEN
   } // GIVEN

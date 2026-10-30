@@ -161,6 +161,7 @@ namespace math {
     auto calculateIntegral() const {
 
       this->verifyFiniteDomain();
+
       return this->primitive( this->lower() )( this->upper() );
     }
 
@@ -170,6 +171,7 @@ namespace math {
     auto calculateMean() const {
 
       this->verifyFiniteDomain();
+
       auto coefficients = this->coefficients();
       coefficients.insert( coefficients.begin(), 0. );
       return PolynomialSeries( this->lower(), this->upper(),

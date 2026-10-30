@@ -31,6 +31,10 @@ namespace math {
    *  Any class deriving from this base class must implement a lower(), upper(),
    *  evaluate(), companionMatrix(), calculateDerivative(), calculatePrimitive(),
    *  calculateIntegral(), calculateMean() and calculateProduct() function.
+   *
+   *  @todo Arithmetic operations currently do not check domain. The left side
+   *        domain is always used as the final domain. We should determine if
+   *        this is the behaviour we want.
    */
   template < typename Derived, typename X, typename Y >
   class SeriesBase : public OneDimensionalFunctionBase< Derived, X, Y > {

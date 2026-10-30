@@ -677,6 +677,32 @@ class Test_scion_math_ChebyshevApproximation( unittest.TestCase ) :
 
         verify_chunk_domain2( self, chunk )
 
+    def test_failures( self ) :
+
+        print( '\n' )
+
+        # the domain is not valid
+        with self.assertRaises( Exception ) :
+
+            chunk = ChebyshevApproximation( lower = 1., upper = 1., coefficients = [ 1., 2. ] )
+
+        with self.assertRaises( Exception ) :
+
+            chunk = ChebyshevApproximation( lower = 1., upper = -1., coefficients = [ 1., 2. ] )
+
+        # the domain is not finite
+        with self.assertRaises( Exception ) :
+
+            chunk = ChebyshevApproximation( lower = -1., upper = float( 'inf' ), coefficients = [ 1., 2. ] )
+
+        with self.assertRaises( Exception ) :
+
+            chunk = ChebyshevApproximation( lower = float( '-inf' ), upper = 1., coefficients = [ 1., 2. ] )
+
+        with self.assertRaises( Exception ) :
+
+            chunk = ChebyshevApproximation( lower = float( '-inf' ), upper = float( 'inf' ), coefficients = [ 1., 2. ] )
+
 if __name__ == '__main__' :
 
     unittest.main()
