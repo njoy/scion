@@ -5,7 +5,7 @@ from __future__ import annotations
 import scion.interpolation
 import scion.linearisation
 import typing
-__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'CoulombPenetrabilityTable', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'IntervalDomain', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'OpenDomain', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
+__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'CoulombPenetrabilityTable', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
 class AnalyticalIntegrator:
     """
     Analytical integration of data over a number of successive integration intervals
@@ -163,14 +163,6 @@ class ChebyshevApproximation:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> InterpolationTable:
         """
         Linearise the function and return a LinearLinearTable
@@ -208,14 +200,19 @@ class ChebyshevApproximation:
         The coefficients of the series expansion
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
+    def lower_limit(self) -> float:
         """
-        The domain
+        The lower limit of the domain
         """
     @property
     def order(self) -> int:
         """
         The order of the series expansion
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
 class ChebyshevSeries:
     """
@@ -330,14 +327,6 @@ class ChebyshevSeries:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> InterpolationTable:
         """
         Linearise the function and return a LinearLinearTable
@@ -375,14 +364,14 @@ class ChebyshevSeries:
         The coefficients of the series expansion
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def integral(self) -> float:
         """
         The integral (zeroth order moment) of the table over its domain
+        """
+    @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
         """
     @property
     def mean(self) -> float:
@@ -393,6 +382,11 @@ class ChebyshevSeries:
     def order(self) -> int:
         """
         The order of the series expansion
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
 class CoulombPenetrabilityTable:
     """
@@ -432,14 +426,6 @@ class CoulombPenetrabilityTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
         """
         Linearise the function and return a LinearLinearTable
@@ -449,14 +435,14 @@ class CoulombPenetrabilityTable:
             convergence    the linearisation convergence criterion (default 0.1 %)
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
+        """
+    @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
         """
     @property
     def number_points(self) -> int:
@@ -467,6 +453,11 @@ class CoulombPenetrabilityTable:
     def threshold(self) -> float:
         """
         The reaction threshold
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
     @property
     def x(self) -> list[float]:
@@ -594,14 +585,6 @@ class HistogramTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
         """
         Linearise the function and return a LinearLinearTable
@@ -611,19 +594,24 @@ class HistogramTable:
             convergence    the linearisation convergence criterion (default 0.1 %)
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
         """
     @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
+        """
+    @property
     def number_points(self) -> int:
         """
         The y values of the table
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
     @property
     def x(self) -> list[float]:
@@ -743,14 +731,6 @@ class InterpolationTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> InterpolationTable:
         """
         Linearise the function and return a LinearLinearTable
@@ -768,11 +748,6 @@ class InterpolationTable:
     def cumulative_integral(self) -> list[float]:
         """
         The cumulative integral of the table over its domain
-        """
-    @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
         """
     @property
     def integral(self) -> float:
@@ -793,6 +768,11 @@ class InterpolationTable:
     def is_linearised(self) -> bool:
         """
         Flag indicating whether or not the data is linearised
+        """
+    @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
         """
     @property
     def mean(self) -> float:
@@ -816,6 +796,11 @@ class InterpolationTable:
         is used in the table)
         """
     @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
+        """
+    @property
     def x(self) -> list[float]:
         """
         The x values of the table
@@ -824,50 +809,6 @@ class InterpolationTable:
     def y(self) -> list[float]:
         """
         The y values of the table
-        """
-class IntervalDomain:
-    """
-    A domain for a function y -> f(x) for x inside [a,b]
-    """
-    __hash__: typing.ClassVar[None] = None
-    def __eq__(self, arg0: IntervalDomain) -> bool:
-        ...
-    def __init__(self, lower: float, upper: float) -> None:
-        """
-        Initialise the domain
-        
-        Arguments:
-            self    the domain
-            lower   the lower limit of the domain
-            upper   the upper limit of the domain
-        """
-    def __ne__(self, arg0: IntervalDomain) -> bool:
-        ...
-    def is_contained(self, x: float) -> bool:
-        """
-        Check whether or not a value is inside the domain (excluding boundaries)
-        
-        Arguments:
-            self   the domain
-            x      the value to be tested
-        """
-    def is_inside(self, x: float) -> bool:
-        """
-        Check whether or not a value is inside the domain (including boundaries)
-        
-        Arguments:
-            self   the domain
-            x      the value to be tested
-        """
-    @property
-    def lower_limit(self) -> float:
-        """
-        The lower limit of the domain
-        """
-    @property
-    def upper_limit(self) -> float:
-        """
-        The upper limit of the domain
         """
 class LegendreSeries:
     """
@@ -987,14 +928,6 @@ class LegendreSeries:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> InterpolationTable:
         """
         Linearise the function and return a LinearLinearTable
@@ -1032,14 +965,14 @@ class LegendreSeries:
         The coefficients of the series expansion
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def integral(self) -> float:
         """
         The integral (zeroth order moment) of the table over its domain
+        """
+    @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
         """
     @property
     def mean(self) -> float:
@@ -1050,6 +983,11 @@ class LegendreSeries:
     def order(self) -> int:
         """
         The order of the series expansion
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
 class LinearLinearTable:
     """
@@ -1088,14 +1026,6 @@ class LinearLinearTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
         """
         Linearise the function and return a LinearLinearTable
@@ -1105,19 +1035,24 @@ class LinearLinearTable:
             convergence    the linearisation convergence criterion (default 0.1 %)
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
         """
     @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
+        """
+    @property
     def number_points(self) -> int:
         """
         The y values of the table
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
     @property
     def x(self) -> list[float]:
@@ -1166,14 +1101,6 @@ class LinearLogTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
         """
         Linearise the function and return a LinearLinearTable
@@ -1183,19 +1110,24 @@ class LinearLogTable:
             convergence    the linearisation convergence criterion (default 0.1 %)
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
         """
     @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
+        """
+    @property
     def number_points(self) -> int:
         """
         The y values of the table
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
     @property
     def x(self) -> list[float]:
@@ -1244,14 +1176,6 @@ class LogLinearTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
         """
         Linearise the function and return a LinearLinearTable
@@ -1261,19 +1185,24 @@ class LogLinearTable:
             convergence    the linearisation convergence criterion (default 0.1 %)
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
         """
     @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
+        """
+    @property
     def number_points(self) -> int:
         """
         The y values of the table
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
     @property
     def x(self) -> list[float]:
@@ -1322,14 +1251,6 @@ class LogLogTable:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> tuple[list[float], list[float]]:
         """
         Linearise the function and return a LinearLinearTable
@@ -1339,19 +1260,24 @@ class LogLogTable:
             convergence    the linearisation convergence criterion (default 0.1 %)
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def interpolation(self) -> scion.interpolation.InterpolationType:
         """
         The interpolation type
         """
     @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
+        """
+    @property
     def number_points(self) -> int:
         """
         The y values of the table
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
     @property
     def x(self) -> list[float]:
@@ -1362,35 +1288,6 @@ class LogLogTable:
     def y(self) -> list[float]:
         """
         The y values of the table
-        """
-class OpenDomain:
-    """
-    A domain for a function y -> f(x) including any value of x
-    """
-    __hash__: typing.ClassVar[None] = None
-    def __eq__(self, arg0: OpenDomain) -> bool:
-        ...
-    def __init__(self) -> None:
-        """
-        Initialise the domain
-        """
-    def __ne__(self, arg0: OpenDomain) -> bool:
-        ...
-    def is_contained(self, x: float) -> bool:
-        """
-        Check whether or not a value is inside the domain (excluding boundaries)
-        
-        Arguments:
-            self   the domain
-            x      the value to be tested
-        """
-    def is_inside(self, x: float) -> bool:
-        """
-        Check whether or not a value is inside the domain (including boundaries)
-        
-        Arguments:
-            self   the domain
-            x      the value to be tested
         """
 class PolynomialSeries:
     """
@@ -1452,7 +1349,7 @@ class PolynomialSeries:
     @typing.overload
     def __init__(self, lower: float, upper: float, coefficients: list[float]) -> None:
         """
-        Initialise the function with an open domain
+        Initialise the function
         
         Arguments:
             self           the function
@@ -1509,14 +1406,6 @@ class PolynomialSeries:
             self   the function
             x      the value to be tested
         """
-    def is_same_domain(self, domain: IntervalDomain | OpenDomain) -> bool:
-        """
-        Check whether or not a domain is equal to the function's domain
-        
-        Arguments:
-            self     the function
-            domain   the domain to be tested
-        """
     def linearise(self, convergence: scion.linearisation.ToleranceConvergence = ...) -> InterpolationTable:
         """
         Linearise the function and return a LinearLinearTable
@@ -1554,14 +1443,14 @@ class PolynomialSeries:
         The coefficients of the series expansion
         """
     @property
-    def domain(self) -> IntervalDomain | OpenDomain:
-        """
-        The domain
-        """
-    @property
     def integral(self) -> float:
         """
         The integral (zeroth order moment) of the table over its domain
+        """
+    @property
+    def lower_limit(self) -> float:
+        """
+        The lower limit of the domain
         """
     @property
     def mean(self) -> float:
@@ -1572,6 +1461,11 @@ class PolynomialSeries:
     def order(self) -> int:
         """
         The order of the series expansion
+        """
+    @property
+    def upper_limit(self) -> float:
+        """
+        The upper limit of the domain
         """
 def chebyshev(order: int, x: float) -> float:
     """

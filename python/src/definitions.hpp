@@ -41,47 +41,10 @@ void addStandardEqualDefinitions( PythonClass& component ) {
 }
 
 /**
- *  @brief Add standard domain definitions
- *
- *  This adds the following standard functions:
- *    in_inside, is_contained
- *
- *  @param[in] component   the domain to which the definitions have to be added
- */
-template < typename Component, typename PythonClass >
-void addStandardDomainDefinitions( PythonClass& component ) {
-
-  component
-  .def(
-
-    "is_inside",
-    &Component::isInside,
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (including boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the domain\n"
-    "    x      the value to be tested"
-  )
-  .def(
-
-    "is_contained",
-    &Component::isContained,
-    python::arg( "x" ),
-    "Check whether or not a value is inside the domain (excluding boundaries)\n\n"
-    "Arguments:\n"
-    "    self   the domain\n"
-    "    x      the value to be tested"
-  );
-
-  // add __eq__ and __ne__
-  addStandardEqualDefinitions< Component >( component );
-}
-
-/**
  *  @brief Add standard function definitions
  *
  *  This adds the following standard functions:
- *    is_inside, is_contained, __call__, evaluate, domain
+ *    lower_limit, upper_limit, is_inside, is_contained, __call__, linearise
  *
  *  @param[in] component   the function to which the definitions have to be added
  */
@@ -89,18 +52,21 @@ template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardFunctionDefinitions( PythonClass& component ) {
 
   using ToleranceConvergence = njoy::scion::linearisation::ToleranceConvergence< X, Y >;
-  using DomainVariant = typename Component::DomainVariant;
-
-  // note: for is_same_domain to bind properly, all possible variant members
-  //       must have a default constructor
 
   component
   .def_property_readonly(
 
-    "domain",
+    "lower_limit",
     [] ( const Component& self ) -> decltype(auto)
-       { return self.domain(); },
-    "The domain"
+       { return self.lowerLimit(); },
+    "The lower limit of the domain"
+  )
+  .def_property_readonly(
+
+    "upper_limit",
+    [] ( const Component& self ) -> decltype(auto)
+       { return self.upperLimit(); },
+    "The upper limit of the domain"
   )
   .def(
 
@@ -145,17 +111,6 @@ void addStandardFunctionDefinitions( PythonClass& component ) {
     "Arguments:\n"
     "    self           the function\n"
     "    convergence    the linearisation convergence criterion (default 0.1 %)"
-  )
-  .def(
-
-    "is_same_domain",
-    [] ( const Component& self, const DomainVariant& domain )
-       { return self.isSameDomain( domain ); },
-    python::arg( "domain" ),
-    "Check whether or not a domain is equal to the function's domain\n\n"
-    "Arguments:\n"
-    "    self     the function\n"
-    "    domain   the domain to be tested"
   );
 }
 
@@ -293,7 +248,7 @@ void addStandardSeriesDefinitions( PythonClass& component ) {
  *  This adds the following standard functions:
  *    number_points, interpolation, x, y
  *
- *  @param[in] component   the domain to which the definitions have to be added
+ *  @param[in] component   the table to which the definitions have to be added
  */
 template < typename Component, typename X, typename Y, typename PythonClass >
 void addStandardSingleInterpolationTableDefinitions( PythonClass& component ) {

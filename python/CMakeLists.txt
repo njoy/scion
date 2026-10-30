@@ -21,8 +21,6 @@ if(scion.python)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/newton.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/chebyshev.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/legendre.python.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/math/IntervalDomain.python.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/math/OpenDomain.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/LinearLinearTable.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/HistogramTable.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/LogLogTable.python.cpp
