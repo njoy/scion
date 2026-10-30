@@ -655,6 +655,138 @@ SCENARIO( "PolynomialSeries" ) {
     } // WHEN
   } // GIVEN
 
+  GIVEN( "coefficients for an expansion with an open domain" ) {
+
+    WHEN( "the data is given explicitly" ) {
+
+      PolynomialSeries< double > chunk( { -8., 14., -7., 1. } );
+
+      THEN( "a PolynomialSeries can be constructed and members can be tested" ) {
+
+        CHECK( 3 == chunk.order() );
+        CHECK( 4 == chunk.coefficients().size() );
+        CHECK_THAT( -8., WithinRel( chunk.coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( chunk.coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( chunk.coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( chunk.coefficients()[3] ) );
+
+        CHECK( -std::numeric_limits< double >::infinity() == chunk.lowerLimit() );
+        CHECK(  std::numeric_limits< double >::infinity() == chunk.upperLimit() );
+      } // THEN
+
+      THEN( "a PolynomialSeries can be evaluated" ) {
+
+        CHECK_THAT(  -8.0, WithinRel( chunk(  0. ) ) );
+        CHECK_THAT(   0.0, WithinRel( chunk(  1. ) ) );
+        CHECK_THAT( -30.0, WithinRel( chunk( -1. ) ) );
+      } // THEN
+
+      THEN( "a PolynomialSeries can be differentiated" ) {
+
+        PolynomialSeries< double > first = chunk.derivative();
+        PolynomialSeries< double > second = first.derivative();
+        PolynomialSeries< double > third = second.derivative();
+        PolynomialSeries< double > fourth = third.derivative();
+
+        CHECK( 2 == first.order() );
+        CHECK( 3 == first.coefficients().size() );
+        CHECK_THAT(  14., WithinRel( first.coefficients()[0] ) );
+        CHECK_THAT( -14., WithinRel( first.coefficients()[1] ) );
+        CHECK_THAT(   3., WithinRel( first.coefficients()[2] ) );
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( first.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( first.upperLimit() ) );
+
+        CHECK( 1 == second.order() );
+        CHECK( 2 == second.coefficients().size() );
+        CHECK_THAT( -14., WithinRel( second.coefficients()[0] ) );
+        CHECK_THAT(   6., WithinRel( second.coefficients()[1] ) );
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( second.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( second.upperLimit() ) );
+
+        CHECK( 0 == third.order() );
+        CHECK( 1 == third.coefficients().size() );
+        CHECK_THAT( 6., WithinRel( third.coefficients()[0] ) );
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( third.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( third.upperLimit() ) );
+
+        CHECK( 0 == fourth.order() );
+        CHECK( 1 == fourth.coefficients().size() );
+        CHECK_THAT( 0., WithinRel( fourth.coefficients()[0] ) );
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( fourth.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( fourth.upperLimit() ) );
+      } // THEN
+
+      THEN( "a PolynomialSeries can be integrated" ) {
+
+        PolynomialSeries< double > primitive = chunk.primitive();
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK_THAT(  0., WithinRel( primitive.coefficients()[0] ) );
+        CHECK_THAT( -8., WithinRel( primitive.coefficients()[1] ) );
+        CHECK_THAT(  7., WithinRel( primitive.coefficients()[2] ) );
+        CHECK_THAT( -7. / 3., WithinRel( primitive.coefficients()[3] ) );
+        CHECK_THAT(  1. / 4., WithinRel( primitive.coefficients()[4] ) );
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( primitive.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( primitive.upperLimit() ) );
+
+        primitive = chunk.primitive( -1. );
+
+        CHECK( 4 == primitive.order() );
+        CHECK( 5 == primitive.coefficients().size() );
+        CHECK_THAT( -211. / 12., WithinRel( primitive.coefficients()[0] ) );
+        CHECK_THAT( -8., WithinRel( primitive.coefficients()[1] ) );
+        CHECK_THAT(  7., WithinRel( primitive.coefficients()[2] ) );
+        CHECK_THAT( -7. / 3., WithinRel( primitive.coefficients()[3] ) );
+        CHECK_THAT(  1. / 4., WithinRel( primitive.coefficients()[4] ) );
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( primitive.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( primitive.upperLimit() ) );
+      } // THEN
+
+      THEN( "roots can be calculated" ) {
+
+        std::vector< double > roots = chunk.roots();
+
+        CHECK( 3 == roots.size() );
+        CHECK_THAT( 1.0, WithinRel( roots[0] ) );
+        CHECK_THAT( 2.0, WithinRel( roots[1] ) );
+        CHECK_THAT( 4.0, WithinRel( roots[2] ) );
+
+        roots = chunk.roots( -8. );
+
+        CHECK( 1 == roots.size() );
+        CHECK_THAT( 0.0, WithinRel( roots[0] ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( -1. ) );
+        CHECK( true == chunk.isInside(  0. ) );
+        CHECK( true == chunk.isInside(  1. ) );
+
+        CHECK( true == chunk.isContained( -1. ) );
+        CHECK( true == chunk.isContained(  0. ) );
+        CHECK( true == chunk.isContained(  1. ) );
+      } // THEN
+
+      THEN( "it cannot be integrated or linearised" ) {
+
+        CHECK_THROWS( chunk.integral() );
+        CHECK_THROWS( chunk.mean() );
+        CHECK_THROWS( chunk.linearise() );
+      } // THEN
+
+      THEN( "it can be compared" ) {
+
+        PolynomialSeries< double > equal( { -8., 14., -7., 1. } );
+        PolynomialSeries< double > interval( -1., 1., { -8., 14., -7., 1. } );
+
+        CHECK( true == ( chunk == equal ) );
+        CHECK( false == ( chunk == interval ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
   GIVEN( "invalid data" ) {
 
     WHEN( "the coefficient vector is empty" ) {

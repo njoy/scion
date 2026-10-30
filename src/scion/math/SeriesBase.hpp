@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_SERIESBASE
 
 // system includes
+#include <cmath>
 #include <vector>
 
 // other includes
@@ -203,10 +204,20 @@ namespace math {
     /**
      *  @brief Linearise the series and return a LinearLinearTable
      *
+     *  The series can only be linearised if its domain is finite.
+     *
      *  @param[in] convergence    the linearisation convergence criterion (default 0.1 %)
      */
     template < typename Convergence = linearisation::ToleranceConvergence< X, Y > >
     InterpolationTable< X, Y > linearise( Convergence&& convergence = Convergence() ) const {
+
+      if ( ! std::isfinite( this->lowerLimit() ) || ! std::isfinite( this->upperLimit() ) ) {
+
+        Log::error( "Cannot linearise a series defined over an infinite domain" );
+        Log::info( "Lower limit: {}", this->lowerLimit() );
+        Log::info( "Upper limit: {}", this->upperLimit() );
+        throw std::exception();
+      }
 
       if ( 0 == this->order() ) {
 

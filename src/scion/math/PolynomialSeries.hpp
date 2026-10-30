@@ -2,6 +2,8 @@
 #define NJOY_SCION_MATH_POLYNOMIALSERIES
 
 // system includes
+#include <cmath>
+#include <limits>
 #include <vector>
 
 // other includes
@@ -19,7 +21,9 @@ namespace math {
    *  @brief A polynomial function y -> f(x) = sum c_i x^i of order n
    *
    *  This class represents a polynomial function y -> f(x) = sum c_i x^i of
-   *  order n defined over an interval [a,b].
+   *  order n defined over a domain. Currently, the domain can either be the
+   *  open domain where every value of x is allowed or the interval domain that
+   *  restricts x to an interval [a,b].
    *
    *  The horner scheme is used for the evaluation of the series.
    *
@@ -60,6 +64,17 @@ namespace math {
         Log::error( "Incoherent domain for a polynomial series, expected lower < upper" );
         Log::info( "Lower limit: {}", lower );
         Log::info( "Upper limit: {}", upper );
+        throw std::exception();
+      }
+    }
+
+    void verifyFiniteDomain() const {
+
+      if ( ! std::isfinite( this->lower() ) || ! std::isfinite( this->upper() ) ) {
+
+        Log::error( "Cannot integrate a polynomial series defined over an infinite domain" );
+        Log::info( "Lower limit: {}", this->lower() );
+        Log::info( "Upper limit: {}", this->upper() );
         throw std::exception();
       }
     }
@@ -145,6 +160,7 @@ namespace math {
      */
     auto calculateIntegral() const {
 
+      this->verifyFiniteDomain();
       return this->primitive( this->lower() )( this->upper() );
     }
 
@@ -153,6 +169,7 @@ namespace math {
      */
     auto calculateMean() const {
 
+      this->verifyFiniteDomain();
       auto coefficients = this->coefficients();
       coefficients.insert( coefficients.begin(), 0. );
       return PolynomialSeries( this->lower(), this->upper(),
@@ -245,6 +262,17 @@ namespace math {
 
       verifyDomain( this->lower(), this->upper() );
     }
+
+    /**
+     *  @brief Constructor
+     *
+     *  @param coefficients   the coefficients of the polynomial series (from
+     *                        lowest to highest order coefficient)
+     */
+    PolynomialSeries( std::vector< Y > coefficients ) :
+      PolynomialSeries( -std::numeric_limits< X >::infinity(),
+                        std::numeric_limits< X >::infinity(),
+                        std::move( coefficients ) ) {}
 
     /* methods */
 

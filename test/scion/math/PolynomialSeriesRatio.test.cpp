@@ -21,10 +21,13 @@ SCENARIO( "PolynomialSeriesRatio" ) {
 
       // the 3rd order polynomial was designed to have 3 real roots: 1, 2 and 4
 
+      double lower = -1.;
+      double upper = 1.;
       std::vector< double > numerator = { -8., 14., -7., 1. };
       std::vector< double > denominator = { 3., 0, 5. };
 
-      PolynomialSeriesRatio< double > chunk( std::move( numerator ),
+      PolynomialSeriesRatio< double > chunk( lower., upper,
+                                             std::move( numerator ),
                                              std::move( denominator ) );
 
       THEN( "a PolynomialSeriesRatio can be constructed and members can be tested" ) {
@@ -38,6 +41,9 @@ SCENARIO( "PolynomialSeriesRatio" ) {
         CHECK_THAT( 3., WithinRel( chunk.denominator().coefficients()[0] ) );
         CHECK_THAT( 0., WithinRel( chunk.denominator().coefficients()[1] ) );
         CHECK_THAT( 5., WithinRel( chunk.denominator().coefficients()[2] ) );
+
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a PolynomialSeriesRatio can be evaluated" ) {
@@ -47,9 +53,23 @@ SCENARIO( "PolynomialSeriesRatio" ) {
         CHECK_THAT( -30. / 8., WithinRel( chunk( -1. ) ) );
       } // THEN
 
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( -1.0 ) );
+        CHECK( true == chunk.isInside(  0.0 ) );
+        CHECK( true == chunk.isInside(  1.0 ) );
+
+        CHECK( false == chunk.isContained( -1.0 ) );
+        CHECK( true == chunk.isContained(  0.0 ) );
+        CHECK( false == chunk.isContained(  1.0 ) );
+      } // THEN
+
       THEN( "a PolynomialSeriesRatio can be derived" ) {
 
         auto derivative = chunk.derivative();
+
+        CHECK_THAT( -1., WithinRel( derivative.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( derivative.upperLimit() ) );
 
         CHECK( 5 == derivative.numerator().coefficients().size() );
         CHECK_THAT(  42., WithinRel( derivative.numerator().coefficients()[0] ) );
@@ -67,10 +87,10 @@ SCENARIO( "PolynomialSeriesRatio" ) {
 
       THEN( "arithmetic operations can be performed" ) {
 
-        PolynomialSeries< double > series( { 3., 0., 1. } );
-        PolynomialSeriesRatio< double > other( { 3., 0., 1. }, { 5., 2. } );
-        PolynomialSeriesRatio< double > denom( { 3., 0., 1. }, { 1. } );
-        PolynomialSeriesRatio< double > result( { 0. }, { 0. } );
+        PolynomialSeries< double > series( -1., 1., { 3., 0., 1. } );
+        PolynomialSeriesRatio< double > other( -1., 1., { 3., 0., 1. }, { 5., 2. } );
+        PolynomialSeriesRatio< double > denom( -1., 1., { 3., 0., 1. }, { 1. } );
+        PolynomialSeriesRatio< double > result( -1., 1., { 0. }, { 0. } );
 
         result = -chunk;
 
@@ -652,10 +672,13 @@ SCENARIO( "PolynomialSeriesRatio" ) {
 
       // note: the ratio is updated so that the denominator is equal to 1
 
+      double lower = -1.;
+      double upper = 1.;
       std::vector< double > numerator = { -8., 14., -7., 1. };
       std::vector< double > denominator = { 2. };
 
-      PolynomialSeriesRatio< double > chunk( std::move( numerator ),
+      PolynomialSeriesRatio< double > chunk( lower, upper,
+                                             std::move( numerator ),
                                              std::move( denominator ) );
 
       THEN( "a PolynomialSeriesRatio can be constructed and members can be tested" ) {
@@ -690,10 +713,10 @@ SCENARIO( "PolynomialSeriesRatio" ) {
 
       THEN( "arithmetic operations can be performed" ) {
 
-        PolynomialSeries< double > series( { 3., 0., 1. } );
-        PolynomialSeriesRatio< double > other( { 3., 0., 1. }, { 5., 2. } );
-        PolynomialSeriesRatio< double > denom( { 3., 0., 1. }, { 1. } );
-        PolynomialSeriesRatio< double > result( { 0. }, { 0. } );
+        PolynomialSeries< double > series( -1., 1., { 3., 0., 1. } );
+        PolynomialSeriesRatio< double > other( -1., 1., { 3., 0., 1. }, { 5., 2. } );
+        PolynomialSeriesRatio< double > denom( -1., 1., { 3., 0., 1. }, { 1. } );
+        PolynomialSeriesRatio< double > result( -1., 1., { 0. }, { 0. } );
 
         result = -chunk;
 
@@ -1180,19 +1203,105 @@ SCENARIO( "PolynomialSeriesRatio" ) {
 
     WHEN( "two instances of PolynomialSeries are given" ) {
 
-      PolynomialSeriesRatio< double > left( { 1., 2., 3. }, { 3., 0., 4. } );
-      PolynomialSeriesRatio< double > equal( { 1., 2., 3. }, { 3., 0., 4. } );
-      PolynomialSeriesRatio< double > different( { 1., 0., 3. }, { 3., 0., 4. } );
+      PolynomialSeriesRatio< double > left( -1., 1., { 1., 2., 3. }, { 3., 0., 4. } );
+      PolynomialSeriesRatio< double > equal( -1., 1., { 1., 2., 3. }, { 3., 0., 4. } );
+      PolynomialSeriesRatio< double > different( -1., 1., { 1., 0., 3. }, { 3., 0., 4. } );
+      PolynomialSeriesRatio< double > otherdomain( 0., 1., { 1., 2., 3. }, { 3., 0., 4. } );
 
       THEN( "they can be compared" ) {
 
         CHECK( true == ( left == left ) );
         CHECK( true == ( left == equal ) );
         CHECK( false == ( left == different ) );
+        CHECK( false == ( left == otherdomain ) );
 
         CHECK( false == ( left != left ) );
         CHECK( false == ( left != equal ) );
         CHECK( true == ( left != different ) );
+        CHECK( true == ( left != otherdomain ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "coefficients for a numerator and denominator series with an open domain" ) {
+
+    WHEN( "the data is given explicitly" ) {
+
+      // the 3rd order polynomial was designed to have 3 real roots: 1, 2 and 4
+
+      std::vector< double > numerator = { -8., 14., -7., 1. };
+      std::vector< double > denominator = { 3., 0, 5. };
+
+      PolynomialSeriesRatio< double > chunk( std::move( numerator ),
+                                             std::move( denominator ) );
+
+      THEN( "a PolynomialSeriesRatio can be constructed and members can be tested" ) {
+
+        CHECK( 4 == chunk.numerator().coefficients().size() );
+        CHECK_THAT( -8., WithinRel( chunk.numerator().coefficients()[0] ) );
+        CHECK_THAT( 14., WithinRel( chunk.numerator().coefficients()[1] ) );
+        CHECK_THAT( -7., WithinRel( chunk.numerator().coefficients()[2] ) );
+        CHECK_THAT(  1., WithinRel( chunk.numerator().coefficients()[3] ) );
+        CHECK( 3 == chunk.denominator().coefficients().size() );
+        CHECK_THAT( 3., WithinRel( chunk.denominator().coefficients()[0] ) );
+        CHECK_THAT( 0., WithinRel( chunk.denominator().coefficients()[1] ) );
+        CHECK_THAT( 5., WithinRel( chunk.denominator().coefficients()[2] ) );
+
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( chunk.upperLimit() ) );
+      } // THEN
+
+      THEN( "a PolynomialSeriesRatio can be evaluated" ) {
+
+        CHECK_THAT(  -8. / 3., WithinRel( chunk(  0. ) ) );
+        CHECK_THAT(   0.     , WithinRel( chunk(  1. ) ) );
+        CHECK_THAT( -30. / 8., WithinRel( chunk( -1. ) ) );
+      } // THEN
+
+      THEN( "the domain can be tested" ) {
+
+        CHECK( true == chunk.isInside( -1.0 ) );
+        CHECK( true == chunk.isInside(  0.0 ) );
+        CHECK( true == chunk.isInside(  1.0 ) );
+
+        CHECK( true == chunk.isContained( -1.0 ) );
+        CHECK( true == chunk.isContained(  0.0 ) );
+        CHECK( true == chunk.isContained(  1.0 ) );
+      } // THEN
+
+      THEN( "a PolynomialSeriesRatio can be derived" ) {
+
+        auto derivative = chunk.derivative();
+
+        CHECK_THAT( -std::numeric_limits< double >::infinity(), WithinRel( derivative.lowerLimit() ) );
+        CHECK_THAT(  std::numeric_limits< double >::infinity(), WithinRel( derivative.upperLimit() ) );
+
+        CHECK( 5 == derivative.numerator().coefficients().size() );
+        CHECK_THAT(  42., WithinRel( derivative.numerator().coefficients()[0] ) );
+        CHECK_THAT(  38., WithinRel( derivative.numerator().coefficients()[1] ) );
+        CHECK_THAT( -61., WithinRel( derivative.numerator().coefficients()[2] ) );
+        CHECK_THAT(   0., WithinRel( derivative.numerator().coefficients()[3] ) );
+        CHECK_THAT(   5., WithinRel( derivative.numerator().coefficients()[4] ) );
+        CHECK( 5 == derivative.denominator().coefficients().size() );
+        CHECK_THAT(  9., WithinRel( derivative.denominator().coefficients()[0] ) );
+        CHECK_THAT(  0., WithinRel( derivative.denominator().coefficients()[1] ) );
+        CHECK_THAT( 30., WithinRel( derivative.denominator().coefficients()[2] ) );
+        CHECK_THAT(  0., WithinRel( derivative.denominator().coefficients()[3] ) );
+        CHECK_THAT( 25., WithinRel( derivative.denominator().coefficients()[4] ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "invalid data" ) {
+
+    WHEN( "the numerator and denominator are defined on different domains" ) {
+
+      THEN( "an exception is thrown" ) {
+
+        PolynomialSeries< double > numerator( -1., 1., { 1., 2., 3. } );
+        PolynomialSeries< double > denominator( 0., 1., { 3., 0., 4. } );
+
+        CHECK_THROWS( PolynomialSeriesRatio< double >( numerator, denominator ) );
       } // THEN
     } // WHEN
   } // GIVEN

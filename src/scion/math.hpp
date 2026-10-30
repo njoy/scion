@@ -16,8 +16,6 @@
 #include "scion/math/chebyshev.hpp"
 
 // function object interface
-#include "scion/math/IntervalDomain.hpp"
-#include "scion/math/OpenDomain.hpp"
 #include "scion/math/LinearLinearTable.hpp"
 #include "scion/math/HistogramTable.hpp"
 #include "scion/math/LinearLogTable.hpp"
