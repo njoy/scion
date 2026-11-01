@@ -81,7 +81,7 @@ namespace integration {
       }
       else {
 
-        double inverse = 1. / std::log( yRight / yLeft ) / ( xRight - xLeft );
+        double inverse = ( xRight - xLeft ) / std::log( yRight / yLeft );
         return inverse * ( ( xRight * yRight - xLeft * yLeft ) - ( yRight - yLeft ) * inverse );
       }
     }
