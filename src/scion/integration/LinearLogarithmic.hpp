@@ -2,6 +2,7 @@
 #define NJOY_SCION_INTEGRATION_LINEARLOGARITHMIC
 
 // system includes
+#include <array>
 #include <cmath>
 
 // other includes

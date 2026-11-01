@@ -28,6 +28,11 @@ SCENARIO( "LinearLogarithmicMean" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // both x values are the same or close to one another
+        CHECK_THAT( 0. , WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
+        CHECK_THAT( 2.5000017497943331e-06, WithinRel( integrator( xLeft, xLeft + 1e-6, yLeft, yRight ), 1e-10 ) );
+        CHECK_THAT( 2.5000000025000002e-09, WithinRel( integrator( xLeft, xLeft + 1e-9, yLeft, yRight ), 1e-7 ) );
+
         // both y values are the same
         CHECK_THAT( 1.5, WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
 
@@ -50,6 +55,11 @@ SCENARIO( "LinearLogarithmicMean" ) {
         double xRight = 2.0;
         double yLeft = 1.0;
         double yRight = 4.0;
+
+        // both x values are the same or close to one another
+        CHECK_THAT( 0. , WithinRel( integration::linLogMean( xLeft, xLeft, yLeft, yRight ) ) );
+        CHECK_THAT( 2.5000017497943331e-06, WithinRel( integration::linLogMean( xLeft, xLeft + 1e-6, yLeft, yRight ), 1e-10 ) );
+        CHECK_THAT( 2.5000000025000002e-09, WithinRel( integration::linLogMean( xLeft, xLeft + 1e-9, yLeft, yRight ), 1e-7 ) );
 
         // both y values are the same
         CHECK_THAT( 1.5, WithinRel( integration::linLogMean( xLeft, xRight, yLeft, yLeft ) ) );
