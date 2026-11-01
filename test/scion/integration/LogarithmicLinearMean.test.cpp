@@ -28,7 +28,13 @@ SCENARIO( "LogarithmicLinearMean" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        // both y values are the same - leads to NaN (division by zero)
+        // both x values are the same
+        CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
+
+        // both y values are the same or close to one another
+        CHECK_THAT( 1.5, WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5000008333332082e+00, WithinRel( integrator( xLeft, xRight, yLeft, yLeft + 1e-6 ) ) );
+        CHECK_THAT( 1.5000000008333334e+00, WithinRel( integrator( xLeft, xRight, yLeft, yLeft + 1e-9 ) ) );
 
         // the y values are different
         // this value was calculated using Wolfram Alpha using this command:
@@ -50,7 +56,13 @@ SCENARIO( "LogarithmicLinearMean" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        // both y values are the same - leads to NaN (division by zero)
+        // both x values are the same
+        CHECK_THAT( 0., WithinRel( integration::logLinMean( xLeft, xLeft, yLeft, yRight ) ) );
+
+        // both y values are the same or close to one another
+        CHECK_THAT( 1.5, WithinRel( integration::logLinMean( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.5000008333332082e+00, WithinRel( integration::logLinMean( xLeft, xRight, yLeft, yLeft + 1e-6 ) ) );
+        CHECK_THAT( 1.5000000008333334e+00, WithinRel( integration::logLinMean( xLeft, xRight, yLeft, yLeft + 1e-9 ) ) );
 
         // the y values are different
         // this value was calculated using Wolfram Alpha using this command:

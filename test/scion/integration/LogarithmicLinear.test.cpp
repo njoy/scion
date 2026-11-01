@@ -26,14 +26,16 @@ SCENARIO( "LogarithmicLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        // different x values
-        CHECK_THAT( 2.16404256133345, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
-
-        // equal x values
+        // both x values are the same
         CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
 
-        // equal y values
+        // both y values are the same or close to one another
         CHECK_THAT( 1., WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.0000004999999166e+00, WithinRel( integrator( xLeft, xRight, yLeft, yLeft + 1e-6 ) ) );
+        CHECK_THAT( 1.0000000005000000e+00, WithinRel( integrator( xLeft, xRight, yLeft, yLeft + 1e-9 ) ) );
+
+        // the y values are different
+        CHECK_THAT( 2.16404256133345, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -49,14 +51,16 @@ SCENARIO( "LogarithmicLinear" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        // different x values
-        CHECK_THAT( 2.16404256133345, WithinRel( integration::loglin( xLeft, xRight, yLeft, yRight ) ) );
-
-        // equal x values
+        // both x values are the same
         CHECK_THAT( 0., WithinRel( integration::loglin( xLeft, xLeft, yLeft, yRight ) ) );
 
-        // equal y values
+        // both y values are the same or close to one another
         CHECK_THAT( 1., WithinRel( integration::loglin( xLeft, xRight, yLeft, yLeft ) ) );
+        CHECK_THAT( 1.0000004999999166e+00, WithinRel( integration::loglin( xLeft, xRight, yLeft, yLeft + 1e-6 ) ) );
+        CHECK_THAT( 1.0000000005000000e+00, WithinRel( integration::loglin( xLeft, xRight, yLeft, yLeft + 1e-9 ) ) );
+
+        // the y values are different
+        CHECK_THAT( 2.16404256133345, WithinRel( integration::loglin( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
