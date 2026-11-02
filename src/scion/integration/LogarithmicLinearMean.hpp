@@ -23,7 +23,7 @@ namespace integration {
    *  primitive function:
    *    int x exp(x) = ( x - 1 ) exp(x)
    *
-   *  Since y is linear in ln(x), the function to be integrated is:
+   *  Since ln(y) is linear in x, the function to be integrated is:
    *    y = y1 x exp(a (x - x1)) with a = ln(y2/y1) / (x2 - x1)
    *      = y1 exp(-ax1) x exp(ax) with a = ln(y2/y1) / (x2 - x1)
    *
@@ -37,11 +37,11 @@ namespace integration {
    *    int[x1,x2] y dx = ( x2 y2 - x1 y1 ) / a - ( y2 - y1 ) / a**2
    *
    *  When y2 - y1 becomes small, we can rewrite the integral as
-   *    (x2 - x1)
-   *    ( y1 delta / ln(1+delta)
-   *      + (x2 - x1) ( ( 1 + delta ) ln(1+delta) - delta ) / ln(1+delta)**2 ).
+   *    (x2 - x1) y1
+   *    ( x1 delta / ln(1+delta)
+   *      + (x2 - x1) ( (1 + delta) ln(1+delta) - delta ) / ln(1+delta)**2 ).
    *
-   *  For small values of delta (chosen to be less than 1e-4), a truncated
+   *  For small values of delta (chosen to be less than 5e-3), a truncated
    *  Taylor series expansion is used to calculate delta / ln(1+delta)
    *  and ( ( 1 + delta ) ln(1+delta) - delta ) / ln(1+delta)**2.
    */
@@ -66,7 +66,7 @@ namespace integration {
                  const Y& yLeft, const Y& yRight ) const {
 
       const double delta = ( yRight - yLeft ) / yLeft;
-      if ( std::abs( delta ) < 1e-3 ) {
+      if ( std::abs( delta ) < 5e-3 ) {
 
         static constexpr std::array< double, 6 > coefficients1 = {
 
@@ -82,7 +82,7 @@ namespace integration {
       }
       else {
 
-        double inverse = ( xRight - xLeft ) / std::log( yRight / yLeft );
+        double inverse = ( xRight - xLeft ) / std::log1p( delta );
         return inverse * ( ( xRight * yRight - xLeft * yLeft ) - inverse * ( yRight - yLeft ) );
       }
     }

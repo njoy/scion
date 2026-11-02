@@ -79,7 +79,7 @@ namespace integration {
       else {
 
         return 0.5 * ( yRight * xRight * xRight - yLeft * xLeft * xLeft )
-               - 0.25 * ( yRight - yLeft ) * ( xRight * xRight - xLeft * xLeft ) / std::log( xRight / xLeft );
+               - 0.25 * ( yRight - yLeft ) * ( xRight * xRight - xLeft * xLeft ) / std::log1p( delta );
       }
     }
 

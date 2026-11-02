@@ -34,7 +34,7 @@ namespace integration {
    *                    = (x2 - x1) (y2 - y1) / ln(y2/y1)
    *
    *  When y2 - y1 becomes small, ( y2 - y1 ) / ln(y2/y1) reduces to
-   *  y1 delta / ln(1+delta) with y2/y1 - 1 = delta. For small values of
+   *  y1 delta / ln(1+delta) with ( y2 - y1 ) / y1 = delta. For small values of
    *  delta (chosen to be less than 1e-4), a truncated Taylor series
    *  expansion is used to calculate delta / ln(1+delta).
    */
@@ -69,7 +69,7 @@ namespace integration {
       }
       else {
 
-        return ( xRight - xLeft ) * ( yRight - yLeft ) / std::log( yRight / yLeft );
+        return ( xRight - xLeft ) * ( yRight - yLeft ) / std::log1p( delta );
       }
     }
 
