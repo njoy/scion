@@ -67,7 +67,7 @@ namespace math {
                typename Z = decltype( std::declval< FLeft >()( std::declval< Y >() ) ) >
     static constexpr Z interpolate( const X& x, const Y& y,
                                     const X& xLeft, const X& xRight,
-                                    const FLeft& fLeft, const FRight& fRight ) noexcept {
+                                    const FLeft& fLeft, const FRight& fRight ) {
 
       return interpolation::linlog( x, y, xLeft, xRight, fLeft, fRight );
     }

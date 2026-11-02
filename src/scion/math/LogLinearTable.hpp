@@ -65,7 +65,7 @@ namespace math {
      */
     static constexpr Y interpolate( const X& x,
                                     const X& xLeft, const X& xRight,
-                                    const Y& yLeft, const Y& yRight ) noexcept {
+                                    const Y& yLeft, const Y& yRight ) {
 
       return interpolation::loglin( x, xLeft, xRight, yLeft, yRight );
     }

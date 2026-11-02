@@ -78,7 +78,7 @@ namespace math {
      */
     Y interpolate( const X& x,
                    const X& xLeft, const X& xRight,
-                   const Y& yLeft, const Y& yRight ) const noexcept {
+                   const Y& yLeft, const Y& yRight ) const {
 
       return interpolation::coulomb( x, xLeft, xRight, yLeft, yRight, this->threshold() );
     }

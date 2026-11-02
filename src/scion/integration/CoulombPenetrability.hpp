@@ -15,8 +15,11 @@ namespace integration {
    *  @class
    *  @brief Coulomb Penetrability integration (LAW = 6)
    *
-   *  The integral of a panel is calculated numerically using
-   *  adaptive Gauss-Lobatto quadrature (with a tolerance of 1e-8).
+   *  The integral of a panel is calculated numerically using adaptive
+   *  Gauss-Lobatto quadrature (with a default tolerance of 1e-8).
+   *
+   *  @todo the integral has a closed form using the exponential integral
+   *        of a complex argument (or of a real argument when the threshold is 0)
    */
   class CoulombPenetrability {
 
@@ -30,12 +33,13 @@ namespace integration {
      *  @param[in] yLeft      the left value on the y interval
      *  @param[in] yRight     the right value on the y interval
      *  @param[in] threshold  the reaction threshold value
+     *  @param[in] tolerance  the tolerance for the adaptive quadrature (default 1e-8)
      */
     template < typename X, typename Y,
                typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I operator()( const X& xLeft, const X& xRight,
                   const Y& yLeft, const Y& yRight,
-                  const X& threshold ) const {
+                  const X& threshold, double tolerance = 1e-8 ) const {
 
       if ( xLeft == xRight ) {
 
@@ -49,7 +53,7 @@ namespace integration {
         };
 
         integration::AdaptiveGaussLobatto< X, Y > integrator;
-        return integrator( functor, xLeft, xRight );
+        return integrator( functor, xLeft, xRight, tolerance );
       }
     }
   };

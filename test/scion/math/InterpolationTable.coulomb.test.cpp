@@ -104,7 +104,7 @@ SCENARIO( "InterpolationTable - coulomb penetrability specific tests" ) {
         CHECK_THAT( 3.6560950179562816e-53, WithinRel( chunk( 130.3030303030303 ) ) );
         CHECK_THAT( 1.5633677539389945e-46, WithinRel( chunk( 170.70707070707073 ) ) );
 
-        CHECK_THAT( 2.1150433983771794e-26, WithinRel( chunk.integral(), 1e-5 ) );
+        CHECK_THAT( 2.1150365490982342e-26, WithinRel( chunk.integral(), 1e-8 ) );
       } // THEN
 
       THEN( "the CoulombPenetrabilityTable can be linearised" ) {

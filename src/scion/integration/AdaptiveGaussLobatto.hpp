@@ -3,7 +3,9 @@
 
 // system includes
 #include <array>
+#include <cmath>
 #include <optional>
+#include <vector>
 
 // other includes
 
