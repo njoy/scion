@@ -31,12 +31,15 @@ namespace integration {
    *             = a x ln(x/x1) + ( y1 - a ) x
    *
    *  After applying this primitive and simplifying the result, we obtain:
-   *    int[x1,x2] y dx = x2 y2 - x1 y1 - ( y2 - y1 ) ( x2 - x1 ) / ln(x2/x1)
+   *    int[x1,x2] y dx = ( x2 y2 - x1 y1 ) - ( y2 - y1 ) ( x2 - x1 ) / ln(x2/x1)
    *
-   *  When x2 - x1 becomes small, ( x2 - x1 ) / ln(x2/x1) reduces to
-   *  x1 delta / ln(1+delta) with x2/x1 - 1 = delta. For small values of
-   *  delta (chosen to be less than 1e-4), a truncated 5th order Taylor series
-   *  expansion is used to calculate delta / ln(1+delta).
+   *  When x2 - x1 becomes small, both terms cancel each other. By using
+   *  y2 = y1 + ( y2 - y1 ) and delta = ( x2 - x1 ) / x1, the large terms can be
+   *  eliminated analytically:
+   *    int[x1,x2] y dx = x1 delta ( y1 + ( y2 - y1 ) g(delta) )
+   *  with g(delta) = 1 + 1 / delta - 1 / ln(1+delta). For small values of
+   *  delta (chosen to be less than 1e-2), a truncated Taylor series
+   *  expansion is used to calculate g(delta).
    */
   class LinearLogarithmic : public IntegratorBase< LinearLogarithmic > {
 
@@ -58,15 +61,14 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const {
 
-      const double delta = xRight / xLeft - 1.;
-      if ( std::abs( delta ) < 1e-4 ) {
+      const double delta = ( xRight - xLeft ) / xLeft;
+      if ( std::abs( delta ) < 1e-2 ) {
 
         static constexpr std::array< double, 6 > coefficients = {
 
-          1.0, 0.5, -1.0 / 12.0, 1.0 / 24.0, -19.0 / 720.0, 3.0 / 160.0
+          1.0 / 2.0, 1.0 / 12.0, -1.0 / 24.0, 19.0 / 720.0, -3.0 / 160.0, 863.0 / 60480.0
         };
-        return xRight * yRight - xLeft * yLeft
-               - (yRight - yLeft) * xLeft * math::horner( coefficients, delta );
+        return xLeft * delta * ( yLeft + ( yRight - yLeft ) * math::horner( coefficients, delta ) );
       }
       else {
 

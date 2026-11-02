@@ -35,7 +35,7 @@ namespace integration {
    *
    *  When y2 - y1 becomes small, ( y2 - y1 ) / ln(y2/y1) reduces to
    *  y1 delta / ln(1+delta) with y2/y1 - 1 = delta. For small values of
-   *  delta (chosen to be less than 1e-4), a truncated 5th order Taylor series
+   *  delta (chosen to be less than 1e-4), a truncated Taylor series
    *  expansion is used to calculate delta / ln(1+delta).
    */
   class LogarithmicLinear : public IntegratorBase< LogarithmicLinear > {
@@ -58,7 +58,7 @@ namespace integration {
     I integrate( const X& xLeft, const X& xRight,
                  const Y& yLeft, const Y& yRight ) const {
 
-      const double delta = yRight / yLeft - 1.;
+      const double delta = ( yRight - yLeft ) / yLeft;
       if ( std::abs( delta ) < 1e-4 ) {
 
         static constexpr std::array< double, 6 > coefficients = {
