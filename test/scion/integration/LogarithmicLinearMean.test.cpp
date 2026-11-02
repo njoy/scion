@@ -45,7 +45,7 @@ SCENARIO( "LogarithmicLinearMean" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "linlin integration function" ) {
+  GIVEN( "loglin mean integration function" ) {
 
     WHEN( "integrating an interval" ) {
 

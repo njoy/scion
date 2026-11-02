@@ -35,7 +35,7 @@ SCENARIO( "LogarithmicLinear" ) {
         CHECK_THAT( 1.0000000005000000e+00, WithinRel( integrator( xLeft, xRight, yLeft, yLeft + 1e-9 ) ) );
 
         // the y values are different
-        CHECK_THAT( 2.16404256133345, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.16404256133344530, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -60,7 +60,7 @@ SCENARIO( "LogarithmicLinear" ) {
         CHECK_THAT( 1.0000000005000000e+00, WithinRel( integration::loglin( xLeft, xRight, yLeft, yLeft + 1e-9 ) ) );
 
         // the y values are different
-        CHECK_THAT( 2.16404256133345, WithinRel( integration::loglin( xLeft, xRight, yLeft, yRight ) ) );
+        CHECK_THAT( 2.16404256133344530, WithinRel( integration::loglin( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
