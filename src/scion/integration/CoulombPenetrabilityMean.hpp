@@ -52,7 +52,8 @@ namespace integration {
           return x * interpolation::coulomb( x, xLeft, xRight, yLeft, yRight, threshold );
         };
 
-        integration::AdaptiveGaussLobatto< X, Y > integrator;
+        using F = decltype( std::declval< X >() * std::declval< Y >() );
+        integration::AdaptiveGaussLobatto< X, F > integrator;
         return integrator( functor, xLeft, xRight, tolerance );
       }
     }
