@@ -15,7 +15,7 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief The Gauss-Lobatto 4-point quadrature rule
+   *  @brief Adaptive Gauss-Lobatto quadrature
    */
   template< typename X, typename Y = X >
   class AdaptiveGaussLobatto {
@@ -165,7 +165,7 @@ namespace integration {
       }
 
       /**
-       *  @brief Return the x values
+       *  @brief Return the y values
        */
       std::array< Y, 7 >& y() {
 
@@ -239,7 +239,7 @@ namespace integration {
       /**
        *  @brief Calculate an absolute tolerance
        *
-       *  @param[in] tolerance   the relative tolerance
+       *  @param[in] tolerance   the targeted relative tolerance
        */
       I absoluteTolerance( T tolerance ) const {
 
@@ -315,7 +315,7 @@ namespace integration {
      *  @param[in] functor     the function to integrate
      *  @param[in] a           the lower bound of the integration interval
      *  @param[in] b           the upper bound of the integration interval
-     *  @param[in] tolerance   the tolerance (default is 1e-8)
+     *  @param[in] tolerance   the targeted relative tolerance (default is 1e-8)
      */
     template < typename Functor >
     I operator()( Functor&& functor, const X& a, const X& b,

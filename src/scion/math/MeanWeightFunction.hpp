@@ -14,19 +14,26 @@ namespace math {
   /**
    *  @class
    *  @brief A weight function w(x) = x
+   *
+   *  Numerical integration using adaptive Gauss-Lobatto is used for panels
+   *  with Coulomb penetrability interpolation. Because we use adaptive Gauss-Lobatto,
+   *  the relative tolerance given (default of 1e-8) is an upper bound for the real
+   *  relative error that is obtained.
    */
-  template < typename X >
-  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X >, X, X > {
+  template < typename X, typename T = decltype( std::declval< X >() / std::declval< X >() ) >
+  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X, T >, X, X > {
 
     /* friend declarations */
 
-    friend class WeightFunctionBase< MeanWeightFunction< X >, X, X >;
+    friend class WeightFunctionBase< MeanWeightFunction< X, T >, X, X >;
 
     /* type aliases */
 
-    using Parent = WeightFunctionBase< MeanWeightFunction< X >, X, X >;
+    using Parent = WeightFunctionBase< MeanWeightFunction< X, T >, X, X >;
 
     /* fields */
+
+    T tolerance_;
 
     /* interface implementation functions */
 
@@ -45,7 +52,7 @@ namespace math {
      *  @param xRight   the right boundary of the panel
      */
     template < typename I = decltype( std::declval< X >() * std::declval< X >() ) >
-    I calculateIntegral( const X& xLeft, const X& xRight ) const noexcept {
+    I calculateIntegral( const X& xLeft, const X& xRight ) const {
 
       return integration::linlin( xLeft, xRight, xLeft, xRight );
     }
@@ -60,7 +67,7 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateHistogramIntegral( const X& xLeft, const X& xRight,
-                                  const Y& yLeft, const Y& yRight ) const noexcept {
+                                  const Y& yLeft, const Y& yRight ) const {
 
       return integration::histogramMean( xLeft, xRight, yLeft, yRight );
     }
@@ -75,7 +82,7 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateLinearLinearIntegral( const X& xLeft, const X& xRight,
-                                     const Y& yLeft, const Y& yRight ) const noexcept {
+                                     const Y& yLeft, const Y& yRight ) const {
 
       return integration::linLinMean( xLeft, xRight, yLeft, yRight );
     }
@@ -90,7 +97,7 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< X >() ) >
     I calculateLinearLogarithmicIntegral( const X& xLeft, const X& xRight,
-                                          const Y& yLeft, const Y& yRight ) const noexcept {
+                                          const Y& yLeft, const Y& yRight ) const {
 
       return integration::linLogMean( xLeft, xRight, yLeft, yRight );
     }
@@ -139,7 +146,8 @@ namespace math {
                                              const Y& yLeft, const Y& yRight,
                                              const X& threshold ) const {
 
-      return integration::coulombMean( xLeft, xRight, yLeft, yRight, threshold );
+      return integration::coulombMean( xLeft, xRight, yLeft, yRight, threshold,
+                                       this->tolerance() );
     }
 
   public:
@@ -148,10 +156,21 @@ namespace math {
 
     /**
      *  @brief Constructor
+     *
+     *  @param tolerance   the targeted numerical integration tolerance (default 1e-8)
      */
-    MeanWeightFunction() = default;
+    MeanWeightFunction( T tolerance = T( 1e-8 ) ) :
+      tolerance_( std::move( tolerance ) ) {}
 
     /* methods */
+
+    /**
+     *  @brief Return the targeted numerical integration tolerance
+     */
+    const T& tolerance() const noexcept {
+
+      return this->tolerance_;
+    }
 
     using Parent::operator();
     using Parent::integral;
