@@ -23,6 +23,7 @@ SCENARIO( "ConstantWeightFunction" ) {
       THEN( "a ConstantWeightFunction can be constructed and members can be tested" ) {
 
         CHECK_THAT( 2., WithinRel( weight.constant() ) );
+        CHECK_THAT( 1e-8, WithinRel( weight.tolerance() ) );
       } // THEN
 
       THEN( "the weight function can be evaluated" ) {
