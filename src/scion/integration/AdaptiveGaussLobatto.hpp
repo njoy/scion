@@ -44,6 +44,7 @@ namespace integration {
       I gauss_lobatto_;
       I kronrod_7_;
       std::optional< I > kronrod_13_;
+      std::optional< I > kronrod_13_absolute_;
 
       /* points and weights */
 
@@ -108,17 +109,34 @@ namespace integration {
                    + tuples[4][2] * ( this->y()[1] + this->y()[5] )
                    + tuples[6][2] * ( this->y()[0] + this->y()[6] ) );
 
-        // calculate the optional integral
+        // calculate the optional integrals:
+        // the Kronrod13 estimate of the integral of f and the integral of abs(f)
         if ( calculate_kronrod13 ) {
+
+          const std::array< Y, 6 > values = {
+
+            functor( transform( -tuples[5][0] ) ), functor( transform( -tuples[3][0] ) ),
+            functor( transform( -tuples[1][0] ) ), functor( transform(  tuples[1][0] ) ),
+            functor( transform(  tuples[3][0] ) ), functor( transform(  tuples[5][0] ) )
+          };
 
           this->kronrod13Integral() =
               half * ( tuples[0][3] * this->y()[3]
-                     + tuples[1][3] * ( functor( transform( -tuples[1][0] ) ) + functor( transform( tuples[1][0] ) ) )
+                     + tuples[1][3] * ( values[2] + values[3] )
                      + tuples[2][3] * ( this->y()[2] + this->y()[4] )
-                     + tuples[3][3] * ( functor( transform( -tuples[3][0] ) ) + functor( transform( tuples[3][0] ) ) )
+                     + tuples[3][3] * ( values[1] + values[4] )
                      + tuples[4][3] * ( this->y()[1] + this->y()[5] )
-                     + tuples[5][3] * ( functor( transform( -tuples[5][0] ) ) + functor( transform( tuples[5][0] ) ) )
+                     + tuples[5][3] * ( values[0] + values[5] )
                      + tuples[6][3] * ( this->y()[0] + this->y()[6] ) );
+
+          this->kronrod13AbsoluteIntegral() =
+              half * ( tuples[0][3] * std::abs( this->y()[3] )
+                     + tuples[1][3] * ( std::abs( values[2] ) + std::abs( values[3] ) )
+                     + tuples[2][3] * ( std::abs( this->y()[2] ) + std::abs( this->y()[4] ) )
+                     + tuples[3][3] * ( std::abs( values[1] ) + std::abs( values[4] ) )
+                     + tuples[4][3] * ( std::abs( this->y()[1] ) + abs( this->y()[5] ) )
+                     + tuples[5][3] * ( std::abs( values[0] ) + std::abs( values[5] ) )
+                     + tuples[6][3] * ( std::abs( this->y()[0] ) + abs( this->y()[6] ) ) );
         }
       }
 
@@ -187,7 +205,7 @@ namespace integration {
       };
 
       /**
-       *  @brief Return the 13-point Kronrod estimate of the integral (if defined)
+       *  @brief Return the 13-point Kronrod estimate of the integral of f
        */
       const std::optional< I >& kronrod13Integral() const {
 
@@ -195,11 +213,27 @@ namespace integration {
       };
 
       /**
-       *  @brief Return the 13-point Kronrod estimate of the integral (if defined)
+       *  @brief Return the 13-point Kronrod estimate of the integral of f
        */
       std::optional< I >& kronrod13Integral() {
 
         return this->kronrod_13_;
+      };
+
+      /**
+       *  @brief Return the 13-point Kronrod estimate of the integral of abs(f)
+       */
+      const std::optional< I >& kronrod13AbsoluteIntegral() const {
+
+        return this->kronrod_13_absolute_;
+      };
+
+      /**
+       *  @brief Return the 13-point Kronrod estimate of the integral of abs(f)
+       */
+      std::optional< I >& kronrod13AbsoluteIntegral() {
+
+        return this->kronrod_13_absolute_;
       };
 
       /**
@@ -216,9 +250,7 @@ namespace integration {
 
           tolerance /= ratio;
         }
-        return tolerance * ( this->kronrod13Integral().value() == I( 0 )
-                             ? this->x()[6] - this->x()[0]
-                             : std::abs( this->kronrod13Integral().value() ) );
+        return tolerance * this->kronrod13AbsoluteIntegral().value();
       };
 
       /**
@@ -242,14 +274,14 @@ namespace integration {
        *  @brief Create subdivided intervals
        */
       template < typename Functor >
-      std::vector< Interval > subdivide( Functor&& functor ) const {
+      std::array< Interval, 6 > subdivide( Functor&& functor ) const {
 
         return { Interval( functor, this->x()[0], this->x()[1], this->y()[0], this->y()[1] ),
                  Interval( functor, this->x()[1], this->x()[2], this->y()[1], this->y()[2] ),
                  Interval( functor, this->x()[2], this->x()[3], this->y()[2], this->y()[3] ),
                  Interval( functor, this->x()[3], this->x()[4], this->y()[3], this->y()[4] ),
                  Interval( functor, this->x()[4], this->x()[5], this->y()[4], this->y()[5] ),
-                 Interval( functor, this->x()[5], this->x()[6], this->y()[5], this->y()[6] ), };
+                 Interval( functor, this->x()[5], this->x()[6], this->y()[5], this->y()[6] ) };
       }
     };
 
@@ -266,7 +298,7 @@ namespace integration {
     }
 
     /**
-     *  @brief Return the x values
+     *  @brief Return the current intervals
      */
     std::vector< Interval >& intervals() {
 
@@ -305,16 +337,16 @@ namespace integration {
 
         auto intervals = this->intervals().back().subdivide( functor );
         this->intervals().pop_back();
-        for ( std::size_t i = 0; i < intervals.size(); ++i ) {
+        for ( auto&& interval : intervals ) {
 
-          if ( intervals[i].cannotSubdivide() ||
-               intervals[i].difference() <= absolute ) {
+          if ( interval.cannotSubdivide() ||
+               interval.difference() <= absolute ) {
 
-            total += intervals[i].kronrod7Integral();
+            total += interval.kronrod7Integral();
           }
           else {
 
-            this->intervals().emplace_back( std::move( intervals[i] ) );
+            this->intervals().emplace_back( std::move( interval ) );
           }
         }
       }
