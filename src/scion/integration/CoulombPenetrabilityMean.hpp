@@ -35,10 +35,11 @@ namespace integration {
      *  @param[in] tolerance  the tolerance for the adaptive quadrature (default 1e-8)
      */
     template < typename X, typename Y,
-               typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
+               typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ),
+               typename T = decltype( std::declval< X >() / std::declval< X >() ) >
     I operator()( const X& xLeft, const X& xRight,
                   const Y& yLeft, const Y& yRight,
-                  const X& threshold, double tolerance = 1e-8 ) const {
+                  const X& threshold, const T& tolerance = T( 1e-8 ) ) const {
 
       if ( xLeft == xRight ) {
 
