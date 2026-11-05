@@ -90,6 +90,32 @@ SCENARIO( "HistogramTable" ) {
         CHECK_THAT( 9., WithinRel( cumulative[3] ) );
       } // THEN
 
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 0.5, 1.5, 2., 3.25, 5. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 2. , WithinRel( integrals[0] ) );
+        CHECK_THAT( 2. , WithinRel( integrals[1] ) );
+        CHECK_THAT( 3.5, WithinRel( integrals[2] ) );
+        CHECK_THAT( 1.5, WithinRel( integrals[3] ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 2.5   , WithinRel( moments[0] ) );
+        CHECK_THAT( 3.5   , WithinRel( moments[1] ) );
+        CHECK_THAT( 9.0625, WithinRel( moments[2] ) );
+        CHECK_THAT( 5.4375, WithinRel( moments[3] ) );
+
+        CHECK_THAT( chunk.integrate( constant ),
+                    WithinRel( integrals[0] + integrals[1] + integrals[2] + integrals[3] ) );
+      } // THEN
+
       THEN( "the first raw moment of a HistogramTable can be calculated" ) {
 
         // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
@@ -198,6 +224,32 @@ SCENARIO( "HistogramTable" ) {
 
         // ( 4 * ( 1 + 2) + 3 * ( 2 + 3 ) + 2 * ( 3 + 4 ) ) / 2 = 20.5
         CHECK_THAT( 20.5, WithinRel( chunk.integrate( mean ) ) );
+      } // THEN
+
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 0.5, 1.5, 2., 3.25, 5. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 2. , WithinRel( integrals[0] ) );
+        CHECK_THAT( 2. , WithinRel( integrals[1] ) );
+        CHECK_THAT( 3.5, WithinRel( integrals[2] ) );
+        CHECK_THAT( 1.5, WithinRel( integrals[3] ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 2.5   , WithinRel( moments[0] ) );
+        CHECK_THAT( 3.5   , WithinRel( moments[1] ) );
+        CHECK_THAT( 9.0625, WithinRel( moments[2] ) );
+        CHECK_THAT( 5.4375, WithinRel( moments[3] ) );
+
+        CHECK_THAT( chunk.integrate( constant ),
+                    WithinRel( integrals[0] + integrals[1] + integrals[2] + integrals[3] ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {

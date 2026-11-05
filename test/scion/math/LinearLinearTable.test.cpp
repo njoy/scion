@@ -100,6 +100,32 @@ SCENARIO( "LinearLinearTable" ) {
         CHECK_THAT( 16.5, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 0.5, 1.5, 2., 3.25, 5. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 1.875, WithinRel( integrals[0] ) );
+        CHECK_THAT( 1.625, WithinRel( integrals[1] ) );
+        CHECK_THAT( 2.96875, WithinRel( integrals[2] ) );
+        CHECK_THAT( 1.03125, WithinRel( integrals[3] ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 2.33333333333333, WithinRel( moments[0] ) );
+        CHECK_THAT( 2.83333333333333, WithinRel( moments[1] ) );
+        CHECK_THAT( 7.63020833333333, WithinRel( moments[2] ) );
+        CHECK_THAT( 3.703125        , WithinRel( moments[3] ) );
+
+        CHECK_THAT( chunk.integrate( constant ),
+                    WithinRel( integrals[0] + integrals[1] + integrals[2] + integrals[3] ) );
+      } // THEN
+
       THEN( "a LinearLinearTable can be linearised" ) {
 
         auto linear = chunk.linearise();
@@ -190,6 +216,32 @@ SCENARIO( "LinearLinearTable" ) {
         // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
         //          = 75 / 2 -  63 / 3 = 37.5 - 21
         CHECK_THAT( 16.5, WithinRel( chunk.integrate( mean ) ) );
+      } // THEN
+
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 0.5, 1.5, 2., 3.25, 5. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 1.875, WithinRel( integrals[0] ) );
+        CHECK_THAT( 1.625, WithinRel( integrals[1] ) );
+        CHECK_THAT( 2.96875, WithinRel( integrals[2] ) );
+        CHECK_THAT( 1.03125, WithinRel( integrals[3] ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 2.33333333333333, WithinRel( moments[0] ) );
+        CHECK_THAT( 2.83333333333333, WithinRel( moments[1] ) );
+        CHECK_THAT( 7.63020833333333, WithinRel( moments[2] ) );
+        CHECK_THAT( 3.703125        , WithinRel( moments[3] ) );
+
+        CHECK_THAT( chunk.integrate( constant ),
+                    WithinRel( integrals[0] + integrals[1] + integrals[2] + integrals[3] ) );
       } // THEN
 
       THEN( "a LinearLinearTable can be linearised" ) {
