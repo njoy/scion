@@ -163,10 +163,10 @@ namespace math {
     /**
      *  @brief Constructor
      *
-     *  @param constant    the constant value of the weight function
+     *  @param constant    the constant value of the weight function (default 1)
      *  @param tolerance   the targeted numerical integration tolerance (default 1e-8)
      */
-    ConstantWeightFunction( W constant = 1., T tolerance = T( 1e-8 ) ) :
+    ConstantWeightFunction( W constant = W( 1 ), T tolerance = T( 1e-8 ) ) :
       constant_( std::move( constant ) ), tolerance_( std::move( tolerance ) ) {}
 
     /* methods */
