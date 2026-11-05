@@ -134,9 +134,9 @@ namespace integration {
                      + tuples[1][3] * ( std::abs( values[2] ) + std::abs( values[3] ) )
                      + tuples[2][3] * ( std::abs( this->y()[2] ) + std::abs( this->y()[4] ) )
                      + tuples[3][3] * ( std::abs( values[1] ) + std::abs( values[4] ) )
-                     + tuples[4][3] * ( std::abs( this->y()[1] ) + abs( this->y()[5] ) )
+                     + tuples[4][3] * ( std::abs( this->y()[1] ) + std::abs( this->y()[5] ) )
                      + tuples[5][3] * ( std::abs( values[0] ) + std::abs( values[5] ) )
-                     + tuples[6][3] * ( std::abs( this->y()[0] ) + abs( this->y()[6] ) ) );
+                     + tuples[6][3] * ( std::abs( this->y()[0] ) + std::abs( this->y()[6] ) ) );
         }
       }
 

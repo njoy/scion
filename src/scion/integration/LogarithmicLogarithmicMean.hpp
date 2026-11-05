@@ -96,7 +96,7 @@ namespace integration {
       }
       else {
 
-        logy= std::log1p( deltay );
+        logy = std::log1p( deltay );
       }
 
       const double numerator = deltay + deltax * ( 2. + deltax ) * ( 1. + deltay );
@@ -106,7 +106,7 @@ namespace integration {
       }
       else {
 
-        return yLeft * xLeft * xLeft * numerator / ( logy / logx + 2.0);
+        return yLeft * xLeft * xLeft * numerator / ( logy / logx + 2.0 );
       }
     }
 

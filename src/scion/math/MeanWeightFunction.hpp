@@ -17,8 +17,8 @@ namespace math {
    *
    *  Numerical integration using adaptive Gauss-Lobatto is used for panels
    *  with Coulomb penetrability interpolation. Because we use adaptive Gauss-Lobatto,
-   *  the relative tolerance given (default of 1e-8) is an upper bound for the real
-   *  relative error that is obtained.
+   *  the relative tolerance given (default of 1e-8) is the targeted relative tolerance.
+   *  In practice the real error can be far smaller.
    */
   template < typename X, typename T = decltype( std::declval< X >() / std::declval< X >() ) >
   class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X, T >, X, X > {

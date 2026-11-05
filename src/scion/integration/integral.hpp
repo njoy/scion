@@ -2,6 +2,8 @@
 #define NJOY_SCION_INTEGRATION_INTEGRAL
 
 // system includes
+#include <algorithm>
+#include <iterator>
 
 // other includes
 
@@ -60,14 +62,14 @@ namespace integration {
    *
    *  This calculates the integral over a user provided set of boundaries.
    *
-   *  @param[in] xbegin         the iterator to the first x value
-   *  @param[in] xend           the iterator to the end of the x values
-   *  @param[in] ybegin         the iterator to the first y value
-   *  @param[in] bbegin         the iterator to the first group boundary
-   *  @param[in] bend           the iterator to the end of the group boundaries
-   *  @param[in] rbegin         the iterator to the integral for the first group
-   *  @param[in] interpolator   the interpolation function for a panel
-   *  @param[in] integrator     the integration function for a panel
+   *  @param[in]     xbegin         the iterator to the first x value
+   *  @param[in]     xend           the iterator to the end of the x values
+   *  @param[in]     ybegin         the iterator to the first y value
+   *  @param[in]     gbegin         the iterator to the first group boundary
+   *  @param[in]     gend           the iterator to the end of the group boundaries
+   *  @param[in,out] rbegin         the iterator to the integral for the first group
+   *  @param[in]     interpolator   the interpolation function for a panel
+   *  @param[in]     integrator     the integration function for a panel
    */
   template < typename XIterator, typename YIterator,
              typename BIterator, typename RIterator,
@@ -116,7 +118,7 @@ namespace integration {
         ++yIter;
       }
 
-      // if the group extends past the upper boundary of the group
+      // if the group extends past the upper boundary of the panel
       if ( xLeft < xRight ) {
 
         const auto yRight = interpolator( xRight, *std::prev( xIter ), *xIter,
@@ -138,12 +140,12 @@ namespace integration {
    *
    *  This calculates the integral over a user provided set of boundaries.
    *
-   *  @param[in] x              the range of x values
-   *  @param[in] y              the range of y values
-   *  @param[in] boundaries     the range of boundary values
-   *  @param[in] integrals      the range of integral values
-   *  @param[in] interpolator   the interpolation function for a panel
-   *  @param[in] integrator     the integration function for a panel
+   *  @param[in]     x              the range of x values
+   *  @param[in]     y              the range of y values
+   *  @param[in]     boundaries     the range of boundary values
+   *  @param[in,out] integrals      the range of integral values
+   *  @param[in]     interpolator   the interpolation function for a panel
+   *  @param[in]     integrator     the integration function for a panel
    */
   template < typename XRange, typename YRange,
              typename BRange, typename RRange,
