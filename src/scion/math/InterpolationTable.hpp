@@ -1160,17 +1160,19 @@ namespace math {
     decltype(auto) integrate( const WeightFunction& weight,
                               const std::vector< X >& boundaries ) const {
 
-      using I = decltype( weight.integrateHistogram( this->x()[0], this->x()[1], this->y()[0], this->y()[1] ) );
-
+      using I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< typename WeightFunction::YType >() );
       std::vector< I > result( boundaries.size() - 1, I( 0. ) );
+
       auto integrate = [&] ( const auto& table ) {
 
         table.integrate( weight, boundaries, result );
       };
+
       for ( const auto& table : this->tables() ) {
 
         std::visit( integrate, table );
       }
+
       return result;
     }
 
