@@ -153,6 +153,11 @@ namespace math {
 
   public:
 
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
+
     /* constructor */
 
     /**

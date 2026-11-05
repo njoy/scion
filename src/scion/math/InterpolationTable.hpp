@@ -1149,6 +1149,32 @@ namespace math {
     }
 
     /**
+     *  @brief Calculate the integral of w(x) * f(x) dx over a set of groups
+     *
+     *  The weight function must implement the WeightFunctionBase interface.
+     *
+     *  @param[in] weight       the weight function
+     *  @param[in] boundaries   the group boundaries
+     */
+    template < typename WeightFunction >
+    decltype(auto) integrate( const WeightFunction& weight,
+                              const std::vector< X >& boundaries ) const {
+
+      using I = decltype( weight.integrateHistogram( this->x()[0], this->x()[1], this->y()[0], this->y()[1] ) );
+
+      std::vector< I > result( boundaries.size() - 1, I( 0. ) );
+      auto integrate = [&] ( const auto& table ) {
+
+        table.integrate( weight, boundaries, result );
+      };
+      for ( const auto& table : this->tables() ) {
+
+        std::visit( integrate, table );
+      }
+      return result;
+    }
+
+    /**
      *  @brief Calculate the mean over the table domain
      *
      *  Note: unnormalised and normalised tables return the same mean value.
