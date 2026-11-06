@@ -32,7 +32,6 @@ if(scion.python)
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/ChebyshevApproximation.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/LegendreSeries.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/PolynomialSeries.python.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/math/AnalyticalIntegrator.python.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/src/math/GroupedTable.python.cpp
     )
 

@@ -5,42 +5,7 @@ from __future__ import annotations
 import scion.interpolation
 import scion.linearisation
 import typing
-__all__: list[str] = ['AnalyticalIntegrator', 'ChebyshevApproximation', 'ChebyshevSeries', 'CoulombPenetrabilityTable', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
-class AnalyticalIntegrator:
-    """
-    Analytical integration of data over a number of successive integration intervals
-    """
-    def __call__(self, table: InterpolationTable) -> list[float]:
-        ...
-    @typing.overload
-    def __init__(self, boundaries: list[float]) -> None:
-        """
-        Initialise the integrator
-        
-        Arguments:
-            self         the integrator
-            boundaries    the integration interval boundaries
-        """
-    @typing.overload
-    def __init__(self, a: float, b: float) -> None:
-        """
-        Initialise the integrator
-        
-        Arguments:
-            self   the integrator
-            a      the lower limit of the integration interval
-            b      the upper limit of the integration interval
-        """
-    @property
-    def boundaries(self) -> list[float]:
-        """
-        The boundaries
-        """
-    @property
-    def number_intervals(self) -> int:
-        """
-        The number of integration intervals
-        """
+__all__: list[str] = ['ChebyshevApproximation', 'ChebyshevSeries', 'CoulombPenetrabilityTable', 'GroupedTable', 'HistogramTable', 'InterpolationTable', 'LegendreSeries', 'LinearLinearTable', 'LinearLogTable', 'LogLinearTable', 'LogLogTable', 'PolynomialSeries', 'chebyshev', 'clenshaw', 'clenshaw_chebyshev', 'clenshaw_legendre', 'horner', 'is_close', 'is_close_to_zero', 'legendre', 'newton']
 class ChebyshevApproximation:
     """
     Approximation of a function f(x) in the [a,b] domain using a Chebyshev series
