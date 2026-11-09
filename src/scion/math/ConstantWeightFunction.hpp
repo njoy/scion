@@ -21,20 +21,19 @@ namespace math {
    *  In practice the real error can be far smaller.
    */
   template < typename X, typename W, typename T = decltype( std::declval< X >() / std::declval< X >() ) >
-  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W > {
+  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W, T > {
 
     /* friend declarations */
 
-    friend class WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W >;
+    friend class WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W, T >;
 
     /* type aliases */
 
-    using Parent = WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W >;
+    using Parent = WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W, T >;
 
     /* fields */
 
     W constant_;
-    T tolerance_;
 
     /* interface implementation functions */
 
@@ -167,7 +166,8 @@ namespace math {
      *  @param tolerance   the targeted numerical integration tolerance (default 1e-8)
      */
     ConstantWeightFunction( W constant = W( 1 ), T tolerance = T( 1e-8 ) ) :
-      constant_( std::move( constant ) ), tolerance_( std::move( tolerance ) ) {}
+      Parent( std::move( tolerance ) ),
+      constant_( std::move( constant ) ) {}
 
     /* methods */
 
@@ -179,14 +179,7 @@ namespace math {
       return this->constant_;
     }
 
-    /**
-     *  @brief Return the targeted numerical integration tolerance
-     */
-    const T& tolerance() const noexcept {
-
-      return this->tolerance_;
-    }
-
+    using Parent::tolerance;
     using Parent::operator();
     using Parent::integral;
     using Parent::integrateHistogram;
@@ -194,6 +187,7 @@ namespace math {
     using Parent::integrateLinearLogarithmic;
     using Parent::integrateLogarithmicLinear;
     using Parent::integrateLogarithmicLogarithmic;
+    using Parent::integrateCoulombPenetrability;
   };
 
 } // math namespace
