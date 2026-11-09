@@ -75,6 +75,7 @@ add_cpp_test( scion.linearisation.RelativeErrorSplit        scion/linearisation/
 add_cpp_test( scion.linearisation.ToleranceConvergence      scion/linearisation/ToleranceConvergence.test.cpp )
 add_cpp_test( scion.math.ChebyshevApproximation             scion/math/ChebyshevApproximation.test.cpp )
 add_cpp_test( scion.math.ChebyshevSeries                    scion/math/ChebyshevSeries.test.cpp )
+add_cpp_test( scion.math.WeightFunctionBase                 scion/math/WeightFunctionBase.test.cpp )
 add_cpp_test( scion.math.ConstantWeightFunction             scion/math/ConstantWeightFunction.test.cpp )
 add_cpp_test( scion.math.MeanWeightFunction                 scion/math/MeanWeightFunction.test.cpp )
 add_cpp_test( scion.math.HistogramTable                     scion/math/HistogramTable.test.cpp )
