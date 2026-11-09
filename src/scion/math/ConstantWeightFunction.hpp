@@ -5,7 +5,6 @@
 
 // other includes
 #include "scion/math/WeightFunctionBase.hpp"
-#include "scion/math/OpenDomain.hpp"
 #include "scion/integration.hpp"
 
 namespace njoy {
@@ -20,17 +19,12 @@ namespace math {
   class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, W >, X, W > {
 
     /* friend declarations */
+
     friend class WeightFunctionBase< ConstantWeightFunction< X, W >, X, W >;
-    friend class OneDimensionalFunctionBase< ConstantWeightFunction< X, W >, X, W >;
 
     /* type aliases */
+
     using Parent = WeightFunctionBase< ConstantWeightFunction< X, W >, X, W >;
-
-  public:
-
-    /* type aliases */
-
-  private:
 
     /* fields */
     W constant_;
@@ -159,7 +153,6 @@ namespace math {
      *  @param constant  the constant value of the weight function
      */
     ConstantWeightFunction( W constant = 1. ) :
-      Parent( OpenDomain< X >() ),
       constant_( std::move( constant ) ) {}
 
     /* methods */

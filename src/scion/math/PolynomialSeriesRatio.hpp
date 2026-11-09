@@ -15,7 +15,7 @@ namespace math {
 
   /**
    *  @class
-   *  @brief
+   *  @brief A ratio of two polynomial series defined on the same domain
    */
   template < typename X, typename Y >
   class PolynomialSeriesRatio :
@@ -36,26 +36,15 @@ namespace math {
 
     /* interface implementation functions */
 
-    /* constructor */
-
-    /**
-     *  @brief Private constructor
-     */
-    PolynomialSeriesRatio( Parent series ) : Parent( std::move( series ) ) {}
-
   public:
 
     /* type aliases */
 
     using typename Parent::XType;
     using typename Parent::YType;
-    using typename Parent::DomainVariant;
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     PolynomialSeriesRatio() = default;
 
     PolynomialSeriesRatio( const PolynomialSeriesRatio& ) = default;
@@ -66,6 +55,8 @@ namespace math {
 
     /**
      *  @brief Constructor
+     *
+     *  The numerator and denominator series must be defined on the same domain.
      *
      *  @param numerator     the numerator series
      *  @param denominator   the denominator series
@@ -141,11 +132,11 @@ namespace math {
     using Parent::operator/=;
     using Parent::operator==;
     using Parent::operator!=;
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
   /**

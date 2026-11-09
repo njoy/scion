@@ -22,10 +22,6 @@ namespace math {
   void wrapChebyshev( python::module& );
   void wrapLegendre( python::module& );
 
-  // function interface
-  void wrapIntervalDomain( python::module& );
-  void wrapOpenDomain( python::module& );
-
   // functions
   void wrapLinearLinearTable( python::module& );
   void wrapHistogramTable( python::module& );
@@ -60,8 +56,6 @@ void wrapMathModule( python::module& module ) {
   math::wrapHorner( submodule );
   math::wrapChebyshev( submodule );
   math::wrapLegendre( submodule );
-  math::wrapIntervalDomain( submodule );
-  math::wrapOpenDomain( submodule );
   math::wrapLinearLinearTable( submodule );
   math::wrapHistogramTable( submodule );
   math::wrapLogLinearTable( submodule );

@@ -17,8 +17,6 @@ using Catch::Matchers::WithinRel;
 using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "InterpolationTable - coulomb penetrability specific tests" ) {
@@ -55,7 +53,8 @@ SCENARIO( "InterpolationTable - coulomb penetrability specific tests" ) {
         CHECK( std::nullopt == chunk.threshold() ); // <-- threshold is None
         CHECK( true == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -99,7 +98,8 @@ SCENARIO( "InterpolationTable - coulomb penetrability specific tests" ) {
         CHECK( 0 == chunk.threshold() );
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 100., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 500., WithinRel( chunk.upperLimit() ) );
 
         CHECK_THAT( 3.6560950179562816e-53, WithinRel( chunk( 130.3030303030303 ) ) );
         CHECK_THAT( 1.5633677539389945e-46, WithinRel( chunk( 170.70707070707073 ) ) );

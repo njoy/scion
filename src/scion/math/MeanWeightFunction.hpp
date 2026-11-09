@@ -19,17 +19,12 @@ namespace math {
   class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X >, X, X > {
 
     /* friend declarations */
+
     friend class WeightFunctionBase< MeanWeightFunction< X >, X, X >;
-    friend class OneDimensionalFunctionBase< MeanWeightFunction< X >, X, X >;
 
     /* type aliases */
+
     using Parent = WeightFunctionBase< MeanWeightFunction< X >, X, X >;
-
-  public:
-
-    /* type aliases */
-
-  private:
 
     /* fields */
 
@@ -154,7 +149,7 @@ namespace math {
     /**
      *  @brief Constructor
      */
-    MeanWeightFunction() : Parent( OpenDomain< X >() ) {}
+    MeanWeightFunction() = default;
 
     /* methods */
 

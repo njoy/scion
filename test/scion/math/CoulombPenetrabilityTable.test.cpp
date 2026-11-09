@@ -17,8 +17,6 @@ template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
            typename YContainer = std::vector< Y > >
 using CoulombPenetrabilityTable = math::CoulombPenetrabilityTable< X, Y, XContainer, YContainer >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 template < typename X, typename Y = X, typename W = X >
 using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
@@ -61,7 +59,8 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
 
         CHECK_THAT( 0.3, WithinRel( chunk.threshold() ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 2., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 7., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a CoulombPenetrabilityTable can be evaluated" ) {
@@ -90,10 +89,6 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
         CHECK( false == chunk.isContained( 2.0 ) );
         CHECK( true == chunk.isContained( 3.0 ) );
         CHECK( false == chunk.isContained( 7.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 2., 7. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "the integral can be calculated with constant and mean WFs" ) {

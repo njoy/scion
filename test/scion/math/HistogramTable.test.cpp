@@ -17,8 +17,6 @@ template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
            typename YContainer = std::vector< Y > >
 using HistogramTable = math::HistogramTable< X, Y, XContainer, YContainer >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 template < typename X, typename W = X >
 using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
@@ -54,7 +52,8 @@ SCENARIO( "HistogramTable" ) {
         CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
         CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a HistogramTable can be evaluated" ) {
@@ -106,10 +105,6 @@ SCENARIO( "HistogramTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "a HistogramTable can be linearised" ) {
@@ -161,7 +156,8 @@ SCENARIO( "HistogramTable" ) {
         CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
         CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a HistogramTable can be evaluated" ) {
@@ -213,10 +209,6 @@ SCENARIO( "HistogramTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "a HistogramTable can be linearised" ) {

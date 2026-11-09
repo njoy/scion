@@ -68,9 +68,6 @@ add_python_test( math.horner math/Test_scion_math_horner.py )
 add_python_test( math.chebyshev math/Test_scion_math_chebyshev.py )
 add_python_test( math.legendre math/Test_scion_math_legendre.py )
 
-add_python_test( math.IntervalDomain math/Test_scion_math_IntervalDomain.py )
-add_python_test( math.OpenDomain math/Test_scion_math_OpenDomain.py )
-
 add_python_test( math.LinearLinearTable math/Test_scion_math_LinearLinearTable.py )
 add_python_test( math.HistogramTable math/Test_scion_math_HistogramTable.py )
 add_python_test( math.LinearLogTable math/Test_scion_math_LinearLogTable.py )

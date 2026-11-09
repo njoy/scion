@@ -6,8 +6,6 @@ import sys
 
 # local imports
 from scion.math import PolynomialSeries
-from scion.math import IntervalDomain
-from scion.math import OpenDomain
 from scion.linearisation import ToleranceConvergence
 from scion.interpolation import InterpolationType
 
@@ -27,7 +25,8 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual( -7., chunk.coefficients[2] )
             self.assertAlmostEqual(  1., chunk.coefficients[3] )
 
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
+            self.assertAlmostEqual( -1., chunk.lower_limit )
+            self.assertAlmostEqual(  1., chunk.upper_limit )
 
             # verify evaluation
             self.assertAlmostEqual(  -8.0, chunk( x =  0. ) )
@@ -49,31 +48,27 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  14., first.coefficients[0] )
             self.assertAlmostEqual( -14., first.coefficients[1] )
             self.assertAlmostEqual(   3., first.coefficients[2] )
-            self.assertEqual( True, isinstance( first.domain, IntervalDomain ) )
-            self.assertAlmostEqual( -1., first.domain.lower_limit )
-            self.assertAlmostEqual(  1., first.domain.upper_limit )
+            self.assertAlmostEqual( -1., first.lower_limit )
+            self.assertAlmostEqual(  1., first.upper_limit )
 
             self.assertEqual( 1, second.order )
             self.assertEqual( 2, len( second.coefficients ) )
             self.assertAlmostEqual( -14., second.coefficients[0] )
             self.assertAlmostEqual(   6., second.coefficients[1] )
-            self.assertEqual( True, isinstance( second.domain, IntervalDomain ) )
-            self.assertAlmostEqual( -1., second.domain.lower_limit )
-            self.assertAlmostEqual(  1., second.domain.upper_limit )
+            self.assertAlmostEqual( -1., second.lower_limit )
+            self.assertAlmostEqual(  1., second.upper_limit )
 
             self.assertEqual( 0, third.order )
             self.assertEqual( 1, len( third.coefficients ) )
             self.assertAlmostEqual( 6., third.coefficients[0] )
-            self.assertEqual( True, isinstance( third.domain, IntervalDomain ) )
-            self.assertAlmostEqual( -1., third.domain.lower_limit )
-            self.assertAlmostEqual(  1., third.domain.upper_limit )
+            self.assertAlmostEqual( -1., third.lower_limit )
+            self.assertAlmostEqual(  1., third.upper_limit )
 
             self.assertEqual( 0, fourth.order )
             self.assertEqual( 1, len( fourth.coefficients ) )
             self.assertAlmostEqual( 0., fourth.coefficients[0] )
-            self.assertEqual( True, isinstance( fourth.domain, IntervalDomain ) )
-            self.assertAlmostEqual( -1., fourth.domain.lower_limit )
-            self.assertAlmostEqual(  1., fourth.domain.upper_limit )
+            self.assertAlmostEqual( -1., fourth.lower_limit )
+            self.assertAlmostEqual(  1., fourth.upper_limit )
 
             # verify primitive
             primitive = chunk.primitive()
@@ -85,9 +80,8 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual(   7., primitive.coefficients[2] )
             self.assertAlmostEqual(  -7. / 3., primitive.coefficients[3] )
             self.assertAlmostEqual(   1. / 4., primitive.coefficients[4] )
-            self.assertEqual( True, isinstance( primitive.domain, IntervalDomain ) )
-            self.assertAlmostEqual( -1., primitive.domain.lower_limit )
-            self.assertAlmostEqual(  1., primitive.domain.upper_limit )
+            self.assertAlmostEqual( -1., primitive.lower_limit )
+            self.assertAlmostEqual(  1., primitive.upper_limit )
 
             primitive = chunk.primitive( left = -1. )
 
@@ -98,9 +92,8 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertAlmostEqual(   7., primitive.coefficients[2] )
             self.assertAlmostEqual(  -7. / 3., primitive.coefficients[3] )
             self.assertAlmostEqual(   1. / 4., primitive.coefficients[4] )
-            self.assertEqual( True, isinstance( primitive.domain, IntervalDomain ) )
-            self.assertAlmostEqual( -1., primitive.domain.lower_limit )
-            self.assertAlmostEqual(  1., primitive.domain.upper_limit )
+            self.assertAlmostEqual( -1., primitive.lower_limit )
+            self.assertAlmostEqual(  1., primitive.upper_limit )
 
             # verify roots
             roots = chunk.roots()
@@ -122,9 +115,8 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained(  0. ) )
             self.assertEqual( False, chunk.is_contained(  1. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -1., 1. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 1. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( -1., chunk.lower_limit )
+            self.assertAlmostEqual( 1., chunk.upper_limit )
 
             # verify linearisation
             convergence = ToleranceConvergence( 0.01 )
@@ -189,9 +181,9 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
             self.assertEqual( True, linear.is_linearised )
 
             # verify arithmetic operators
-            small = PolynomialSeries( [ 3., 0., 1. ] )
-            equal = PolynomialSeries( [ 3., 0., 0., 1. ] )
-            large = PolynomialSeries( [ 3., 0., 0., 0., 1. ] )
+            small = PolynomialSeries( -1., 1., [ 3., 0., 1. ] )
+            equal = PolynomialSeries( -1., 1., [ 3., 0., 0., 1. ] )
+            large = PolynomialSeries( -1., 1., [ 3., 0., 0., 0., 1. ] )
 
             result = -chunk
             self.assertEqual( 3, result.order )
@@ -393,19 +385,52 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
 
         verify_chunk( self, chunk )
 
+    def test_component_without_domain( self ) :
+
+        chunk = PolynomialSeries( coefficients = [ -8., 14., -7., 1. ] )
+
+        # verify content
+        self.assertEqual( 3, chunk.order )
+        self.assertEqual( float( '-inf' ), chunk.lower_limit )
+        self.assertEqual( float( 'inf' ), chunk.upper_limit )
+
+        # verify evaluation
+        self.assertAlmostEqual(  -8., chunk( 0. ) )
+        self.assertAlmostEqual( 432., chunk( 10. ) )
+
+        # verify domain
+        self.assertEqual( True, chunk.is_inside( 1e+300 ) )
+        self.assertEqual( True, chunk.is_contained( -1e+300 ) )
+
+        # verify derivative and primitive
+        self.assertEqual( float( '-inf' ), chunk.derivative().lower_limit )
+        self.assertEqual( float( 'inf' ), chunk.primitive().upper_limit )
+
+        # integration and linearisation are not possible
+        with self.assertRaises( Exception ) :
+
+            chunk.integral
+
+        with self.assertRaises( Exception ) :
+
+            chunk.linearise()
+
     def test_comparison( self ) :
 
-        left = PolynomialSeries( [ 1., 2., 3. ] )
-        equal = PolynomialSeries( [ 1., 2., 3. ] )
-        different = PolynomialSeries( [ 1., 0., 3. ] )
+        left = PolynomialSeries( -1., 1., [ 1., 2., 3. ] )
+        equal = PolynomialSeries( -1., 1., [ 1., 2., 3. ] )
+        different = PolynomialSeries( -1., 1., [ 1., 0., 3. ] )
+        otherdomain = PolynomialSeries( 0., 1., [ 1., 2., 3. ] )
 
         self.assertEqual( True, left == left )
         self.assertEqual( True, left == equal )
         self.assertEqual( False, left == different )
+        self.assertEqual( False, left == otherdomain )
 
         self.assertEqual( False, left != left )
         self.assertEqual( False, left != equal )
         self.assertEqual( True, left != different )
+        self.assertEqual( True, left != otherdomain )
 
     def test_failures( self ) :
 
@@ -414,7 +439,16 @@ class Test_scion_math_PolynomialSeries( unittest.TestCase ) :
         # the coefficient vector is empty
         with self.assertRaises( Exception ) :
 
-            chunk = PolynomialSeries( coefficients = [] )
+            chunk = PolynomialSeries( lower = -1., upper = 1., coefficients = [] )
+
+        # the domain is not valid
+        with self.assertRaises( Exception ) :
+
+            chunk = PolynomialSeries( lower = 1., upper = 1., coefficients = [ 1., 2., 3. ] )
+
+        with self.assertRaises( Exception ) :
+
+            chunk = PolynomialSeries( lower = 1., upper = -1., coefficients = [ 1., 2., 3. ] )
 
 if __name__ == '__main__' :
 

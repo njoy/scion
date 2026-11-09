@@ -6,8 +6,6 @@ import sys
 
 # local imports
 from scion.math import LegendreSeries
-from scion.math import IntervalDomain
-from scion.math import OpenDomain
 from scion.linearisation import ToleranceConvergence
 from scion.interpolation import InterpolationType
 
@@ -27,7 +25,8 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertAlmostEqual(  -4.66666666666666, chunk.coefficients[2] )
             self.assertAlmostEqual(   0.4             , chunk.coefficients[3] )
 
-            self.assertEqual( True, isinstance( chunk.domain, IntervalDomain ) )
+            self.assertAlmostEqual( -1., chunk.lower_limit )
+            self.assertAlmostEqual(  1., chunk.upper_limit )
 
             # verify evaluation
             self.assertAlmostEqual(  -8.0, chunk( x =  0. ) )
@@ -104,9 +103,8 @@ class Test_scion_math_LegendreSeries( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained(  0. ) )
             self.assertEqual( False, chunk.is_contained(  1. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( -1., 1. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 1. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( -1., chunk.lower_limit )
+            self.assertAlmostEqual( 1., chunk.upper_limit )
 
             # verify linearisation
             convergence = ToleranceConvergence( 0.01 )

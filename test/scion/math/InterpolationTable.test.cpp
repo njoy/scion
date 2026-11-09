@@ -17,8 +17,6 @@ using Catch::Matchers::WithinRel;
 using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 
 SCENARIO( "InterpolationTable" ) {
@@ -55,7 +53,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( std::nullopt == chunk.threshold() );
         CHECK( true == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be copy and move constructed" ) {
@@ -79,7 +78,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
         CHECK( true == copy.isLinearised() );
         CHECK( true == copy.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+        CHECK_THAT( 1., WithinRel( copy.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( copy.upperLimit() ) );
 
         InterpolationTable< double > move( std::move( copy ) );
         CHECK( 4 == move.numberPoints() );
@@ -100,7 +100,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
         CHECK( true == move.isLinearised() );
         CHECK( true == move.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+        CHECK_THAT( 1., WithinRel( move.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( move.upperLimit() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be copy and move assigned" ) {
@@ -126,7 +127,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == copy.interpolants()[0] );
         CHECK( true == copy.isLinearised() );
         CHECK( true == copy.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
+        CHECK_THAT( 1., WithinRel( copy.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( copy.upperLimit() ) );
 
         InterpolationTable< double > move( { 1., 4. }, { 0., 0. } );
         move = std::move( copy );
@@ -149,7 +151,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == move.interpolants()[0] );
         CHECK( true == move.isLinearised() );
         CHECK( true == move.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
+        CHECK_THAT( 1., WithinRel( move.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( move.upperLimit() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be evaluated" ) {
@@ -205,10 +208,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -237,7 +236,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 3., WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= 2.;
 
@@ -257,7 +257,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk *= 2;
 
@@ -277,7 +278,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2., WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2;
 
@@ -297,7 +299,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = -chunk;
 
@@ -317,7 +320,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( -1., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk + 2.;
 
@@ -337,7 +341,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 3., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. + chunk;
 
@@ -357,7 +362,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 3., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - 2.;
 
@@ -377,7 +383,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( -1., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. - chunk;
 
@@ -397,7 +404,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT(  1., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk * 2;
 
@@ -417,7 +425,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2 * chunk;
 
@@ -437,7 +446,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 2., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk / 2;
 
@@ -457,7 +467,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 0.5, WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         chunk += same;
 
@@ -477,7 +488,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 4.0, WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= same;
 
@@ -497,7 +509,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.0, WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + same;
 
@@ -517,7 +530,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 4.0, WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - same;
 
@@ -537,7 +551,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( -2., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         chunk += threshold;
 
@@ -557,7 +572,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 3.0, WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= threshold;
 
@@ -577,7 +593,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.0, WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + threshold;
 
@@ -597,7 +614,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 3.0, WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - threshold;
 
@@ -617,7 +635,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( -1., WithinRel( result.y()[3] ) );
         CHECK( 3 == result.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         chunk += nonzerothreshold;
 
@@ -641,7 +660,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= nonzerothreshold;
 
@@ -661,7 +681,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK_THAT( 1.0, WithinRel( chunk.y()[3] ) );
         CHECK( 3 == chunk.boundaries()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + nonzerothreshold;
 
@@ -685,7 +706,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - nonzerothreshold;
 
@@ -709,7 +731,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         // this will add a second point at the lower end point
         result = chunk + small;
@@ -733,7 +756,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 2 == result.boundaries()[0] );
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         // this will add a second point at the lower end point
         result = chunk - small;
@@ -757,7 +781,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 2 == result.boundaries()[0] );
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -829,7 +854,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( true == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a InterpolationTable can be evaluated" ) {
@@ -859,10 +885,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be integrated" ) {
@@ -962,7 +984,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= 2.;
 
@@ -984,7 +1007,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk *= 2.;
 
@@ -1006,7 +1030,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2.;
 
@@ -1028,7 +1053,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = -chunk;
 
@@ -1050,7 +1076,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk + 2.;
 
@@ -1072,7 +1099,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. + chunk;
 
@@ -1094,7 +1122,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - 2.;
 
@@ -1116,7 +1145,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. - chunk;
 
@@ -1138,7 +1168,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk * 2.;
 
@@ -1160,7 +1191,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. * chunk;
 
@@ -1182,7 +1214,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk / 2.;
 
@@ -1204,7 +1237,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         chunk += same;
 
@@ -1226,7 +1260,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= same;
 
@@ -1248,7 +1283,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + same;
 
@@ -1270,7 +1306,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - same;
 
@@ -1292,7 +1329,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         chunk += threshold;
 
@@ -1314,7 +1352,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= threshold;
 
@@ -1336,7 +1375,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + threshold;
 
@@ -1358,7 +1398,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - threshold;
 
@@ -1380,7 +1421,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         chunk += nonzerothreshold;
 
@@ -1406,7 +1448,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[2] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= nonzerothreshold;
 
@@ -1428,7 +1471,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 4 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + nonzerothreshold;
 
@@ -1454,7 +1498,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk - nonzerothreshold;
 
@@ -1480,7 +1525,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         // this will add a second point at the lower end point
         result = chunk + small;
@@ -1507,7 +1553,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         // this will add a second point at the lower end point
         result = chunk - small;
@@ -1534,7 +1581,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[2] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -1580,7 +1628,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be evaluated" ) {
@@ -1653,10 +1702,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -1744,7 +1789,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( std::nullopt == chunk.threshold() );
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2.;
 
@@ -1766,7 +1812,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == chunk.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == chunk.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == chunk.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = -chunk;
 
@@ -1788,7 +1835,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk * 2.;
 
@@ -1810,7 +1858,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. * chunk;
 
@@ -1832,7 +1881,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk / 2.;
 
@@ -1854,7 +1904,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( 3 == result.boundaries()[1] );
         CHECK( InterpolationType::LinearLinear == result.interpolants()[0] );
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
       } // THEN
 
       THEN( "some arithmetic operations cannot be performed" ) {
@@ -1920,7 +1971,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a InterpolationTable can be evaluated" ) {
@@ -1994,10 +2046,6 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -2075,7 +2123,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( std::nullopt == chunk.threshold() );
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2.;
 
@@ -2100,7 +2149,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( std::nullopt == chunk.threshold() );
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
 
         result = -chunk;
 
@@ -2124,7 +2174,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
         CHECK( true == result.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk * 2.;
 
@@ -2148,7 +2199,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
         CHECK( true == result.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = 2. * chunk;
 
@@ -2172,7 +2224,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
         CHECK( true == result.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
 
         result = chunk / 2.;
 
@@ -2196,7 +2249,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( InterpolationType::LinearLog == result.interpolants()[1] );
         CHECK( false == result.isLinearised() );
         CHECK( true == result.isCurated() );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( 1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( result.upperLimit() ) );
       } // THEN
 
       THEN( "some arithmetic operations cannot be performed" ) {
@@ -2269,7 +2323,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( false == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "the table can be curated on demand and the extraneous points are removed" ) {
@@ -2393,7 +2448,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "calling curate() again on an already curated table does not change anything" ) {
@@ -2722,7 +2778,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -2771,7 +2828,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -2814,7 +2872,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -2863,7 +2922,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -2906,7 +2966,8 @@ SCENARIO( "InterpolationTable" ) {
         CHECK( false == chunk.isLinearised() );
         CHECK( true == chunk.isCurated() );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN

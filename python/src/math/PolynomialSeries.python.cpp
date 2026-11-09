@@ -57,7 +57,7 @@ void wrapPolynomialSeriesFor( python::module& module, const std::string& name ) 
     python::init< X, X, std::vector< X > >(),
     python::arg( "lower" ), python::arg( "upper" ),
     python::arg( "coefficients" ),
-    "Initialise the function with an open domain\n\n"
+    "Initialise the function\n\n"
     "Arguments:\n"
     "    self           the function\n"
     "    lower          the lower limit of the domain\n"

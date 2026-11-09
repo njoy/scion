@@ -2,11 +2,8 @@
 #define NJOY_SCION_MATH_ONEDIMENSIONALFUNCTIONBASE
 
 // system includes
-#include <variant>
 
 // other includes
-#include "scion/math/IntervalDomain.hpp"
-#include "scion/math/OpenDomain.hpp"
 
 namespace njoy {
 namespace scion {
@@ -18,22 +15,14 @@ namespace math {
    *
    *  This base class provides the common interface for all one dimensional
    *  function objects. This includes domain testing and function evaluation.
+   *
+   *  Any class deriving from this base class must implement a lower(), upper()
+   *  and evaluate() function.
    */
   template < typename Derived, typename X, typename Y >
   class OneDimensionalFunctionBase {
 
-  public:
-
-    /* type aliases */
-
-    using XType = X;
-    using YType = Y;
-    using DomainVariant = std::variant< IntervalDomain< X >, OpenDomain< X > >;
-
-  private:
-
     /* fields */
-    DomainVariant domain_;
 
     /* auxiliary function */
 
@@ -41,18 +30,7 @@ namespace math {
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     OneDimensionalFunctionBase() = default;
-
-    /**
-     *  @brief Constructor
-     *
-     *  @param domain   the domain of the function
-     */
-    OneDimensionalFunctionBase( DomainVariant domain ) :
-      domain_( std::move( domain ) ) {}
 
     OneDimensionalFunctionBase( const OneDimensionalFunctionBase& ) = default;
     OneDimensionalFunctionBase( OneDimensionalFunctionBase&& ) = default;
@@ -62,16 +40,12 @@ namespace math {
 
   public:
 
+    /* type aliases */
+
+    using XType = X;
+    using YType = Y;
+
     /* methods */
-
-    /**
-     *  @brief Return the domain of the function (either an open or interval
-     *         domain)
-     */
-    const DomainVariant& domain() const noexcept {
-
-      return this->domain_;
-    }
 
     /**
      *  @brief Evaluate the function for a value of x
@@ -84,6 +58,22 @@ namespace math {
     }
 
     /**
+     *  @brief Return the lower limit of the domain
+     */
+    decltype(auto) lowerLimit() const noexcept {
+
+      return static_cast< const Derived* >( this )->lower();
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    decltype(auto) upperLimit() const noexcept {
+
+      return static_cast< const Derived* >( this )->upper();
+    }
+
+    /**
      *  @brief Check whether or not a value is inside the domain (including
      *         boundaries)
      *
@@ -91,9 +81,11 @@ namespace math {
      */
     bool isInside( const X& x ) const noexcept {
 
-      return std::visit( [&x] ( const auto& domain )
-                              { return domain.isInside( x ); },
-                         this->domain() );
+      if ( this->lowerLimit() <= x && x <= this->upperLimit() ) {
+
+        return true;
+      }
+      return false;
     }
 
     /**
@@ -104,19 +96,11 @@ namespace math {
      */
     bool isContained( const X& x ) const noexcept {
 
-      return std::visit( [&x] ( const auto& domain )
-                              { return domain.isContained( x ); },
-                         this->domain() );
-    }
+      if ( this->lowerLimit() < x && x < this->upperLimit() ) {
 
-    /**
-     *  @brief Check whether or not a domain is equal to the function's domain
-     *
-     *  @param domain   the domain to be tested
-     */
-    bool isSameDomain( const DomainVariant& domain ) const noexcept {
-
-      return this->domain() == domain;
+        return true;
+      }
+      return false;
     }
   };
 

@@ -22,8 +22,6 @@ template < typename X, typename Y = X,
            typename XContainer = std::vector< X >,
            typename YContainer = std::vector< Y > >
 using LinearLogTable = math::LinearLogTable< X, Y, XContainer, YContainer >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 template < typename X, typename Y = X, typename W = X >
 using ConstantWeightFunction = math::ConstantWeightFunction< X, W >;
@@ -59,7 +57,8 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
         CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a LinearLogTable can be evaluated" ) {
@@ -190,10 +189,6 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
     } // WHEN
 
@@ -224,7 +219,8 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 2., WithinRel( chunk.y()[2] ) );
         CHECK_THAT( 1., WithinRel( chunk.y()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( 1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT( 4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a LinearLogTable can be evaluated" ) {
@@ -355,10 +351,6 @@ SCENARIO( "LinearLogTable" ) {
         CHECK( false == chunk.isContained( 1.0 ) );
         CHECK( true == chunk.isContained( 2.5 ) );
         CHECK( false == chunk.isContained( 4.0 ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( 1., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
     } // WHEN
   } // GIVEN

@@ -2,6 +2,7 @@
 #define NJOY_SCION_MATH_CHEBYSHEVAPPROXIMATION
 
 // system includes
+#include <cmath>
 #include <vector>
 
 // other includes
@@ -43,6 +44,10 @@ namespace math {
   class ChebyshevApproximation :
       public OneDimensionalFunctionBase< ChebyshevApproximation< X, Y >, X, Y > {
 
+    /* friend declarations */
+
+    friend class OneDimensionalFunctionBase< ChebyshevApproximation< X, Y >, X, Y >;
+
     /* type aliases */
 
     using Parent = OneDimensionalFunctionBase< ChebyshevApproximation< X, Y >, X, Y >;
@@ -54,6 +59,25 @@ namespace math {
     ChebyshevSeries< X, Y > series_;
 
     /* auxiliary function */
+
+    static void verifyDomain( const X& lower, const X& upper ) {
+
+      if ( ! ( lower < upper ) ) {
+
+        Log::error( "Incoherent domain for a Chebyshev approximation, expected lower < upper" );
+        Log::info( "Lower limit: {}", lower );
+        Log::info( "Upper limit: {}", upper );
+        throw std::exception();
+      }
+
+      if ( ! std::isfinite( lower ) || ! std::isfinite( upper ) ) {
+
+        Log::error( "The domain for a Chebyshev approximation must be finite" );
+        Log::info( "Lower limit: {}", lower );
+        Log::info( "Upper limit: {}", upper );
+        throw std::exception();
+      }
+    }
 
     template < typename Functor > static std::vector< Y >
     calculateCoefficients( X lower, X upper, Functor&& function, unsigned int order ) {
@@ -110,32 +134,48 @@ namespace math {
       return ( xprime + X( 1 ) ) * ( this->upper_ - this->lower_ ) / X( 2 ) + this->lower_;
     }
 
+    /* interface implementation functions */
+
+    /**
+     *  @brief Return the lower limit of the domain
+     */
+    const X& lower() const noexcept {
+
+      return this->lower_;
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    const X& upper() const noexcept {
+
+      return this->upper_;
+    }
+
   public:
 
     /* type aliases */
 
     using typename Parent::XType;
     using typename Parent::YType;
-    using typename Parent::DomainVariant;
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     ChebyshevApproximation() = default;
 
     /**
      *  @brief Constructor
      *
-     *  @param domain      the domain of the approximated function
+     *  @param lower       the lower limit of the domain
+     *  @param upper       the upper limit of the domain
      *  @param series      the Chebyshev series that approximates the function
      */
-    ChebyshevApproximation( IntervalDomain< X > domain,
-                            ChebyshevSeries< X, Y > series ) :
-      Parent( std::move( domain ) ),
-      lower_( domain.lowerLimit() ), upper_( domain.upperLimit() ),
-      series_( std::move( series ) ) {}
+    ChebyshevApproximation( X lower, X upper, ChebyshevSeries< X, Y > series ) :
+      lower_( std::move( lower ) ), upper_( std::move( upper ) ),
+      series_( std::move( series ) ) {
+
+      verifyDomain( this->lower(), this->upper() );
+    }
 
     /**
      *  @brief Constructor
@@ -145,7 +185,7 @@ namespace math {
      *  @param coefficients    the coefficients that approximate the function
      */
     ChebyshevApproximation( X lower, X upper, std::vector< Y > coefficients ) :
-      ChebyshevApproximation( IntervalDomain( lower, upper ),
+      ChebyshevApproximation( std::move( lower ), std::move( upper ),
                               ChebyshevSeries< X, Y >( std::move( coefficients ) ) ) {}
 
     /**
@@ -192,7 +232,7 @@ namespace math {
     /**
      *  @brief Return the Chebyshev order
      */
-    unsigned int order() const noexcept {
+    std::size_t order() const noexcept {
 
       return this->series_.order();
     }
@@ -207,7 +247,7 @@ namespace math {
      */
     ChebyshevApproximation derivative() const {
 
-      return ChebyshevApproximation( IntervalDomain( this->lower_, this->upper_ ),
+      return ChebyshevApproximation( this->lower(), this->upper(),
                                      this->series_.derivative() );
     }
 
@@ -226,7 +266,7 @@ namespace math {
      */
     ChebyshevApproximation primitive( const X& left = X( 0. ) ) const {
 
-      return ChebyshevApproximation( IntervalDomain( this->lower_, this->upper_ ),
+      return ChebyshevApproximation( this->lower(), this->upper(),
                                      this->series_.primitive( left ) );
     }
 
@@ -464,7 +504,8 @@ namespace math {
      */
     bool operator==( const ChebyshevApproximation& right ) const noexcept {
 
-      return this->domain() == right.domain() &&
+      return this->lowerLimit() == right.lowerLimit() &&
+             this->upperLimit() == right.upperLimit() &&
              this->coefficients() == right.coefficients();
     }
 
@@ -478,11 +519,11 @@ namespace math {
       return ! this->operator==( right );
     }
 
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
   /**

@@ -28,19 +28,13 @@ namespace math {
              typename YContainer = std::vector< Y > >
   class SingleTableBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
+    /* friend declarations */
+
+    friend class OneDimensionalFunctionBase< Derived, X, Y >;
+
     /* type aliases */
 
     using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
-
-  public:
-
-    /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-    using typename Parent::DomainVariant;
-
-  private:
 
     /* fields */
 
@@ -49,8 +43,7 @@ namespace math {
 
     /* auxiliary function */
 
-    static IntervalDomain< X >
-    verifyTableAndRetrieveDomain( const XContainer& x, const YContainer& y ) {
+    static void verifyTable( const XContainer& x, const YContainer& y ) {
 
       if ( ( ! verification::isAtLeastOfSize( x, 2 ) ) ||
            ( ! verification::isAtLeastOfSize( y, 2 ) ) ) {
@@ -92,18 +85,25 @@ namespace math {
         }
         throw std::exception();
       }
-
-      return IntervalDomain( x.front(), x.back() );
     }
 
-    /* constructor */
+    /* interface implementation functions */
 
     /**
-     *  @brief Private constructor
+     *  @brief Return the lower limit of the domain
      */
-    SingleTableBase( IntervalDomain< X >&& domain, XContainer&& x, YContainer&& y ) :
-      Parent( std::move( domain ) ),
-      x_( std::move( x ) ), y_( std::move( y ) ) {}
+    decltype(auto) lower() const noexcept {
+
+      return this->x().front();
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    decltype(auto) upper() const noexcept {
+
+      return this->x().back();
+    }
 
   protected:
 
@@ -116,8 +116,10 @@ namespace math {
      *  @param y   the y values of the tabulated data
      */
     SingleTableBase( XContainer x, YContainer y ) :
-      SingleTableBase( verifyTableAndRetrieveDomain( x, y ),
-                       std::move( x ), std::move( y ) ) {}
+      x_( std::move( x ) ), y_( std::move( y ) ) {
+
+      verifyTable( this->x(), this->y() );
+    }
 
     SingleTableBase( const SingleTableBase& ) = default;
     SingleTableBase( SingleTableBase&& ) = default;
@@ -212,11 +214,11 @@ namespace math {
       return std::make_pair( std::move( x ), std::move( y ) );
     }
 
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
 } // math namespace

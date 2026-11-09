@@ -6,8 +6,6 @@ import sys
 
 # local imports
 from scion.math import InterpolationTable
-from scion.math import IntervalDomain
-from scion.math import OpenDomain
 from scion.interpolation import InterpolationType
 
 class Test_scion_math_InterpolationTable( unittest.TestCase ) :
@@ -70,9 +68,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained( 2.5 ) )
             self.assertEqual( False, chunk.is_contained( 4. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( 1., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( 1., chunk.lower_limit )
+            self.assertAlmostEqual( 4., chunk.upper_limit )
 
             # verify linearisation
             linear = chunk.linearise()
@@ -654,9 +651,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained( 2.5 ) )
             self.assertEqual( False, chunk.is_contained( 4. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( 1., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( 1., chunk.lower_limit )
+            self.assertAlmostEqual( 4., chunk.upper_limit )
 
             # verify linearisation
             linear = chunk.linearise()
@@ -1297,9 +1293,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained( 2.5 ) )
             self.assertEqual( False, chunk.is_contained( 4. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( 1., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( 1., chunk.lower_limit )
+            self.assertAlmostEqual( 4., chunk.upper_limit )
 
             # verify linearisation
             linear = chunk.linearise()
@@ -1551,9 +1546,8 @@ class Test_scion_math_InterpolationTable( unittest.TestCase ) :
             self.assertEqual( True, chunk.is_contained( 2.5 ) )
             self.assertEqual( False, chunk.is_contained( 4. ) )
 
-            self.assertEqual( True, chunk.is_same_domain( IntervalDomain( 1., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( IntervalDomain( 0., 4. ) ) )
-            self.assertEqual( False, chunk.is_same_domain( OpenDomain() ) )
+            self.assertAlmostEqual( 1., chunk.lower_limit )
+            self.assertAlmostEqual( 4., chunk.upper_limit )
 
             # verify linearisation
             linear = chunk.linearise()

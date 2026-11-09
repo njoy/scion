@@ -12,8 +12,6 @@ using Catch::Matchers::WithinAbs;
 // convenience typedefs
 using namespace njoy::scion;
 template < typename X, typename Y = X > using ChebyshevApproximation = math::ChebyshevApproximation< X, Y >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
 
 SCENARIO( "ChebyshevApproximation" ) {
 
@@ -41,9 +39,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
 
-        IntervalDomain< double > domain = std::get< IntervalDomain< double > >( chunk.domain() );
-        CHECK_THAT( -1., WithinRel( domain.lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( domain.upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a ChebyshevApproximation can be evaluated" ) {
@@ -90,10 +87,6 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK( false == chunk.isContained( -1. ) );
         CHECK( true == chunk.isContained( 0. ) );
         CHECK( false == chunk.isContained( 1. ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( -1., 1. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 1. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -116,7 +109,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         chunk += 2.;
 
@@ -132,7 +126,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk -= 2.;
 
@@ -148,7 +143,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk += small;
 
@@ -164,7 +160,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk -= small;
 
@@ -180,7 +177,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk *= 2.;
 
@@ -196,7 +194,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2.;
 
@@ -212,7 +211,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + 2.;
 
@@ -228,7 +228,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = 2. + chunk;
 
@@ -244,7 +245,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk - 2.;
 
@@ -260,7 +262,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = 2. - chunk;
 
@@ -276,7 +279,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk + small;
 
@@ -292,7 +296,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk - small;
 
@@ -308,7 +313,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT(  0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT(  0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk * 2.;
 
@@ -324,7 +330,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = 2. * chunk;
 
@@ -340,7 +347,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk / 2.;
 
@@ -356,7 +364,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0.0, WithinAbs( result.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0.0, WithinAbs( result.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0.0, WithinAbs( result.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -382,9 +391,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
 
-        IntervalDomain< double > domain = std::get< IntervalDomain< double > >( chunk.domain() );
-        CHECK_THAT( -2., WithinRel( domain.lowerLimit() ) );
-        CHECK_THAT(  4., WithinRel( domain.upperLimit() ) );
+        CHECK_THAT( -2., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  4., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a ChebyshevApproximation can be evaluated" ) {
@@ -431,10 +439,6 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK( false == chunk.isContained( -2. ) );
         CHECK( true == chunk.isContained( 1. ) );
         CHECK( false == chunk.isContained( 4. ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( -2., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 4. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "arithmetic operations can be performed" ) {
@@ -453,7 +457,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -2., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  4., WithinRel( chunk.upperLimit() ) );
 
         chunk -= 2.;
 
@@ -469,7 +474,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -2., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  4., WithinRel( chunk.upperLimit() ) );
 
         chunk *= 2.;
 
@@ -485,7 +491,8 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -2., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  4., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2.;
 
@@ -501,7 +508,48 @@ SCENARIO( "ChebyshevApproximation" ) {
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[7], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[8], 1e-12 ) );
         CHECK_THAT( 0., WithinAbs( chunk.coefficients()[9], 1e-12 ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -2., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  4., WithinRel( chunk.upperLimit() ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "comparison operators" ) {
+
+    WHEN( "two instances of ChebyshevApproximation are given" ) {
+
+      ChebyshevApproximation< double > left( -1., 1., std::vector< double >{ 1., 2., 3. } );
+      ChebyshevApproximation< double > equal( -1., 1., std::vector< double >{ 1., 2., 3. } );
+      ChebyshevApproximation< double > different( -1., 1., std::vector< double >{ 1., 0., 3. } );
+      ChebyshevApproximation< double > otherdomain( 0., 1., std::vector< double >{ 1., 2., 3. } );
+
+      THEN( "they can be compared" ) {
+
+        CHECK( true == ( left == left ) );
+        CHECK( true == ( left == equal ) );
+        CHECK( false == ( left == different ) );
+        CHECK( false == ( left == otherdomain ) );
+
+        CHECK( false == ( left != left ) );
+        CHECK( false == ( left != equal ) );
+        CHECK( true == ( left != different ) );
+        CHECK( true == ( left != otherdomain ) );
+      } // THEN
+    } // WHEN
+  } // GIVEN
+
+  GIVEN( "invalid data" ) {
+
+    WHEN( "the domain is not valid" ) {
+
+      THEN( "an exception is thrown" ) {
+
+        CHECK_THROWS( ChebyshevApproximation< double >( 1., 1., std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( 1., -1., std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( -1., std::numeric_limits< double >::infinity(), std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( -std::numeric_limits< double >::infinity(), 1., std::vector< double >{ 1., 2. } ) );
+        CHECK_THROWS( ChebyshevApproximation< double >( -std::numeric_limits< double >::infinity(),
+                                                        std::numeric_limits< double >::infinity(), std::vector< double >{ 1., 2. } ) );
       } // THEN
     } // WHEN
   } // GIVEN

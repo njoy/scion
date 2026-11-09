@@ -112,11 +112,11 @@ namespace math {
                std::vector< Y >{ this->y().begin(), this->y().end() } };
     }
 
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
 
     /**
      *  @brief Calculate the integral of w(x) * f(x) dx over the interpolation region

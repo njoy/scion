@@ -21,36 +21,66 @@ namespace math {
    *  Chebyshev series.
    *
    *  @todo see about adding a capability to simplify the ratio?
+   *
+   *  @todo Arithmetic operations currently do not check domain. The left side
+   *        domain is always used as the final domain. We should determine if
+   *        this is the behaviour we want.
    */
   template < typename Derived, typename Series, typename X, typename Y >
   class SeriesRatioBase : public OneDimensionalFunctionBase< Derived, X, Y > {
 
+    /* friend declarations */
+
+    friend class OneDimensionalFunctionBase< Derived, X, Y >;
+
     /* type aliases */
 
     using Parent = OneDimensionalFunctionBase< Derived, X, Y >;
-
-  public:
-
-    /* type aliases */
-
-    using typename Parent::XType;
-    using typename Parent::YType;
-    using typename Parent::DomainVariant;
-
-  private:
 
     /* fields */
 
     Series numerator_;
     Series denominator_;
 
+    /* auxiliary function */
+
+    static void verifyDomain( const Series& numerator, const Series& denominator ) {
+
+      if ( ( numerator.lowerLimit() != denominator.lowerLimit() ) ||
+           ( numerator.upperLimit() != denominator.upperLimit() ) ) {
+
+        Log::error( "The numerator and denominator of a series ratio must be "
+                    "defined on the same domain" );
+        Log::info( "Numerator domain: [{}, {}]",
+                   numerator.lowerLimit(), numerator.upperLimit() );
+        Log::info( "Denominator domain: [{}, {}]",
+                   denominator.lowerLimit(), denominator.upperLimit() );
+        throw std::exception();
+      }
+    }
+
+    /* interface implementation functions */
+
+    /**
+     *  @brief Return the lower limit of the domain
+     */
+    decltype(auto) lower() const noexcept {
+
+      return this->numerator().lowerLimit();
+    }
+
+    /**
+     *  @brief Return the upper limit of the domain
+     */
+    decltype(auto) upper() const noexcept {
+
+      return this->numerator().upperLimit();
+    }
+
   protected:
 
     /* constructor */
 
-    /**
-     *  @brief Default constructor (for pybind11 purposes only)
-     */
     SeriesRatioBase() = default;
 
     SeriesRatioBase( const SeriesRatioBase& ) = default;
@@ -66,10 +96,10 @@ namespace math {
      *  @param denominator   the denominator series
      */
     SeriesRatioBase( Series numerator, Series denominator ) :
-      Parent( numerator.domain() ),
       numerator_( std::move( numerator ) ),
       denominator_( std::move( denominator ) ) {
 
+      verifyDomain( this->numerator(), this->denominator() );
       this->simplify();
     }
 
@@ -104,6 +134,11 @@ namespace math {
     }
 
   public:
+
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
 
     /* methods */
 
@@ -568,8 +603,7 @@ namespace math {
      */
     bool operator==( const Derived& right ) const noexcept {
 
-      return this->domain() == right.domain() &&
-             this->numerator() == right.numerator() &&
+      return this->numerator() == right.numerator() &&
              this->denominator() == right.denominator();
     }
 
@@ -583,11 +617,11 @@ namespace math {
       return ! this->operator==( right );
     }
 
-    using Parent::domain;
     using Parent::operator();
+    using Parent::lowerLimit;
+    using Parent::upperLimit;
     using Parent::isInside;
     using Parent::isContained;
-    using Parent::isSameDomain;
   };
 
 } // math namespace

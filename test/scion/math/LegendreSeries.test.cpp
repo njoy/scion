@@ -17,11 +17,8 @@ using Catch::Matchers::WithinAbs;
 // convenience typedefs
 using namespace njoy::scion;
 template < typename X, typename Y = X > using LegendreSeries = math::LegendreSeries< X, Y >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
-template < typename X > using OpenDomain = math::OpenDomain< X >;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
-template < typename X > using IntervalDomain = math::IntervalDomain< X >;
 using InterpolationType = interpolation::InterpolationType;
 template< typename X, typename Y = X >
 using ToleranceConvergence = linearisation::ToleranceConvergence< X, Y >;
@@ -50,9 +47,9 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
       } // THEN
 
       THEN( "a LegendreSeries can be evaluated" ) {
@@ -154,10 +151,6 @@ SCENARIO( "LegendreSeries" ) {
         CHECK( false == chunk.isContained( -1. ) );
         CHECK( true == chunk.isContained( 0. ) );
         CHECK( false == chunk.isContained( 1. ) );
-
-        CHECK( true == chunk.isSameDomain( IntervalDomain< double >( -1., 1. ) ) );
-        CHECK( false == chunk.isSameDomain( IntervalDomain< double >( 0., 1. ) ) );
-        CHECK( false == chunk.isSameDomain( OpenDomain< double >() ) );
       } // THEN
 
       THEN( "a LegendreSeries can be linearised" ) {
@@ -239,7 +232,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( -14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(   4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  -0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         chunk += 2.;
 
@@ -249,7 +243,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT( -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(  0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk -= 2.;
 
@@ -259,7 +254,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk += small;
 
@@ -269,7 +265,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT( -3.66666666666667, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(  0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk -= small;
 
@@ -279,7 +276,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk += equal;
 
@@ -289,7 +287,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT( -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(  1.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk -= equal;
 
@@ -299,7 +298,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk += large;
 
@@ -310,7 +310,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(  0.4             , WithinRel( chunk.coefficients()[3] ) );
         CHECK_THAT(  1.              , WithinRel( chunk.coefficients()[4] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk -= large;
 
@@ -320,7 +321,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk *= 2.;
 
@@ -330,7 +332,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  29.2             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT(  -9.33333333333333, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.8             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         chunk /= 2.;
 
@@ -340,7 +343,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( chunk.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( chunk.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( chunk.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
 
         result = chunk + 2.;
 
@@ -350,7 +354,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT( -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = 2. + chunk;
 
@@ -360,7 +365,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT( -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk - 2.;
 
@@ -370,7 +376,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = 2. - chunk;
 
@@ -380,7 +387,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( -14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(   4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  -0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk * 2.;
 
@@ -390,7 +398,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  29.2             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(  -9.33333333333333, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(   0.8             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = 2. * chunk;
 
@@ -400,7 +409,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  29.2             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(  -9.33333333333333, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(   0.8             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk / 2.;
 
@@ -410,7 +420,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  7.3             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT( -2.33333333333333, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  0.2             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk + small;
 
@@ -420,7 +431,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT( -3.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk - small;
 
@@ -430,7 +442,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(  -5.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk + equal;
 
@@ -440,7 +453,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT( 14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT( -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  1.4             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk - equal;
 
@@ -450,7 +464,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  14.6             , WithinRel( result.coefficients()[1] ) );
         CHECK_THAT(  -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(  -0.6             , WithinRel( result.coefficients()[3] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk + large;
 
@@ -461,7 +476,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( result.coefficients()[3] ) );
         CHECK_THAT(   1.              , WithinRel( result.coefficients()[4] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
 
         result = chunk - large;
 
@@ -472,7 +488,8 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( result.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( result.coefficients()[3] ) );
         CHECK_THAT(  -1.              , WithinRel( result.coefficients()[4] ) );
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( result.domain() ) );
+        CHECK_THAT( -1., WithinRel( result.lowerLimit() ) );
+        CHECK_THAT(  1., WithinRel( result.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -491,9 +508,9 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( copy.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( copy.coefficients()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
-        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( copy.lowerLimit() ) );
+
+        CHECK_THAT(  1., WithinRel( copy.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -512,9 +529,9 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( move.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( move.coefficients()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
-        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( move.lowerLimit() ) );
+
+        CHECK_THAT(  1., WithinRel( move.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -534,9 +551,9 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( copy.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( copy.coefficients()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( copy.domain() ) );
-        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( copy.domain() ).upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( copy.lowerLimit() ) );
+
+        CHECK_THAT(  1., WithinRel( copy.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -556,9 +573,9 @@ SCENARIO( "LegendreSeries" ) {
         CHECK_THAT(  -4.66666666666666, WithinRel( move.coefficients()[2] ) );
         CHECK_THAT(   0.4             , WithinRel( move.coefficients()[3] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( move.domain() ) );
-        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( move.domain() ).upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( move.lowerLimit() ) );
+
+        CHECK_THAT(  1., WithinRel( move.upperLimit() ) );
       } // THEN
     } // WHEN
 
@@ -574,9 +591,9 @@ SCENARIO( "LegendreSeries" ) {
         CHECK( 1 == chunk.coefficients().size() );
         CHECK_THAT( 1., WithinRel( chunk.coefficients()[0] ) );
 
-        CHECK( true == std::holds_alternative< IntervalDomain< double > >( chunk.domain() ) );
-        CHECK_THAT( -1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).lowerLimit() ) );
-        CHECK_THAT(  1., WithinRel( std::get< IntervalDomain< double > >( chunk.domain() ).upperLimit() ) );
+        CHECK_THAT( -1., WithinRel( chunk.lowerLimit() ) );
+
+        CHECK_THAT(  1., WithinRel( chunk.upperLimit() ) );
       } // THEN
     } // WHEN
   } // GIVEN
