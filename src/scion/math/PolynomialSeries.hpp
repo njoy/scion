@@ -21,7 +21,8 @@ namespace math {
    *  @brief A polynomial function y -> f(x) = sum c_i x^i of order n
    *
    *  This class represents a polynomial function y -> f(x) = sum c_i x^i of
-   *  order n defined over a domain. This domain can be infinite.
+   *  order n defined over a domain. The domain can be any specified interval [a,b]
+   *  or an open domain (+/-infinity).
    *
    *  The horner scheme is used for the evaluation of the series.
    *
