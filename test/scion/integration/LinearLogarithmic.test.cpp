@@ -26,11 +26,16 @@ SCENARIO( "LinearLogarithmic" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        // different x values
-        CHECK_THAT( 2.67191487733311, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
+        // both x values are the same or close to one another
+        CHECK_THAT( 0. , WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000024979420832e-06, WithinRel( integrator( xLeft, xLeft + 1e-6, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000020710092754e-09, WithinRel( integrator( xLeft, xLeft + 1e-9, yLeft, yRight ) ) );
 
-        // equal x values
-        CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
+        // both y values are the same
+        CHECK_THAT( 1., WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
+
+        // the y values are different
+        CHECK_THAT( 2.67191487733311, WithinRel( integrator( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN
@@ -46,11 +51,16 @@ SCENARIO( "LinearLogarithmic" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
-        // different x values
-        CHECK_THAT( 2.67191487733311, WithinRel( integration::linlog( xLeft, xRight, yLeft, yRight ) ) );
+        // both x values are the same or close to one another
+        CHECK_THAT( 0. , WithinRel( integration::linlog( xLeft, xLeft, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000024979420832e-06, WithinRel( integration::linlog( xLeft, xLeft + 1e-6, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000020710092754e-09, WithinRel( integration::linlog( xLeft, xLeft + 1e-9, yLeft, yRight ) ) );
 
-        // equal x values
-        CHECK_THAT( 0., WithinRel( integration::linlog( xLeft, xLeft, yLeft, yRight ) ) );
+        // both y values are the same
+        CHECK_THAT( 1., WithinRel( integration::linlog( xLeft, xRight, yLeft, yLeft ) ) );
+
+        // the y values are different
+        CHECK_THAT( 2.67191487733311, WithinRel( integration::linlog( xLeft, xRight, yLeft, yRight ) ) );
       } // THEN
     } // WHEN
   } // GIVEN

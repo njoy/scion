@@ -3,7 +3,9 @@
 
 // system includes
 #include <array>
+#include <cmath>
 #include <optional>
+#include <vector>
 
 // other includes
 
@@ -13,7 +15,7 @@ namespace integration {
 
   /**
    *  @class
-   *  @brief The Gauss-Lobatto 4-point quadrature rule
+   *  @brief Adaptive Gauss-Lobatto quadrature
    */
   template< typename X, typename Y = X >
   class AdaptiveGaussLobatto {
@@ -21,6 +23,7 @@ namespace integration {
     /* type aliases */
 
     using I = decltype( std::declval< X >() * std::declval< Y >() );
+    using T = decltype( std::declval< X >() / std::declval< X >() );
 
     /* the interval type */
 
@@ -30,10 +33,6 @@ namespace integration {
      *         quadrature is applied
      */
     class Interval {
-
-      /* type aliases */
-
-      using I = decltype( std::declval< X >() * std::declval< Y >() );
 
       /* fields */
 
@@ -45,18 +44,19 @@ namespace integration {
       I gauss_lobatto_;
       I kronrod_7_;
       std::optional< I > kronrod_13_;
+      std::optional< I > kronrod_13_absolute_;
 
       /* points and weights */
 
-      static constexpr const std::array< std::array< X, 4 >, 7 > tuples = {
+      static constexpr const std::array< std::array< T, 4 >, 7 > tuples = {
 
-        std::array< X, 4 >{  0.000000000000000e+0, 0.000000000000000e+0, 4.571428571428571e-1, 2.426110719014077e-1 }, // x = 0          , w_l = 0  , w_k = 16/35
-        std::array< X, 4 >{  2.363831996621499e-1, 0.000000000000000e+0, 0.000000000000000e+0, 2.249264653333395e-1 }, // x =            , w_l = 0  , w_k = 0
-        std::array< X, 4 >{  4.472135954999579e-1, 8.333333333333334e-1, 4.251700680272109e-1, 1.997734052268585e-1 }, // x = 1/sqrt(5)  , w_l = 5/6, w_k = 125/294
-        std::array< X, 4 >{  6.418533423457813e-1, 0.000000000000000e+0, 0.000000000000000e+0, 1.888215739601825e-1 }, // x =            , w_l = 0  , w_k = 0
-        std::array< X, 4 >{  8.164965809277260e-1, 0.000000000000000e+0, 2.938775510204082e-1, 1.550719873365854e-1 }, // x = 1/sqrt(2/3), w_l = 0  , w_k = 72/245
-        std::array< X, 4 >{  9.428824156954797e-1, 0.000000000000000e+0, 0.000000000000000e+0, 9.427384021885005e-2 }, // x =            , w_l = 0  , w_k = 0
-        std::array< X, 4 >{  1.000000000000000e+0, 1.666666666666667e-1, 5.238095238095238e-2, 1.582719197348018e-2 }  // x = 1          , w_l = 1/6, w_k = 11/210
+        std::array< T, 4 >{  0.000000000000000e+0, 0.000000000000000e+0, 4.571428571428571e-1, 2.426110719014077e-1 }, // x = 0          , w_l = 0  , w_k = 16/35
+        std::array< T, 4 >{  2.363831996621499e-1, 0.000000000000000e+0, 0.000000000000000e+0, 2.249264653333395e-1 }, // x =            , w_l = 0  , w_k = 0
+        std::array< T, 4 >{  4.472135954999579e-1, 8.333333333333334e-1, 4.251700680272109e-1, 1.997734052268585e-1 }, // x = 1/sqrt(5)  , w_l = 5/6, w_k = 125/294
+        std::array< T, 4 >{  6.418533423457813e-1, 0.000000000000000e+0, 0.000000000000000e+0, 1.888215739601825e-1 }, // x =            , w_l = 0  , w_k = 0
+        std::array< T, 4 >{  8.164965809277260e-1, 0.000000000000000e+0, 2.938775510204082e-1, 1.550719873365854e-1 }, // x = sqrt(2/3)  , w_l = 0  , w_k = 72/245
+        std::array< T, 4 >{  9.428824156954797e-1, 0.000000000000000e+0, 0.000000000000000e+0, 9.427384021885005e-2 }, // x =            , w_l = 0  , w_k = 0
+        std::array< T, 4 >{  1.000000000000000e+0, 1.666666666666667e-1, 5.238095238095238e-2, 1.582719197348018e-2 }  // x = 1          , w_l = 1/6, w_k = 11/210
       };
 
     public:
@@ -75,10 +75,10 @@ namespace integration {
                 const X& a, const X& b, const Y& fa, const Y& fb,
                 bool calculate_kronrod13 = false ) {
 
-        auto half =  ( b - a ) / X( 2 );
-        const auto transform = [&] ( auto&& x ) {
+        auto half =  ( b - a ) / T( 2 );
+        const auto transform = [&] ( const T& xi ) -> X {
 
-          return ( x + X( 1 ) ) * half + a;
+          return ( xi + T( 1 ) ) * half + a;
         };
 
         // initialise the x values
@@ -109,17 +109,34 @@ namespace integration {
                    + tuples[4][2] * ( this->y()[1] + this->y()[5] )
                    + tuples[6][2] * ( this->y()[0] + this->y()[6] ) );
 
-        // calculate the optional integral
+        // calculate the optional integrals:
+        // the Kronrod13 estimate of the integral of f and the integral of abs(f)
         if ( calculate_kronrod13 ) {
+
+          const std::array< Y, 6 > values = {
+
+            functor( transform( -tuples[5][0] ) ), functor( transform( -tuples[3][0] ) ),
+            functor( transform( -tuples[1][0] ) ), functor( transform(  tuples[1][0] ) ),
+            functor( transform(  tuples[3][0] ) ), functor( transform(  tuples[5][0] ) )
+          };
 
           this->kronrod13Integral() =
               half * ( tuples[0][3] * this->y()[3]
-                     + tuples[1][3] * ( functor( transform( -tuples[1][0] ) ) + functor( transform( tuples[1][0] ) ) )
+                     + tuples[1][3] * ( values[2] + values[3] )
                      + tuples[2][3] * ( this->y()[2] + this->y()[4] )
-                     + tuples[3][3] * ( functor( transform( -tuples[3][0] ) ) + functor( transform( tuples[3][0] ) ) )
+                     + tuples[3][3] * ( values[1] + values[4] )
                      + tuples[4][3] * ( this->y()[1] + this->y()[5] )
-                     + tuples[5][3] * ( functor( transform( -tuples[5][0] ) ) + functor( transform( tuples[5][0] ) ) )
+                     + tuples[5][3] * ( values[0] + values[5] )
                      + tuples[6][3] * ( this->y()[0] + this->y()[6] ) );
+
+          this->kronrod13AbsoluteIntegral() =
+              half * ( tuples[0][3] * std::abs( this->y()[3] )
+                     + tuples[1][3] * ( std::abs( values[2] ) + std::abs( values[3] ) )
+                     + tuples[2][3] * ( std::abs( this->y()[2] ) + std::abs( this->y()[4] ) )
+                     + tuples[3][3] * ( std::abs( values[1] ) + std::abs( values[4] ) )
+                     + tuples[4][3] * ( std::abs( this->y()[1] ) + std::abs( this->y()[5] ) )
+                     + tuples[5][3] * ( std::abs( values[0] ) + std::abs( values[5] ) )
+                     + tuples[6][3] * ( std::abs( this->y()[0] ) + std::abs( this->y()[6] ) ) );
         }
       }
 
@@ -148,7 +165,7 @@ namespace integration {
       }
 
       /**
-       *  @brief Return the x values
+       *  @brief Return the y values
        */
       std::array< Y, 7 >& y() {
 
@@ -188,7 +205,7 @@ namespace integration {
       };
 
       /**
-       *  @brief Return the 13-point Kronrod estimate of the integral (if defined)
+       *  @brief Return the 13-point Kronrod estimate of the integral of f
        */
       const std::optional< I >& kronrod13Integral() const {
 
@@ -196,7 +213,7 @@ namespace integration {
       };
 
       /**
-       *  @brief Return the 13-point Kronrod estimate of the integral (if defined)
+       *  @brief Return the 13-point Kronrod estimate of the integral of f
        */
       std::optional< I >& kronrod13Integral() {
 
@@ -204,22 +221,36 @@ namespace integration {
       };
 
       /**
+       *  @brief Return the 13-point Kronrod estimate of the integral of abs(f)
+       */
+      const std::optional< I >& kronrod13AbsoluteIntegral() const {
+
+        return this->kronrod_13_absolute_;
+      };
+
+      /**
+       *  @brief Return the 13-point Kronrod estimate of the integral of abs(f)
+       */
+      std::optional< I >& kronrod13AbsoluteIntegral() {
+
+        return this->kronrod_13_absolute_;
+      };
+
+      /**
        *  @brief Calculate an absolute tolerance
        *
-       *  @param[in] tolerance   the relative tolerance
+       *  @param[in] tolerance   the targeted relative tolerance
        */
-      I absoluteTolerance( double tolerance ) const {
+      I absoluteTolerance( T tolerance ) const {
 
         I error1 = this->gaussLobattoIntegral() - this->kronrod13Integral().value();
         I error2 = this->kronrod7Integral() - this->kronrod13Integral().value();
-        double ratio = error2 != 0. ? error1 / error2 : 1.;
-        if ( ratio > 0 && ratio < 1 ) {
+        T ratio = error2 != I( 0 ) ? error1 / error2 : T( 1 );
+        if ( ratio > T( 0 ) && ratio < T( 1 ) ) {
 
           tolerance /= ratio;
         }
-        return tolerance * ( this->kronrod13Integral().value() == 0.
-                             ? this->x()[6] - this->x()[0]
-                             : std::abs( this->kronrod13Integral().value() ) );
+        return tolerance * this->kronrod13AbsoluteIntegral().value();
       };
 
       /**
@@ -243,14 +274,14 @@ namespace integration {
        *  @brief Create subdivided intervals
        */
       template < typename Functor >
-      std::vector< Interval > subdivide( Functor&& functor ) const {
+      std::array< Interval, 6 > subdivide( Functor&& functor ) const {
 
         return { Interval( functor, this->x()[0], this->x()[1], this->y()[0], this->y()[1] ),
                  Interval( functor, this->x()[1], this->x()[2], this->y()[1], this->y()[2] ),
                  Interval( functor, this->x()[2], this->x()[3], this->y()[2], this->y()[3] ),
                  Interval( functor, this->x()[3], this->x()[4], this->y()[3], this->y()[4] ),
                  Interval( functor, this->x()[4], this->x()[5], this->y()[4], this->y()[5] ),
-                 Interval( functor, this->x()[5], this->x()[6], this->y()[5], this->y()[6] ), };
+                 Interval( functor, this->x()[5], this->x()[6], this->y()[5], this->y()[6] ) };
       }
     };
 
@@ -267,7 +298,7 @@ namespace integration {
     }
 
     /**
-     *  @brief Return the x values
+     *  @brief Return the current intervals
      */
     std::vector< Interval >& intervals() {
 
@@ -284,11 +315,11 @@ namespace integration {
      *  @param[in] functor     the function to integrate
      *  @param[in] a           the lower bound of the integration interval
      *  @param[in] b           the upper bound of the integration interval
-     *  @param[in] tolerance   the tolerance (default is 1e-8)
+     *  @param[in] tolerance   the targeted relative tolerance (default is 1e-8)
      */
     template < typename Functor >
     I operator()( Functor&& functor, const X& a, const X& b,
-                  double tolerance = 1e-8 ) {
+                  T tolerance = T( 1e-8 ) ) {
 
       this->intervals().clear();
       this->intervals().emplace_back( functor, a, b, functor( a ), functor( b ), true );
@@ -296,26 +327,26 @@ namespace integration {
       // check for convergence
       I absolute = this->intervals().back().absoluteTolerance( tolerance );
       if ( this->intervals().back().cannotSubdivide() ||
-           this->intervals().back().difference() - absolute <= 0. ) {
+           this->intervals().back().difference() <= absolute ) {
 
         return this->intervals().back().kronrod13Integral().value();
       }
 
-      I total( 0. );
+      I total( 0 );
       while ( ! this->intervals().empty() ) {
 
         auto intervals = this->intervals().back().subdivide( functor );
         this->intervals().pop_back();
-        for ( std::size_t i = 0; i < intervals.size(); ++i ) {
+        for ( auto&& interval : intervals ) {
 
-          if ( intervals[i].cannotSubdivide() ||
-               intervals[i].difference() - absolute <= 0. ) {
+          if ( interval.cannotSubdivide() ||
+               interval.difference() <= absolute ) {
 
-            total += intervals[i].gaussLobattoIntegral();
+            total += interval.kronrod7Integral();
           }
           else {
 
-            this->intervals().emplace_back( std::move( intervals[i] ) );
+            this->intervals().emplace_back( std::move( interval ) );
           }
         }
       }

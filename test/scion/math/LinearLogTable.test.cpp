@@ -120,6 +120,32 @@ SCENARIO( "LinearLogTable" ) {
         CHECK_THAT( 16.248004728006, WithinRel( chunk.integrate( mean ) ) );
       } // THEN
 
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 0.5, 1.5, 2., 3.25, 5. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 1.84390376936275, WithinRel( integrals[0] ) );
+        CHECK_THAT( 1.59879127152622, WithinRel( integrals[1] ) );
+        CHECK_THAT( 2.93106039056252, WithinRel( integrals[2] ) );
+        CHECK_THAT( 1.01130256859612, WithinRel( integrals[3] ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 2.2927593869665 , WithinRel( moments[0] ) );
+        CHECK_THAT( 2.78926189370022, WithinRel( moments[1] ) );
+        CHECK_THAT( 7.53379590663571, WithinRel( moments[2] ) );
+        CHECK_THAT( 3.63218754070369, WithinRel( moments[3] ) );
+
+        CHECK_THAT( chunk.integrate( constant ),
+                    WithinRel( integrals[0] + integrals[1] + integrals[2] + integrals[3] ) );
+      } // THEN
+
       THEN( "a LinearLogTable can be linearised" ) {
 
         auto linear = chunk.linearise();
@@ -280,6 +306,32 @@ SCENARIO( "LinearLogTable" ) {
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.integrate( mean ) << std::endl;
         CHECK_THAT( 16.248004728006, WithinRel( chunk.integrate( mean ) ) );
+      } // THEN
+
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 0.5, 1.5, 2., 3.25, 5. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 1.84390376936275, WithinRel( integrals[0] ) );
+        CHECK_THAT( 1.59879127152622, WithinRel( integrals[1] ) );
+        CHECK_THAT( 2.93106039056252, WithinRel( integrals[2] ) );
+        CHECK_THAT( 1.01130256859612, WithinRel( integrals[3] ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 2.2927593869665 , WithinRel( moments[0] ) );
+        CHECK_THAT( 2.78926189370022, WithinRel( moments[1] ) );
+        CHECK_THAT( 7.53379590663571, WithinRel( moments[2] ) );
+        CHECK_THAT( 3.63218754070369, WithinRel( moments[3] ) );
+
+        CHECK_THAT( chunk.integrate( constant ),
+                    WithinRel( integrals[0] + integrals[1] + integrals[2] + integrals[3] ) );
       } // THEN
 
       THEN( "a LinearLogTable can be linearised" ) {

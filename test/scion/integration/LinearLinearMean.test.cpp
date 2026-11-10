@@ -26,6 +26,11 @@ SCENARIO( "LinearLinearMean" ) {
         double yLeft = 1.0;
         double yRight = 4.0;
 
+        // both x values are the same or close to one another
+        CHECK_THAT( 0. , WithinRel( integrator( xLeft, xLeft, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000149979433334e-06, WithinRel( integrator( xLeft, xLeft + 1e-6, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000020835092772e-09, WithinRel( integrator( xLeft, xLeft + 1e-9, yLeft, yRight ) ) );
+
         // both y values are the same
         CHECK_THAT( 1.5, WithinRel( integrator( xLeft, xRight, yLeft, yLeft ) ) );
 
@@ -35,7 +40,7 @@ SCENARIO( "LinearLinearMean" ) {
     } // WHEN
   } // GIVEN
 
-  GIVEN( "linlin integration function" ) {
+  GIVEN( "linlin mean integration function" ) {
 
     WHEN( "integrating an interval" ) {
 
@@ -45,6 +50,11 @@ SCENARIO( "LinearLinearMean" ) {
         double xRight = 2.0;
         double yLeft = 1.0;
         double yRight = 4.0;
+
+        // both x values are the same or close to one another
+        CHECK_THAT( 0. , WithinRel( integration::linLinMean( xLeft, xLeft, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000149979433334e-06, WithinRel( integration::linLinMean( xLeft, xLeft + 1e-6, yLeft, yRight ) ) );
+        CHECK_THAT( 2.50000020835092772e-09, WithinRel( integration::linLinMean( xLeft, xLeft + 1e-9, yLeft, yRight ) ) );
 
         // both y values are the same
         CHECK_THAT( 1.5, WithinRel( integration::linLinMean( xLeft, xRight, yLeft, yLeft ) ) );

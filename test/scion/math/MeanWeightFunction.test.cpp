@@ -18,6 +18,11 @@ SCENARIO( "MeanWeightFunction" ) {
 
       MeanWeightFunction weight;
 
+      THEN( "a MeanWeightFunction can be constructed and members can be tested" ) {
+
+        CHECK_THAT( 1e-8, WithinRel( weight.tolerance() ) );
+      } // THEN
+
       THEN( "the weight function can be evaluated" ) {
 
         CHECK_THAT( 1., WithinRel( weight( 1. ) ) );

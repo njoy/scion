@@ -14,20 +14,27 @@ namespace math {
   /**
    *  @class
    *  @brief A weight function w(x) = c
+   *
+   *  Numerical integration using adaptive Gauss-Lobatto is used for panels
+   *  with Coulomb penetrability interpolation. Because we use adaptive Gauss-Lobatto,
+   *  the relative tolerance given (default of 1e-8) is the targeted relative tolerance.
+   *  In practice the real error can be far smaller.
    */
-  template < typename X, typename W >
-  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, W >, X, W > {
+  template < typename X, typename W, typename T = decltype( std::declval< X >() / std::declval< X >() ) >
+  class ConstantWeightFunction : public WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W > {
 
     /* friend declarations */
 
-    friend class WeightFunctionBase< ConstantWeightFunction< X, W >, X, W >;
+    friend class WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W >;
 
     /* type aliases */
 
-    using Parent = WeightFunctionBase< ConstantWeightFunction< X, W >, X, W >;
+    using Parent = WeightFunctionBase< ConstantWeightFunction< X, W, T >, X, W >;
 
     /* fields */
+
     W constant_;
+    T tolerance_;
 
     /* interface implementation functions */
 
@@ -46,7 +53,7 @@ namespace math {
      *  @param xRight   the right boundary of the panel
      */
     template < typename I = decltype( std::declval< X >() * std::declval< W >() ) >
-    I calculateIntegral( const X& xLeft, const X& xRight ) const noexcept {
+    I calculateIntegral( const X& xLeft, const X& xRight ) const {
 
       return integration::histogram( xLeft, xRight, this->constant(), this->constant() );
     }
@@ -61,7 +68,7 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateHistogramIntegral( const X& xLeft, const X& xRight,
-                                  const Y& yLeft, const Y& yRight ) const noexcept {
+                                  const Y& yLeft, const Y& yRight ) const {
 
       return this->constant() * integration::histogram( xLeft, xRight, yLeft, yRight );
     }
@@ -76,7 +83,7 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateLinearLinearIntegral( const X& xLeft, const X& xRight,
-                                     const Y& yLeft, const Y& yRight ) const noexcept {
+                                     const Y& yLeft, const Y& yRight ) const {
 
       return this->constant() * integration::linlin( xLeft, xRight, yLeft, yRight );
     }
@@ -91,7 +98,7 @@ namespace math {
      */
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateLinearLogarithmicIntegral( const X& xLeft, const X& xRight,
-                                          const Y& yLeft, const Y& yRight ) const noexcept {
+                                          const Y& yLeft, const Y& yRight ) const {
 
       return this->constant() * integration::linlog( xLeft, xRight, yLeft, yRight );
     }
@@ -138,22 +145,29 @@ namespace math {
     template < typename Y, typename I = decltype( std::declval< X >() * std::declval< Y >() * std::declval< W >() ) >
     I calculateCoulombPenetrabilityIntegral( const X& xLeft, const X& xRight,
                                              const Y& yLeft, const Y& yRight,
-                                             const X& threshold ) const noexcept {
+                                             const X& threshold ) const {
 
-      return this->constant() * integration::coulomb( xLeft, xRight, yLeft, yRight, threshold );
+      return this->constant() * integration::coulomb( xLeft, xRight, yLeft, yRight, threshold,
+                                                      this->tolerance() );
     }
 
   public:
+
+    /* type aliases */
+
+    using typename Parent::XType;
+    using typename Parent::YType;
 
     /* constructor */
 
     /**
      *  @brief Constructor
      *
-     *  @param constant  the constant value of the weight function
+     *  @param constant    the constant value of the weight function (default 1)
+     *  @param tolerance   the targeted numerical integration tolerance (default 1e-8)
      */
-    ConstantWeightFunction( W constant = 1. ) :
-      constant_( std::move( constant ) ) {}
+    ConstantWeightFunction( W constant = W( 1 ), T tolerance = T( 1e-8 ) ) :
+      constant_( std::move( constant ) ), tolerance_( std::move( tolerance ) ) {}
 
     /* methods */
 
@@ -163,6 +177,14 @@ namespace math {
     const W& constant() const noexcept {
 
       return this->constant_;
+    }
+
+    /**
+     *  @brief Return the targeted numerical integration tolerance
+     */
+    const T& tolerance() const noexcept {
+
+      return this->tolerance_;
     }
 
     using Parent::operator();

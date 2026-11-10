@@ -2,11 +2,12 @@
 #define NJOY_SCION_INTEGRATION_LOGARITHMICLINEAR
 
 // system includes
+#include <array>
 #include <cmath>
 
 // other includes
-#include "scion/math/compare.hpp"
 #include "scion/integration/IntegratorBase.hpp"
+#include "scion/math/horner.hpp"
 
 namespace njoy {
 namespace scion {
@@ -30,6 +31,12 @@ namespace integration {
    *    int[x1,x2] y dx = y1 / a (exp(a (x2 - x1)) - exp(a (x1 - x1)))
    *                    = y1 / a (exp(a (x2 - x1)) - 1)
    *                    = y1 / a (y2 / y1 - 1)
+   *                    = (x2 - x1) (y2 - y1) / ln(y2/y1)
+   *
+   *  When y2 - y1 becomes small, ( y2 - y1 ) / ln(y2/y1) reduces to
+   *  y1 delta / ln(1+delta) with ( y2 - y1 ) / y1 = delta. For small values of
+   *  delta (chosen to be less than 1e-4), a truncated Taylor series
+   *  expansion is used to calculate delta / ln(1+delta).
    */
   class LogarithmicLinear : public IntegratorBase< LogarithmicLinear > {
 
@@ -41,8 +48,6 @@ namespace integration {
     /**
      *  @brief Perform logarithmic-linear integration (ln(y) is linear in x)
      *
-     *  There is the potential of a singularity when the two y values are the same.
-     *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
      *  @param[in] yLeft    the left value on the y interval
@@ -51,17 +56,20 @@ namespace integration {
     template < typename X, typename Y,
                typename I = decltype( std::declval< X >() * std::declval< Y >() ) >
     I integrate( const X& xLeft, const X& xRight,
-                 const Y& yLeft, const Y& yRight ) const noexcept {
+                 const Y& yLeft, const Y& yRight ) const {
 
-      const auto constant = std::log( yRight / yLeft );
-      if ( math::isCloseToZero( constant ) ) {
+      const double delta = ( yRight - yLeft ) / yLeft;
+      if ( std::abs( delta ) < 1e-4 ) {
 
-        return yLeft * ( xRight - xLeft );
+        static constexpr std::array< double, 6 > coefficients = {
+
+          1.0, 0.5, -1.0 / 12.0, 1.0 / 24.0, -19.0 / 720.0, 3.0 / 160.0
+        };
+        return ( xRight - xLeft ) * yLeft * math::horner( coefficients, delta );
       }
       else {
 
-        return yLeft * ( xRight - xLeft ) / std::log( yRight / yLeft )
-               * ( yRight / yLeft - 1. );
+        return ( xRight - xLeft ) * ( yRight - yLeft ) / std::log1p( delta );
       }
     }
 

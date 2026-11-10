@@ -29,7 +29,7 @@ SCENARIO( "CoulombPenetrability" ) {
 
         // different x values
         CHECK_THAT( 116.47154112769871, WithinRel( integrator( xLeft, xRight, yLeft, yRight, threshold ), 1e-8 ) );
-        CHECK_THAT( 41.94080794793308, WithinRel( integrator( 2.4, 4.5, 13.40080679, 24.91047597, threshold ), 1e-8 ) );
+        CHECK_THAT( 41.940807945697813, WithinRel( integrator( 2.4, 4.5, 13.40080679, 24.91047597, threshold ), 1e-8 ) );
 
         // equal x values
         CHECK_THAT( 0., WithinRel( integrator( xLeft, xLeft, yLeft, yLeft, threshold ) ) );
@@ -51,7 +51,7 @@ SCENARIO( "CoulombPenetrability" ) {
 
         // different x values
         CHECK_THAT( 116.47154112769871, WithinRel( integration::coulomb( xLeft, xRight, yLeft, yRight, threshold ), 1e-8 ) );
-        CHECK_THAT( 41.94080794793308, WithinRel( integration::coulomb( 2.4, 4.5, 13.40080679, 24.91047597, threshold ), 1e-8 ) );
+        CHECK_THAT( 41.940807945697813, WithinRel( integration::coulomb( 2.4, 4.5, 13.40080679, 24.91047597, threshold ), 1e-8 ) );
 
         // equal x values
         CHECK_THAT( 0., WithinRel( integration::coulomb( xLeft, xLeft, yLeft, yRight, threshold ) ) );

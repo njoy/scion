@@ -2,10 +2,12 @@
 #define NJOY_SCION_INTEGRATION_LINEARLOGARITHMICMEAN
 
 // system includes
+#include <array>
 #include <cmath>
 
 // other includes
 #include "scion/integration/IntegratorBase.hpp"
+#include "scion/math/horner.hpp"
 
 namespace njoy {
 namespace scion {
@@ -17,20 +19,31 @@ namespace integration {
    *
    *  The mean or first raw moment is defined as the integral of x * f(x)
    *
-   *  The mean of a panel is calculated analytically using the following
+   *  The integral of a panel is calculated analytically using the following
    *  primitive function:
    *    int x ln(x) = x**2 / 2 ( ln(x) - 1 / 2 )
    *
-   *  Since y is linear in ln(x), the function to be integrated is:
-   *    y = a x ln(x/x1) + y1 x with a = (y2 - y1) / ln(x2/x1)
+   *  Since y is linear in ln(x), the panel is interpolated as:
+   *    y = a x ( ln(x) - ln(x1) ) + x y1 with a = (y2 - y1) / ln(x2/x1)
    *
    *  The integral over the panel is then given by:
-   *    int[x1,x2] y dx = int[x1,x2] a x ln(x/x1) dx + y1 (x2**2 - x1**2) / 2
+   *    int y dx = int ( y1 - a ln(x1) ) x + a x ln(x)
+   *  which reduces to the following primitive function:
+   *    int y dx = ( y1 - a ln(x1) ) x**2 / 2
+   *               + a x**2 / 2 ( ln(x) - 1 / 2 )
+   *             = a x**2 ln(x/x1) / 2 - a x**2 / 4 + y1 x**2 / 2
    *
-   *  By substituting z = x/x1 in the first term, we obtain:
-   *    int[x1,x2] y dx = int[1,x2/x1] a x1**2 z ln(z) dz + y1 (x2**2 - x1**2) / 2
-   *  which simplifies to (using the primitive):
-   *    int[x1,x2] y dx = a / 2 (x2**2 (ln(x2/x1) - 1 / 2) + x1**2 / 2) + y1 (x2**2 - x1**2) / 2
+   *  After applying this primitive and simplifying the result, we obtain:
+   *    int[x1,x2] y dx = ( y2 x2**2 - y1 x1**2 ) / 2
+   *                      - ( y2 - y1 ) ( x2**2 - x1**2 ) / ( 4 ln(x2/x1) )
+   *
+   *  When x2 - x1 becomes small, both terms cancel each other. By using
+   *  y2 = y1 + ( y2 - y1 ) and delta = ( x2 - x1 ) / x1, the large terms can be
+   *  eliminated analytically:
+   *    int[x1,x2] y dx = x1**2 delta ( y1 ( 2 + delta ) / 2 + ( y2 - y1 ) g(delta) )
+   *  with g(delta) = ( 1 + delta )**2 / ( 2 delta ) - ( 2 + delta ) / ( 4 ln(1+delta) ).
+   *  For small values of delta (chosen to be less than 1e-2), a truncated
+   *  Taylor series expansion is used to calculate g(delta).
    */
   class LinearLogarithmicMean : public IntegratorBase< LinearLogarithmicMean > {
 
@@ -42,10 +55,6 @@ namespace integration {
     /**
      *  @brief Perform first raw moment integration of a linear-logarithmic panel (y is linear in ln(x))
      *
-     *  There is the potential of a singularity when the two x values are the same. In
-     *  practical applications this will never happen since the operator() takes care of
-     *  checking for this exact possibility (when the x values are the same, the integral is 0).
-     *
      *  @param[in] xLeft    the left value on the x interval
      *  @param[in] xRight   the right value on the x interval
      *  @param[in] yLeft    the left value on the y interval
@@ -54,11 +63,24 @@ namespace integration {
     template < typename X, typename Y,
                typename I = decltype( std::declval< X >() * std::declval< X >() * std::declval< Y >() ) >
     I integrate( const X& xLeft, const X& xRight,
-                 const Y& yLeft, const Y& yRight ) const noexcept {
+                 const Y& yLeft, const Y& yRight ) const {
 
-      return 0.5 * ( ( yRight - yLeft ) / std::log( xRight / xLeft )
-             * ( xRight * xRight * ( std::log( xRight / xLeft ) - 0.5 ) + 0.5 * xLeft * xLeft )
-             + yLeft * ( xRight * xRight - xLeft * xLeft ) );
+      const double delta = ( xRight - xLeft ) / xLeft;
+      if ( std::abs( delta ) < 1e-2 ) {
+
+        static constexpr std::array< double, 6 > coefficients = {
+
+          1.0 / 2.0, 5.0 / 12.0, 0.0, 1.0 / 360.0, -1.0 / 360.0, 37.0 / 15120.0
+        };
+        return xLeft * xLeft * delta
+               * ( 0.5 * yLeft * ( 2. + delta )
+                   + ( yRight - yLeft ) * math::horner( coefficients, delta ) );
+      }
+      else {
+
+        return 0.5 * ( yRight * xRight * xRight - yLeft * xLeft * xLeft )
+               - 0.25 * ( yRight - yLeft ) * ( xRight * xRight - xLeft * xLeft ) / std::log1p( delta );
+      }
     }
 
   public:

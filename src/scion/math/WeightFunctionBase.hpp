@@ -40,6 +40,11 @@ namespace math {
 
   public:
 
+    /* type aliases */
+
+    using XType = X;
+    using YType = W;
+
     /* methods */
 
     /**

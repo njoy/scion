@@ -18,6 +18,7 @@ using namespace njoy::scion;
 template < typename X, typename Y = X >
 using InterpolationTable = math::InterpolationTable< X, Y >;
 using InterpolationType = interpolation::InterpolationType;
+using ConstantWeightFunction = math::ConstantWeightFunction< double, double >;
 
 SCENARIO( "InterpolationTable" ) {
 
@@ -25,8 +26,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      const std::vector< double > x = { 1., 2., 3., 4. };
-      const std::vector< double > y = { 4., 3., 2., 1. };
+      std::vector< double > x = { 1., 2., 3., 4. };
+      std::vector< double > y = { 4., 3., 2., 1. };
       InterpolationType interpolant = InterpolationType::LinearLinear;
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ),
@@ -197,6 +198,19 @@ SCENARIO( "InterpolationTable" ) {
         // integral = 5 * 16 / 2 - 64 / 3 - 5 / 2 + 1 / 3
         //          = 75 / 2 -  63 / 3 = 37.5 - 21
         CHECK_THAT( 16.5 / 7.5, WithinRel( chunk.mean() ) );
+      } // THEN
+
+      THEN( "the group integrals are calculated correctly" ) {
+
+        ConstantWeightFunction constant( 1. );
+        std::vector< double > groups = { 0., 1., 2.5, 4., 5. };
+
+        auto integrals = chunk.integrate( constant, groups );
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 0.   , WithinRel( integrals[0] ) );
+        CHECK_THAT( 4.875, WithinRel( integrals[1] ) );
+        CHECK_THAT( 2.625, WithinRel( integrals[2] ) );
+        CHECK_THAT( 0.   , WithinRel( integrals[3] ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -821,8 +835,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 3., 4. };
-      const std::vector< double > y = { 4., 3., 4., 3., 2. };
+      std::vector< double > x = { 1., 2., 2., 3., 4. };
+      std::vector< double > y = { 4., 3., 4., 3., 2. };
       InterpolationType interpolant = InterpolationType::LinearLinear;
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ),
@@ -920,6 +934,19 @@ SCENARIO( "InterpolationTable" ) {
         //          = 36 - 62 / 3
         // sum = 43.5 - 69 / 3 = 22.5
         CHECK_THAT( 22.5 / 9.5, WithinRel( chunk.mean() ) );
+      } // THEN
+
+      THEN( "the group integrals are calculated correctly" ) {
+
+        ConstantWeightFunction constant( 1. );
+        std::vector< double > groups = { 0., 1., 2.5, 4., 5. };
+
+        auto integrals = chunk.integrate( constant, groups );
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 0.   , WithinRel( integrals[0] ) );
+        CHECK_THAT( 5.375, WithinRel( integrals[1] ) );
+        CHECK_THAT( 4.125, WithinRel( integrals[2] ) );
+        CHECK_THAT( 0.   , WithinRel( integrals[3] ) );
       } // THEN
 
       THEN( "an InterpolationTable can be linearised" ) {
@@ -1591,8 +1618,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      const std::vector< double > x = { 1., 2., 3., 4. };
-      const std::vector< double > y = { 4., 3., 2., 1. };
+      std::vector< double > x = { 1., 2., 3., 4. };
+      std::vector< double > y = { 4., 3., 2., 1. };
       const std::vector< std::size_t > boundaries = { 1, 3 };
       const std::vector< InterpolationType > interpolants = {
 
@@ -1691,6 +1718,26 @@ SCENARIO( "InterpolationTable" ) {
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
         CHECK_THAT( 16.332650114006 / 7.44236295915864, WithinRel( chunk.mean() ) );
+      } // THEN
+
+      THEN( "the group integrals are calculated correctly" ) {
+
+        ConstantWeightFunction constant( 1. );
+        std::vector< double > groups = { 0., 1., 2.5, 4., 5. };
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // auto functor = [&chunk] ( auto&& x ) { return chunk( x ); };
+        // std::cout << std::setprecision(15) << integrator( functor, 1.,  2. )
+        //                                       + integrator( functor, 2.,  2.5 ) << std::endl;
+        // std::cout << std::setprecision(15) << integrator( functor, 2.5,  3. )
+        //                                       + integrator( functor, 3.,  4. ) << std::endl;
+        auto integrals = chunk.integrate( constant, groups );
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 0.   , WithinRel( integrals[0] ) );
+        CHECK_THAT( 4.85730244815519, WithinRel( integrals[1] ) );
+        CHECK_THAT( 2.58506051100344, WithinRel( integrals[2] ) );
+        CHECK_THAT( 0.   , WithinRel( integrals[3] ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -1934,8 +1981,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 3., 4. };
-      const std::vector< double > y = { 4., 3., 4., 3., 2. };
+      std::vector< double > x = { 1., 2., 2., 3., 4. };
+      std::vector< double > y = { 4., 3., 4., 3., 2. };
       const std::vector< std::size_t > boundaries = { 1, 4 };
       const std::vector< InterpolationType > interpolants = {
 
@@ -2035,6 +2082,26 @@ SCENARIO( "InterpolationTable" ) {
         //                                     + integrator( functor, 3.,  4. ) << std::endl;
         // std::cout << std::setprecision(15) << chunk.mean() << std::endl;
         CHECK_THAT( 22.332650114006 / 9.44236295915864, WithinRel( chunk.mean() ) );
+      } // THEN
+
+      THEN( "the group integrals are calculated correctly" ) {
+
+        ConstantWeightFunction constant( 1. );
+        std::vector< double > groups = { 0., 1., 2.5, 4., 5. };
+
+        // generate test result using Gauss-Legendre quadrature
+        // integration::GaussLegendre< 64, double > integrator{};
+        // auto functor = [&chunk] ( auto&& x ) { return chunk( x ); };
+        // std::cout << std::setprecision(15) << integrator( functor, 1.,  2. )
+        //                                       + integrator( functor, 2.,  2.5 ) << std::endl;
+        // std::cout << std::setprecision(15) << integrator( functor, 2.5,  3. )
+        //                                       + integrator( functor, 3.,  4. ) << std::endl;
+        auto integrals = chunk.integrate( constant, groups );
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 0.   , WithinRel( integrals[0] ) );
+        CHECK_THAT( 5.35730244815519, WithinRel( integrals[1] ) );
+        CHECK_THAT( 4.08506051100344, WithinRel( integrals[2] ) );
+        CHECK_THAT( 0.   , WithinRel( integrals[3] ) );
       } // THEN
 
       THEN( "the domain can be tested" ) {
@@ -2284,8 +2351,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and curate is not requested" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
-      const std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
+      std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
+      std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
       const std::vector< std::size_t > boundaries = { 2, 5 }; // <-- pointing to middle of the jump
       const std::vector< InterpolationType > interpolants = {
 
@@ -2411,8 +2478,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and curate is requested" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
-      const std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
+      std::vector< double > x = { 1., 2., 2., 2., 3., 4. }; // <-- jump of 3 x values
+      std::vector< double > y = { 4., 3., 2., 4., 3., 2. };
       const std::vector< std::size_t > boundaries = { 2, 5 }; // <-- pointing to middle of the jump
       const std::vector< InterpolationType > interpolants = {
 
@@ -2485,8 +2552,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and curate is not requested" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
-      const std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
+      std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
+      std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
 
@@ -2538,8 +2605,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and curate is requested" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
-      const std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
+      std::vector< double > x = { 1., 2., 2., 2., 3., 4., 4., 4., 5. }; // <-- 2 jumps of 3 x values
+      std::vector< double > y = { 1., 2., 3., 4., 5., 6., 7., 8., 9. };
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ),
                                           InterpolationType::LinearLinear, true );
@@ -2581,8 +2648,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and curate is not requested" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
-      const std::vector< double > y = { 1., 2., 5., 3., 4. };
+      std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
+      std::vector< double > y = { 1., 2., 5., 3., 4. };
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
 
@@ -2631,8 +2698,8 @@ SCENARIO( "InterpolationTable" ) {
     WHEN( "the data is given explicitly and the first and second y value in the jump are "
           "the same" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
-      const std::vector< double > y = { 1., 2., 2., 3., 4. }; // <-- extraneous point has same y
+      std::vector< double > x = { 1., 2., 2., 2., 4. }; // <-- jump of 3 x values
+      std::vector< double > y = { 1., 2., 2., 3., 4. }; // <-- extraneous point has same y
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
 
@@ -2686,8 +2753,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 3. };
-      const std::vector< double > y = { 1., 2., 2., 3. }; // <-- same y values in the jump
+      std::vector< double > x = { 1., 2., 2., 3. };
+      std::vector< double > y = { 1., 2., 2., 3. }; // <-- same y values in the jump
 
       InterpolationTable< double > chunk( std::move( x ), std::move( y ) );
 
@@ -2741,8 +2808,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly" ) {
 
-      const std::vector< double > x = { 1., 2., 2., 3., 4. };
-      const std::vector< double > y = { 4., 3., 4., 3., 2. };
+      std::vector< double > x = { 1., 2., 2., 3., 4. };
+      std::vector< double > y = { 4., 3., 4., 3., 2. };
       const std::vector< std::size_t > boundaries = { 2, 4 }; // <-- pointing to end of the jump
       const std::vector< InterpolationType > interpolants = {
 
@@ -2791,8 +2858,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and the jump consists of 2 points" ) {
 
-      const std::vector< double > x = { 1., 2., 3., 4., 4. }; // <-- jump at end
-      const std::vector< double > y = { 4., 3., 2., 1., 4. };
+      std::vector< double > x = { 1., 2., 3., 4., 4. }; // <-- jump at end
+      std::vector< double > y = { 4., 3., 2., 1., 4. };
       const std::vector< std::size_t > boundaries = { 1, 4 }; // <-- pointing to end
       const std::vector< InterpolationType > interpolants = {
 
@@ -2835,8 +2902,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and the jump consists of more than 2 points" ) {
 
-      const std::vector< double > x = { 1., 2., 3., 4., 4., 4. }; // <-- jump of 3 x values at end
-      const std::vector< double > y = { 4., 3., 2., 1., 4., 5. };
+      std::vector< double > x = { 1., 2., 3., 4., 4., 4. }; // <-- jump of 3 x values at end
+      std::vector< double > y = { 4., 3., 2., 1., 4., 5. };
       const std::vector< std::size_t > boundaries = { 1, 5 }; // <-- pointing to end
       const std::vector< InterpolationType > interpolants = {
 
@@ -2885,8 +2952,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and the jump consists of 2 points" ) {
 
-      const std::vector< double > x = { 1., 1., 2., 3., 4. }; // <-- jump at beginning
-      const std::vector< double > y = { 1., 4., 3., 2., 1. };
+      std::vector< double > x = { 1., 1., 2., 3., 4. }; // <-- jump at beginning
+      std::vector< double > y = { 1., 4., 3., 2., 1. };
       const std::vector< std::size_t > boundaries = { 2, 4 }; // <-- pointing to end
       const std::vector< InterpolationType > interpolants = {
 
@@ -2929,8 +2996,8 @@ SCENARIO( "InterpolationTable" ) {
 
     WHEN( "the data is given explicitly and the jump consists of more than 2 points" ) {
 
-      const std::vector< double > x = { 1., 1., 1., 2., 3., 4. }; // <-- jump of 3 x values at beginning
-      const std::vector< double > y = { 1., 2., 4., 3., 2., 1. };
+      std::vector< double > x = { 1., 1., 1., 2., 3., 4. }; // <-- jump of 3 x values at beginning
+      std::vector< double > y = { 1., 2., 4., 3., 2., 1. };
       const std::vector< std::size_t > boundaries = { 3, 5 };
       const std::vector< InterpolationType > interpolants = {
 

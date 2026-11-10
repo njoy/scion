@@ -15,11 +15,19 @@ using namespace njoy::scion;
 
 SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
 
-  GIVEN( "an adaptive Gauss-Lobattointegration object" ) {
+  GIVEN( "an adaptive Gauss-Lobatto integration object" ) {
 
     integration::AdaptiveGaussLobatto< double > integrator{};
 
     WHEN( "integrating an interval" ) {
+
+      THEN( "the integration over an empty interval is zero" ) {
+
+        // y = f(x) = 1
+        auto functor = [] ( double ) { return 1.; };
+
+        CHECK_THAT( 0., WithinAbs( integrator( functor, 2.,  2. ), 1e-16 ) );
+      } // THEN
 
       THEN( "the integration is performed exactly for an order 0 polynomial" ) {
 
@@ -39,44 +47,114 @@ SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
         CHECK_THAT( 10., WithinRel( integrator( functor,  3.,  5. ) ) );
       } // THEN
 
-      THEN( "the integration is performed for cosine on [-1,1] for different tolerances" ) {
+      THEN( "the integration is performed for an order 9 polynomial" ) {
+
+        // y = f(x) = x^9 + x^4
+        auto functor = [] ( double x ) { return std::pow( x, 9 ) + std::pow( x, 4 ); };
+
+        CHECK_THAT( 108.8, WithinRel( integrator( functor, 0.,  2. ), 1e-8 ) );
+        CHECK_THAT( 108.8, WithinRel( integrator( functor, 0.,  2., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for cosine" ) {
 
         // y = f(x) = cosine( x )
         auto functor = [] ( double x ) { return std::cos( x ); };
 
         CHECK_THAT( 2. * std::sin( 1. ), WithinRel( integrator( functor, -1.,  1. ), 1e-8 ) );
-        CHECK_THAT( 2. * std::sin( 1. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-11 ) );
+        CHECK_THAT( 2. * std::sin( 1. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-12 ) );
       } // THEN
 
-// intel C++ fails on this but all other compilers pass
-//      THEN( "the integration is performed for sine on [-1,1] for different tolerances" ) {
-//
-//        // y = f(x) = sine( x )
-//        auto functor = [] ( double x ) { return std::sin( x ); };
-//
-//        CHECK_THAT( 0., WithinRel( integrator( functor, -1.,  1. ), 1e-8 ) );
-//        CHECK_THAT( 0., WithinRel( integrator( functor, -1.,  1., 1e-12 ), 5e-12 ) );
-//      } // THEN
+      THEN( "the integration is performed for sine" ) {
 
-      THEN( "the integration is performed for 1/(1+x) on [0,1] for different tolerances" ) {
+        // y = f(x) = sine( x )
+        auto functor = [] ( double x ) { return std::sin( x ); };
+
+        CHECK_THAT( 0., WithinAbs( integrator( functor, -1.,  1. ), 1e-8 ) );
+        CHECK_THAT( 0., WithinAbs( integrator( functor, -1.,  1., 1e-12 ), 1e-12 ) );
+
+        CHECK_THAT( 1. - std::cos( 2. ), WithinRel( integrator( functor, 0.,  2. ), 1e-8 ) );
+        CHECK_THAT( 1. - std::cos( 2. ), WithinRel( integrator( functor, 0.,  2., 1e-12 ), 1e-12 ) );
+
+        CHECK_THAT( std::cos( 1. ) - std::cos( 1.1 ), WithinRel( integrator( functor, -1.,  1.1 ), 1e-8 ) );
+        CHECK_THAT( std::cos( 1. ) - std::cos( 1.1 ), WithinRel( integrator( functor, -1.,  1.1, 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for exp(x)" ) {
+
+        // y = f(x) = exp( x )
+        auto functor = [] ( double x ) { return std::exp( x ); };
+
+        CHECK_THAT( std::exp( 1. ) - 1., WithinRel( integrator( functor, 0.,  1. ), 1e-8 ) );
+        CHECK_THAT( std::exp( 1. ) - 1., WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for exp(-x)" ) {
+
+        // y = f(x) = exp( -x )
+        auto functor = [] ( double x ) { return std::exp( -x ); };
+
+        CHECK_THAT( 1. - std::exp( -20. ), WithinRel( integrator( functor, 0.,  20. ), 1e-8 ) );
+        CHECK_THAT( 1. - std::exp( -20. ), WithinRel( integrator( functor, 0.,  20., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for sqrt(x)" ) {
+
+        // y = f(x) = sqrt( x )
+        auto functor = [] ( double x ) { return std::sqrt( x ); };
+
+        CHECK_THAT( 2. / 3., WithinRel( integrator( functor, 0.,  1. ), 1e-8 ) );
+        CHECK_THAT( 2. / 3., WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for 1/(1+x)" ) {
 
         // y = f(x) = 1 / ( 1 + x )
         auto functor = [] ( double x ) { return 1. / ( 1. + x ); };
 
         CHECK_THAT( std::log( 2. ), WithinRel( integrator( functor, 0.,  1. ), 1e-8 ) );
-        CHECK_THAT( std::log( 2. ), WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-11 ) );
+        CHECK_THAT( std::log( 2. ), WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-12 ) );
       } // THEN
 
-      THEN( "the integration is performed for 1/sqrt(1+x*x) on [-1,1] for different tolerances" ) {
+      THEN( "the integration is performed for 1/sqrt(1+x*x)" ) {
 
         // y = f(x) = 1 / sqrt( 1 + x * x )
         auto functor = [] ( double x ) { return 1. / std::sqrt( 1. + x * x ); };
 
         CHECK_THAT( 2 * std::asinh( 1. ), WithinRel( integrator( functor, -1.,  1. ), 1e-8 ) );
-        CHECK_THAT( 2 * std::asinh( 1. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-11 ) );
+        CHECK_THAT( 2 * std::asinh( 1. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-12 ) );
       } // THEN
 
-      THEN( "the integration is performed for x * x * sin(x)^3 on [0,4] for different tolerances" ) {
+      THEN( "the integration is performed for 1/(1+25*x*x)" ) {
+
+        // y = f(x) = 1 / ( 1 + 25 * x * x )
+        auto functor = [] ( double x ) { return 1. / ( 1. + 25. * x * x ); };
+
+        CHECK_THAT( 0.4 * std::atan( 5. ), WithinRel( integrator( functor, -1.,  1. ), 1e-8 ) );
+        CHECK_THAT( 0.4 * std::atan( 5. ), WithinRel( integrator( functor, -1.,  1., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for a narrow peak" ) {
+
+        // y = f(x) = 1 / ( ( x - 0.3 )^2 + 1e-4 ) - a Lorentzian with width 0.01
+        auto functor = [] ( double x ) { return 1. / ( ( x - 0.3 ) * ( x - 0.3 ) + 1e-4 ); };
+
+        double result = 100. * ( std::atan( 70. ) + std::atan( 30. ) );
+
+        CHECK_THAT( result, WithinRel( integrator( functor, 0.,  1. ), 1e-8 ) );
+        CHECK_THAT( result, WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for cos(50x)" ) {
+
+        // y = f(x) = cos( 50 x ), oscillatory with strong cancellation
+        auto functor = [] ( double x ) { return std::cos( 50. * x ); };
+
+        CHECK_THAT( std::sin( 50. ) / 50., WithinRel( integrator( functor, 0.,  1. ), 1e-8 ) );
+        CHECK_THAT( std::sin( 50. ) / 50., WithinRel( integrator( functor, 0.,  1., 1e-12 ), 1e-12 ) );
+      } // THEN
+
+      THEN( "the integration is performed for x * x * sin(x)^3" ) {
 
         // y = f(x) = x * x * sin(x)^3
         auto functor = [] ( double x ) { return x * x * std::sin(x) * std::sin(x) * std::sin(x); };
@@ -86,13 +164,7 @@ SCENARIO( "Adaptive Gauss-Lobatto quadrature" ) {
                       + 324. * std::sin(4) - 12. * std::sin(12));
 
         CHECK_THAT( result, WithinRel( integrator( functor, 0,  4. ), 1e-8 ) );
-        CHECK_THAT( result, WithinRel( integrator( functor, 0,  4., 1e-12 ), 1e-11 ) );
-      } // THEN
-
-      THEN( "the integration is performed for x * x * sin(x)^3 on [-4,4] for different tolerances" ) {
-
-        // y = f(x) = x * x * sin(x)^3
-        auto functor = [] ( double x ) { return x * x * std::sin(x) * std::sin(x) * std::sin(x); };
+        CHECK_THAT( result, WithinRel( integrator( functor, 0,  4., 1e-12 ), 1e-12 ) );
 
         CHECK_THAT( 0., WithinAbs( integrator( functor, -4.,  4. ), 1e-14 ) );
         CHECK_THAT( 0., WithinAbs( integrator( functor, -4.,  4., 1e-12 ), 1e-14 ) );

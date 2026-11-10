@@ -65,7 +65,7 @@ namespace math {
      */
     static constexpr Y interpolate( const X& x,
                                     const X& xLeft, const X& xRight,
-                                    const Y& yLeft, const Y& yRight ) noexcept {
+                                    const Y& yLeft, const Y& yRight ) {
 
       return interpolation::loglog( x, xLeft, xRight, yLeft, yRight );
     }
@@ -135,6 +135,32 @@ namespace math {
         return weight.integrateLogarithmicLogarithmic( xLeft, xRight, yLeft, yRight );
       };
       return integration::cumulativeIntegral( initial, this->x(), this->y(), integrator );
+    }
+
+    /**
+     *  @brief Accumulate the integral of w(x) * f(x) dx over a set of groups
+     *
+     *  @param[in] weight       the weight function
+     *  @param[in] boundaries   the range of boundary values
+     *  @param[in] integrals    the range of integral values
+     */
+    template < typename WeightFunction, typename BRange, typename RRange >
+    void integrate( const WeightFunction& weight,
+                    const BRange& boundaries,
+                    RRange& integrals ) const {
+
+      auto interpolator = [this] ( const X& x, const X& xLeft, const X& xRight,
+                                   const Y& yLeft, const Y& yRight ) {
+
+        return this->interpolate( x, xLeft, xRight, yLeft, yRight );
+      };
+      auto integrator = [&] ( const X& xLeft, const X& xRight,
+                              const Y& yLeft, const Y& yRight ) -> decltype(auto) {
+
+        return weight.integrateLogarithmicLogarithmic( xLeft, xRight, yLeft, yRight );
+      };
+      integration::integral( this->x(), this->y(), boundaries, integrals,
+                             interpolator, integrator );
     }
   };
 

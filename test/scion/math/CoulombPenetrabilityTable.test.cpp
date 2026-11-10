@@ -80,6 +80,29 @@ SCENARIO( "CoulombPenetrabilityTable" ) {
         CHECK_THAT( 24.910475969087816, WithinRel( chunk( 4.5 ) ) );
       } // THEN
 
+      THEN( "the integral over a set of groups can be calculated" ) {
+
+        std::vector< double > boundaries = { 1., 2.5, 5., 6., 8. };
+
+        std::vector< double > integrals = { 0., 0., 0., 0. };
+        chunk.integrate( constant, boundaries, integrals );
+
+        CHECK( 4 == integrals.size() );
+        CHECK_THAT( 6.07222476053454, WithinRel( integrals[0], 1e-8 ) );
+        CHECK_THAT( 53.4120860996608, WithinRel( integrals[1], 1e-8 ) );
+        CHECK_THAT( 27.6166659700022, WithinRel( integrals[2], 1e-8 ) );
+        CHECK_THAT( 29.3705642975014, WithinRel( integrals[3], 1e-8 ) );
+
+        std::vector< double > moments = { 0., 0., 0., 0. };
+        chunk.integrate( mean, boundaries, moments );
+
+        CHECK( 4 == moments.size() );
+        CHECK_THAT( 13.7498566001035, WithinRel( moments[0], 1e-8 ) );
+        CHECK_THAT( 206.580846541929, WithinRel( moments[1], 1e-8 ) );
+        CHECK_THAT( 152.073823155431, WithinRel( moments[2], 1e-8 ) );
+        CHECK_THAT( 191.022476410728, WithinRel( moments[3], 1e-8 ) );
+      } // THEN
+
       THEN( "the domain can be tested" ) {
 
         CHECK( true == chunk.isInside( 2.0 ) );
