@@ -21,19 +21,15 @@ namespace math {
    *  In practice the real error can be far smaller.
    */
   template < typename X, typename T = decltype( std::declval< X >() / std::declval< X >() ) >
-  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X, T >, X, X > {
+  class MeanWeightFunction : public WeightFunctionBase< MeanWeightFunction< X, T >, X, X, T > {
 
     /* friend declarations */
 
-    friend class WeightFunctionBase< MeanWeightFunction< X, T >, X, X >;
+    friend class WeightFunctionBase< MeanWeightFunction< X, T >, X, X, T >;
 
     /* type aliases */
 
-    using Parent = WeightFunctionBase< MeanWeightFunction< X, T >, X, X >;
-
-    /* fields */
-
-    T tolerance_;
+    using Parent = WeightFunctionBase< MeanWeightFunction< X, T >, X, X, T >;
 
     /* interface implementation functions */
 
@@ -46,7 +42,7 @@ namespace math {
     }
 
     /**
-     *  @brief Calculate the integral of weight function over a panel
+     *  @brief Calculate the integral of the weight function over a panel
      *
      *  @param xLeft    the left boundary of the panel
      *  @param xRight   the right boundary of the panel
@@ -165,18 +161,11 @@ namespace math {
      *  @param tolerance   the targeted numerical integration tolerance (default 1e-8)
      */
     MeanWeightFunction( T tolerance = T( 1e-8 ) ) :
-      tolerance_( std::move( tolerance ) ) {}
+      Parent( std::move( tolerance ) ) {}
 
     /* methods */
 
-    /**
-     *  @brief Return the targeted numerical integration tolerance
-     */
-    const T& tolerance() const noexcept {
-
-      return this->tolerance_;
-    }
-
+    using Parent::tolerance;
     using Parent::operator();
     using Parent::integral;
     using Parent::integrateHistogram;
@@ -184,6 +173,7 @@ namespace math {
     using Parent::integrateLinearLogarithmic;
     using Parent::integrateLogarithmicLinear;
     using Parent::integrateLogarithmicLogarithmic;
+    using Parent::integrateCoulombPenetrability;
   };
 
 } // math namespace
