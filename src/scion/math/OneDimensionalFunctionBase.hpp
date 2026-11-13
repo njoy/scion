@@ -81,11 +81,7 @@ namespace math {
      */
     bool isInside( const X& x ) const noexcept {
 
-      if ( this->lowerLimit() <= x && x <= this->upperLimit() ) {
-
-        return true;
-      }
-      return false;
+      return ( this->lowerLimit() <= x ) && ( x <= this->upperLimit() );
     }
 
     /**
@@ -96,11 +92,7 @@ namespace math {
      */
     bool isContained( const X& x ) const noexcept {
 
-      if ( this->lowerLimit() < x && x < this->upperLimit() ) {
-
-        return true;
-      }
-      return false;
+      return ( this->lowerLimit() < x ) && ( x < this->upperLimit() );
     }
   };
 
